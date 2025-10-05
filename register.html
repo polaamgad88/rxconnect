@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Register | Medicare</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="./styles/index.css" rel="stylesheet" type="text/css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+      WebFont.load({
+        google: {
+          families: [
+            "Open Sans:400,600,700",
+            "Montserrat:400,500,600,700,800,900",
+          ],
+        },
+      });
+    </script>
+
+    <style>
+      body {
+        background-color: #f6f8fa;
+        font-family: "Open Sans", sans-serif;
+      }
+
+      .register-section {
+        min-height: 75vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 20px;
+      }
+
+      .register-card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        width: 100%;
+        padding: 40px 30px;
+      }
+
+      .register-card h2 {
+        font-family: "Montserrat", sans-serif;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .register-card p {
+        color: #666;
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 25px;
+      }
+
+      .register-input,
+      .register-select {
+        width: 100%;
+        padding: 12px 14px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 15px;
+      }
+
+      .register-btn {
+        width: 100%;
+        background-color: #20baf8;
+        color: #fff;
+        font-weight: 600;
+        padding: 12px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.2s ease-in;
+      }
+
+      .register-btn:hover {
+        background-color: #00aee8;
+      }
+
+      .register-footer {
+        margin-top: 20px;
+        font-size: 13px;
+        text-align: center;
+      }
+
+      .register-footer a {
+        color: #20baf8;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAVBAR (same as template) -->
+    <div class="navbar-wrapper">
+      <div class="top-info-bar">
+        <div class="top-info-bar-container w-container">
+          <a
+            href="/"
+            class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand w--current"
+          >
+            <img
+              src="./assets/logo.jpg"
+              alt="logo"
+              style="width: 80px; height: auto; margin-bottom: 4px"
+            />
+          </a>
+          <div class="info-bar w-clearfix">
+            <div class="info-blocks-wrapper w-clearfix">
+              <div class="top-info-block no-right-border w-clearfix">
+                <div class="top-info-content">
+                  <a href="tel:+61393455522" class="contact-link"
+                    >03-9345-5522</a
+                  >
+                  <a href="tel:+61393456633" class="contact-link"
+                    >03-9345-4422</a
+                  >
+                </div>
+              </div>
+              <div class="top-info-block w-clearfix">
+                <div class="top-info-content">
+                  <a data-ix="popup-modal-show" href="#" class="contact-link"
+                    >267 Collins St Melbourne<br />Victoria 3000</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        data-collapse="medium"
+        data-animation="default"
+        data-duration="400"
+        data-easing="ease"
+        role="banner"
+        class="navbar w-nav"
+      >
+        <div class="navbar-container w-container">
+          <a
+            href="/"
+            aria-current="page"
+            class="brand w-hidden-main w-nav-brand w--current"
+          >
+            <img
+              src="./assets/logo.jpg"
+              alt="logo"
+              style="width: 80px; height: auto; margin-bottom: 4px"
+            />
+          </a>
+          <nav role="navigation" class="nav-menu w-nav-menu">
+            <a href="/" class="nav-link w-nav-link">Home</a>
+            <a href="./services.html" class="nav-link w-nav-link">Services</a>
+            <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
+            <a href="./contact-us.html" class="nav-link w-nav-link">Contact</a>
+            <a href="./login.html" class="nav-link w-nav-link">Login</a>
+            <a
+              href="./register.html"
+              class="nav-link w-nav-link w--current"
+              >Register</a
+            >
+          </nav>
+          <div class="menu-button w-nav-button">
+            <i class="fa-solid fa-bars"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REGISTRATION FORM -->
+    <div class="register-section">
+      <div class="register-card">
+        <h2>Create an Account</h2>
+        <p>Select your role and fill out the required information</p>
+
+        <form id="registerForm">
+          <select id="userType" class="register-select" required>
+            <option value="">Select User Type</option>
+            <option value="doctor">Doctor</option>
+            <option value="pharmacist">Pharmacist</option>
+            <option value="patient">Patient</option>
+          </select>
+
+          <!-- Common fields -->
+          <input
+            type="text"
+            id="fullName"
+            class="register-input"
+            placeholder="Full Name"
+            required
+          />
+          <input
+            type="email"
+            id="email"
+            class="register-input"
+            placeholder="Email Address"
+            required
+          />
+          <input
+            type="password"
+            id="password"
+            class="register-input"
+            placeholder="Password"
+            required
+          />
+
+          <!-- Doctor-specific fields -->
+          <div id="doctorFields" class="hidden">
+            <input
+              type="text"
+              id="licenseNumber"
+              class="register-input"
+              placeholder="Medical License Number"
+            />
+            <input
+              type="text"
+              id="specialization"
+              class="register-input"
+              placeholder="Specialization"
+            />
+            <input
+              type="text"
+              id="clinicName"
+              class="register-input"
+              placeholder="Clinic/Hospital Name"
+            />
+          </div>
+
+          <!-- Pharmacist-specific fields -->
+          <div id="pharmacyFields" class="hidden">
+            <input
+              type="text"
+              id="pharmacyName"
+              class="register-input"
+              placeholder="Pharmacy Name"
+            />
+            <input
+              type="text"
+              id="pharmacyLicense"
+              class="register-input"
+              placeholder="Pharmacy License Number"
+            />
+            <input
+              type="text"
+              id="pharmacyAddress"
+              class="register-input"
+              placeholder="Pharmacy Address"
+            />
+          </div>
+
+          <!-- Patient-specific fields -->
+          <div id="patientFields" class="hidden">
+            <input
+              type="date"
+              id="dob"
+              class="register-input"
+              placeholder="Date of Birth"
+            />
+            <input
+              type="text"
+              id="bloodGroup"
+              class="register-input"
+              placeholder="Blood Group (e.g., A+)"
+            />
+            <input
+              type="text"
+              id="allergies"
+              class="register-input"
+              placeholder="Known Allergies (optional)"
+            />
+          </div>
+
+          <button type="submit" class="register-btn">Register</button>
+        </form>
+
+        <div class="register-footer">
+          Already have an account?
+          <a href="./login.html">Login here</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="w-container">
+        <div class="emergency-wrapper">
+          <img
+            src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/5822042610a8d4ee31522b7d_24-hours-phone-service.png"
+            width="64"
+            alt=""
+            class="emergency-footer-icon"
+          />
+          <h4 class="white">Emergency Cases</h4>
+          <a href="tel:+1-600-700-6200" class="w-inline-block">
+            <div class="emergency-number">03-7000-6200</div>
+          </a>
+        </div>
+        <div class="flex-box space-between">
+          <div class="_33-percent-column right-padding">
+            <img
+              src="./assets/logo.jpg"
+              alt=""
+              class="footer-logo"
+              style="width: 90px; height: auto; margin-bottom: 2px"
+            />
+            <p class="white footer-paragraph">
+              Medicare provides high-quality healthcare and prescription
+              services connecting patients, doctors, and pharmacies securely.
+            </p>
+          </div>
+          <div class="_17-percent-column">
+            <div class="footer-header-wrapper">
+              <h4 class="footer-title">Navigation</h4>
+              <div class="footer-line"></div>
+            </div>
+            <a href="./about-us.html" class="footer-link">About Us</a>
+            <a href="./doctors.html" class="footer-link">Our Doctors</a>
+            <a href="./services.html" class="footer-link">Services</a>
+            <a href="./FAQs.html" class="footer-link">FAQs</a>
+            <a href="./contact-us.html" class="footer-link">Contact</a>
+          </div>
+          <div class="_33-percent-column contact-footer">
+            <div class="footer-header-wrapper">
+              <h4 class="footer-title">Contact Us</h4>
+              <div class="footer-line"></div>
+            </div>
+            <div class="footer-contact-block">
+              <img
+                src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
+                alt=""
+                class="footer-contact-icon"
+              />
+              <div>
+                <a href="tel:+61393455522" class="footer-link">03-9345-5522</a>
+              </div>
+            </div>
+            <div class="footer-contact-block">
+              <img
+                src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
+                alt=""
+                class="footer-contact-icon"
+              />
+              <div>
+                <a href="mailto:info@medicare.com" class="footer-link contact"
+                  >info@medicare.com</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-credits">
+          <div class="footer-socials">
+            <a href="#" class="social-icon facebook w-inline-block"></a>
+            <a href="#" class="social-icon twitter w-inline-block"></a>
+            <a href="#" class="social-icon linkedin w-inline-block"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const userTypeSelect = document.getElementById("userType");
+      const doctorFields = document.getElementById("doctorFields");
+      const pharmacyFields = document.getElementById("pharmacyFields");
+      const patientFields = document.getElementById("patientFields");
+
+      userTypeSelect.addEventListener("change", function () {
+        const type = this.value;
+        doctorFields.classList.add("hidden");
+        pharmacyFields.classList.add("hidden");
+        patientFields.classList.add("hidden");
+
+        if (type === "doctor") doctorFields.classList.remove("hidden");
+        else if (type === "pharmacist") pharmacyFields.classList.remove("hidden");
+        else if (type === "patient") patientFields.classList.remove("hidden");
+      });
+
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          alert("Registration submitted successfully!");
+        });
+    </script>
+  </body>
+</html>
