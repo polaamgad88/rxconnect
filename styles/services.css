@@ -1958,8 +1958,8 @@ blockquote {
 }
 
 .top-info-bar {
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 10px;
+  padding-bottom: 2px;
   background-color: #fff;
 }
 
@@ -2019,8 +2019,8 @@ blockquote {
 }
 
 .nav-link {
-  padding-top: 34px;
-  padding-bottom: 36px;
+   padding-top: 12px;
+  padding-bottom: 12px;
   border-bottom: 2px solid transparent;
   -webkit-transition: background-color 250ms ease, color 250ms ease;
   transition: background-color 250ms ease, color 250ms ease;
@@ -2324,7 +2324,8 @@ blockquote {
 }
 
 .button.appointment-button {
-  margin-top: 22px;
+    margin-top: 4px;
+  margin-bottom: 6px;
   padding-top: 10px;
   padding-bottom: 10px;
   float: right;
