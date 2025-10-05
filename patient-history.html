@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Patient History | Medicare Digital</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="./styles/index.css" rel="stylesheet" type="text/css" />
+
+    <!-- Fonts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+      WebFont.load({
+        google: {
+          families: [
+            "Open Sans:300,400,600,700",
+            "Montserrat:400,500,600,700,800,900",
+          ],
+        },
+      });
+    </script>
+
+    <!-- Chart.js (timeline scatter) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0"></script>
+
+    <style>
+      /* Page-specific light styles; inherits your Webflow classes */
+      .history-section {
+        padding: 40px 0;
+      }
+      .history-header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      .patient-card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0,0,0,.06);
+        padding: 16px 20px;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+      .patient-avatar {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: #e9f6fc;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700;
+        color: #20baf8;
+      }
+      .patient-meta h3 {
+        margin: 0 0 2px 0;
+        font-family: "Montserrat", sans-serif;
+      }
+      .filters {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .filters input,
+      .filters select {
+        padding: 10px 12px;
+        border: 1px solid #d9d9d9;
+        border-radius: 6px;
+        background: #fff;
+        font-size: 14px;
+      }
+      .filters .button {
+        padding: 10px 16px;
+      }
+
+      .card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0,0,0,.06);
+        padding: 20px;
+        margin-bottom: 24px;
+      }
+      .card h4 {
+        margin-top: 0;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .timeline-wrap {
+        width: 100%;
+      }
+      .legend {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        margin-top: 8px;
+        flex-wrap: wrap;
+      }
+      .legend .dot {
+        width: 10px; height: 10px; border-radius: 50%;
+        display: inline-block; margin-right: 6px;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table.prescriptions {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      table.prescriptions th, table.prescriptions td {
+        padding: 10px 12px;
+        border-bottom: 1px solid #eee;
+        white-space: nowrap;
+      }
+      table.prescriptions th {
+        text-align: left;
+        font-weight: 600;
+        color: #444;
+      }
+      table.prescriptions tr:hover {
+        background: #f8fdff;
+        cursor: pointer;
+      }
+      .status-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .status-issued { background: #e6f7ff; color: #096dd9; }
+      .status-dispensed { background: #f6ffed; color: #389e0d; }
+      .status-expired { background: #fff1f0; color: #cf1322; }
+
+      /* Modal */
+      .modal-backdrop {
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,.45);
+        display: none; align-items: center; justify-content: center;
+        z-index: 1000;
+      }
+      .modal-backdrop.open { display: flex; }
+      .modal {
+        background: #fff; width: 92%; max-width: 720px;
+        border-radius: 8px; box-shadow: 0 8px 40px rgba(0,0,0,.2);
+        overflow: hidden;
+      }
+      .modal-header {
+        padding: 14px 18px; border-bottom: 1px solid #eee;
+        display: flex; align-items: center; justify-content: space-between;
+      }
+      .modal-header h4 { margin: 0; }
+      .modal-close { border: none; background: transparent; font-size: 20px; cursor: pointer; }
+      .modal-body { padding: 18px; }
+      .rx-items { width: 100%; border-collapse: collapse; margin-top: 8px; }
+      .rx-items th, .rx-items td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; text-align: left; }
+      .rx-meta { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px 20px; margin: 8px 0 16px; }
+      @media (max-width: 640px) { .rx-meta { grid-template-columns: 1fr; } }
+
+      .muted { color: #777; }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAVBAR (kept) -->
+    <div class="navbar-wrapper">
+      <div class="top-info-bar">
+        <div class="top-info-bar-container w-container">
+          <a href="/" class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand">
+            <img src="./assets/logo.jpg" alt="logo" style="width: 80px; height: auto; margin-bottom: 4px" />
+          </a>
+          <div class="info-bar w-clearfix">
+            <div class="info-blocks-wrapper w-clearfix">
+              <div class="top-info-block no-right-border w-clearfix">
+                <div class="top-info-content">
+                  <a href="tel:+61393455522" class="contact-link">03-9345-5522</a>
+                  <a href="tel:+61393456633" class="contact-link">03-9345-4422</a>
+                </div>
+              </div>
+              <div class="top-info-block w-clearfix">
+                <div class="top-info-content">
+                  <a href="#" class="contact-link">267 Collins St Melbourne<br/>Victoria 3000</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /top-info-bar -->
+
+      <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" role="banner" class="navbar w-nav">
+        <div class="navbar-container w-container">
+          <a href="/" aria-current="page" class="brand w-hidden-main w-nav-brand w--current">
+            <img src="./assets/logo.jpg" alt="logo" style="width: 80px; height: auto; margin-bottom: 4px"/>
+          </a>
+          <nav role="navigation" class="nav-menu w-nav-menu">
+            <a href="/" class="nav-link w-nav-link">Home</a>
+            <a href="./services.html" class="nav-link w-nav-link">Services</a>
+            <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
+            <a href="./contact-us.html" class="nav-link w-nav-link">Contact</a>
+            <a href="./about-us.html" class="nav-link w-nav-link">About</a>
+          </nav>
+          <div class="menu-button w-nav-button">
+            <div class="w-icon-nav-menu"></div>
+          </div>
+          <a href="#" data-ix="show-appointment-form" class="button appointment-button w-button">Appointment</a>
+        </div>
+      </div>
+    </div>
+    <!-- /NAVBAR -->
+
+    <!-- Banner -->
+    <div class="page-banner">
+      <div class="page-banner-container w-container">
+        <div class="page-header-content">
+          <h1 class="page-heading">Patient History</h1>
+          <div class="subtitle white">Timeline of prescriptions and status</div>
+          <div class="underline white"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Patient History Content -->
+    <div class="history-section">
+      <div class="w-container">
+        <!-- Header: Patient summary + filters -->
+        <div class="history-header">
+          <div class="patient-card">
+            <div class="patient-avatar" id="patientAvatar">JD</div>
+            <div class="patient-meta">
+              <h3 id="patientName">John Doe</h3>
+              <div class="muted">MRN: <span id="patientMrn">MRN-002134</span> • DOB: <span id="patientDob">1988-02-14</span></div>
+            </div>
+          </div>
+
+          <form class="filters" id="filtersForm">
+            <input type="date" id="fromDate" />
+            <input type="date" id="toDate" />
+            <select id="statusFilter">
+              <option value="">All Statuses</option>
+              <option value="issued">Issued</option>
+              <option value="dispensed">Dispensed</option>
+              <option value="expired">Expired</option>
+            </select>
+            <button type="submit" class="button w-button">Apply</button>
+            <button type="button" id="resetFilters" class="button w-button">Reset</button>
+          </form>
+        </div>
+
+        <!-- Timeline Card -->
+        <div class="card">
+          <h4>Prescription Timeline</h4>
+          <div class="timeline-wrap">
+            <canvas id="timelineChart" height="80" aria-label="Prescription timeline chart" role="img"></canvas>
+          </div>
+          <div class="legend">
+            <span><span class="dot" style="background:#1890ff"></span> Issued</span>
+            <span><span class="dot" style="background:#52c41a"></span> Dispensed</span>
+            <span><span class="dot" style="background:#f5222d"></span> Expired</span>
+          </div>
+          <div class="muted" style="margin-top:8px">
+            Hint: Click a point in the chart or a row in the table to view details.
+          </div>
+        </div>
+
+        <!-- Table Card -->
+        <div class="card">
+          <h4>Prescriptions</h4>
+          <div class="table-wrap">
+            <table class="prescriptions" id="rxTable">
+              <thead>
+                <tr>
+                  <th>Rx ID</th>
+                  <th>Date</th>
+                  <th>Doctor</th>
+                  <th>Status</th>
+                  <th>Items</th>
+                </tr>
+              </thead>
+              <tbody><!-- filled by JS --></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Prescription Details -->
+    <div class="modal-backdrop" id="rxModalBackdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="rxModalTitle">
+        <div class="modal-header">
+          <h4 id="rxModalTitle">Prescription</h4>
+          <button class="modal-close" aria-label="Close" id="rxModalClose">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="rx-meta">
+            <div><strong>Rx ID:</strong> <span id="m_rxId">—</span></div>
+            <div><strong>Date:</strong> <span id="m_date">—</span></div>
+            <div><strong>Doctor:</strong> <span id="m_doctor">—</span></div>
+            <div><strong>Status:</strong> <span id="m_status">—</span></div>
+          </div>
+          <div class="muted" id="m_notes"></div>
+          <table class="rx-items" id="m_items">
+            <thead>
+              <tr>
+                <th>Drug</th>
+                <th>Strength</th>
+                <th>Form</th>
+                <th>Dose/Frequency</th>
+                <th>Duration</th>
+                <th>Qty</th>
+              </tr>
+            </thead>
+            <tbody><!-- items injected --></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER (kept) -->
+    <div class="footer">
+      <div class="w-container">
+        <div class="emergency-wrapper">
+          <img src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/5822042610a8d4ee31522b7d_24-hours-phone-service.png" width="64" alt="" class="emergency-footer-icon" />
+          <h4 class="white">Emergency Cases</h4>
+          <a href="tel:+1-600-700-6200" class="w-inline-block"><div class="emergency-number">03-7000-6200</div></a>
+        </div>
+        <div class="flex-box space-between">
+          <div class="_33-percent-column right-padding">
+            <img src="./assets/logo.jpg" alt="" class="footer-logo" style="width: 90px; height: auto; margin-bottom: 2px" />
+            <p class="white footer-paragraph">
+              Medicare Digital links patients, doctors, and pharmacies into one intelligent network — reducing errors and improving health outcomes.
+            </p>
+          </div>
+          <div class="_17-percent-column">
+            <div class="footer-header-wrapper">
+              <h4 class="footer-title">Navigation</h4>
+              <div class="footer-line"></div>
+            </div>
+            <a href="./about-us.html" class="footer-link">About Us</a>
+            <a href="./doctors.html" class="footer-link">Our Doctors</a>
+            <a href="./services.html" class="footer-link">Services</a>
+            <a href="./FAQs.html" class="footer-link">FAQs</a>
+            <a href="./contact-us.html" class="footer-link">Contact</a>
+          </div>
+          <div class="_33-percent-column contact-footer">
+            <div class="footer-header-wrapper">
+              <h4 class="footer-title">Contact Us</h4>
+              <div class="footer-line"></div>
+            </div>
+            <div class="footer-contact-block">
+              <img src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png" alt="" class="footer-contact-icon" />
+              <div><a href="tel:+61393455522" class="footer-link">03-9345-5522</a></div>
+            </div>
+            <div class="footer-contact-block">
+              <img src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png" alt="" class="footer-contact-icon" />
+              <div><a href="mailto:info@medicare.com" class="footer-link contact">info@medicare.com</a></div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-credits">
+          <div class="footer-socials">
+            <a href="#" class="social-icon facebook w-inline-block"></a>
+            <a href="#" class="social-icon twitter w-inline-block"></a>
+            <a href="#" class="social-icon linkedin w-inline-block"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data + Logic -->
+    <script>
+      // Demo dataset; replace with API data
+      const patient = {
+        initials: "JD",
+        name: "John Doe",
+        mrn: "MRN-002134",
+        dob: "1988-02-14",
+      };
+
+      /**
+       * prescriptions: array of:
+       * {
+       *   id, date (ISO), doctorId, doctorName, status: issued|dispensed|expired,
+       *   notes, items: [{drug, strength, form, dose, frequency, duration, qty}]
+       * }
+       */
+      const prescriptions = [
+        {
+          id: "RX-100245",
+          date: "2025-01-15",
+          doctorId: "D-102",
+          doctorName: "Dr. William Doe",
+          status: "dispensed",
+          notes: "Follow-up in 2 weeks.",
+          items: [
+            { drug: "Amoxicillin", strength: "500 mg", form: "Capsule", dose: "1", frequency: "TID", duration: "7 days", qty: 21 },
+            { drug: "Paracetamol", strength: "500 mg", form: "Tablet", dose: "1", frequency: "Q6H PRN", duration: "5 days", qty: 20 },
+          ],
+        },
+        {
+          id: "RX-100317",
+          date: "2025-03-28",
+          doctorId: "D-204",
+          doctorName: "Dr. Jessica Doe",
+          status: "dispensed",
+          notes: "Allergy noted: Penicillin.",
+          items: [
+            { drug: "Azithromycin", strength: "250 mg", form: "Tablet", dose: "2 day 1, then 1", frequency: "QD", duration: "5 days", qty: 6 },
+          ],
+        },
+        {
+          id: "RX-100401",
+          date: "2025-07-02",
+          doctorId: "D-204",
+          doctorName: "Dr. Jessica Doe",
+          status: "issued",
+          notes: "Advise hydration; return if fever persists.",
+          items: [
+            { drug: "Ibuprofen", strength: "400 mg", form: "Tablet", dose: "1", frequency: "TID after meals", duration: "5 days", qty: 15 },
+          ],
+        },
+        {
+          id: "RX-100198",
+          date: "2024-11-10",
+          doctorId: "D-102",
+          doctorName: "Dr. William Doe",
+          status: "expired",
+          notes: "Old course; not dispensed within window.",
+          items: [
+            { drug: "Cefuroxime", strength: "500 mg", form: "Tablet", dose: "1", frequency: "BID", duration: "7 days", qty: 14 },
+          ],
+        },
+      ];
+
+      // Populate patient header
+      document.getElementById("patientAvatar").textContent = patient.initials;
+      document.getElementById("patientName").textContent = patient.name;
+      document.getElementById("patientMrn").textContent = patient.mrn;
+      document.getElementById("patientDob").textContent = patient.dob;
+
+      // Helpers
+      const statusColor = (s) => {
+        if (s === "issued") return "#1890ff";
+        if (s === "dispensed") return "#52c41a";
+        return "#f5222d"; // expired
+      };
+      const statusClass = (s) =>
+        s === "issued" ? "status-issued" : s === "dispensed" ? "status-dispensed" : "status-expired";
+
+      // Build table
+      const tbody = document.querySelector("#rxTable tbody");
+      function renderTable(rows) {
+        tbody.innerHTML = "";
+        rows
+          .sort((a, b) => new Date(a.date) - new Date(b.date))
+          .forEach((rx) => {
+            const tr = document.createElement("tr");
+            tr.dataset.rxid = rx.id;
+            tr.innerHTML = `
+              <td>${rx.id}</td>
+              <td>${rx.date}</td>
+              <td>${rx.doctorName}</td>
+              <td><span class="status-badge ${statusClass(rx.status)}">${rx.status}</span></td>
+              <td>${rx.items.length}</td>
+            `;
+            tr.addEventListener("click", () => openModal(rx.id));
+            tbody.appendChild(tr);
+          });
+      }
+
+      // Modal logic
+      const modalBackdrop = document.getElementById("rxModalBackdrop");
+      const modalClose = document.getElementById("rxModalClose");
+      function openModal(rxId) {
+        const rx = prescriptions.find((r) => r.id === rxId);
+        if (!rx) return;
+        document.getElementById("rxModalTitle").textContent = `Prescription ${rx.id}`;
+        document.getElementById("m_rxId").textContent = rx.id;
+        document.getElementById("m_date").textContent = rx.date;
+        document.getElementById("m_doctor").textContent = `${rx.doctorName} (${rx.doctorId})`;
+        document.getElementById("m_status").textContent = rx.status;
+        document.getElementById("m_notes").textContent = rx.notes || "";
+        const itemsTbody = document.querySelector("#m_items tbody");
+        itemsTbody.innerHTML = rx.items
+          .map(
+            (it) => `
+            <tr>
+              <td>${it.drug}</td>
+              <td>${it.strength}</td>
+              <td>${it.form}</td>
+              <td>${it.dose} / ${it.frequency}</td>
+              <td>${it.duration}</td>
+              <td>${it.qty}</td>
+            </tr>`
+          )
+          .join("");
+        modalBackdrop.classList.add("open");
+        modalBackdrop.setAttribute("aria-hidden", "false");
+      }
+      function closeModal() {
+        modalBackdrop.classList.remove("open");
+        modalBackdrop.setAttribute("aria-hidden", "true");
+      }
+      modalClose.addEventListener("click", closeModal);
+      modalBackdrop.addEventListener("click", (e) => {
+        if (e.target === modalBackdrop) closeModal();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
+      });
+
+      // Chart: scatter on time axis
+      const ctx = document.getElementById("timelineChart").getContext("2d");
+      let chart;
+      function buildChart(rows) {
+        const data = rows.map((rx) => ({
+          x: new Date(rx.date),
+          y: 1, // all on a single horizontal line
+          rxid: rx.id,
+          status: rx.status,
+        }));
+        const datasets = [
+          {
+            label: "Prescriptions",
+            data,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            showLine: false,
+            borderWidth: 0,
+            parsing: false,
+            backgroundColor: data.map((d) => statusColor(d.status)),
+          },
+        ];
+
+        if (chart) chart.destroy();
+        chart = new Chart(ctx, {
+          type: "scatter",
+          data: { datasets },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => {
+                    const d = ctx.raw;
+                    const rx = prescriptions.find((r) => r.id === d.rxid);
+                    return `${rx.id} • ${rx.status} • ${rx.date}`;
+                  },
+                },
+              },
+            },
+            scales: {
+              x: {
+                type: "time",
+                time: { unit: "month" },
+                ticks: { maxRotation: 0, autoSkip: true },
+                grid: { display: false },
+              },
+              y: {
+                display: false,
+                min: 0, max: 2,
+              },
+            },
+            onClick: (evt, elements) => {
+              if (elements.length) {
+                const idx = elements[0].index;
+                const d = chart.data.datasets[0].data[idx];
+                openModal(d.rxid);
+              }
+            },
+          },
+        });
+      }
+
+      // Filters
+      const filtersForm = document.getElementById("filtersForm");
+      const resetBtn = document.getElementById("resetFilters");
+      function applyFilters() {
+        const from = document.getElementById("fromDate").value;
+        const to = document.getElementById("toDate").value;
+        const status = document.getElementById("statusFilter").value;
+
+        let rows = prescriptions.slice();
+        if (from) rows = rows.filter((r) => new Date(r.date) >= new Date(from));
+        if (to) rows = rows.filter((r) => new Date(r.date) <= new Date(to));
+        if (status) rows = rows.filter((r) => r.status === status);
+
+        renderTable(rows);
+        buildChart(rows);
+      }
+      filtersForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        applyFilters();
+      });
+      resetBtn.addEventListener("click", () => {
+        document.getElementById("fromDate").value = "";
+        document.getElementById("toDate").value = "";
+        document.getElementById("statusFilter").value = "";
+        applyFilters();
+      });
+
+      // Init
+      renderTable(prescriptions);
+      buildChart(prescriptions);
+    </script>
+  </body>
+</html>
