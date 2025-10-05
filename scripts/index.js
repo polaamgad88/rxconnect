@@ -1552,6 +1552,41 @@
   },
   function (t, e, n) {
     "use strict";
+    var i = n(0);
+    i.define(
+      "brand",
+      (t.exports = function (t) {
+        var e,
+          n = {},
+          r = document,
+          o = t("html"),
+          a = t("body"),
+          s = ".w-webflow-badge",
+          u = window.location,
+          c = /PhantomJS/i.test(navigator.userAgent),
+          l =
+            "fullscreenchange webkitfullscreenchange mozfullscreenchange msfullscreenchange";
+        function d() {
+          var n =
+            r.fullScreen ||
+            r.mozFullScreen ||
+            r.webkitIsFullScreen ||
+            r.msFullscreenElement ||
+            Boolean(r.webkitFullscreenElement);
+          t(e).attr("style", n ? "display: none !important;" : "");
+        }
+        function f() {
+          var t = a.children(s),
+            n = t.length && t.get(0) === e,
+            r = i.env("editor");
+          n ? r && t.remove() : (t.length && t.remove(), r || a.append(e));
+        }
+       
+      })
+    );
+  },
+  function (t, e, n) {
+    "use strict";
     var i = window.$,
       r = n(5) && i.tram;
     /*!
