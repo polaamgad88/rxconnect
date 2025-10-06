@@ -4919,9 +4919,6 @@ html.w-mod-js *[data-ix="display-scroll-navbar"] {
   transition: background 0.3s;
 }
 
-.appointment-button:hover {
-  background-color: #0082f3;
-}
 
 .w-dropdown, .nav-link, .appointment-button {
   flex-shrink: 0; 

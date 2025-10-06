@@ -18,7 +18,11 @@
         },
       });
     </script>
-
+ <link
+      href="./assets/favicon.png"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
     <!-- Chart.js (timeline scatter) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0"></script>
@@ -169,51 +173,112 @@
   </head>
 
   <body>
-    <!-- NAVBAR (kept) -->
     <div class="navbar-wrapper">
       <div class="top-info-bar">
         <div class="top-info-bar-container w-container">
-          <a href="/" class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand">
-            <img src="./assets/logo.jpg" alt="logo" style="width: 80px; height: auto; margin-bottom: 4px" />
-          </a>
+          <a
+            href="/"
+            class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand"
+            ><img
+              src="./assets/rxconnect.png"
+              alt="logo"
+              style="width: 120px; height: auto; margin-bottom: 4px"
+            /></a>
           <div class="info-bar w-clearfix">
             <div class="info-blocks-wrapper w-clearfix">
               <div class="top-info-block no-right-border w-clearfix">
+                <div class="top-info-icon"></div>
                 <div class="top-info-content">
-                  <a href="tel:+61393455522" class="contact-link">03-9345-5522</a>
-                  <a href="tel:+61393456633" class="contact-link">03-9345-4422</a>
+                  <a href="tel:+44 20 7123 4567" class="contact-link"
+                    >+44 20 7123 4567</a
+                  ><a href="tel:+44 7712 345678" class="contact-link"
+                    >+44 7712 345678</a
+                  >
                 </div>
               </div>
               <div class="top-info-block w-clearfix">
+                <div class="top-info-icon _2"></div>
                 <div class="top-info-content">
-                  <a href="#" class="contact-link">267 Collins St Melbourne<br/>Victoria 3000</a>
+                  <a data-ix="popup-modal-show" href="#" class="contact-link"
+                    >M5 3AB<br />
+                   Church Road, Salford, Manchester</a
+                  >
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div><!-- /top-info-bar -->
-
-      <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" role="banner" class="navbar w-nav">
+      </div>
+      <div
+        data-collapse="medium"
+        data-animation="default"
+        data-duration="400"
+        data-easing="ease"
+        data-easing2="ease"
+        role="banner"
+        class="navbar w-nav"
+      >
         <div class="navbar-container w-container">
-          <a href="/" aria-current="page" class="brand w-hidden-main w-nav-brand w--current">
-            <img src="./assets/logo.jpg" alt="logo" style="width: 80px; height: auto; margin-bottom: 4px"/>
-          </a>
-          <nav role="navigation" class="nav-menu w-nav-menu">
-            <a href="/" class="nav-link w-nav-link">Home</a>
-            <a href="./services.html" class="nav-link w-nav-link">Services</a>
-            <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
-            <a href="./contact-us.html" class="nav-link w-nav-link">Contact</a>
-            <a href="./about-us.html" class="nav-link w-nav-link">About</a>
-          </nav>
+          <a href="/" class="brand w-hidden-main w-nav-brand"
+            ><img
+              src="./assets/logo.jpg"
+              alt="logo"
+              style="width: 80px; height: auto; margin-bottom: 4px"
+            /></a>
+        <nav role="navigation" class="nav-menu w-nav-menu">
+    <a href="/" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
+    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
+    <a href="/news" class="nav-link w-nav-link">My Prescriptions</a>
+    <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
+    <a href="./patient-history.html" class="nav-link w-nav-link">Patient history</a>
+    <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a>
+   
+  </nav>
+
           <div class="menu-button w-nav-button">
             <div class="w-icon-nav-menu"></div>
           </div>
-          <a href="#" data-ix="show-appointment-form" class="button appointment-button w-button">Appointment</a>
+          
         </div>
       </div>
     </div>
-    <!-- /NAVBAR -->
+
+    <!-- Scroll navbar (unchanged visually) -->
+    <div
+      data-collapse="medium"
+      data-animation="default"
+      data-duration="400"
+      data-ix="display-scroll-navbar"
+      data-easing="ease"
+      data-easing2="ease"
+      role="banner"
+      class="navbar-scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav"
+    >
+      <div class="nav-scroll-container w-container">
+        <div class="menu-button scroll-menu-button w-nav-button">
+          <div class="w-icon-nav-menu"></div>
+        </div>
+          <a
+          href="/"
+          aria-current="page"
+          class="brand scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand w--current"
+          > <img
+              src="./assets/rxconnect.png"
+              alt="logo"
+              style="width: 120px; height: auto; margin-bottom: 4px"
+            /></a>
+        <nav role="navigation" class="nav-menu w-nav-menu">
+   <a href="/" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
+    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
+    <a href="/news" class="nav-link w-nav-link">My Prescriptions</a>
+    <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
+    <a href="./patient-history.html" class="nav-link w-nav-link">Patient history</a>
+    <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a>
+
+  </nav>
+      
+      </div>
+    </div>
 
     <!-- Banner -->
     <div class="page-banner">
