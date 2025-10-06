@@ -4843,3 +4843,48 @@ html.w-mod-js *[data-ix="display-scroll-navbar"] {
 .w-dropdown-toggle i {
   font-size: 0.8em;
 }
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-menu {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap; 
+  gap: 25px;
+  width: 100%;
+}
+
+.nav-link, 
+.nav-link.w-nav-link, 
+.w-dropdown-toggle {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap !important; 
+  font-weight: 600;
+  text-transform: capitalize;
+  padding: 10px 5px;
+}
+
+.appointment-button {
+  padding: 10px 22px;
+  border-radius: 25px;
+  background-color: #00baff;
+  color: #fff;
+  font-weight: 600;
+  white-space: nowrap; 
+  margin-left: 15px;
+  transition: background 0.3s;
+}
+
+.appointment-button:hover {
+  background-color: #0082f3;
+}
+
+.w-dropdown, .nav-link, .appointment-button {
+  flex-shrink: 0; 
+}

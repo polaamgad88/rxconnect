@@ -8,22 +8,21 @@
 >
   <head>
     <meta charset="utf-8" />
-    <title>Contact</title>
-    <meta content="Contact" property="og:title" />
-    <meta content="Contact" property="twitter:title" />
+    <title>RxConnect</title>
+     <meta charset="utf-8" />
+    <title>RxConnect</title>
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="Webflow" name="generator" />
-    <link
-      href="./styles/contact-us.css"
-      rel="stylesheet"
-      type="text/css"
-    />
+    <link href="./styles/index.css" rel="stylesheet" type="text/css" />
+
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link
       href="https://fonts.gstatic.com"
       rel="preconnect"
       crossorigin="anonymous"
     />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
     <script
       src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
       type="text/javascript"
@@ -200,6 +199,7 @@
         </div>
       </div>
     </div>
+    <!-- NAVBAR (kept; minor icons retained) -->
     <div class="navbar-wrapper">
       <div class="top-info-bar">
         <div class="top-info-bar-container w-container">
@@ -207,19 +207,19 @@
             href="/"
             class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand"
             ><img
-              src="./assets/logo.jpg"
+              src="./assets/rxconnect.png"
               alt="logo"
-              style="width: 80px; height: auto; margin-bottom: 4px"
+              style="width: 120px; height: auto; margin-bottom: 4px"
             /></a>
           <div class="info-bar w-clearfix">
             <div class="info-blocks-wrapper w-clearfix">
               <div class="top-info-block no-right-border w-clearfix">
                 <div class="top-info-icon"></div>
                 <div class="top-info-content">
-                  <a href="tel:+61393455522" class="contact-link"
-                    >03-9345-5522</a
-                  ><a href="tel:+61393456633" class="contact-link"
-                    >03-9345-4422</a
+                  <a href="tel:+44 20 7123 4567" class="contact-link"
+                    >+44 20 7123 4567</a
+                  ><a href="tel:+44 7712 345678" class="contact-link"
+                    >+44 7712 345678</a
                   >
                 </div>
               </div>
@@ -227,8 +227,8 @@
                 <div class="top-info-icon _2"></div>
                 <div class="top-info-content">
                   <a data-ix="popup-modal-show" href="#" class="contact-link"
-                    >267 Collins St Melbourne<br />
-                    Victoria 3000</a
+                    >M5 3AB<br />
+                   Church Road, Salford, Manchester</a
                   >
                 </div>
               </div>
@@ -252,13 +252,15 @@
               alt="logo"
               style="width: 80px; height: auto; margin-bottom: 4px"
             /></a>
-          <nav role="navigation" class="nav-menu w-nav-menu">
-            <a href="./index.html" class="nav-link w-nav-link">Home</a
-            ><a href="./services.html" class="nav-link w-nav-link">services</a>
-            <div data-delay="0" data-hover="false" class="w-dropdown">
+        <nav role="navigation" class="nav-menu w-nav-menu">
+    <a href="/" aria-current="page" class="nav-link w-nav-link w--current">Home</a>
+    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
+    <a href="/news" class="nav-link w-nav-link">My Prescriptions</a>
+
+    <div data-delay="0" data-hover="false" class="w-dropdown">
               <div class="nav-link w-dropdown-toggle">
                 <div>departments</div>
-                <div class="nav-icon w-icon-dropdown-toggle"></div>
+               <i class="fa-solid fa-chevron-down"></i>
               </div>
               <nav class="dropdown-list w-dropdown-list">
                 <div class="w-dyn-list">
@@ -267,42 +269,41 @@
                       <a
                         href="/departments/neurology"
                         class="dropdown-link w-dropdown-link"
-                        >Neurology</a
+                        >Doctors</a
                       >
                     </div>
                     <div role="listitem" class="w-dyn-item">
                       <a
                         href="/departments/cardiology"
                         class="dropdown-link w-dropdown-link"
-                        >Cardiology</a
+                        >Pharmacy</a
                       >
                     </div>
                     <div role="listitem" class="w-dyn-item">
                       <a
                         href="/departments/dental-care"
                         class="dropdown-link w-dropdown-link"
-                        >X-Ray</a
+                        >Patients</a
                       >
                     </div>
                     <div role="listitem" class="w-dyn-item">
                       <a
                         href="/departments/traumatology"
                         class="dropdown-link w-dropdown-link"
-                        >Dental
-                      </a>
+                        >Administration</a>
                     </div>
                     <div role="listitem" class="w-dyn-item">
                       <a
                         href="/departments/eye-care"
                         class="dropdown-link w-dropdown-link"
-                        >Optical</a
+                        >Insurance</a
                       >
                     </div>
                     <div role="listitem" class="w-dyn-item">
                       <a
                         href="/departments/accident-and-emergency-ae"
                         class="dropdown-link w-dropdown-link"
-                        >Physiotherapy</a
+                        >Integrations</a
                       >
                     </div>
                   </div>
@@ -312,7 +313,7 @@
             <div data-delay="0" data-hover="false" class="w-dropdown">
               <div class="nav-link w-dropdown-toggle">
                 <div>information</div>
-                <div class="w-icon-dropdown-toggle"></div>
+               <i class="fa-solid fa-chevron-down"></i>
               </div>
               <nav class="dropdown-list w-dropdown-list">
                 <a href="./about-us.html" class="dropdown-link w-dropdown-link"
@@ -324,26 +325,21 @@
                 ><a href="./FAQs.html" class="dropdown-link w-dropdown-link">FAQs</a>
               </nav>
             </div>
-            <a href="/news" class="nav-link w-nav-link">news</a
-            ><a
-              href="./contact-us.html"
-              aria-current="page"
-              class="nav-link w-nav-link w--current"
-              >contact</a
-            >
-          </nav>
+
+    <a href="./contact-us.html" class="nav-link w-nav-link">Contact</a>
+
+    <a href="#" class="button appointment-button w-button">Appointment</a>
+  </nav>
+
           <div class="menu-button w-nav-button">
             <div class="w-icon-nav-menu"></div>
           </div>
-          <a
-            href="#"
-            data-ix="show-appointment-form"
-            class="button appointment-button w-button"
-            >Appointment</a
-          >
+          
         </div>
       </div>
     </div>
+
+    <!-- Scroll navbar (unchanged visually) -->
     <div
       data-collapse="medium"
       data-animation="default"
@@ -358,93 +354,93 @@
         <div class="menu-button scroll-menu-button w-nav-button">
           <div class="w-icon-nav-menu"></div>
         </div>
-        <nav role="navigation" class="nav-menu scroll w-nav-menu">
-          <a href="./index.html" class="nav-link w-nav-link">Home</a
-          ><a href="./services.html" class="nav-link w-nav-link">services</a>
-          <div data-delay="0" data-hover="true" class="w-dropdown">
-            <div class="nav-link w-dropdown-toggle">
-              <div>departments</div>
-              <div class="nav-icon w-icon-dropdown-toggle"></div>
-            </div>
-            <nav class="dropdown-list w-dropdown-list">
-              <div class="w-dyn-list">
-                <div role="list" class="w-dyn-items">
-                  <div role="listitem" class="w-dyn-item">
-                    <a
-                      href="/departments/neurology"
-                      class="dropdown-link w-dropdown-link"
-                      >Neurology</a
-                    >
-                  </div>
-                  <div role="listitem" class="w-dyn-item">
-                    <a
-                      href="/departments/cardiology"
-                      class="dropdown-link w-dropdown-link"
-                      >Cardiology</a
-                    >
-                  </div>
-                  <div role="listitem" class="w-dyn-item">
-                    <a
-                      href="/departments/dental-care"
-                      class="dropdown-link w-dropdown-link"
-                      >X-Ray</a
-                    >
-                  </div>
-                  <div role="listitem" class="w-dyn-item">
-                    <a
-                      href="/departments/traumatology"
-                      class="dropdown-link w-dropdown-link"
-                      >Dental
-                    </a>
-                  </div>
-                  <div role="listitem" class="w-dyn-item">
-                    <a
-                      href="/departments/eye-care"
-                      class="dropdown-link w-dropdown-link"
-                      >Optical</a
-                    >
-                  </div>
-                  <div role="listitem" class="w-dyn-item">
-                    <a
-                      href="/departments/accident-and-emergency-ae"
-                      class="dropdown-link w-dropdown-link"
-                      >Physiotherapy</a
-                    >
+          <a
+          href="/"
+          aria-current="page"
+          class="brand scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand w--current"
+          > <img
+              src="./assets/rxconnect.png"
+              alt="logo"
+              style="width: 120px; height: auto; margin-bottom: 4px"
+            /></a>
+        <nav role="navigation" class="nav-menu w-nav-menu">
+    <a href="/" aria-current="page" class="nav-link w-nav-link w--current">Home</a>
+    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
+    <a href="/news" class="nav-link w-nav-link">My Prescriptions</a>
+
+     <div data-delay="0" data-hover="false" class="w-dropdown">
+              <div class="nav-link w-dropdown-toggle">
+                <div>departments</div>
+               <i class="fa-solid fa-chevron-down"></i>
+              </div>
+              <nav class="dropdown-list w-dropdown-list">
+                <div class="w-dyn-list">
+                  <div role="list" class="w-dyn-items">
+                    <div role="listitem" class="w-dyn-item">
+                      <a
+                        href="/departments/neurology"
+                        class="dropdown-link w-dropdown-link"
+                        >Doctors</a
+                      >
+                    </div>
+                    <div role="listitem" class="w-dyn-item">
+                      <a
+                        href="/departments/cardiology"
+                        class="dropdown-link w-dropdown-link"
+                        >Pharmacy</a
+                      >
+                    </div>
+                    <div role="listitem" class="w-dyn-item">
+                      <a
+                        href="/departments/dental-care"
+                        class="dropdown-link w-dropdown-link"
+                        >Patients</a
+                      >
+                    </div>
+                    <div role="listitem" class="w-dyn-item">
+                      <a
+                        href="/departments/traumatology"
+                        class="dropdown-link w-dropdown-link"
+                        >Administration</a>
+                    </div>
+                    <div role="listitem" class="w-dyn-item">
+                      <a
+                        href="/departments/eye-care"
+                        class="dropdown-link w-dropdown-link"
+                        >Insurance</a
+                      >
+                    </div>
+                    <div role="listitem" class="w-dyn-item">
+                      <a
+                        href="/departments/accident-and-emergency-ae"
+                        class="dropdown-link w-dropdown-link"
+                        >Integrations</a
+                      >
+                    </div>
                   </div>
                 </div>
-              </div>
-            </nav>
-          </div>
-          <div data-delay="0" data-hover="true" class="w-dropdown">
-            <div class="nav-link w-dropdown-toggle">
-              <div>information</div>
-              <div class="w-icon-dropdown-toggle"></div>
+              </nav>
             </div>
-            <nav class="dropdown-list w-dropdown-list">
-              <a href="./about-us.html" class="dropdown-link w-dropdown-link">about us</a
-              ><a href="./doctors.html" class="dropdown-link w-dropdown-link"
-                >Doctors</a
-              ><a href="#" class="dropdown-link w-dropdown-link"
-                >pricing packages</a
-              ><a href="./FAQs.html" class="dropdown-link w-dropdown-link">FaQs</a>
-            </nav>
-          </div>
-          <a href="/news" class="nav-link w-nav-link">news</a
-          ><a
-            href="./contact-us.html"
-            aria-current="page"
-            class="nav-link w-nav-link w--current"
-            >contact</a
-          >
-        </nav>
-        <a
-          href="/"
-          class="brand scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand"
-          > <img
-              src="./assets/logo.jpg"
-              alt="logo"
-              style="width: 80px; height: auto; margin-bottom: 4px"
-            /></a>
+            <div data-delay="0" data-hover="false" class="w-dropdown">
+              <div class="nav-link w-dropdown-toggle">
+                <div>information</div>
+               <i class="fa-solid fa-chevron-down"></i>
+              </div>
+              <nav class="dropdown-list w-dropdown-list">
+                <a href="./about-us.html" class="dropdown-link w-dropdown-link"
+                  >about us</a
+                ><a href="./doctors.html" class="dropdown-link w-dropdown-link"
+                  >Doctors</a
+                ><a href="/pricing" class="dropdown-link w-dropdown-link"
+                  >pricing packages</a
+                ><a href="./FAQs.html" class="dropdown-link w-dropdown-link">FAQs</a>
+              </nav>
+            </div>
+
+    <a href="./contact-us.html" class="nav-link w-nav-link">Contact</a>
+
+  </nav>
+      
       </div>
     </div>
     <div class="fixed-button-wrapper">
@@ -599,19 +595,19 @@
           />
           <h4 class="white">emergency cases</h4>
           <a href="tel:+1-600-700-6200" class="w-inline-block"
-            ><div class="emergency-number">03-7000-6200</div></a
+            ><div class="emergency-number">+44 20 7123 4567</div></a
           >
         </div>
         <div class="flex-box space-between">
           <div class="_33-percent-column right-padding">
-             <img
-              src="./assets/logo.jpg"
+            <img
+              src="./assets/rxconnect.png"
               alt=""
               class="footer-logo"
-              style="width: 90px; height: auto; margin-bottom: 2px"
+              style="width: 160px; height: auto; margin-bottom: 2px"
             />
             <p class="white footer-paragraph">
-              Medicare is an international private health care provider. We have
+              RxConnect is an international private health care provider. We have
               more than 20 years of experience. Our patients are provided with
               access to comprehensive outpatient and inpatient services, as well
               as a full range of laboratory diagnostics.
@@ -623,17 +619,12 @@
                 <h4 class="footer-title">Navigation</h4>
                 <div class="footer-line"></div>
               </div>
-              <a href="./about-us.html" class="footer-link">About us</a
-              ><a href="./doctors.html" class="footer-link">Our doctors</a
-              ><a href="./services.html" class="footer-link">Services</a
-              ><a href="./FAQs.html" class="footer-link">FAQs</a
-              ><a href="/news" class="footer-link">News</a
-              ><a
-                href="./contact-us.html"
-                aria-current="page"
-                class="footer-link w--current"
-                >Contact</a
-              >
+              <a href="./about-us.html" class="footer-link">About us</a>
+              <a href="./doctors.html" class="footer-link">Our doctors</a>
+              <a href="./services.html" class="footer-link">Services</a>
+              <a href="./FAQs.html" class="footer-link">FAQs</a>
+              <a href="/news" class="footer-link">News</a>
+              <a href="./contact-us.html" class="footer-link">Contact</a>
             </div>
           </div>
           <div class="_17-percent-column next">
@@ -645,36 +636,22 @@
               <div class="w-dyn-list">
                 <div role="list" class="w-dyn-items">
                   <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a
-                      href="/departments/accident-and-emergency-ae"
-                      class="footer-link"
-                      >Physiotherapy</a
-                    >
+                    <a href="/departments/accident-and-emergency-ae" class="footer-link">Physiotherapy</a>
                   </div>
                   <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/eye-care" class="footer-link"
-                      >Optical</a
-                    >
+                    <a href="/departments/eye-care" class="footer-link">Optical</a>
                   </div>
                   <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/traumatology" class="footer-link"
-                      >Dental
-                    </a>
+                    <a href="/departments/traumatology" class="footer-link">Dental</a>
                   </div>
                   <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/dental-care" class="footer-link"
-                      >X-Ray</a
-                    >
+                    <a href="/departments/dental-care" class="footer-link">X-Ray</a>
                   </div>
                   <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/cardiology" class="footer-link"
-                      >Cardiology</a
-                    >
+                    <a href="/departments/cardiology" class="footer-link">Cardiology</a>
                   </div>
                   <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/neurology" class="footer-link"
-                      >Neurology</a
-                    >
+                    <a href="/departments/neurology" class="footer-link">Neurology</a>
                   </div>
                 </div>
               </div>
@@ -693,12 +670,7 @@
                   class="footer-contact-icon"
                 />
                 <div>
-                  <a
-                    data-ix="popup-modal-show"
-                    href="#"
-                    class="footer-link contact"
-                    >267 Collins St Melbourne Victoria 3000</a
-                  >
+                  <a data-ix="popup-modal-show" href="#" class="footer-link contact">M5 3AB Church Road, Salford, Manchester</a>
                 </div>
               </div>
               <div class="footer-contact-block">
@@ -708,9 +680,7 @@
                   class="footer-contact-icon"
                 />
                 <div>
-                  <a href="mailto:" class="footer-link contact"
-                    >info@medicare.com</a
-                  >
+                  <a href="mailto:" class="footer-link contact">info@rxconnect.com</a>
                 </div>
               </div>
               <div class="footer-contact-block">
@@ -720,15 +690,14 @@
                   class="footer-contact-icon"
                 />
                 <div>
-                  <a href="tel:+61393455522" class="footer-link">03-9345-5522</a
-                  ><a href="tel:+61393455522" class="footer-link"
-                    >03-9345-4422</a
-                  >
+                  <a href="tel:+61393455522" class="footer-link">+44 7712 345678</a>
+                  <a href="tel:+61393455522" class="footer-link">+44 20 7123 4567</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
         <div class="test-row w-row">
           <div class="footer-column w-col w-col-3">
             <div>
@@ -743,9 +712,7 @@
                   class="footer-contact-icon"
                 />
                 <div>
-                  <div class="footer-link">
-                    267 Collins St Melbourne Victoria 3000
-                  </div>
+                  <div class="footer-link"> 267 Collins St Melbourne Victoria 3000 </div>
                 </div>
               </div>
               <div class="footer-contact-block">
@@ -755,9 +722,7 @@
                   class="footer-contact-icon"
                 />
                 <div>
-                  <a href="mailto:" class="footer-link contact"
-                    >info@medicare.com</a
-                  >
+                  <a href="mailto:" class="footer-link contact">info@medicare.com</a>
                 </div>
               </div>
               <div class="footer-contact-block">
@@ -767,33 +732,28 @@
                   class="footer-contact-icon"
                 />
                 <div>
-                  <a href="tel:+61393455522" class="footer-link">03-9345-5522</a
-                  ><a href="tel:+61393455522" class="footer-link"
-                    >03-9345-4422</a
-                  >
+                  <a href="tel:+61393455522" class="footer-link">03-9345-5522</a>
+                  <a href="tel:+61393455522" class="footer-link">03-9345-4422</a>
                 </div>
               </div>
             </div>
           </div>
+
           <div class="footer-column w-col w-col-3">
             <div>
               <div class="footer-header-wrapper">
                 <h4 class="footer-title">Navigation</h4>
                 <div class="footer-line"></div>
               </div>
-              <a href="./about-us.html" class="footer-link">About us</a
-              ><a href="./doctors.html" class="footer-link">Our doctors</a
-              ><a href="./services.html" class="footer-link">Services</a
-              ><a href="./FAQs.html" class="footer-link">FAQs</a
-              ><a href="/news" class="footer-link">News</a
-              ><a
-                href="./contact-us.html"
-                aria-current="page"
-                class="footer-link w--current"
-                >Contact us</a
-              >
+              <a href="./about-us.html" class="footer-link">About us</a>
+              <a href="./doctors.html" class="footer-link">Our doctors</a>
+              <a href="./services.html" class="footer-link">Services</a>
+              <a href="./FAQs.html" class="footer-link">FAQs</a>
+              <a href="/news" class="footer-link">News</a>
+              <a href="./contact-us.html" class="footer-link">Contact us</a>
             </div>
           </div>
+
           <div class="footer-column w-col w-col-3">
             <div>
               <div class="footer-header-wrapper">
@@ -802,42 +762,17 @@
               </div>
               <div class="w-dyn-list">
                 <div role="list" class="w-dyn-items">
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a
-                      href="/departments/accident-and-emergency-ae"
-                      class="footer-link"
-                      >Physiotherapy</a
-                    >
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/eye-care" class="footer-link"
-                      >Optical</a
-                    >
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/traumatology" class="footer-link"
-                      >Dental
-                    </a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/dental-care" class="footer-link"
-                      >X-Ray</a
-                    >
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/cardiology" class="footer-link"
-                      >Cardiology</a
-                    >
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/neurology" class="footer-link"
-                      >Neurology</a
-                    >
-                  </div>
+                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/accident-and-emergency-ae" class="footer-link">Physiotherapy</a></div>
+                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/eye-care" class="footer-link">Optical</a></div>
+                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/traumatology" class="footer-link">Dental </a></div>
+                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/dental-care" class="footer-link">X-Ray</a></div>
+                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/cardiology" class="footer-link">Cardiology</a></div>
+                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/neurology" class="footer-link">Neurology</a></div>
                 </div>
               </div>
             </div>
           </div>
+
           <div class="footer-column w-col w-col-3">
             <div class="footer-header-wrapper">
               <h4 class="footer-title">Message us</h4>
@@ -850,7 +785,7 @@
                   name="email-form-2"
                   data-name="Email Form 2"
                   method="get"
-                  data-wf-page-id="589050fc379867da0710a481"
+                  data-wf-page-id="57c55b6ef6306d483a15bdc1"
                   data-wf-element-id="7c121d8a-d022-a32b-02d7-eb05da342546"
                 >
                   <input
@@ -881,21 +816,19 @@
                   <div>Thank you! Your submission has been received!</div>
                 </div>
                 <div class="w-form-fail">
-                  <div>
-                    Oops! Something went wrong while submitting the form
-                  </div>
+                  <div> Oops! Something went wrong while submitting the form </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
         <div class="footer-credits">
           <div class="credits-wrapper">
-            
             <div class="footer-socials">
-              <a href="#" class="social-icon facebook w-inline-block"></a
-              ><a href="#" class="social-icon twitter w-inline-block"></a
-              ><a href="#" class="social-icon linkedin w-inline-block"></a>
+              <a href="#" class="social-icon facebook w-inline-block"></a>
+              <a href="#" class="social-icon twitter w-inline-block"></a>
+              <a href="#" class="social-icon linkedin w-inline-block"></a>
             </div>
           </div>
         </div>
