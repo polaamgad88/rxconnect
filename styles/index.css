@@ -105,6 +105,126 @@ samp {
   font-family: monospace, monospace;
   font-size: 1em;
 }
+/* ---- Motion safety ---- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---- Keyframes ---- */
+@keyframes fadeUpIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes softFloat {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes pulseOutline {
+  0%   { box-shadow: 0 0 0 0 rgba(32,186,248,0.45); }
+  70%  { box-shadow: 0 0 0 12px rgba(32,186,248,0); }
+  100% { box-shadow: 0 0 0 0 rgba(32,186,248,0); }
+}
+
+/* ---- Hero: staggered entrance ---- */
+.hero-subheader,
+.hero-header,
+.hero-card-paragraph,
+.hero .top-margin a.button {
+  opacity: 0;
+  animation: fadeUpIn 700ms ease forwards;
+}
+
+.hero-subheader { animation-delay: 60ms; }
+.hero-header { animation-delay: 180ms; }
+.hero-card-paragraph { animation-delay: 300ms; }
+.hero .top-margin a.button:nth-child(1) { animation-delay: 420ms; }
+.hero .top-margin a.button:nth-child(2) { animation-delay: 540ms; }
+
+/* ---- CTA buttons: subtle attention on hover/focus ---- */
+.button.w-button {
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+.button.w-button:hover,
+.button.w-button:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 18px rgba(0,0,0,0.08);
+}
+
+/* "Join Now" (primary) soft pulse every few seconds */
+a.button.white.w-button[style*="background-color:#20baf8"] {
+  animation: pulseOutline 2.2s ease-out 1.8s infinite;
+  border-radius: 6px;
+}
+
+/* ---- Scroll reveal: base + visible state ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 520ms ease, transform 520ms ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Apply reveal to common cards (in case JS adds the class) */
+.service-box,
+.department-block,
+.feature-block,
+.doctor-card,
+.post-preview-big,
+.post-mini-wrapper {
+  will-change: transform, opacity;
+}
+
+/* ---- Service cards: hover lift ---- */
+.service-box {
+  transition: transform 200ms ease, box-shadow 200ms ease;
+  border-radius: 8px;
+}
+.service-box:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 28px rgba(0,0,0,0.08);
+}
+
+/* ---- Department circles: gentle float loop ---- */
+.department-circle {
+  animation: softFloat 5.5s ease-in-out infinite;
+}
+
+/* ---- Doctors: image overlay reacts on hover ---- */
+.doctor-card .doctor-avatar .blue-overlay {
+  transition: opacity 220ms ease;
+}
+.doctor-card:hover .doctor-avatar .blue-overlay {
+  opacity: 1 !important; /* ensures Webflow inline styles don’t block it */
+}
+
+/* ---- Navbar: shrink on scroll ---- */
+.navbar.w-nav,
+.navbar-scroll.w-nav {
+  transition: padding 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+.navbar.w-nav.shrink,
+.navbar-scroll.w-nav.shrink {
+  background-color: rgba(255,255,255,0.96);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+.navbar.w-nav .navbar-container { transition: transform 180ms ease; }
+.navbar.w-nav.shrink .navbar-container { transform: translateY(-2px); }
+
 button,
 input,
 optgroup,
@@ -4885,3 +5005,4 @@ html.w-mod-js *[data-ix="display-scroll-navbar"] {
 .w-dropdown, .nav-link, .appointment-button {
   flex-shrink: 0; 
 }
+

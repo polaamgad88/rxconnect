@@ -357,9 +357,16 @@
             pharmacists dispense with safety checks. Real-time lists, search,
             and detailed prescription views keep everyone aligned.
           </div>
-          <div class="top-margin">
-            <a href="#Services" class="button white w-button">Explore features</a>
+          
+          <div class="top-margin" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+            <a href="./register.html" class="button white w-button" style="background-color:green; color:#fff; border:none;">
+              JOIN US NOW
+            </a>
+            <a href="./login.html" class="button white w-button" style="background-color:#ffffff; color:#20baf8; border:2px solid #20baf8;">
+              Already a member? Login
+            </a>
           </div>
+          
         </div>
       </div>
     </div>
@@ -608,7 +615,7 @@
     </div>
 
     <!-- DOCTORS (kept; retitled subtly by surrounding headings) -->
-     <div class="section">
+    <div class="section">
       <div class="w-container">
         <div class="title-wrapper">
           <h2>Our Clinical Advisors</h2>
@@ -617,17 +624,25 @@
         </div>
         <div>
           <div class="w-dyn-list">
-            <div
-              role="list"
-              class="flex-box justify-center w-clearfix w-dyn-items w-row"
-            >
+            <div role="list" class="flex-box justify-center w-clearfix w-dyn-items w-row">
+    
+              <!-- Doctor 1 -->
               <div class="doctor-column w-dyn-item w-col w-col-4">
-                <a href="/doctors/john-doe" class="doctor-card w-inline-block">
+                <a href="/doctors/john-doe"
+                   class="doctor-card w-inline-block"
+                   data-slug="john-doe"
+                   data-name="Dr. Jack Doe"
+                   data-category="Neurologist"
+                   data-code="DOC-NEU-001"
+                   data-email="jack.doe@rxconnect.com"
+                   data-phone="+44 20 7123 4567"
+                   data-location="Salford, Manchester"
+                   data-avatar="https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944c4e0b064a800fc31f95_slice6.jpg"
+                   data-bio="Board-certified neurologist focused on migraine, epilepsy, and movement disorders.">
                   <div class="doctor-block">
-                    <div
-                      data-ix="blue-overlay-hover-interaction"
-                      style="background-image: url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944c4e0b064a800fc31f95_slice6.jpg');"
-                      class="doctor-avatar">
+                    <div data-ix="blue-overlay-hover-interaction"
+                         style="background-image: url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944c4e0b064a800fc31f95_slice6.jpg');"
+                         class="doctor-avatar">
                       <div data-ix="blue-overlay-opacity-0" class="blue-overlay doctor-overlay">
                         <div class="doctor-overlay-icon"></div>
                         <div class="view-profile">View Profile</div>
@@ -640,13 +655,24 @@
                   </div>
                 </a>
               </div>
+    
+              <!-- Doctor 2 -->
               <div class="doctor-column w-dyn-item w-col w-col-4">
-                <a href="/doctors/william-james" class="doctor-card w-inline-block">
+                <a href="/doctors/william-james"
+                   class="doctor-card w-inline-block"
+                   data-slug="william-james"
+                   data-name="Dr. William Doe"
+                   data-category="Cardiologist"
+                   data-code="DOC-CARD-014"
+                   data-email="william.doe@rxconnect.com"
+                   data-phone="+44 7712 345678"
+                   data-location="Salford, Manchester"
+                   data-avatar="https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944a3e8031687f489ab20f_slice1.jpg"
+                   data-bio="Interventional cardiologist specializing in coronary artery disease and heart failure.">
                   <div class="doctor-block">
-                    <div
-                      data-ix="blue-overlay-hover-interaction"
-                      style="background-image: url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944a3e8031687f489ab20f_slice1.jpg');"
-                      class="doctor-avatar">
+                    <div data-ix="blue-overlay-hover-interaction"
+                         style="background-image: url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944a3e8031687f489ab20f_slice1.jpg');"
+                         class="doctor-avatar">
                       <div data-ix="blue-overlay-opacity-0" class="blue-overlay doctor-overlay">
                         <div class="doctor-overlay-icon"></div>
                         <div class="view-profile">View Profile</div>
@@ -659,13 +685,24 @@
                   </div>
                 </a>
               </div>
+    
+              <!-- Doctor 3 -->
               <div class="doctor-column w-dyn-item w-col w-col-4">
-                <a href="/doctors/jessica-smith" class="doctor-card w-inline-block">
+                <a href="/doctors/jessica-smith"
+                   class="doctor-card w-inline-block"
+                   data-slug="jessica-smith"
+                   data-name="Dr. Jessica Doe"
+                   data-category="Dentist"
+                   data-code="DOC-DENT-031"
+                   data-email="jessica.doe@rxconnect.com"
+                   data-phone="+44 20 7123 4567"
+                   data-location="Salford, Manchester"
+                   data-avatar="https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/589449e0e9bfbc310322a87d_slice7.jpg"
+                   data-bio="General dentist with interest in cosmetic and pediatric dentistry.">
                   <div class="doctor-block">
-                    <div
-                      data-ix="blue-overlay-hover-interaction"
-                      style="background-image: url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/589449e0e9bfbc310322a87d_slice7.jpg');"
-                      class="doctor-avatar">
+                    <div data-ix="blue-overlay-hover-interaction"
+                         style="background-image: url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/589449e0e9bfbc310322a87d_slice7.jpg');"
+                         class="doctor-avatar">
                       <div data-ix="blue-overlay-opacity-0" class="blue-overlay doctor-overlay">
                         <div class="doctor-overlay-icon"></div>
                         <div class="view-profile">View Profile</div>
@@ -678,6 +715,7 @@
                   </div>
                 </a>
               </div>
+    
             </div>
           </div>
         </div>
@@ -687,8 +725,103 @@
           </div>
         </div>
       </div>
-    </div> 
-
+    </div>
+    
+    <!-- Lightweight modal (added once) -->
+    <style>
+      .rx-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:9999}
+      .rx-modal-overlay.is-open{display:flex}
+      .rx-modal{width:min(640px,92vw);max-height:86vh;overflow:auto;background:#fff;border-radius:12px;box-shadow:0 24px 60px rgba(0,0,0,.2)}
+      .rx-h{display:flex;gap:14px;align-items:center;padding:16px 18px;border-bottom:1px solid rgba(0,0,0,.06)}
+      .rx-av{width:56px;height:56px;border-radius:50%;background-size:cover;background-position:center;flex:0 0 auto}
+      .rx-t{margin:0;font-weight:700;font-size:18px}
+      .rx-s{margin-top:2px;color:#666;font-size:13px}
+      .rx-b{padding:16px 18px}
+      .rx-meta{display:grid;grid-template-columns:150px 1fr;gap:8px 16px;font-size:14px}
+      .rx-meta dt{color:#666}
+      .rx-meta dd{margin:0;color:#222}
+      .rx-f{display:flex;gap:10px;justify-content:flex-end;padding:12px 18px 18px}
+      .rx-btn{border:0;border-radius:8px;background:#f3f5f7;padding:8px 12px;cursor:pointer}
+      .rx-btn.p{background:#20baf8;color:#fff}
+      @media (prefers-reduced-motion:reduce){.rx-modal{transition:none}}
+    </style>
+    <div class="rx-modal-overlay" id="rxDocOverlay" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="rx-modal" role="document" aria-labelledby="rxDocTitle">
+        <div class="rx-h">
+          <div class="rx-av" id="rxDocAvatar"></div>
+          <div>
+            <h3 class="rx-t" id="rxDocTitle">Doctor</h3>
+            <div class="rx-s" id="rxDocSub"></div>
+          </div>
+        </div>
+        <div class="rx-b">
+          <p id="rxDocBio" style="margin-top:0;margin-bottom:12px;color:#333"></p>
+          <dl class="rx-meta">
+            <dt>Doctor Code</dt><dd id="rxDocCode"></dd>
+            <dt>Category</dt><dd id="rxDocCategory"></dd>
+            <dt>Email</dt><dd id="rxDocEmail"></dd>
+            <dt>Phone</dt><dd id="rxDocPhone"></dd>
+            <dt>Location</dt><dd id="rxDocLocation"></dd>
+          </dl>
+        </div>
+        <div class="rx-f">
+          <button type="button" class="rx-btn" data-rx-close>Close</button>
+          <a id="rxDocProfile" class="rx-btn p" href="./doctors.html">View full profile</a>
+        </div>
+      </div>
+    </div>
+    <script>
+      (function(){
+        var o=document.getElementById('rxDocOverlay');
+        var els={
+          av:document.getElementById('rxDocAvatar'),
+          t: document.getElementById('rxDocTitle'),
+          s: document.getElementById('rxDocSub'),
+          bio:document.getElementById('rxDocBio'),
+          code:document.getElementById('rxDocCode'),
+          cat:document.getElementById('rxDocCategory'),
+          mail:document.getElementById('rxDocEmail'),
+          phone:document.getElementById('rxDocPhone'),
+          loc:document.getElementById('rxDocLocation'),
+          link:document.getElementById('rxDocProfile')
+        };
+    
+        function openModal(card){
+          els.av.style.backgroundImage='url("'+(card.dataset.avatar||'')+'")';
+          els.t.textContent=card.dataset.name||'Doctor';
+          els.s.textContent=card.dataset.category||'';
+          els.bio.textContent=card.dataset.bio||'';
+          els.code.textContent=card.dataset.code||'';
+          els.cat.textContent=card.dataset.category||'';
+          els.mail.textContent=card.dataset.email||'';
+          els.phone.textContent=card.dataset.phone||'';
+          els.loc.textContent=card.dataset.location||'';
+          var slug=card.dataset.slug||'';
+          els.link.setAttribute('href','./doctors.html#'+encodeURIComponent(slug));
+          o.classList.add('is-open');
+          o.setAttribute('aria-hidden','false');
+        }
+        function closeModal(){
+          o.classList.remove('is-open');
+          o.setAttribute('aria-hidden','true');
+        }
+    
+        document.addEventListener('click',function(e){
+          var card=e.target.closest('.doctor-card');
+          if(card){
+            e.preventDefault(); // stop navigating to /doctors/...
+            openModal(card);
+            return;
+          }
+          if(e.target.hasAttribute('data-rx-close') || e.target===o){ closeModal(); }
+        },{passive:false});
+    
+        document.addEventListener('keydown',function(e){
+          if(e.key==='Escape'){ closeModal(); }
+        },{passive:true});
+      })();
+    </script>
+    
     <!-- PRICING -->
     <!-- <div class="section tint">
       <div class="w-container">

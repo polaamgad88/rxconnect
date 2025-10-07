@@ -4563,3 +4563,202 @@ Webflow.require("ix").init([
   },
 ]);
 Explain;
+// ---- Simple IntersectionObserver reveal ----
+(function() {
+  var observerSupported = 'IntersectionObserver' in window;
+
+  // Elements to reveal
+  var targets = [
+    '.service-item',
+    '.feature-block',
+    '.department-item',
+    '.doctor-column',
+    '.post-preview-big',
+    '.post-mini-wrapper'
+  ];
+
+  function addRevealClass(nodeList) {
+    for (var i = 0; i < nodeList.length; i++) {
+      var el = nodeList[i];
+      if (!el) continue;
+      // mark the main card inside each item if present
+      var card = el.querySelector('.service-box, .department-block, .doctor-card, .post-preview-big, .post-mini-wrapper') || el;
+      card.classList.add('reveal');
+    }
+  }
+
+  targets.forEach(function(sel) {
+    addRevealClass(document.querySelectorAll(sel));
+  });
+
+  if (observerSupported) {
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      io.observe(el);
+    });
+  } else {
+    // Fallback: show immediately
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      el.classList.add('is-visible');
+    });
+  }
+
+  // ---- Navbar shrink on scroll ----
+  var navbars = document.querySelectorAll('.navbar.w-nav, .navbar-scroll.w-nav');
+  var lastY = window.scrollY || window.pageYOffset;
+
+  function updateNavbar() {
+    var y = window.scrollY || window.pageYOffset;
+    navbars.forEach(function(nb) {
+      if (y > 24) nb.classList.add('shrink');
+      else nb.classList.remove('shrink');
+    });
+    lastY = y;
+  }
+
+  updateNavbar();
+  window.addEventListener('scroll', updateNavbar, { passive: true });
+})();
+// --- Doctor modal (popup on click) ---
+(function () {
+  // Map the doctor profile slug (from href) to structured data
+  // Update these values to match real information
+  var DOCTORS = {
+    "john-doe": {
+      name: "Dr. Jack Doe",
+      category: "Neurology",
+      code: "DOC-NEU-001",
+      email: "jack.doe@rxconnect.com",
+      phone: "+44 20 7123 4567",
+      location: "Salford, Manchester",
+      avatar: "https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944c4e0b064a800fc31f95_slice6.jpg",
+      bio: "Board-certified neurologist with focus on migraine, epilepsy, and movement disorders."
+    },
+    "william-james": {
+      name: "Dr. William Doe",
+      category: "Cardiology",
+      code: "DOC-CARD-014",
+      email: "william.doe@rxconnect.com",
+      phone: "+44 7712 345678",
+      location: "Salford, Manchester",
+      avatar: "https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944a3e8031687f489ab20f_slice1.jpg",
+      bio: "Interventional cardiologist specializing in coronary artery disease and heart failure."
+    },
+    "jessica-smith": {
+      name: "Dr. Jessica Doe",
+      category: "Dentistry",
+      code: "DOC-DENT-031",
+      email: "jessica.doe@rxconnect.com",
+      phone: "+44 20 7123 4567",
+      location: "Salford, Manchester",
+      avatar: "https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/589449e0e9bfbc310322a87d_slice7.jpg",
+      bio: "General dentist with interest in cosmetic and pediatric dentistry."
+    }
+  };
+
+  // Create modal DOM once and reuse
+  var overlay = document.createElement('div');
+  overlay.className = 'rx-modal-overlay';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-modal', 'true');
+  overlay.setAttribute('aria-hidden', 'true');
+  overlay.innerHTML = [
+    '<div class="rx-modal" role="document">',
+      '<div class="rx-modal-header">',
+        '<div class="rx-modal-avatar" id="rxAvatar"></div>',
+        '<div>',
+          '<h3 class="rx-modal-title" id="rxTitle"></h3>',
+          '<div class="rx-modal-sub" id="rxSub"></div>',
+        '</div>',
+      '</div>',
+      '<div class="rx-modal-body">',
+        '<p id="rxBio" style="margin-top:0;margin-bottom:14px;color:#333;"></p>',
+        '<dl class="rx-meta">',
+          '<dt>Doctor Code</dt><dd id="rxCode"></dd>',
+          '<dt>Category</dt><dd id="rxCategory"></dd>',
+          '<dt>Email</dt><dd id="rxEmail"></dd>',
+          '<dt>Phone</dt><dd id="rxPhone"></dd>',
+          '<dt>Location</dt><dd id="rxLocation"></dd>',
+        '</dl>',
+      '</div>',
+      '<div class="rx-modal-footer">',
+        '<button type="button" class="rx-close-btn" data-rx="close">Close</button>',
+        '<a id="rxProfileLink" class="rx-close-btn rx-primary-btn" href="#" target="_self" rel="noopener">View full profile</a>',
+      '</div>',
+    '</div>'
+  ].join('');
+  document.body.appendChild(overlay);
+
+  function openModal(data, profileHref) {
+    // Fill content
+    overlay.querySelector('#rxAvatar').style.backgroundImage = 'url("' + (data.avatar || '') + '")';
+    overlay.querySelector('#rxTitle').textContent = data.name || 'Doctor';
+    overlay.querySelector('#rxSub').textContent = data.category || '';
+    overlay.querySelector('#rxBio').textContent = data.bio || '';
+    overlay.querySelector('#rxCode').textContent = data.code || '';
+    overlay.querySelector('#rxCategory').textContent = data.category || '';
+    overlay.querySelector('#rxEmail').textContent = data.email || '';
+    overlay.querySelector('#rxPhone').textContent = data.phone || '';
+    overlay.querySelector('#rxLocation').textContent = data.location || '';
+    overlay.querySelector('#rxProfileLink').setAttribute('href', profileHref || '#');
+
+    overlay.classList.add('is-open');
+    overlay.setAttribute('aria-hidden', 'false');
+    // basic focus handling
+    var closeBtn = overlay.querySelector('[data-rx="close"]');
+    closeBtn.focus({ preventScroll: true });
+
+    // esc to close
+    document.addEventListener('keydown', escHandler, { passive: true });
+  }
+
+  function closeModal() {
+    overlay.classList.remove('is-open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.removeEventListener('keydown', escHandler);
+  }
+
+  function escHandler(e) {
+    if (e.key === 'Escape') closeModal();
+  }
+
+  // Click outside or on Close
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay || e.target.getAttribute('data-rx') === 'close') {
+      e.preventDefault();
+      closeModal();
+    }
+  });
+
+  // Delegate click on doctor cards
+  document.addEventListener('click', function (e) {
+    var card = e.target.closest('.doctor-card');
+    if (!card) return;
+
+    // Only handle clicks within the “Our Clinical Advisors” section
+    var section = card.closest('.section');
+    if (!section) return;
+
+    // This card is an anchor with href like /doctors/john-doe
+    var href = card.getAttribute('href') || '';
+    if (!href) return;
+
+    // extract slug from href
+    var slug = href.split('/').filter(Boolean).pop(); // "john-doe"
+    var info = DOCTORS[slug];
+
+    if (info) {
+      e.preventDefault();
+      openModal(info, href);
+    }
+    // If not found in map, allow normal navigation to the profile page
+  }, { passive: false });
+})();
