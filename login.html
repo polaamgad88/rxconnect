@@ -97,7 +97,7 @@
   </head>
 
   <body>
-    <!-- NAVBAR (kept; minor icons retained) -->
+     <!-- NAVBAR (kept; minor icons retained) -->
     <div class="navbar-wrapper">
       <div class="top-info-bar">
         <div class="top-info-bar-container w-container">
@@ -126,8 +126,7 @@
                 <div class="top-info-content">
                   <a data-ix="popup-modal-show" href="#" class="contact-link"
                     >M5 3AB<br />
-                   Church Road, Salford, Manchester</a
-                  >
+                   Church Road, Salford, Manchester</a>
                 </div>
               </div>
             </div>
@@ -146,9 +145,9 @@
         <div class="navbar-container w-container">
           <a href="/" class="brand w-hidden-main w-nav-brand"
             ><img
-              src="./assets/logo.jpg"
+              src="./assets/rxconnect.png"
               alt="logo"
-              style="width: 80px; height: auto; margin-bottom: 4px"
+              style="width: 140px; height: auto;"
             /></a>
         <nav role="navigation" class="nav-menu w-nav-menu">
     <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
@@ -160,11 +159,12 @@
    
   </nav>
 
-          <div class="menu-button w-nav-button">
-            <div class="w-icon-nav-menu"></div>
+          <div id="menu-btn" class="menu-button w-nav-button">
+            <i class="fa-solid fa-bars" id="menu-icon"></i>
           </div>
-          
         </div>
+
+
       </div>
     </div>
 
@@ -505,4 +505,37 @@
           }
         });
     </script>
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuButton = document.querySelector(".menu-button");
+    const navMenu = document.querySelector(".w-nav-menu");
+    const icon = menuButton.querySelector("i");
+
+    menuButton.addEventListener("click", function () {
+      navMenu.classList.toggle("open");
+
+      icon.classList.toggle("fa-bars");
+      icon.classList.toggle("fa-xmark");
+
+      if (navMenu.classList.contains("open")) {
+        navMenu.style.display = "block";
+        setTimeout(() => navMenu.style.opacity = "1", 10);
+      } else {
+        navMenu.style.opacity = "0";
+        setTimeout(() => navMenu.style.display = "none", 400);
+      }
+    });
+
+    const links = navMenu.querySelectorAll("a");
+    links.forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("open");
+        icon.classList.add("fa-bars");
+        icon.classList.remove("fa-xmark");
+        navMenu.style.opacity = "0";
+        setTimeout(() => navMenu.style.display = "none", 400);
+      });
+    });
+  });
+</script>
 </html>

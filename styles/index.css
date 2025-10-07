@@ -5088,20 +5088,19 @@ html.w-mod-js *[data-ix="display-scroll-navbar"] {
   color: #0077b5 !important;
   font-size: 26px;
 }
-/* === الموبايل فقط === */
 @media (max-width: 991px) {
   .w-nav-menu {
     display: none;
     opacity: 0;
     transform: translateY(-20px);
     transition: all 0.4s ease;
-    flex-direction: column; /* خلي العناصر تحت بعض */
-    align-items: center; /* خليها في النص */
-    gap: 20px; /* مسافة بين العناصر */
+    flex-direction: column;
+    align-items: center; 
+    gap: 20px; /
   }
 
   .w-nav-menu.open {
-    display: flex; /* خليها flex لما تتفتح */
+    display: flex; 
     opacity: 1;
     transform: translateY(0);
     position: fixed;
