@@ -51,125 +51,6 @@
   </head>
 
   <body>
-   <!-- Appointment modal (unchanged) -->
-    <div data-ix="appointment-height-0px" id="Appointment" class="appointment">
-      <div class="appointment-container w-container">
-        <div class="w-row">
-          <div class="doctor-item w-col w-col-6">
-            <img
-              src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57d85693e349f9f8405584fc_doctorek.jpg"
-              alt=""
-              class="w-hidden-small w-hidden-tiny"
-            />
-          </div>
-          <div class="w-col w-col-6">
-            <div class="appointment-wrapper">
-              <div data-ix="close-modal" class="close-modal"></div>
-              <div>
-                <h3>appointment form</h3>
-                <div class="underline no-center"></div>
-              </div>
-              <div class="top-margin">
-                <div class="form-wrapper">
-                  <div class="w-form">
-                    <form
-                      id="email-form"
-                      name="email-form"
-                      data-name="Email Form"
-                      method="get"
-                      class="w-clearfix"
-                      data-wf-page-id="57c55b6ef6306d483a15bdc1"
-                      data-wf-element-id="1a1c6777-0d79-6cba-ea5a-f1c3bf93a190"
-                    >
-                      <input
-                        class="text-field name w-input"
-                        maxlength="256"
-                        name="First-Name-2"
-                        data-name="First Name 2"
-                        placeholder="First Name"
-                        type="text"
-                        id="First-Name-2"
-                      /><input
-                        class="text-field last-name w-input"
-                        maxlength="256"
-                        name="Last-Name-2"
-                        data-name="Last Name 2"
-                        placeholder="Last Name"
-                        type="text"
-                        id="Last-Name-2"
-                      /><input
-                        class="text-field email w-input"
-                        maxlength="256"
-                        name="email-2"
-                        data-name="Email 2"
-                        placeholder="Your Email"
-                        type="email"
-                        id="email-2"
-                        required=""
-                      /><input
-                        class="text-field phone w-input"
-                        maxlength="256"
-                        name="Phone-2"
-                        data-name="Phone 2"
-                        placeholder="Phone Number"
-                        type="text"
-                        id="Phone-2"
-                        required=""
-                      /><input
-                        class="text-field date w-input"
-                        maxlength="256"
-                        name="Date-2"
-                        data-name="Date 2"
-                        placeholder="Date &amp; Time - dd/mm/yyyy at 3PM"
-                        type="text"
-                        id="Date-2"
-                        required=""
-                      /><select
-                        id="Doctor"
-                        name="Doctor"
-                        data-name="Doctor"
-                        required=""
-                        class="text-field w-select"
-                      >
-                        <option value="">Prefered Doctor...</option>
-                        <option value="1">Dr. Jessica Doe</option>
-                        <option value="2">Dr. William Doe</option>
-                        <option value="3">Dr. Jack Doe</option>
-                        <option value="4">Dr. Peter Doe</option>
-                        <option value="5">Dr. Robert Doe</option>
-                        <option value="6">Dr. Arthur Doe</option></select
-                      ><textarea
-                        id="Additional-Infomation-2"
-                        name="Additional-Infomation-2"
-                        placeholder="Additional Information (optional)"
-                        maxlength="5000"
-                        data-name="Additional Infomation 2"
-                        class="text-field textarea w-input"
-                      ></textarea
-                      ><input
-                        type="submit"
-                        data-wait="Please wait..."
-                        class="button full-width w-button"
-                        value="Submit"
-                      />
-                    </form>
-                    <div class="w-form-done">
-                      <div>Thank you! Your submission has been received!</div>
-                    </div>
-                    <div class="w-form-fail">
-                      <div>
-                        Oops! Something went wrong while submitting the form
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- NAVBAR (kept; minor icons retained) -->
     <div class="navbar-wrapper">
       <div class="top-info-bar">
@@ -224,82 +105,13 @@
               style="width: 80px; height: auto; margin-bottom: 4px"
             /></a>
         <nav role="navigation" class="nav-menu w-nav-menu">
-    <a href="/" aria-current="page" class="nav-link w-nav-link w--current">Home</a>
+    <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
     <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
-    <a href="/news" class="nav-link w-nav-link">My Prescriptions</a>
-
-    <div data-delay="0" data-hover="false" class="w-dropdown">
-              <div class="nav-link w-dropdown-toggle">
-                <div>departments</div>
-               <i class="fa-solid fa-chevron-down"></i>
-              </div>
-              <nav class="dropdown-list w-dropdown-list">
-                <div class="w-dyn-list">
-                  <div role="list" class="w-dyn-items">
-                    <div role="listitem" class="w-dyn-item">
-                      <a
-                        href="/departments/neurology"
-                        class="dropdown-link w-dropdown-link"
-                        >Doctors</a
-                      >
-                    </div>
-                    <div role="listitem" class="w-dyn-item">
-                      <a
-                        href="/departments/cardiology"
-                        class="dropdown-link w-dropdown-link"
-                        >Pharmacy</a
-                      >
-                    </div>
-                    <div role="listitem" class="w-dyn-item">
-                      <a
-                        href="/departments/dental-care"
-                        class="dropdown-link w-dropdown-link"
-                        >Patients</a
-                      >
-                    </div>
-                    <div role="listitem" class="w-dyn-item">
-                      <a
-                        href="/departments/traumatology"
-                        class="dropdown-link w-dropdown-link"
-                        >Administration</a>
-                    </div>
-                    <div role="listitem" class="w-dyn-item">
-                      <a
-                        href="/departments/eye-care"
-                        class="dropdown-link w-dropdown-link"
-                        >Insurance</a
-                      >
-                    </div>
-                    <div role="listitem" class="w-dyn-item">
-                      <a
-                        href="/departments/accident-and-emergency-ae"
-                        class="dropdown-link w-dropdown-link"
-                        >Integrations</a
-                      >
-                    </div>
-                  </div>
-                </div>
-              </nav>
-            </div>
-            <div data-delay="0" data-hover="false" class="w-dropdown">
-              <div class="nav-link w-dropdown-toggle">
-                <div>information</div>
-               <i class="fa-solid fa-chevron-down"></i>
-              </div>
-              <nav class="dropdown-list w-dropdown-list">
-                <a href="./about-us.html" class="dropdown-link w-dropdown-link"
-                  >about us</a
-                ><a href="./doctors.html" class="dropdown-link w-dropdown-link"
-                  >Doctors</a
-                ><a href="/pricing" class="dropdown-link w-dropdown-link"
-                  >pricing packages</a
-                ><a href="./FAQs.html" class="dropdown-link w-dropdown-link">FAQs</a>
-              </nav>
-            </div>
-
-    <a href="./contact-us.html" class="nav-link w-nav-link">Contact</a>
-
-    <a href="#" class="button appointment-button w-button">Appointment</a>
+    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
+    <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
+    <a href="./patient-history.html" class="nav-link w-nav-link">Patient history</a>
+    <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a>
+   
   </nav>
 
           <div class="menu-button w-nav-button">
@@ -335,85 +147,18 @@
               style="width: 120px; height: auto; margin-bottom: 4px"
             /></a>
         <nav role="navigation" class="nav-menu w-nav-menu">
-    <a href="/" aria-current="page" class="nav-link w-nav-link w--current">Home</a>
+   <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
     <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
-    <a href="/news" class="nav-link w-nav-link">My Prescriptions</a>
-
-     <div data-delay="0" data-hover="false" class="w-dropdown">
-              <div class="nav-link w-dropdown-toggle">
-                <div>departments</div>
-               <i class="fa-solid fa-chevron-down"></i>
-              </div>
-              <nav class="dropdown-list w-dropdown-list">
-                <div class="w-dyn-list">
-                  <div role="list" class="w-dyn-items">
-                    <div role="listitem" class="w-dyn-item">
-                      <a
-                        href="/departments/neurology"
-                        class="dropdown-link w-dropdown-link"
-                        >Doctors</a
-                      >
-                    </div>
-                    <div role="listitem" class="w-dyn-item">
-                      <a
-                        href="/departments/cardiology"
-                        class="dropdown-link w-dropdown-link"
-                        >Pharmacy</a
-                      >
-                    </div>
-                    <div role="listitem" class="w-dyn-item">
-                      <a
-                        href="/departments/dental-care"
-                        class="dropdown-link w-dropdown-link"
-                        >Patients</a
-                      >
-                    </div>
-                    <div role="listitem" class="w-dyn-item">
-                      <a
-                        href="/departments/traumatology"
-                        class="dropdown-link w-dropdown-link"
-                        >Administration</a>
-                    </div>
-                    <div role="listitem" class="w-dyn-item">
-                      <a
-                        href="/departments/eye-care"
-                        class="dropdown-link w-dropdown-link"
-                        >Insurance</a
-                      >
-                    </div>
-                    <div role="listitem" class="w-dyn-item">
-                      <a
-                        href="/departments/accident-and-emergency-ae"
-                        class="dropdown-link w-dropdown-link"
-                        >Integrations</a
-                      >
-                    </div>
-                  </div>
-                </div>
-              </nav>
-            </div>
-            <div data-delay="0" data-hover="false" class="w-dropdown">
-              <div class="nav-link w-dropdown-toggle">
-                <div>information</div>
-               <i class="fa-solid fa-chevron-down"></i>
-              </div>
-              <nav class="dropdown-list w-dropdown-list">
-                <a href="./about-us.html" class="dropdown-link w-dropdown-link"
-                  >about us</a
-                ><a href="./doctors.html" class="dropdown-link w-dropdown-link"
-                  >Doctors</a
-                ><a href="/pricing" class="dropdown-link w-dropdown-link"
-                  >pricing packages</a
-                ><a href="./FAQs.html" class="dropdown-link w-dropdown-link">FAQs</a>
-              </nav>
-            </div>
-
-    <a href="./contact-us.html" class="nav-link w-nav-link">Contact</a>
+    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
+    <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
+    <a href="./patient-history.html" class="nav-link w-nav-link">Patient history</a>
+    <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a>
 
   </nav>
       
       </div>
     </div>
+
     <!-- HEADER -->
     <div class="page-banner">
       <div class="page-banner-container w-container">
@@ -585,7 +330,7 @@
     </div>
 
     <!-- FOOTER -->
-    <div class="footer">
+   <div class="footer">
       <div class="w-container">
         <div class="emergency-wrapper">
           <img
@@ -620,12 +365,12 @@
                 <h4 class="footer-title">Navigation</h4>
                 <div class="footer-line"></div>
               </div>
-              <a href="./about-us.html" class="footer-link">About us</a>
-              <a href="./doctors.html" class="footer-link">Our doctors</a>
-              <a href="./services.html" class="footer-link">Services</a>
+                <a href="./about-us.html" class="footer-link">Who we are</a>
+              <a href="./dr-form.html" class="footer-link">E-prescription</a>
+              <a href="./prescriptions.html" class="footer-link">My prescription</a>
+              <a href="./doctors.html" class="footer-link">Doctors</a>
+              <a href="./patient-history.html" class="footer-link">Patient history</a>
               <a href="./FAQs.html" class="footer-link">FAQs</a>
-              <a href="/news" class="footer-link">News</a>
-              <a href="./contact-us.html" class="footer-link">Contact</a>
             </div>
           </div>
           <div class="_17-percent-column next">
@@ -746,12 +491,12 @@
                 <h4 class="footer-title">Navigation</h4>
                 <div class="footer-line"></div>
               </div>
-              <a href="./about-us.html" class="footer-link">About us</a>
-              <a href="./doctors.html" class="footer-link">Our doctors</a>
-              <a href="./services.html" class="footer-link">Services</a>
+               <a href="./about-us.html" class="footer-link">Who we are</a>
+              <a href="./dr-form.html" class="footer-link">E-prescription</a>
+              <a href="./prescriptions.html" class="footer-link">My prescription</a>
+              <a href="./doctors.html" class="footer-link">Doctors</a>
+              <a href="./patient-history.html" class="footer-link">Patient history</a>
               <a href="./FAQs.html" class="footer-link">FAQs</a>
-              <a href="/news" class="footer-link">News</a>
-              <a href="./contact-us.html" class="footer-link">Contact us</a>
             </div>
           </div>
 
