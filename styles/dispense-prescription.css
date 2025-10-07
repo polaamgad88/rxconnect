@@ -1,0 +1,87 @@
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  height: 100%;
+  background: linear-gradient(90deg, #5a3bf7, #2da8ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dispense-section {
+  text-align: center;
+  color: white;
+  max-width: 600px;
+  padding: 40px 20px;
+}
+
+.content h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.content p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #f0f0f0;
+  margin-bottom: 30px;
+}
+
+.form-card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: left;
+}
+
+label {
+  font-size: 0.9rem;
+  color: #333;
+  font-weight: 600;
+}
+
+input,
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dob-group {
+  display: flex;
+  gap: 10px;
+}
+
+.dob-group input {
+  flex: 1;
+  text-align: center;
+}
+
+button {
+  background-color: #0066ff;
+  color: white;
+  border: none;
+  padding: 12px 0;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #0052cc;
+}

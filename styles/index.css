@@ -1,8 +1,4 @@
-/* Generated on: Thu Jul 09 2020 09:28:13 GMT+0000 (Coordinated Universal Time) */
-/* ==========================================================================
-   normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css 
-   ========================================================================== */
-/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -4573,7 +4569,7 @@ html.w-mod-js *[data-ix="display-scroll-navbar"] {
     color: #00baff;
   }
   .menu-button.w--open {
-    background-color: #00baff;
+    background-color: white;
   }
   .department-item {
     width: 33%;
@@ -5006,3 +5002,130 @@ html.w-mod-js *[data-ix="display-scroll-navbar"] {
   flex-shrink: 0; 
 }
 
+/* --- Layout base tweaks --- */
+.navbar .navbar-container,
+.navbar-scroll .nav-scroll-container {
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+}
+.nav-menu.w-nav-menu {
+  display:flex; align-items:center; gap:18px;
+}
+.nav-link.w-nav-link { white-space:nowrap; }
+
+/* Top info bar: keep tidy on big screens */
+.top-info-bar-container.w-container {
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+}
+.info-blocks-wrapper { display:flex; gap:24px; }
+
+/* --- Tablet & Mobile --- */
+@media (max-width: 991px) {
+  /* Top info bar stacks */
+  .top-info-bar-container.w-container {
+    flex-wrap:wrap; gap:10px; padding:8px 12px;
+  }
+  .brand.w-nav-brand img { max-height:56px; height:auto; width:auto; }
+
+  /* Menu button visible */
+.menu-button.w-nav-button {
+  display: block !important;
+  z-index: 9999;
+  position: relative;
+  color: #000; 
+  font-size: 24px;
+}
+
+  /* Drawer base (hidden by default) */
+  .nav-menu.w-nav-menu {
+    position:fixed; top:0; right:0;
+    width:80%; max-width:340px; height:100vh;
+    background:#fff; box-shadow:-2px 0 18px rgba(0,0,0,.1);
+    flex-direction:column; align-items:stretch;
+    padding:16px 12px; gap:8px;
+    transform:translateX(100%); transition:transform .25s ease;
+    z-index:1002;
+  }
+  .nav-link.w-nav-link {
+    padding:12px 10px; border-bottom:1px solid #eee; color:#0b2a59;
+  }
+
+  /* Dark overlay for drawer */
+  .nav-overlay {
+    position:fixed; inset:0; background:rgba(0,0,0,.4);
+    opacity:0; pointer-events:none; transition:opacity .2s ease;
+    z-index:1001;
+  }
+
+  /* Open state (applied to .navbar or .navbar-scroll) */
+  .navbar.is-open .nav-menu.w-nav-menu,
+  .navbar-scroll.is-open .nav-menu.w-nav-menu { transform:translateX(0); }
+  .navbar.is-open .nav-overlay,
+  .navbar-scroll.is-open .nav-overlay { opacity:1; pointer-events:auto; }
+
+  /* Keep logos sane */
+  .navbar .brand.w-nav-brand img,
+  .navbar-scroll .brand.w-nav-brand img { width:auto; height:56px; }
+}
+
+@media (max-width: 767px) {
+  .info-blocks-wrapper { flex-wrap:wrap; gap:12px; }
+  .top-info-block { display:flex; align-items:center; gap:8px; }
+  .top-info-content .contact-link { display:inline-block; margin-right:8px; }
+}
+
+/* Small phones polish */
+@media (max-width: 420px) {
+  .nav-menu.w-nav-menu { width:86%; max-width:unset; }
+}
+.menu-button i.fa-bars {
+  font-size: 22px;
+  color: white;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.menu-button.w-nav-button i {
+  color: #0077b5 !important;
+  font-size: 26px;
+}
+/* === الموبايل فقط === */
+@media (max-width: 991px) {
+  .w-nav-menu {
+    display: none;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.4s ease;
+    flex-direction: column; /* خلي العناصر تحت بعض */
+    align-items: center; /* خليها في النص */
+    gap: 20px; /* مسافة بين العناصر */
+  }
+
+  .w-nav-menu.open {
+    display: flex; /* خليها flex لما تتفتح */
+    opacity: 1;
+    transform: translateY(0);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #fff;
+    z-index: 9999;
+    padding-top: 100px;
+  }
+
+  .w-nav-menu a {
+    color: #0a3a6b;
+    font-size: 18px;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .w-nav-menu a:hover {
+    color: #007bff;
+  }
+
+  .menu-button {
+    z-index: 10000;
+  }
+}

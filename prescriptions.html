@@ -72,12 +72,88 @@
     .rx-items { width:100%; border-collapse:collapse; margin-top:8px; }
     .rx-items th, .rx-items td { border:1px solid #e5e7eb; padding:8px 10px; }
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
-  </style>
+  /* Base reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.menu-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #00aaff;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.menu-btn img {
+  width: 28px;
+  height: 28px;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: #fff;
+  overflow: hidden;
+  transition: height 0.4s ease;
+  z-index: 1000;
+}
+
+.mobile-menu.open {
+  height: 60vh;
+}
+
+.mobile-menu ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  height: 100%;
+}
+
+.mobile-menu a {
+  text-decoration: none;
+  color: #0b214a;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #00aaff;
+  color: white;
+  border: none;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.menu-button {
+  z-index: 999999 !important;
+}
+</style>
 </head>
 <body>
 
-  <!-- NAVBAR (kept; minor icons retained) -->
-    <div class="navbar-wrapper">
+ <div class="navbar-wrapper">
       <div class="top-info-bar">
         <div class="top-info-bar-container w-container">
           <a
@@ -125,9 +201,9 @@
         <div class="navbar-container w-container">
           <a href="/" class="brand w-hidden-main w-nav-brand"
             ><img
-              src="./assets/logo.jpg"
+              src="./assets/rxconnect.png"
               alt="logo"
-              style="width: 80px; height: auto; margin-bottom: 4px"
+              style="width: 140px; height: auto;"
             /></a>
         <nav role="navigation" class="nav-menu w-nav-menu">
     <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
@@ -139,11 +215,12 @@
    
   </nav>
 
-          <div class="menu-button w-nav-button">
-            <div class="w-icon-nav-menu"></div>
+          <div id="menu-btn" class="menu-button w-nav-button">
+            <i class="fa-solid fa-bars" id="menu-icon"></i>
           </div>
-          
         </div>
+
+
       </div>
     </div>
 
@@ -762,5 +839,42 @@
     // Initial render
     renderRows(RX);
   </script>
+   <!-- JS -->
+      <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuButton = document.querySelector(".menu-button");
+    const navMenu = document.querySelector(".w-nav-menu");
+    const icon = menuButton.querySelector("i");
+
+    menuButton.addEventListener("click", function () {
+      navMenu.classList.toggle("open");
+
+      icon.classList.toggle("fa-bars");
+      icon.classList.toggle("fa-xmark");
+
+      if (navMenu.classList.contains("open")) {
+        navMenu.style.display = "block";
+        setTimeout(() => navMenu.style.opacity = "1", 10);
+      } else {
+        navMenu.style.opacity = "0";
+        setTimeout(() => navMenu.style.display = "none", 400);
+      }
+    });
+
+    const links = navMenu.querySelectorAll("a");
+    links.forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("open");
+        icon.classList.add("fa-bars");
+        icon.classList.remove("fa-xmark");
+        navMenu.style.opacity = "0";
+        setTimeout(() => navMenu.style.display = "none", 400);
+      });
+    });
+  });
+</script>
+
+
+  <script src="./scripts/index.js"></script>
 </body>
 </html>

@@ -13,6 +13,11 @@
     <meta content="FAQs" property="twitter:title" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="Webflow" name="generator" />
+     <link
+      href="./styles/index.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <link
       href="./styles/FAQs.css"
       rel="stylesheet"
@@ -64,129 +69,88 @@
       href="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/589b0ba5dbf0b97f5096c916_pharmacy-symbol-darker.png"
       rel="apple-touch-icon"
     />
+    <style>
+        /* Base reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.menu-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #00aaff;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.menu-btn img {
+  width: 28px;
+  height: 28px;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: #fff;
+  overflow: hidden;
+  transition: height 0.4s ease;
+  z-index: 1000;
+}
+
+.mobile-menu.open {
+  height: 60vh;
+}
+
+.mobile-menu ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  height: 100%;
+}
+
+.mobile-menu a {
+  text-decoration: none;
+  color: #0b214a;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #00aaff;
+  color: white;
+  border: none;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+    </style>
   </head>
   <body>
-    <!-- Appointment modal (unchanged) -->
-    <div data-ix="appointment-height-0px" id="Appointment" class="appointment">
-      <div class="appointment-container w-container">
-        <div class="w-row">
-          <div class="doctor-item w-col w-col-6">
-            <img
-              src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57d85693e349f9f8405584fc_doctorek.jpg"
-              alt=""
-              class="w-hidden-small w-hidden-tiny"
-            />
-          </div>
-          <div class="w-col w-col-6">
-            <div class="appointment-wrapper">
-              <div data-ix="close-modal" class="close-modal"></div>
-              <div>
-                <h3>appointment form</h3>
-                <div class="underline no-center"></div>
-              </div>
-              <div class="top-margin">
-                <div class="form-wrapper">
-                  <div class="w-form">
-                    <form
-                      id="email-form"
-                      name="email-form"
-                      data-name="Email Form"
-                      method="get"
-                      class="w-clearfix"
-                      data-wf-page-id="57c55b6ef6306d483a15bdc1"
-                      data-wf-element-id="1a1c6777-0d79-6cba-ea5a-f1c3bf93a190"
-                    >
-                      <input
-                        class="text-field name w-input"
-                        maxlength="256"
-                        name="First-Name-2"
-                        data-name="First Name 2"
-                        placeholder="First Name"
-                        type="text"
-                        id="First-Name-2"
-                      /><input
-                        class="text-field last-name w-input"
-                        maxlength="256"
-                        name="Last-Name-2"
-                        data-name="Last Name 2"
-                        placeholder="Last Name"
-                        type="text"
-                        id="Last-Name-2"
-                      /><input
-                        class="text-field email w-input"
-                        maxlength="256"
-                        name="email-2"
-                        data-name="Email 2"
-                        placeholder="Your Email"
-                        type="email"
-                        id="email-2"
-                        required=""
-                      /><input
-                        class="text-field phone w-input"
-                        maxlength="256"
-                        name="Phone-2"
-                        data-name="Phone 2"
-                        placeholder="Phone Number"
-                        type="text"
-                        id="Phone-2"
-                        required=""
-                      /><input
-                        class="text-field date w-input"
-                        maxlength="256"
-                        name="Date-2"
-                        data-name="Date 2"
-                        placeholder="Date &amp; Time - dd/mm/yyyy at 3PM"
-                        type="text"
-                        id="Date-2"
-                        required=""
-                      /><select
-                        id="Doctor"
-                        name="Doctor"
-                        data-name="Doctor"
-                        required=""
-                        class="text-field w-select"
-                      >
-                        <option value="">Prefered Doctor...</option>
-                        <option value="1">Dr. Jessica Doe</option>
-                        <option value="2">Dr. William Doe</option>
-                        <option value="3">Dr. Jack Doe</option>
-                        <option value="4">Dr. Peter Doe</option>
-                        <option value="5">Dr. Robert Doe</option>
-                        <option value="6">Dr. Arthur Doe</option></select
-                      ><textarea
-                        id="Additional-Infomation-2"
-                        name="Additional-Infomation-2"
-                        placeholder="Additional Information (optional)"
-                        maxlength="5000"
-                        data-name="Additional Infomation 2"
-                        class="text-field textarea w-input"
-                      ></textarea
-                      ><input
-                        type="submit"
-                        data-wait="Please wait..."
-                        class="button full-width w-button"
-                        value="Submit"
-                      />
-                    </form>
-                    <div class="w-form-done">
-                      <div>Thank you! Your submission has been received!</div>
-                    </div>
-                    <div class="w-form-fail">
-                      <div>
-                        Oops! Something went wrong while submitting the form
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-     <!-- NAVBAR (kept; minor icons retained) -->
-    <div class="navbar-wrapper">
+   
+    <!-- NAVBAR (kept; minor icons retained) -->
+ <div class="navbar-wrapper">
       <div class="top-info-bar">
         <div class="top-info-bar-container w-container">
           <a
@@ -234,9 +198,9 @@
         <div class="navbar-container w-container">
           <a href="/" class="brand w-hidden-main w-nav-brand"
             ><img
-              src="./assets/logo.jpg"
+              src="./assets/rxconnect.png"
               alt="logo"
-              style="width: 80px; height: auto; margin-bottom: 4px"
+              style="width: 140px; height: auto;"
             /></a>
         <nav role="navigation" class="nav-menu w-nav-menu">
     <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
@@ -248,11 +212,12 @@
    
   </nav>
 
-          <div class="menu-button w-nav-button">
-            <div class="w-icon-nav-menu"></div>
+          <div id="menu-btn" class="menu-button w-nav-button">
+            <i class="fa-solid fa-bars" id="menu-icon"></i>
           </div>
-          
         </div>
+
+
       </div>
     </div>
 
@@ -701,12 +666,43 @@
         </div>
       </div>
     </div>
-    <script
-      src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=57c55b6ef6306d483a15bdc0"
-      type="text/javascript"
-      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-      crossorigin="anonymous"
-    ></script>
+     <!-- JS -->
+   <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuButton = document.querySelector(".menu-button");
+    const navMenu = document.querySelector(".w-nav-menu");
+    const icon = menuButton.querySelector("i");
+
+    menuButton.addEventListener("click", function () {
+      navMenu.classList.toggle("open");
+
+      icon.classList.toggle("fa-bars");
+      icon.classList.toggle("fa-xmark");
+
+      if (navMenu.classList.contains("open")) {
+        navMenu.style.display = "block";
+        setTimeout(() => navMenu.style.opacity = "1", 10);
+      } else {
+        navMenu.style.opacity = "0";
+        setTimeout(() => navMenu.style.display = "none", 400);
+      }
+    });
+
+    const links = navMenu.querySelectorAll("a");
+    links.forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("open");
+        icon.classList.add("fa-bars");
+        icon.classList.remove("fa-xmark");
+        navMenu.style.opacity = "0";
+        setTimeout(() => navMenu.style.display = "none", 400);
+      });
+    });
+  });
+</script>
+
+
+  
     <script
       src="./scripts/FAQs.js"
       type="text/javascript"
