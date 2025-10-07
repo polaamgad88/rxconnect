@@ -1,8 +1,4 @@
-/* Generated on: Thu Jul 09 2020 09:28:13 GMT+0000 (Coordinated Universal Time) */
-/* ==========================================================================
-   normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css 
-   ========================================================================== */
-/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -4851,7 +4847,7 @@ html.w-mod-js *[data-ix="display-scroll-navbar"] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #f8fcff; /* نفس الخلفية الفاتحة */
+  background: #f8fcff; 
   border-radius: 8px;
   padding: 15px 20px;
   box-shadow: 0 2px 10px rgba(0, 138, 255, 0.05);
