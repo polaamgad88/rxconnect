@@ -65,7 +65,7 @@
         padding: 0;
         font-family: "Poppins", sans-serif;
         height: 100%;
-        background: linear-gradient(90deg, #1d097f, #2da8ff);
+        background: linear-gradient(90deg, #00baff, #2da8ff);
       }
 
       .dispense-section {
@@ -76,8 +76,8 @@
         text-align: center;
         color: white;
         min-height: calc(100vh - 300px);
-        padding: 60px 20px;
-        background: linear-gradient(90deg, #160a4e, #034f85);
+        padding: 40px 20px;
+        background: linear-gradient(180deg, #ebeced, #00baff);
       }
 
       .dispense-section .content {
@@ -94,7 +94,7 @@
       .content p {
         font-size: 0.95rem;
         line-height: 1.6;
-        color: #ccc;
+        color: #616161;
         margin-bottom: 30px;
       }
 
@@ -140,7 +140,7 @@
       }
 
       button {
-        background-color: #0066ff;
+        background-color: green;
         color: white;
         border: none;
         padding: 12px 0;
@@ -152,7 +152,7 @@
       }
 
       button:hover {
-        background-color: #0052cc;
+        background-color: green;
       }
       #pharmacy option {
         color: black;
@@ -190,7 +190,7 @@
       }
 
       .button.full-width.w-button {
-        background-color: #0066ff;
+        background-color: green;
         color: #fff;
         border: none;
         padding: 12px 0;
@@ -202,7 +202,90 @@
       }
 
       .button.full-width.w-button:hover {
-        background-color: #0052cc;
+        background-color: green;
+      }
+      .rx-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+      .rx-modal-overlay.is-open {
+        display: flex;
+      }
+      .rx-modal {
+        width: min(640px, 92vw);
+        max-height: 86vh;
+        overflow: auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+      }
+      .rx-h {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        padding: 16px 18px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      }
+      .rx-av {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        flex: 0 0 auto;
+      }
+      .rx-t {
+        margin: 0;
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .rx-s {
+        margin-top: 2px;
+        color: #666;
+        font-size: 13px;
+      }
+      .rx-b {
+        padding: 16px 18px;
+      }
+      .rx-meta {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 8px 16px;
+        font-size: 14px;
+      }
+      .rx-meta dt {
+        color: #666;
+      }
+      .rx-meta dd {
+        margin: 0;
+        color: #222;
+      }
+      .rx-f {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        padding: 12px 18px 18px;
+      }
+      .rx-btn {
+        border: 0;
+        border-radius: 8px;
+        background: #f3f5f7;
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+      .rx-btn.p {
+        background: #20baf8;
+        color: #fff;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .rx-modal {
+          transition: none;
+        }
       }
     </style>
   </head>
@@ -326,200 +409,36 @@
       </div>
     </div>
 
-    <!-- NAVBAR (kept; minor icons retained) -->
-    <div class="navbar-wrapper">
-      <div class="top-info-bar">
-        <div class="top-info-bar-container w-container">
-          <a
-            href="/"
-            class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand"
-            ><img
-              src="./assets/rxconnect.png"
-              alt="logo"
-              style="width: 120px; height: auto; margin-bottom: 4px"
-            /></a>
-          <div class="info-bar w-clearfix">
-            <div class="info-blocks-wrapper w-clearfix">
-              <div class="top-info-block no-right-border w-clearfix">
-                <div class="top-info-icon"></div>
-                <div class="top-info-content">
-                  <a href="tel:+44 20 7123 4567" class="contact-link"
-                    >+44 20 7123 4567</a
-                  ><a href="tel:+44 7712 345678" class="contact-link"
-                    >+44 7712 345678</a
-                  >
-                </div>
-              </div>
-              <div class="top-info-block w-clearfix">
-                <div class="top-info-icon _2"></div>
-                <div class="top-info-content">
-                  <a data-ix="popup-modal-show" href="#" class="contact-link"
-                    >M5 3AB<br />
-                   Church Road, Salford, Manchester</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        data-collapse="medium"
-        data-animation="default"
-        data-duration="400"
-        data-easing="ease"
-        data-easing2="ease"
-        role="banner"
-        class="navbar w-nav"
-      >
-        <div class="navbar-container w-container">
-          <a href="/" class="brand w-hidden-main w-nav-brand"
-            ><img
-              src="./assets/rxconnect.png"
-              alt="logo"
-              style="width: 140px; height: auto;"
-            /></a>
-        <nav role="navigation" class="nav-menu w-nav-menu">
-    <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
-    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
-    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
-    <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
-    <a href="./patient-history.html" class="nav-link w-nav-link">Patient history</a>
-    <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a>
-   
-  </nav>
+   <div id="navbar-placeholder"></div>
+<script>
+  (function loadNavbar(){
+    fetch('/partials/navbar.html')
+      .then(r => r.ok ? r.text() : Promise.reject(r.status))
+      .then(html => {
+        document.getElementById('navbar-placeholder').innerHTML = html;
 
-          <div id="menu-btn" class="menu-button w-nav-button">
-            <i class="fa-solid fa-bars" id="menu-icon"></i>
-          </div>
-        </div>
-
-
-      </div>
-    </div>
-
-    <!-- Scroll navbar (unchanged visually) -->
-    <div
-      data-collapse="medium"
-      data-animation="default"
-      data-duration="400"
-      data-ix="display-scroll-navbar"
-      data-easing="ease"
-      data-easing2="ease"
-      role="banner"
-      class="navbar-scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav"
-    >
-      <div class="nav-scroll-container w-container">
-        <div class="menu-button scroll-menu-button w-nav-button">
-          <div class="w-icon-nav-menu"></div>
-        </div>
-          <a
-          href="/"
-          aria-current="page"
-          class="brand scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand w--current"
-          > <img
-              src="./assets/rxconnect.png"
-              alt="logo"
-              style="width: 120px; height: auto; margin-bottom: 4px"
-            /></a>
-        <nav role="navigation" class="nav-menu w-nav-menu">
-   <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
-    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
-    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
-    <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
-    <a href="./patient-history.html" class="nav-link w-nav-link">Patient history</a>
-    <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a>
-
-  </nav>
-      
-      </div>
-    </div>
-
-    <!-- Lightweight modal (added once) -->
-    <style>
-      .rx-modal-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.45);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-      }
-      .rx-modal-overlay.is-open {
-        display: flex;
-      }
-      .rx-modal {
-        width: min(640px, 92vw);
-        max-height: 86vh;
-        overflow: auto;
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
-      }
-      .rx-h {
-        display: flex;
-        gap: 14px;
-        align-items: center;
-        padding: 16px 18px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-      }
-      .rx-av {
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        background-size: cover;
-        background-position: center;
-        flex: 0 0 auto;
-      }
-      .rx-t {
-        margin: 0;
-        font-weight: 700;
-        font-size: 18px;
-      }
-      .rx-s {
-        margin-top: 2px;
-        color: #666;
-        font-size: 13px;
-      }
-      .rx-b {
-        padding: 16px 18px;
-      }
-      .rx-meta {
-        display: grid;
-        grid-template-columns: 150px 1fr;
-        gap: 8px 16px;
-        font-size: 14px;
-      }
-      .rx-meta dt {
-        color: #666;
-      }
-      .rx-meta dd {
-        margin: 0;
-        color: #222;
-      }
-      .rx-f {
-        display: flex;
-        gap: 10px;
-        justify-content: flex-end;
-        padding: 12px 18px 18px;
-      }
-      .rx-btn {
-        border: 0;
-        border-radius: 8px;
-        background: #f3f5f7;
-        padding: 8px 12px;
-        cursor: pointer;
-      }
-      .rx-btn.p {
-        background: #20baf8;
-        color: #fff;
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .rx-modal {
-          transition: none;
+        const btn = document.querySelector('#navbar-placeholder .menu-button');
+        const nav = document.querySelector('#navbar-placeholder .w-nav-menu');
+        if (btn && nav) {
+          btn.addEventListener('click', () => {
+            const open = nav.classList.toggle('open');
+            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            const i = btn.querySelector('i');
+            if (i) { i.classList.toggle('fa-bars'); i.classList.toggle('fa-xmark'); }
+          });
         }
-      }
-    </style>
+
+        // set active link based on current path (optional)
+        document.querySelectorAll('#navbar-placeholder .w-nav-menu a').forEach(a=>{
+          if (location.pathname.endsWith(a.getAttribute('href'))) a.classList.add('active');
+        });
+      })
+      .catch(err => {
+        console.error('Failed to load navbar partial:', err);
+      });
+  })();
+</script>
+    
     <section class="dispense-section">
       <div class="content">
         <h1>Dispense Prescription</h1>
