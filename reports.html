@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<!-- This site was created in Webflow. https://webflow.com --><!-- Last Published: Thu Jul 09 2020 09:28:19 GMT+0000 (Coordinated Universal Time) -->
+<html
+  data-wf-domain="medicare-template.webflow.io"
+  data-wf-page="57c55b6ef6306d483a15bdc1"
+  data-wf-site="57c55b6ef6306d483a15bdc0"
+  data-wf-status="1"
+>
+  <head>
+    <meta charset="utf-8" />
+    <title>RxConnect</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="Webflow" name="generator" />
+    <link href="./styles/index.css" rel="stylesheet" type="text/css" />
+    <link href="./styles/reports.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link
+      href="https://fonts.gstatic.com"
+      rel="preconnect"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
+      type="text/javascript"
+    ></script>
+    <script type="text/javascript">
+      WebFont.load({
+        google: {
+          families: [
+            "Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic",
+            "Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic",
+            "Source Sans Pro:regular,700",
+          ],
+        },
+      });
+    </script>
+    <script type="text/javascript">
+      !(function (o, c) {
+        var n = c.documentElement,
+          t = " w-mod-";
+        (n.className += t + "js"),
+          ("ontouchstart" in o ||
+            (o.DocumentTouch && c instanceof DocumentTouch)) &&
+            (n.className += t + "touch");
+      })(window, document);
+    </script>
+    <link
+      href="./assets/favicon.png  "
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+    <link
+      href="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/589b0ba5dbf0b97f5096c916_pharmacy-symbol-darker.png"
+      rel="apple-touch-icon"
+    />
+    <style>
+      .btn-dispense {
+        background-color: green;
+        color: #fff !important;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin: 10px;
+      }
+
+      .btn-dispense:hover {
+        background-color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar-wrapper">
+      <div class="top-info-bar">
+        <div class="top-info-bar-container w-container">
+          <a
+            href="/"
+            class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand"
+            ><img
+              src="./assets/rxconnect.png"
+              alt="logo"
+              style="width: 120px; height: auto; margin-bottom: 4px"
+          /></a>
+          <div class="info-bar w-clearfix">
+            <div class="info-blocks-wrapper w-clearfix">
+              <div class="top-info-block no-right-border w-clearfix">
+                <div class="top-info-icon"></div>
+                <div class="top-info-content">
+                  <a href="tel:+44 20 7123 4567" class="contact-link"
+                    >+44 20 7123 4567</a
+                  ><a href="tel:+44 7712 345678" class="contact-link"
+                    >+44 7712 345678</a
+                  >
+                </div>
+              </div>
+              <div class="top-info-block w-clearfix">
+                <div class="top-info-icon _2"></div>
+                <div class="top-info-content">
+                  <a data-ix="popup-modal-show" href="#" class="contact-link"
+                    >M5 3AB<br />
+                    Church Road, Salford, Manchester</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        data-collapse="medium"
+        data-animation="default"
+        data-duration="400"
+        data-easing="ease"
+        data-easing2="ease"
+        role="banner"
+        class="navbar w-nav"
+      >
+        <div class="navbar-container w-container">
+          <a href="/" class="brand w-hidden-main w-nav-brand"
+            ><img
+              src="./assets/rxconnect.png"
+              alt="logo"
+              style="width: 140px; height: auto"
+          /></a>
+          <nav role="navigation" class="nav-menu w-nav-menu">
+            <a
+              href="./about-us.html"
+              aria-current="page"
+              class="nav-link w-nav-link w--current"
+              >Who we are</a
+            >
+            <a href="./dr-form.html" class="nav-link w-nav-link"
+              >E-Prescriptions</a
+            >
+            <a href="./prescriptions.html" class="nav-link w-nav-link"
+              >My Prescriptions</a
+            >
+            <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
+            <a href="./patient-history.html" class="nav-link w-nav-link"
+              >Patient history</a
+            >
+            <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a>
+            <a href="./billing.html" class="nav-link w-nav-link">Billing</a>
+            <a href="./reports.html" class="nav-link w-nav-link">Reports</a>
+
+            <a
+              href="./dispense-prescription.html"
+              class="nav-link w-nav-link btn-dispense"
+            >
+              Dispense Prescription
+            </a>
+          </nav>
+
+          <div id="menu-btn" class="menu-button w-nav-button">
+            <i class="fa-solid fa-bars" id="menu-icon"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll navbar (unchanged visually) -->
+    <div
+      data-collapse="medium"
+      data-animation="default"
+      data-duration="400"
+      data-ix="display-scroll-navbar"
+      data-easing="ease"
+      data-easing2="ease"
+      role="banner"
+      class="navbar-scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav"
+    >
+      <div class="nav-scroll-container w-container">
+        <div class="menu-button scroll-menu-button w-nav-button">
+          <div class="w-icon-nav-menu"></div>
+        </div>
+        <a
+          href="/"
+          aria-current="page"
+          class="brand scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand w--current"
+        >
+          <img
+            src="./assets/rxconnect.png"
+            alt="logo"
+            style="width: 120px; height: auto; margin-bottom: 4px"
+        /></a>
+        <nav role="navigation" class="nav-menu w-nav-menu">
+          <a
+            href="./about-us.html"
+            aria-current="page"
+            class="nav-link w-nav-link w--current"
+            >Who we are</a
+          >
+          <a href="./dr-form.html" class="nav-link w-nav-link"
+            >E-Prescriptions</a
+          >
+          <a href="./prescriptions.html" class="nav-link w-nav-link"
+            >My Prescriptions</a
+          >
+          <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
+          <a href="./patient-history.html" class="nav-link w-nav-link"
+            >Patient history</a
+          >
+          <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Reports Section -->
+<section class="reports-section">
+  <div class="reports-container">
+    <h2>Reports Overview</h2>
+
+    <div class="month-filter">
+      <label for="reportMonth">Reports for month:</label>
+      <input type="month" id="reportMonth" />
+      <button class="fetch-btn">Fetch</button>
+    </div>
+<div class="reports-grid">
+  <div class="report-card">
+    <div class="icon-wrap">
+      <i class="fa-solid fa-file-medical"></i>
+    </div>
+    <div class="report-info">
+      <h3><span class="number">0</span></h3>
+      <p>Prescriptions Signed</p>
+    </div>
+  </div>
+
+  <div class="report-card">
+    <div class="icon-wrap">
+      <i class="fa-solid fa-file-medical"></i>
+    </div>
+    <div class="report-info">
+      <h3><span class="number">0</span></h3>
+      <p>Prescriptions Voided</p>
+    </div>
+  </div>
+
+  <div class="report-card">
+    <div class="icon-wrap">
+      <i class="fa-solid fa-file-medical"></i>
+    </div>
+    <div class="report-info">
+      <h3><span class="number">0</span></h3>
+      <p>Prescriptions Dispensed</p>
+    </div>
+  </div>
+</div>
+
+
+    <div class="downloads-section">
+      <div class="download-card">
+        <h4>List of Pharmacies</h4>
+        <div class="download-actions">
+          <button class="view-btn"><i class="fa-regular fa-eye"></i> View</button>
+          <button class="download-btn"><i class="fa-solid fa-download"></i> Download</button>
+        </div>
+      </div>
+
+      <div class="download-card">
+        <h4>Prescriptions Summary</h4>
+        <div class="download-actions">
+          <button class="view-btn"><i class="fa-regular fa-eye"></i> View</button>
+          <button class="download-btn"><i class="fa-solid fa-download"></i> Download</button>
+        </div>
+      </div>
+
+      <div class="download-card">
+        <h4>Dispense Time</h4>
+        <div class="download-actions">
+          <button class="view-btn"><i class="fa-regular fa-eye"></i> View</button>
+          <button class="download-btn"><i class="fa-solid fa-download"></i> Download</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <div class="footer">
+      <div class="w-container">
+        <div class="emergency-wrapper">
+          <img
+            src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/5822042610a8d4ee31522b7d_24-hours-phone-service.png"
+            width="64"
+            alt=""
+            class="emergency-footer-icon"
+          />
+          <h4 class="white">emergency cases</h4>
+          <a href="tel:+1-600-700-6200" class="w-inline-block"
+            ><div class="emergency-number">+44 20 7123 4567</div></a
+          >
+        </div>
+        <div class="flex-box space-between">
+          <div class="_33-percent-column right-padding">
+            <img
+              src="./assets/rxconnect.png"
+              alt=""
+              class="footer-logo"
+              style="width: 160px; height: auto; margin-bottom: 2px"
+            />
+            <p class="white footer-paragraph">
+              RxConnect is an international private health care provider. We
+              have more than 20 years of experience. Our patients are provided
+              with access to comprehensive outpatient and inpatient services, as
+              well as a full range of laboratory diagnostics.
+            </p>
+          </div>
+          <div class="_17-percent-column">
+            <div>
+              <div class="footer-header-wrapper">
+                <h4 class="footer-title">Navigation</h4>
+                <div class="footer-line"></div>
+              </div>
+              <a href="./about-us.html" class="footer-link">Who we are</a>
+              <a href="./dr-form.html" class="footer-link">E-prescription</a>
+              <a href="./prescriptions.html" class="footer-link"
+                >My prescription</a
+              >
+              <a href="./doctors.html" class="footer-link">Doctors</a>
+              <a href="./patient-history.html" class="footer-link"
+                >Patient history</a
+              >
+              <a href="./FAQs.html" class="footer-link">FAQs</a>
+            </div>
+          </div>
+          <div class="_17-percent-column next">
+            <div>
+              <div class="footer-header-wrapper">
+                <h4 class="footer-title">Departments</h4>
+                <div class="footer-line"></div>
+              </div>
+              <div class="w-dyn-list">
+                <div role="list" class="w-dyn-items">
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a
+                      href="/departments/accident-and-emergency-ae"
+                      class="footer-link"
+                      >Physiotherapy</a
+                    >
+                  </div>
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a href="/departments/eye-care" class="footer-link"
+                      >Optical</a
+                    >
+                  </div>
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a href="/departments/traumatology" class="footer-link"
+                      >Dental</a
+                    >
+                  </div>
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a href="/departments/dental-care" class="footer-link"
+                      >X-Ray</a
+                    >
+                  </div>
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a href="/departments/cardiology" class="footer-link"
+                      >Cardiology</a
+                    >
+                  </div>
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a href="/departments/neurology" class="footer-link"
+                      >Neurology</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="_33-percent-column contact-footer">
+            <div>
+              <div class="footer-header-wrapper">
+                <h4 class="footer-title">Contact Us</h4>
+                <div class="footer-line"></div>
+              </div>
+              <div class="footer-contact-block">
+                <img
+                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb365745bf29a4636cc96d_marker_white.png"
+                  alt=""
+                  class="footer-contact-icon"
+                />
+                <div>
+                  <a
+                    data-ix="popup-modal-show"
+                    href="#"
+                    class="footer-link contact"
+                    >M5 3AB Church Road, Salford, Manchester</a
+                  >
+                </div>
+              </div>
+              <div class="footer-contact-block">
+                <img
+                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
+                  alt=""
+                  class="footer-contact-icon"
+                />
+                <div>
+                  <a href="mailto:" class="footer-link contact"
+                    >info@rxconnect.com</a
+                  >
+                </div>
+              </div>
+              <div class="footer-contact-block">
+                <img
+                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
+                  alt=""
+                  class="footer-contact-icon"
+                />
+                <div>
+                  <a href="tel:+61393455522" class="footer-link"
+                    >+44 7712 345678</a
+                  >
+                  <a href="tel:+61393455522" class="footer-link"
+                    >+44 20 7123 4567</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="test-row w-row">
+          <div class="footer-column w-col w-col-3">
+            <div>
+              <div class="footer-header-wrapper">
+                <h4 class="footer-title">Contact Us</h4>
+                <div class="footer-line"></div>
+              </div>
+              <div class="footer-contact-block">
+                <img
+                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb365745bf29a4636cc96d_marker_white.png"
+                  alt=""
+                  class="footer-contact-icon"
+                />
+                <div>
+                  <div class="footer-link">
+                    267 Collins St Melbourne Victoria 3000
+                  </div>
+                </div>
+              </div>
+              <div class="footer-contact-block">
+                <img
+                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
+                  alt=""
+                  class="footer-contact-icon"
+                />
+                <div>
+                  <a href="mailto:" class="footer-link contact"
+                    >info@medicare.com</a
+                  >
+                </div>
+              </div>
+              <div class="footer-contact-block">
+                <img
+                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
+                  alt=""
+                  class="footer-contact-icon"
+                />
+                <div>
+                  <a href="tel:+61393455522" class="footer-link"
+                    >03-9345-5522</a
+                  >
+                  <a href="tel:+61393455522" class="footer-link"
+                    >03-9345-4422</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-column w-col w-col-3">
+            <div>
+              <div class="footer-header-wrapper">
+                <h4 class="footer-title">Navigation</h4>
+                <div class="footer-line"></div>
+              </div>
+              <a href="./about-us.html" class="footer-link">Who we are</a>
+              <a href="./dr-form.html" class="footer-link">E-prescription</a>
+              <a href="./prescriptions.html" class="footer-link"
+                >My prescription</a
+              >
+              <a href="./doctors.html" class="footer-link">Doctors</a>
+              <a href="./patient-history.html" class="footer-link"
+                >Patient history</a
+              >
+              <a href="./FAQs.html" class="footer-link">FAQs</a>
+            </div>
+          </div>
+
+          <div class="footer-column w-col w-col-3">
+            <div>
+              <div class="footer-header-wrapper">
+                <h4 class="footer-title">Departments</h4>
+                <div class="footer-line"></div>
+              </div>
+              <div class="w-dyn-list">
+                <div role="list" class="w-dyn-items">
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a
+                      href="/departments/accident-and-emergency-ae"
+                      class="footer-link"
+                      >Physiotherapy</a
+                    >
+                  </div>
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a href="/departments/eye-care" class="footer-link"
+                      >Optical</a
+                    >
+                  </div>
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a href="/departments/traumatology" class="footer-link"
+                      >Dental
+                    </a>
+                  </div>
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a href="/departments/dental-care" class="footer-link"
+                      >X-Ray</a
+                    >
+                  </div>
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a href="/departments/cardiology" class="footer-link"
+                      >Cardiology</a
+                    >
+                  </div>
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a href="/departments/neurology" class="footer-link"
+                      >Neurology</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-column w-col w-col-3">
+            <div class="footer-header-wrapper">
+              <h4 class="footer-title">Message us</h4>
+              <div class="footer-line"></div>
+            </div>
+            <div>
+              <div class="w-form">
+                <form
+                  id="email-form-2"
+                  name="email-form-2"
+                  data-name="Email Form 2"
+                  method="get"
+                  data-wf-page-id="57c55b6ef6306d483a15bdc1"
+                  data-wf-element-id="7c121d8a-d022-a32b-02d7-eb05da342546"
+                >
+                  <input
+                    class="text-field name full-width w-input"
+                    maxlength="256"
+                    name="name"
+                    data-name="Name"
+                    placeholder="Enter your name"
+                    type="text"
+                    id="name"
+                  /><input
+                    class="text-field email full-width w-input"
+                    maxlength="256"
+                    name="email"
+                    data-name="Email 3"
+                    placeholder="Enter your email address"
+                    type="email"
+                    id="email-3"
+                    required=""
+                  /><input
+                    type="submit"
+                    data-wait="Please wait..."
+                    class="button white full-width w-button"
+                    value="Submit"
+                  />
+                </form>
+                <div class="w-form-done">
+                  <div>Thank you! Your submission has been received!</div>
+                </div>
+                <div class="w-form-fail">
+                  <div>
+                    Oops! Something went wrong while submitting the form
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-credits">
+          <div class="credits-wrapper">
+            <div class="footer-socials">
+              <a href="#" class="social-icon facebook w-inline-block"></a>
+              <a href="#" class="social-icon twitter w-inline-block"></a>
+              <a href="#" class="social-icon linkedin w-inline-block"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JS -->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuButton = document.querySelector(".menu-button");
+        const navMenu = document.querySelector(".w-nav-menu");
+        const icon = menuButton.querySelector("i");
+
+        menuButton.addEventListener("click", function () {
+          navMenu.classList.toggle("open");
+
+          icon.classList.toggle("fa-bars");
+          icon.classList.toggle("fa-xmark");
+
+          if (navMenu.classList.contains("open")) {
+            navMenu.style.display = "block";
+            setTimeout(() => (navMenu.style.opacity = "1"), 10);
+          } else {
+            navMenu.style.opacity = "0";
+            setTimeout(() => (navMenu.style.display = "none"), 400);
+          }
+        });
+
+        const links = navMenu.querySelectorAll("a");
+        links.forEach((link) => {
+          link.addEventListener("click", () => {
+            navMenu.classList.remove("open");
+            icon.classList.add("fa-bars");
+            icon.classList.remove("fa-xmark");
+            navMenu.style.opacity = "0";
+            setTimeout(() => (navMenu.style.display = "none"), 400);
+          });
+        });
+      });
+    </script>
+
+    <script src="./scripts/index.js"></script>
+  </body>
+</html>
