@@ -269,14 +269,14 @@ h3 {
 
 .token-number {
   font-size: 90px;
-  color: #407bff;
+  color: green;
   font-weight: 700;
   margin-bottom: 14px;
   line-height: 1;
 }
 
 .warning-text {
-  color: #ff5f5f;
+  color: red;
   font-size: 15px;
   font-weight: 500;
 }
@@ -335,7 +335,7 @@ h3 {
   height: 34px;
   border-radius: 50%;
   font-size: 18px;
-  color: #3759ff;
+  color: #00baff;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -358,7 +358,7 @@ h3 {
 
 /* Purchase button */
 .purchase-btn {
-  background-color: #4d7cff;
+  background-color: #00baff;
   color: #fff;
   border: none;
   padding: 12px 20px;
@@ -447,12 +447,12 @@ input:checked + .slider:before {
 }
 
 .save-btn {
-  background: #4d7cff;
+  background: #00baff;
   color: white;
 }
 
 .save-btn:hover {
-  background: #375ae0;
+  background: #00baff;
 }
 
 .manage-btn {
