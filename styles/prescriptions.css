@@ -348,3 +348,205 @@ body {
         padding: 8px 10px;
     }
 }
+/* Prescription Tracker layout */
+.prescription-page {
+    padding: 30px 16px 70px;
+    background-color: #f6f8fa;
+  }
+  
+  .prescription-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Header row */
+  .pt-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  
+  .pt-header h1 {
+    flex: 1;
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    color: #111827;
+  }
+  
+  /* Buttons */
+  .btn-primary {
+    padding: 10px 18px;
+    border-radius: 4px;
+    border: none;
+    background-color: #e6e7eb; /* blue like screenshot */
+    color: #000;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .btn-primary:hover {
+    background-color: #00baff;
+  }
+  
+  .btn-secondary {
+    padding: 10px 16px;
+    border-radius: 4px;
+    border: none;
+    background-color: #e5e7eb;
+    color: #111827;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #d1d5db;
+  }
+  
+  .btn-chip {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: none;
+    background-color: #00baff;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  /* Filters bar */
+  .pt-filters {
+    background-color: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  
+  .pt-input {
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-size: 13px;
+    outline: none;
+    background-color: #ffffff;
+  }
+  
+  .pt-input:focus {
+    border-color: #00baff;
+  }
+  
+  .pt-date-range {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .pt-date {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .pt-date i {
+    position: absolute;
+    left: 8px;
+    font-size: 13px;
+    color: #6b7280;
+  }
+  
+  .pt-date input {
+    padding-left: 26px;
+  }
+  
+  .pt-to {
+    font-size: 13px;
+    color: #6b7280;
+  }
+  
+  .pt-search {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .pt-search-btn {
+    padding: 10px 22px;
+  }
+  
+  /* Table card */
+  .pt-table-card {
+    background-color: #f3f4f6;
+    border-radius: 8px;
+    padding: 14px 0 18px;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
+  }
+  
+  .pt-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+  
+  .pt-table thead {
+    background-color: #f9fafb;
+  }
+  
+  .pt-table th,
+  .pt-table td {
+    padding: 12px 18px;
+    font-size: 13px;
+    text-align: left;
+    color: #374151;
+  }
+  
+  .pt-table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+  
+  .pt-table tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+  }
+  
+  /* Status pill */
+  .pt-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  
+  .pt-status-issued {
+    background-color: #e0f2fe;
+    color: #1d4ed8;
+  }
+  
+  /* Responsive */
+  @media (max-width: 900px) {
+    .pt-filters {
+      flex-wrap: wrap;
+    }
+    .pt-header {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .pt-header h1 {
+      text-align: left;
+    }
+  }
+  

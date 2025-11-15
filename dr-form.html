@@ -7,6 +7,8 @@
   <meta content="width=device-width, initial-scale=1" name="viewport" />
   <meta content="Webflow" name="generator" />
   <link href="./styles/index.css" rel="stylesheet" type="text/css" />
+  <link href="./styles/dr-form.css" rel="stylesheet" type="text/css" />
+
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
@@ -863,47 +865,25 @@
       }
     }
   </style>
-   <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const menuButtons = document.querySelectorAll('.menu-button');
-  menuButtons.forEach(btn => {
-    const container = btn.closest('.navbar-container') || btn.closest('.nav-scroll-container') || document;
-    const navMenu = container.querySelector('.w-nav-menu');
-    const overlay = container.querySelector('.nav-overlay');
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const addLink = document.querySelector(".js-add-patient-link");
+    const modal = document.getElementById("cnp-add-patient-modal");
+    const closeBtn = document.getElementById("cnp-add-patient-close");
 
-    if (!navMenu) return;
+    if (addLink && modal && closeBtn) {
+      addLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        modal.classList.add("open");
+      });
 
-    btn.addEventListener('click', function (e) {
-      const open = navMenu.classList.toggle('open');
-      if (overlay) overlay.classList.toggle('active', open);
-      const icon = btn.querySelector('i');
-      if (icon) {
-        icon.classList.toggle('fa-bars', !open);
-        icon.classList.toggle('fa-xmark', open);
-      }
-      // lock body scroll when open
-      document.body.style.overflow = open ? 'hidden' : '';
-    });
-
-    if (overlay) overlay.addEventListener('click', function(){ 
-      navMenu.classList.remove('open'); 
-      overlay.classList.remove('active'); 
-      document.body.style.overflow = '';
-      const icon = btn.querySelector('i');
-      if (icon) { icon.classList.add('fa-bars'); icon.classList.remove('fa-xmark'); }
-    });
-  });
-
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape') {
-      document.querySelectorAll('.w-nav-menu.open').forEach(menu => menu.classList.remove('open'));
-      document.querySelectorAll('.nav-overlay.active').forEach(ov => ov.classList.remove('active'));
-      document.body.style.overflow = '';
-      document.querySelectorAll('.menu-button i.fa-xmark').forEach(ic => { ic.classList.remove('fa-xmark'); ic.classList.add('fa-bars'); });
+      closeBtn.addEventListener("click", function () {
+        modal.classList.remove("open");
+      });
     }
   });
-});
-</script> 
+</script>
+
 
 </head>
 
@@ -985,6 +965,61 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
   </nav>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const medsBody = document.getElementById("meds-body");
+      const addMedBtn = document.getElementById("add-med-btn");
+  
+      function attachRemoveHandler(btn) {
+        btn.addEventListener("click", function () {
+          const row = btn.closest("tr");
+          if (row) row.remove();
+        });
+      }
+  
+      function createMedRow() {
+        const row = document.createElement("tr");
+        row.classList.add("med-row");
+        row.innerHTML = `
+          <td class="med-icon-cell">
+            <button type="button" class="med-remove-btn">
+              <i class="fa-regular fa-circle-minus"></i>
+            </button>
+          </td>
+          <td>
+            <div class="med-field">
+              <input type="text" class="med-input" placeholder="Item name">
+            </div>
+          </td>
+          <td>
+            <div class="med-field">
+              <input type="text" class="med-input" placeholder="Dosage Instruction">
+            </div>
+          </td>
+          <td>
+            <div class="med-field">
+              <input type="text" class="med-input med-input-qty" placeholder="Qty">
+            </div>
+          </td>
+        `;
+        attachRemoveHandler(row.querySelector(".med-remove-btn"));
+        return row;
+      }
+  
+      // Add-new handler
+      addMedBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        const newRow = createMedRow();
+        const addRow = document.getElementById("add-med-row");
+        medsBody.insertBefore(newRow, addRow);
+      });
+  
+      // Attach remove handler to initial rows
+      document.querySelectorAll(".med-remove-btn").forEach(attachRemoveHandler);
+    });
+  </script>
+  
+    
 <script>
 const reportsBtn = document.getElementById('reportsBtn');
 const reportsDropdown = document.getElementById('reportsDropdown');
@@ -1051,186 +1086,354 @@ window.addEventListener('click', function(e) {
     </div> -->
 
   <!-- PAGE CONTENT -->
-  <div class="rx-container w-container">
-    <div class="rx-card">
-      <h2>Fill Prescription</h2>
-      <div class="underline no-center"></div>
-
-      <form id="rx-form" class="w-clearfix" method="post" action="/api/prescriptions" novalidate>
-        <!-- Meta -->
-        <div class="rx-grid">
-          <div class="rx-field rx-col-4">
-            <label for="prescriptionId">Prescription ID</label>
-            <input id="prescriptionId" name="prescriptionId" class="text-field w-input" type="text" required readonly />
-            <small class="rx-muted">Auto-generated on load.</small>
-          </div>
-          <div class="rx-field rx-col-4">
-            <label for="prescribedAt">Date & Time</label>
-            <input id="prescribedAt" name="prescribedAt" class="text-field w-input" type="datetime-local" required />
-          </div>
-          <div class="rx-field rx-col-4">
-            <label for="doctorId">Doctor</label>
-            <select id="doctorId" name="doctorId" class="text-field w-select" required>
-              <option value="">Select doctor…</option>
-              <option value="dr-001">Dr. Jessica Doe</option>
-              <option value="dr-002">Dr. William Doe</option>
-              <option value="dr-003">Dr. Jack Doe</option>
-              <option value="dr-004">Dr. Peter Doe</option>
-              <option value="dr-005">Dr. Robert Doe</option>
-              <option value="dr-006">Dr. Arthur Doe</option>
-            </select>
-          </div>
-
-          <div class="rx-field rx-col-6">
-            <label for="patientId">Patient ID</label>
-            <input id="patientId" name="patientId" class="text-field w-input" type="text"
-              placeholder="e.g. PT-2025-0001" required />
-          </div>
-          <div class="rx-field rx-col-6">
-            <label for="patientName">Patient Full Name</label>
-            <input id="patientName" name="patientName" class="text-field w-input" type="text"
-              placeholder="e.g. John Smith" required />
-          </div>
-
-          <div class="rx-field rx-col-12">
-            <label for="diagnosis">Diagnosis / Notes</label>
-            <textarea id="diagnosis" name="diagnosis" class="text-field textarea w-input" rows="3"
-              placeholder="Optional: diagnosis, clinical notes, cautions"></textarea>
-          </div>
+     <!-- CREATE NEW PRESCRIPTION PAGE -->
+     <main class="cnp-page">
+      <div class="cnp-wrapper">
+        <!-- Top title + back button -->
+        <div class="cnp-header">
+          <h1>Create New Prescription</h1>
+          <button class="cnp-btn-secondary" onclick="window.location.href='prescriptions.html'">
+            BACK TO PRESCRIPTIONS TRACKER
+          </button>
         </div>
 
-        <!-- Medications -->
-        <div class="rx-section-title">Medications</div>
-        <div class="rx-divider"></div>
+        <!-- Patient + Medicines row -->
+        <div class="cnp-row">
+          <!-- Patient card -->
+     <section class="cnp-card cnp-card-patient">
+  <header class="cnp-card-header">
+    <span>Patient</span>
+    <a href="#" class="cnp-link-small js-add-patient-link">
+      Add New Patient &nbsp; <i class="fa-regular fa-user-plus"></i>
+    </a>
+  </header>
 
-        <div class="rx-items">
-          <table aria-label="Medications table">
-            <thead>
-              <tr>
-                <th style="width:18%">Drug</th>
-                <th style="width:10%">Strength</th>
-                <th style="width:10%">Form</th>
-                <th style="width:10%">Route</th>
-                <th style="width:12%">Dose</th>
-                <!-- <th style="width:12%">Frequency</th> -->
-                <th style="width:10%">Duration</th>
-                <th style="width:8%">Qty</th>
-                <th style="width:8%">Refills</th>
-                <th style="width:12%">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="rx-tbody"></tbody>
-          </table>
+  <div class="cnp-card-body">
+    <!-- Search -->
+    <div class="cnp-input-icon">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input
+        type="text"
+        class="cnp-input"
+        placeholder="search patient.."
+      />
+    </div>
 
-          <div class="rx-actions" style="margin-top:12px">
-            <button type="button" class="rx-btn secondary" id="addRowBtn">Add medication</button>
-            <span class="rx-muted">At least one medication is required.</span>
-          </div>
-        </div>
+    <!-- Patient summary (placeholder) -->
+    <div class="cnp-patient-summary">
+      <p class="cnp-patient-name">Patient Name Here</p>
+      <p>0 years – dd-mm-yyyy</p>
+      <p>Gender: Male/Female/Other</p>
 
-        <!-- Instructions -->
-        <div class="rx-section-title">Patient Instructions</div>
-        <div class="rx-divider"></div>
-        <div class="rx-grid">
-          <div class="rx-field rx-col-12">
-            <label for="instructions">General Instructions</label>
-            <textarea id="instructions" name="instructions" class="text-field textarea w-input" rows="3"
-              placeholder="e.g., Take after meals. Do not exceed prescribed dose."></textarea>
-          </div>
-          <div class="rx-field rx-col-6">
-            <label for="followUpDate">Follow-up Date (optional)</label>
-            <input id="followUpDate" name="followUpDate" class="text-field w-input" type="date" />
-          </div>
-          <div class="rx-field rx-col-6">
-            <label for="dispenseAsWritten">Dispense As Written</label>
-            <select id="dispenseAsWritten" name="dispenseAsWritten" class="text-field w-select" required>
-              <option value="no" selected>No (generic allowed)</option>
-              <option value="yes">Yes (no substitution)</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Actions -->
-        <div class="rx-actions" style="margin-top:18px">
-          <button type="submit" class="rx-btn primary">Submit Prescription</button>
-          <button type="button" class="rx-btn secondary" id="previewBtn" aria-controls="previewBox"
-            aria-expanded="false">Preview JSON</button>
-        </div>
-
-        <div id="previewBox" class="rx-json" aria-live="polite"></div>
-
-        <!-- Hidden row template -->
-        <template id="rx-row-template">
-          <tr>
-            <td>
-              <input type="text" class="text-field w-input" required name="__NAME__[drug]"
-                placeholder="e.g., Amoxicillin" autocomplete="off" />
-              <!-- <small class="rx-muted">Drug/brand or code</small> -->
-            </td>
-            <td>
-              <input type="text" class="text-field w-input" required name="__NAME__[strength]"
-                placeholder="e.g., 500 mg" />
-            </td>
-            <td>
-              <select class="text-field w-select" required name="__NAME__[form]">
-                <option value="">Form…</option>
-                <option>Tablet</option>
-                <option>Capsule</option>
-                <option>Syrup</option>
-                <option>Injection</option>
-                <option>Drops</option>
-                <option>Ointment</option>
-              </select>
-            </td>
-            <td>
-              <select class="text-field w-select" required name="__NAME__[route]">
-                <option value="">Route…</option>
-                <option>PO</option>
-                <option>IV</option>
-                <option>IM</option>
-                <option>SC</option>
-                <option>SL</option>
-                <option>PR</option>
-                <option>Topical</option>
-                <option>Ophthalmic</option>
-                <option>Otic</option>
-                <option>Inhalation</option>
-              </select>
-            </td>
-            <td>
-              <input type="text" class="text-field w-input" required name="__NAME__[dose]" placeholder="e.g., 1 tab" />
-            </td>
-            <!-- <td>
-              <input type="text" class="text-field w-input" required
-                     name="__NAME__[frequency]" placeholder="e.g., TID" />
-              <small class="rx-muted">e.g., OD, BID, TID, QID, q8h</small>
-            </td> -->
-            <td>
-              <input type="text" class="text-field w-input" required name="__NAME__[duration]"
-                placeholder="e.g., 7 days" />
-            </td>
-            <td>
-              <input type="number" class="text-field w-input" required min="1" name="__NAME__[quantity]"
-                placeholder="e.g., 21" />
-            </td>
-            <td>
-              <input type="number" class="text-field w-input" min="0" name="__NAME__[refills]" placeholder="0"
-                value="0" />
-            </td>
-            <td>
-              <div class="rx-inline">
-                <button type="button" class="rx-btn secondary rx-notes">Notes</button>
-                <button type="button" class="rx-btn danger rx-remove">Remove</button>
-              </div>
-              <textarea class="text-field textarea w-input rx-note-area" rows="2"
-                placeholder="Per-item notes (optional)" name="__NAME__[notes]"
-                style="display:none;margin-top:6px;"></textarea>
-            </td>
-          </tr>
-        </template>
-      </form>
+      <p><strong>Address:</strong></p>
+      <p><strong>Contact:</strong></p>
+      <p><strong>Phone:</strong></p>
+      <p><strong>Email:</strong></p>
+      <p><strong>NHS Number:</strong></p>
     </div>
   </div>
+
+  <!-- Add New Patient panel -->
+  <div class="cnp-add-patient-modal" id="cnp-add-patient-modal">
+    <div class="cnp-ap-header">
+      <h2>Add New Patient</h2>
+      <button type="button" class="cnp-ap-close" id="cnp-add-patient-close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="cnp-ap-grid">
+      <div class="cnp-ap-field">
+        <label>First Name</label>
+        <input type="text" class="cnp-input" />
+      </div>
+      <div class="cnp-ap-field">
+        <label>Last Name</label>
+        <input type="text" class="cnp-input" />
+      </div>
+
+      <div class="cnp-ap-field">
+        <label>Gender</label>
+        <select class="cnp-input">
+          <option value="">Select</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="cnp-ap-field">
+        <label>Phone</label>
+        <input type="text" class="cnp-input" />
+      </div>
+
+      <div class="cnp-ap-field">
+        <label>Email</label>
+        <input type="email" class="cnp-input" />
+      </div>
+      <div class="cnp-ap-field">
+        <label>NHS Number</label>
+        <input
+          type="text"
+          class="cnp-input"
+          placeholder="e.g. 123 456 7891"
+        />
+      </div>
+
+      <div class="cnp-ap-field cnp-ap-dob full-width">
+        <label>Date of Birth</label>
+        <div class="cnp-ap-dob-row">
+          <input type="text" class="cnp-input cnp-ap-dob-input" placeholder="DD" />
+          <span>/</span>
+          <input type="text" class="cnp-input cnp-ap-dob-input" placeholder="MM" />
+          <span>/</span>
+          <input type="text" class="cnp-input cnp-ap-dob-input-year" placeholder="YYYY" />
+        </div>
+      </div>
+
+      <div class="cnp-ap-field">
+        <label>Address Line 1</label>
+        <input type="text" class="cnp-input" />
+      </div>
+      <div class="cnp-ap-field">
+        <label>Address Line 2</label>
+        <input type="text" class="cnp-input" />
+      </div>
+
+      <div class="cnp-ap-field">
+        <label>Town/City</label>
+        <input type="text" class="cnp-input" />
+      </div>
+      <div class="cnp-ap-field">
+        <label>Postcode</label>
+        <input type="text" class="cnp-input" />
+      </div>
+
+      <div class="cnp-ap-field full-width">
+        <label>Country</label>
+        <select class="cnp-input">
+          <option>United Kingdom</option>
+          <option>—</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="cnp-ap-footer">
+      <button type="button" class="cnp-btn-primary cnp-ap-submit">
+        CREATE &amp; SELECT
+      </button>
+    </div>
+  </div>
+</section>
+
+          <!-- Medicines card -->
+          <section class="cnp-card cnp-card-meds">
+            <header class="cnp-card-header">
+              <span>Medicines</span>
+            </header>
+          
+            <div class="cnp-card-body">
+              <div class="med-table-wrapper">
+                <table class="cnp-meds-table">
+                  <thead>
+                    <tr>
+                      <th class="med-icon-header"></th>
+                      <th>Item Description</th>
+                      <th>Dosage Instruction</th>
+                      <th>Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody id="meds-body">
+                    <!-- Example rows (start with 3 like screenshot) -->
+                    <tr class="med-row">
+                      <td class="med-icon-cell">
+                        <button type="button" class="med-remove-btn">
+                          <i class="fa-regular fa-circle-minus"></i>
+                        </button>
+                      </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input"
+                            placeholder="Item name"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input"
+                            placeholder="Dosage Instruction"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input med-input-qty"
+                            placeholder="Qty"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+          
+                    <tr class="med-row">
+                      <td class="med-icon-cell">
+                        <button type="button" class="med-remove-btn">
+                          <i class="fa-regular fa-circle-minus"></i>
+                        </button>
+                      </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input"
+                            placeholder="Item name"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input"
+                            placeholder="Dosage Instruction"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input med-input-qty"
+                            placeholder="Qty"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+          
+                    <tr class="med-row">
+                      <td class="med-icon-cell">
+                        <button type="button" class="med-remove-btn">
+                          <i class="fa-regular fa-circle-minus"></i>
+                        </button>
+                      </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input"
+                            placeholder="Item name"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input"
+                            placeholder="Dosage Instruction"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input med-input-qty"
+                            placeholder="Qty"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+          
+                    <!-- Add new row -->
+                    <tr id="add-med-row">
+                      <td class="med-icon-cell">
+                        <i class="fa-regular fa-square-plus med-add-icon"></i>
+                      </td>
+                      <td colspan="3">
+                        <a href="#" id="add-med-btn" class="cnp-link-small">
+                          Add new
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+          
+              <div class="cnp-notes-block">
+                <label for="prescription-notes">Prescription Notes</label>
+                <textarea
+                  id="prescription-notes"
+                  class="cnp-textarea"
+                  rows="4"
+                ></textarea>
+              </div>
+            </div>
+          </section>
+          
+        </div>
+
+        <!-- Grey spacer strip (like screenshot) -->
+        <div class="cnp-strip"></div>
+
+        <!-- Actions row -->
+        <div class="cnp-card cnp-card-actions">
+          <div class="cnp-actions-inner">
+            <button class="cnp-btn-disabled">SAVE AS DRAFT</button>
+
+            <div class="cnp-actions-right">
+              <button class="cnp-btn-primary">
+                ISSUE RX FOR COLLECTION
+              </button>
+              <button class="cnp-btn-dropdown">
+                <i class="fa-solid fa-caret-down"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Details cards row -->
+        <div class="cnp-row cnp-details-row">
+          <section class="cnp-card cnp-card-details">
+            <h3>Your Details</h3>
+            <p>Abdulmoez Laklouk</p>
+            <p>Pharmacist Independent Prescriber</p>
+            <p>Registration Number: 2082759</p>
+            <p>Registration Body: GPHC</p>
+          </section>
+
+          <section class="cnp-card cnp-card-details">
+            <h3>Prescription on behalf of<br />Berkshire Medical Group</h3>
+            <p>121 Chatham Street</p>
+            <p>Reading – RG1 7JE</p>
+            <p>Phone: +441189505121</p>
+            <p>Email: info@berkshiremedicalgroup.co.uk</p>
+          </section>
+        </div>
+
+        <!-- Bottom info block -->
+        <section class="cnp-card cnp-card-info">
+          <ul>
+            <li>
+              When a prescription is marked for collection, the patient will be
+              sent a prescription ID via email which they can present at any
+              pharmacy.
+            </li>
+            <li>
+              A delivery prescription will be sent securely to Signature
+              Pharmacy. The pharmacy will contact the patient with a link where
+              they can pay for their prescription and choose their preferred
+              delivery option.
+            </li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
   <!-- /PAGE CONTENT -->
 
   <!-- FOOTER (exactly as your snippet) -->

@@ -254,103 +254,175 @@ window.addEventListener('click', function(e) {
     <!-- </div>
     </div>
   </div> -->
-    <div class="section page-header">
-      <div class="w-container">
-        <div class="title-wrapper">
-          <div class="title-text-group">
-            <h2>Prescriptions</h2>
-            <div class="subtitle">list of issued prescriptions</div>
-            <!-- <div class="underline"></div> -->
-          </div>
-          <a href="./dr-form.html" class="btn green">
-            <i class="fa-solid fa-plus"></i> ADD NEW PRESCRIPTION
-          </a>
-        </div>
-        <div class="filter-group">
-          <div class="filter-item status-dropdown">
-            <label for="statusFilter" class="sr-only">Status</label>
-            <select id="statusFilter" aria-label="Filter by status">
-              <option value="">Filter by Status</option>
-              <option value="Signed">Signed</option>
-              <option value="Dispensed">Dispensed</option>
-              <option value="Voided">Voided</option>
-              <option value="Expired">Expired</option>
-              <option value="Contacted">Contacted</option>
-            </select>
-          </div>
-          <div class="filter-item date-input">
-            <label for="dateFrom" class="sr-only">From Date</label>
-            <input id="dateFrom" type="date" aria-label="From Date" />
-          </div>
-          <span class="date-separator">to</span>
+ 
 
-          <div class="filter-item date-input">
-            <label for="dateTo" class="sr-only">To Date</label>
-            <input id="dateTo" type="date" aria-label="To Date" />
-          </div>
-        </div>
-        <div class="table-tools">
-          <div class="search">
-            <label for="searchInput" class="sr-only">Search</label>
-            <input
-              id="searchInput"
-              type="text"
-              placeholder="Search by Rx ID, Patient ID, or Doctor ID..."
-            />
-          </div>
-          <button id="searchBtn" class="btn primary" onclick="applyFilters()">
-            <i class="fa-solid fa-magnifying-glass"></i> Search
-          </button>
-          <button id="clearBtn" class="btn clear" onclick="clearFilters()">
-            <i class="fa-solid fa-xmark"></i> Clear
+
+
+
+    <!-- PRESCRIPTION TRACKER PAGE -->
+    <main class="prescription-page">
+      <div class="prescription-wrapper">
+        <!-- Top title + button -->
+        <div class="pt-header">
+          <h1>Prescription Tracker</h1>
+          <button class="btn-primary" onclick="window.location.href='dr-form.html'">
+            ADD NEW PRESCRIPTION
           </button>
         </div>
-        <div class="rx-table-wrapper">
-          <table class="rx-table" id="rxTable">
+
+        <!-- Filters row -->
+        <div class="pt-filters">
+          <select class="pt-input">
+            <option>Status</option>
+            <option>Issued</option>
+            <option>Dispensed</option>
+            <option>Cancelled</option>
+          </select>
+
+          <div class="pt-date-range">
+            <div class="pt-date">
+              <i class="fa-regular fa-calendar"></i>
+              <input type="date" class="pt-input" />
+            </div>
+            <span class="pt-to">to</span>
+            <div class="pt-date">
+              <i class="fa-regular fa-calendar"></i>
+              <input type="date" class="pt-input" />
+            </div>
+          </div>
+
+          <input
+            type="text"
+            class="pt-input pt-search"
+            placeholder="Search prescription ID or patient name"
+          />
+
+          <button class="btn-primary pt-search-btn">SEARCH</button>
+          <button class="btn-secondary" type="button" id="pt-clear-btn">
+            CLEAR
+          </button>
+        </div>
+
+        <!-- Table card -->
+        <div class="pt-table-card">
+          <table class="pt-table">
             <thead>
               <tr>
-                <th style="width: 150px">Prescription ID</th>
-                <th style="width: 250px">Patient (ID)</th>
-                <th style="width: 250px">Medication</th>
-                <th style="width: 150px">Last Updated</th>
-                <th style="width: 120px">Status</th>
-                <th style="width: 100px">Actions</th>
+                <th>PRESCRIPTION ID</th>
+                <th>PATIENT</th>
+                <th>MEDICATION</th>
+                <th>LAST UPDATED</th>
+                <th>STATUS</th>
+                <th>SEND TO SP</th>
               </tr>
             </thead>
-            <tbody id="rxTbody"></tbody>
+            <tbody>
+              <!-- Multiple sample records -->
+              <tr>
+                <td>RX-2025-0001</td>
+                <td>John Smith</td>
+                <td>Atorvastatin 20 mg tablets</td>
+                <td>15 Nov 2025, 10:32</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0002</td>
+                <td>Sarah Johnson</td>
+                <td>Amoxicillin 500 mg capsules</td>
+                <td>14 Nov 2025, 17:20</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0003</td>
+                <td>Michael Brown</td>
+                <td>Metformin 850 mg tablets</td>
+                <td>13 Nov 2025, 09:10</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0004</td>
+                <td>Emma Wilson</td>
+                <td>Lisinopril 10 mg tablets</td>
+                <td>12 Nov 2025, 11:48</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0005</td>
+                <td>David Miller</td>
+                <td>Amlodipine 5 mg tablets</td>
+                <td>11 Nov 2025, 15:25</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0006</td>
+                <td>Olivia Harris</td>
+                <td>Ibuprofen 400 mg tablets</td>
+                <td>10 Nov 2025, 13:39</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0007</td>
+                <td>William Thompson</td>
+                <td>Paracetamol 500 mg tablets</td>
+                <td>09 Nov 2025, 08:50</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0008</td>
+                <td>Jessica Davis</td>
+                <td>Omeprazole 20 mg capsules</td>
+                <td>08 Nov 2025, 14:05</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0009</td>
+                <td>Matthew Garcia</td>
+                <td>Sertraline 50 mg tablets</td>
+                <td>07 Nov 2025, 16:41</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0010</td>
+                <td>Sophia Martinez</td>
+                <td>Gabapentin 300 mg capsules</td>
+                <td>06 Nov 2025, 12:17</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            </tbody>
+            
           </table>
         </div>
-        <div
-          id="noRows"
-          style="
-            display: none;
-            padding: 16px;
-            color: #6b7280;
-            text-align: center;
-            font-style: italic;
-          "
-        >
-          No prescriptions match your filters.
-        </div>
       </div>
-    </div>
-    <div
-      class="modal-backdrop"
-      id="rxModalBackdrop"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="rxModalTitle"
-    >
-      <div class="modal">
-        <div class="modal-header">
-          <h3 class="modal-title" id="rxModalTitle">Prescription Details</h3>
-          <button class="modal-close" id="rxModalClose" aria-label="Close">
-            &times;
-          </button>
-        </div>
-        <div class="modal-body" id="rxModalBody"></div>
-      </div>
-    </div>
+    </main>
+
+    <script>
+      // Simple clear behaviour: reset filters and search
+      document.getElementById("pt-clear-btn").addEventListener("click", function () {
+        const selects = document.querySelectorAll(".pt-filters select");
+        const inputs = document.querySelectorAll(".pt-filters input");
+        selects.forEach((s) => (s.selectedIndex = 0));
+        inputs.forEach((i) => (i.value = ""));
+      });
+    </script>
 
     <!-- FOOTER (exactly as your site) -->
     <div class="footer">

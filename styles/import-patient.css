@@ -1,0 +1,138 @@
+/* Import Patients CSV layout */
+.import-page {
+    padding: 30px 16px 70px;
+    background-color: #f6f8fa;
+  }
+  
+  .import-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .import-title {
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  
+  /* Card */
+  .import-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.08);
+    overflow: hidden;
+    font-size: 13px;
+    color: #111827;
+  }
+  
+  .import-row {
+    padding: 16px 24px;
+    border-top: 1px solid #edf0f4;
+  }
+  
+  .import-row:first-child {
+    border-top: none;
+  }
+  
+  /* Top row */
+  .import-row-top {
+    background-color: #f9fafb;
+  }
+  
+  .import-row-label {
+    font-weight: 500;
+  }
+  
+  .import-link {
+    margin-left: 6px;
+    color: #00baff;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  
+  .import-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Middle row: upload + submit */
+  .import-row-middle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  
+  /* Custom file input */
+  .import-upload {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+  }
+  
+  .import-file-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: #111827;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .import-file-input {
+    display: none;
+  }
+  
+  .import-file-name {
+    font-size: 13px;
+    color: #6b7280;
+  }
+  
+  /* Submit button reuses your primary style, but ensure size */
+  .import-submit {
+    min-width: 110px;
+    font-size: 12px;
+    padding: 10px 20px;
+  }
+  
+  /* Notes */
+  .import-row-notes p {
+    margin: 2px 0;
+    line-height: 1.4;
+  }
+  
+  .import-notes-title {
+    font-weight: 600;
+  }
+  
+  /* Reuse primary button base if not defined earlier */
+  .btn-primary {
+    border: none;
+    border-radius: 4px;
+    background-color: #00baff;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .btn-primary:hover {
+    background-color: #3b57d1;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .import-row-middle {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .import-submit {
+      align-self: flex-end;
+    }
+  }
+  

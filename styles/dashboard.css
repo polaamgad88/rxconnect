@@ -1,0 +1,151 @@
+/* Dashboard layout (signatureRx-like) */
+.dashboard-section {
+    padding: 60px 20px 80px;
+    background-color: #f6f8fa;
+  }
+  
+  .dashboard-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .dashboard-header h1 {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    font-size: 26px;
+    margin-bottom: 6px;
+    color: #111827;
+  }
+  
+  .dashboard-header p {
+    margin: 0 0 24px;
+    color: #4b5563;
+    font-size: 14px;
+  }
+  
+  /* Main white panel look */
+  .dashboard-grid {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
+    padding: 24px 24px 24px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    gap: 1px; /* to simulate subtle separators */
+    background-color: #e5e7eb; /* grid gap color */
+  }
+  
+  /* Individual cards */
+  .dashboard-card {
+    background-color: #ffffff;
+    padding: 20px 22px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  
+  .card-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #00baff;
+    font-size: 16px;
+  }
+  
+  .card-content h2 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    margin: 0 0 4px;
+    color: #111827;
+  }
+  
+  .card-content p {
+    margin: 0 0 8px;
+    font-size: 13px;
+    color: #4b5563;
+  }
+  
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #00baff;
+    text-decoration: none;
+  }
+  
+  .card-link span {
+    font-size: 14px;
+  }
+  
+  .card-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Integration code row */
+  .integration-label {
+    margin-bottom: 10px;
+  }
+  
+  .integration-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  
+  .integration-code {
+    display: inline-block;
+    padding: 6px 8px;
+    background-color: #f3f4f6;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #111827;
+    word-break: break-all;
+  }
+  
+  .copy-btn {
+    border: none;
+    background: #e5e7eb;
+    border-radius: 4px;
+    padding: 6px 8px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .copy-btn:hover {
+    background: #d1d5db;
+  }
+  
+  /* Clinic info list */
+  .clinic-info {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #374151;
+  }
+  
+  .clinic-info li + li {
+    margin-top: 4px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 900px) {
+    .dashboard-grid {
+      grid-template-columns: 1fr;
+      padding: 16px 16px 0;
+    }
+  
+    .dashboard-card {
+      padding: 16px 16px;
+    }
+  }
+  
