@@ -1,0 +1,203 @@
+/* PROFILE PAGE LAYOUT */
+.profile-page {
+    background-color: #f6f8fa;
+    padding: 32px 16px 64px;
+  }
+  
+  .profile-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .profile-header h1 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+  
+  /* two columns */
+  .profile-layout {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 32px;
+  }
+  
+  /* left side text */
+  .profile-side-block {
+    margin-bottom: 40px;
+  }
+  
+  .profile-side-block h2 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  
+  .profile-side-block p {
+    font-size: 13px;
+    color: #6b7280;
+  }
+  
+  /* main cards */
+  .profile-card,
+  .profile-row-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(15, 23, 42, 0.08);
+    padding: 24px 28px;
+    margin-bottom: 24px;
+  }
+  
+  .profile-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  
+  .profile-subtitle {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .profile-divider {
+    border: none;
+    height: 1px;
+    background-color: #e5e7eb;
+    margin: 24px 0;
+  }
+  
+  /* form layout */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 20px;
+  }
+  
+  .form-grid-2col {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .form-group-inline {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .form-group-inline label {
+    margin-bottom: 0;
+    font-size: 12px;
+  }
+  
+  .form-group label {
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .form-control {
+    border-radius: 4px;
+    border: 1px solid #d1d5db;
+    padding: 9px 10px;
+    font-size: 13px;
+    background-color: #ffffff;
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: #4f6ff6;
+  }
+  
+  /* logo */
+  .clinic-logo-placeholder {
+    height: 40px;
+    border-radius: 4px;
+    border: 1px dashed #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #9ca3af;
+  }
+  
+  .profile-logo-btn {
+    font-size: 11px;
+    padding: 7px 12px;
+  }
+  
+  /* card actions */
+  .profile-actions {
+    margin-top: 20px;
+    text-align: right;
+  }
+  
+  /* row-type cards (2FA, sessions) */
+  .profile-row-card {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 24px;
+  }
+  
+  .profile-row-left h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  
+  .profile-row-left p {
+    font-size: 13px;
+    color: #6b7280;
+  }
+  
+  .profile-row-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .profile-card-text {
+    font-size: 13px;
+    color: #4b5563;
+  }
+  
+  .btn-small {
+    font-size: 11px;
+    padding: 7px 16px;
+  }
+  
+  /* generic secondary button if not defined */
+  .btn-secondary {
+    border: none;
+    border-radius: 4px;
+    background-color: #e5e7eb;
+    color: #111827;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  /* responsive */
+  @media (max-width: 960px) {
+    .profile-layout {
+      grid-template-columns: 1fr;
+    }
+    .profile-row-card {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .form-grid,
+    .form-grid-2col {
+      grid-template-columns: 1fr;
+    }
+  }
+  

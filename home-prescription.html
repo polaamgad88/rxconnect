@@ -5,7 +5,7 @@
     <title>RxConnect</title>
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <link href="./styles/index.css" rel="stylesheet" type="text/css" />
-    <link href="./styles/dashboard.css" rel="stylesheet" type="text/css" />
+    <link href="./styles/home-prescription.css" rel="stylesheet" type="text/css" />
 
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -110,266 +110,307 @@
    <div id="navbar-placeholder"></div>
     <!-- NAVBAR (kept; minor icons retained) -->
     <div class="navbar-wrapper">
-      <div class="top-info-bar">
-        <div class="top-info-bar-container w-container">
-          <a
-            href="./index.html"
-            class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand"
-            ><img
-              src="./assets/rxconnect.png"
-              alt="logo"
-              style="width: 120px; height: auto; margin-bottom: 4px"
-            /></a>
-          <div class="info-bar w-clearfix">
-            <div class="info-blocks-wrapper w-clearfix">
-              <div class="top-info-block no-right-border w-clearfix">
-                <div class="top-info-icon"></div>
-                <div class="top-info-content">
-                  <a href="tel:+44 20 7123 4567" class="contact-link"
-                    >+44 20 7123 4567</a
-                  ><a href="tel:+44 7712 345678" class="contact-link"
-                    >+44 7712 345678</a
-                  >
+        <div class="top-info-bar">
+          <div class="top-info-bar-container w-container">
+           <img
+                src="./assets/rxconnect.png"
+                alt="logo"
+                style="width: 120px; height: auto; margin-bottom: 4px"
+              />
+            <div class="info-bar w-clearfix">
+              <div class="info-blocks-wrapper w-clearfix">
+                <div class="top-info-block no-right-border w-clearfix">
+                  <div class="top-info-icon"></div>
+                  <div class="top-info-content">
+                    <a href="tel:+44 20 7123 4567" class="contact-link"
+                      >+44 20 7123 4567</a
+                    ><a href="tel:+44 7712 345678" class="contact-link"
+                      >+44 7712 345678</a
+                    >
+                  </div>
                 </div>
-              </div>
-              <div class="top-info-block w-clearfix">
-                <div class="top-info-icon _2"></div>
-                <div class="top-info-content">
-                  <a data-ix="popup-modal-show" href="#" class="contact-link"
-                    >M5 3AB<br />
-                   Church Road, Salford, Manchester</a
-                  >
+                <div class="top-info-block w-clearfix">
+                  <div class="top-info-icon _2"></div>
+                  <div class="top-info-content">
+                    <a data-ix="popup-modal-show" href="#" class="contact-link"
+                      >M5 3AB<br />
+                     Church Road, Salford, Manchester</a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        data-collapse="medium"
-        data-animation="default"
-        data-duration="400"
-        data-easing="ease"
-        data-easing2="ease"
-        role="banner"
-        class="navbar w-nav"
-      >
-      <div class="navbar-container w-container">
-        <a href="./home.html" class="brand w-hidden-main w-nav-brand"
-          ><img
-            src="./assets/rxconnect.png"
-            alt="logo"
-            style="width: 140px; height: auto;"
-          /></a>
-        <nav role="navigation" class="nav-menu w-nav-menu">
-    <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
-    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
-    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
-    <a href="./pending-prescription.html"  class="nav-link w-nav-link" >Pending Prescriptions</a>
-    <!-- <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a> -->
-
-    <a href="./patients.html" class="nav-link w-nav-link">Patients</a>
-    <!-- <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a> -->
-    <a href="./contacts.html" class="nav-link w-nav-link">Contacts    </a>
-    <a href="./billing.html" class="nav-link w-nav-link">Billing</a>
-    <a class="nav-link w-nav-link" href="./myprofile.html">My Profile </a>
-
-    <div class="dropdown">
-  <button class="nav-link w-nav-link bg-transparent" id="reportsBtn">
-    Reports <i class="fa-solid fa-chevron-down"></i>
-  </button>
-  <div class="dropdown-content" id="reportsDropdown">
-    <a href="./reports.html">Reports</a>
-    <a href="./medicationExport.html">Medication Export</a>
-
+        <div
+          data-collapse="medium"
+          data-animation="default"
+          data-duration="400"
+          data-easing="ease"
+          data-easing2="ease"
+          role="banner"
+          class="navbar w-nav"
+        >
+          <div class="navbar-container w-container">
+            <a href="/" class="brand w-hidden-main w-nav-brand"
+              ><img
+                src="./assets/rxconnect.png"
+                alt="logo"
+                style="width: 140px; height: auto;"
+              /></a>
+          <nav role="navigation" class="nav-menu w-nav-menu">
+      <a href="./home.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
+      <a href="./home-prescription.html" class="nav-link w-nav-link">E-Prescriptions</a>
+      <a href="./index.html" class="nav-link w-nav-link">Pharmacies</a>
+   
   </div>
-</div>
-
-  </nav>
-<script>
-const reportsBtn = document.getElementById('reportsBtn');
-const reportsDropdown = document.getElementById('reportsDropdown');
-
-// Toggle dropdown on click
-reportsBtn.addEventListener('click', function(e) {
-  e.preventDefault(); // Prevent default link navigation
-  reportsDropdown.classList.toggle('show');
-});
-
-// Close the dropdown if clicked outside
-window.addEventListener('click', function(e) {
-  if (!reportsBtn.contains(e.target) && !reportsDropdown.contains(e.target)) {
-    reportsDropdown.classList.remove('show');
-  }
-});
-</script>
-
-        <div id="menu-btn" class="menu-button w-nav-button">
-          <i class="fa-solid fa-bars" id="menu-icon"></i>
+  
+    </nav>
+    <script>
+  const reportsBtn = document.getElementById('reportsBtn');
+  const reportsDropdown = document.getElementById('reportsDropdown');
+  
+  // Toggle dropdown on click
+  reportsBtn.addEventListener('click', function(e) {
+    e.preventDefault(); // Prevent default link navigation
+    reportsDropdown.classList.toggle('show');
+  });
+  
+  // Close the dropdown if clicked outside
+  window.addEventListener('click', function(e) {
+    if (!reportsBtn.contains(e.target) && !reportsDropdown.contains(e.target)) {
+      reportsDropdown.classList.remove('show');
+    }
+  });
+  </script>
+  
+            <div id="menu-btn" class="menu-button w-nav-button">
+              <i class="fa-solid fa-bars" id="menu-icon"></i>
+            </div>
+          </div>
+  
+  
         </div>
-      </div>
 
-
-
+    <div
+    data-poster-url="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/587b7346a126883e7feca835_video_preview_h264-poster-00001.jpg"
+    data-video-urls="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/587b7346a126883e7feca835_video_preview_h264-transcode.mp4,https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/587b7346a126883e7feca835_video_preview_h264-transcode.webm"
+    data-autoplay="true"
+    data-loop="true"
+    data-wf-ignore="true"
+    data-ix="show-scroll-navbar"
+    class="hero w-background-video w-background-video-atom"
+  >
+    <video
+      id="bc706280-5c03-b2f5-6bc6-be722ee5f406-video"
+      autoplay=""
+      loop=""
+      style="
+        background-image: url('https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/587b7346a126883e7feca835_video_preview_h264-poster-00001.jpg');
+      "
+      muted=""
+      playsinline=""
+      data-wf-ignore="true"
+      data-object-fit="cover"
+    >
+      <source
+        src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/587b7346a126883e7feca835_video_preview_h264-transcode.mp4"
+        data-wf-ignore="true"
+      />
+      <source
+        src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/587b7346a126883e7feca835_video_preview_h264-transcode.webm"
+        data-wf-ignore="true"
+      />
+    </video>
+    <div class="hero-container w-container">
+      <div data-ix="show-on-load-6" class="hero-content">
+        <div class="hero-subheader">e-Prescription & Pharmacy Platform</div>
+        <h1 class="hero-header">
+            Advanced electronic private prescription system for clinicians
+        </h1>
+        <div class="hero-card-paragraph">
+          Doctors compose prescriptions, patients view instructions, and
+          pharmacists dispense with safety checks. Real-time lists, search,
+          and detailed prescription views keep everyone aligned.
+        </div>
+        
+        <div class="top-margin" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          <a href="./register.html" class="button white w-button" style="background-color:green; color:#fff; border:none;">
+            JOIN US NOW
+          </a>
+          <a href="./login.html" class="button white w-button" style="background-color:#ffffff; color:#20baf8; border:2px solid #20baf8;">
+            Already a member? Login
+          </a>
+        </div>
+        
       </div>
     </div>
+  </div>
 
-    <!-- Scroll navbar (unchanged visually)
-    <div
-      data-collapse="medium"
-      data-animation="default"
-      data-duration="400"
-      data-ix="display-scroll-navbar"
-      data-easing="ease"
-      data-easing2="ease"
-      role="banner"
-      class="navbar-scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav"
-    >
-      <div class="nav-scroll-container w-container">
-        <div class="menu-button scroll-menu-button w-nav-button">
-          <div class="w-icon-nav-menu"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- HOW IT WORKS SECTION -->
+<section class="hiw-section">
+    <div class="hiw-container">
+      <!-- Heading + intro -->
+      <div class="hiw-header">
+        <h2>How Does Our Electronic Prescribing System Work?</h2>
+        <p>
+          As the world moves more towards digital services, your patients expect efficiency
+          and convenience to help them work around their busy lives.
+        </p>
+        <p>
+          We’ve developed a system for electronic prescribing that works much the same
+          as the NHS EPS, targeted to make your life easier – whether you’re consulting
+          in person, or remotely.
+        </p>
+        <p>
+          RxConnect is easy to use and complies with the Medicines for Human Use
+          (Prescribing) Order 2005, allowing prescriptions to be signed using advanced
+          electronic signatures.
+        </p>
+      </div>
+  
+      <!-- Steps -->
+      <div class="hiw-steps">
+        <!-- Step 1 -->
+        <div class="hiw-step">
+          <div class="hiw-icon hiw-icon-filled">
+            <i class="fa-solid fa-mobile-screen-button"></i>
+          </div>
+          <h3>Register</h3>
+          <p>
+            Grab your smartphone and your passport or driving licence and
+            register to our prescribing service through a simple, one-off
+            registration.
+          </p>
         </div>
-          <a
-          href="/"
-          aria-current="page"
-          class="brand scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand w--current"
-          > <img
-              src="./assets/rxconnect.png"
-              alt="logo"
-              style="width: 120px; height: auto; margin-bottom: 4px"
-            /></a>
-        <nav role="navigation" class="nav-menu w-nav-menu">
-   <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
-    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
-    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
-    <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
-    <a href="./patient-history.html" class="nav-link w-nav-link">Patient history</a>
-    <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a>
-
-  </nav>
-      
-     <!-- DASHBOARD BODY -->
-     <main class="dashboard-section">
-        <div class="dashboard-wrapper">
-          <header class="dashboard-header">
-            <h1>RxConnect – Dashboard</h1>
-            <p>Generate, track and manage your prescriptions and patients</p>
-          </header>
   
-          <section class="dashboard-grid">
-            <!-- Prescription Tracker -->
-            <article class="dashboard-card">
-              <div class="card-icon">
-                <i class="fa-solid fa-clipboard-list"></i>
-              </div>
-              <div class="card-content">
-                <h2>Prescription Tracker</h2>
-                <p>
-                  View your patient’s prescription history, or see the status of the prescriptions.
-                </p>
-                <a href="./prescriptions.html" class="card-link">
-                  Explore all prescriptions <span>→</span>
-                </a>
-              </div>
-            </article>
-  
-            <!-- Patients -->
-            <article class="dashboard-card">
-              <div class="card-icon">
-                <i class="fa-solid fa-users"></i>
-              </div>
-              <div class="card-content">
-                <h2>Patients</h2>
-                <p>Manage and edit your patient database.</p>
-                <a href="./patient-history.html" class="card-link">
-                  Manage your patients <span>→</span>
-                </a>
-              </div>
-            </article>
-  
-            <!-- New Prescription -->
-            <article class="dashboard-card">
-              <div class="card-icon">
-                <i class="fa-solid fa-file-prescription"></i>
-              </div>
-              <div class="card-content">
-                <h2>New Prescription</h2>
-                <p>Issue a new prescription.</p>
-                <a href="./dr-form.html" class="card-link">
-                  Add new prescription <span>→</span>
-                </a>
-              </div>
-            </article>
-  
-            <!-- New Patient -->
-            <article class="dashboard-card">
-              <div class="card-icon">
-                <i class="fa-solid fa-user-plus"></i>
-              </div>
-              <div class="card-content">
-                <h2>New Patient</h2>
-                <p>Add a new patient to your clinic.</p>
-                <a href="./doctors.html" class="card-link">
-                  Add new patient <span>→</span>
-                </a>
-              </div>
-            </article>
-  
-            <!-- Integration Code -->
-            <article class="dashboard-card">
-              <div class="card-icon">
-                <i class="fa-solid fa-code-branch"></i>
-              </div>
-              <div class="card-content">
-                <h2>Integration Code</h2>
-                <p class="integration-label">Use this code to integrate with your systems:</p>
-                <div class="integration-row">
-                  <code class="integration-code">
-                    V0hldG55blVtTE4yZDdoZjB5dGdJdz09
-                  </code>
-                  <button class="copy-btn" type="button" onclick="copyIntegrationCode()">
-                    <i class="fa-regular fa-copy"></i>
-                  </button>
-                </div>
-              </div>
-            </article>
-  
-            <!-- Clinic Information -->
-            <article class="dashboard-card">
-              <div class="card-icon">
-                <i class="fa-solid fa-hospital-user"></i>
-              </div>
-              <div class="card-content">
-                <h2>Your Clinic Information</h2>
-                <ul class="clinic-info">
-                  <li><strong>Clinic ID:</strong> 425979</li>
-                  <li><strong>Clinic Name:</strong> Berkshire Medical Group</li>
-                  <li>
-                    <strong>Clinic Address:</strong> 121 Chatham Street, Reading, RG1 7JE
-                  </li>
-                </ul>
-              </div>
-            </article>
-          </section>
+        <!-- Step 2 -->
+        <div class="hiw-step">
+          <div class="hiw-icon">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+          </div>
+          <h3>Prescribe</h3>
+          <p>
+            Log in securely using two-factor authentication and create a
+            prescription by adding a new patient or searching for an existing
+            patient.
+          </p>
         </div>
-      </main>
   
-      <script>
-        function copyIntegrationCode() {
-          const code = document.querySelector(".integration-code").textContent.trim();
-          navigator.clipboard.writeText(code).then(
-            () => {
-              alert("Integration code copied to clipboard");
-            },
-            () => {
-              alert("Unable to copy code. Please copy it manually.");
-            }
-          );
-        }
-      </script>
+        <!-- Step 3 -->
+        <div class="hiw-step">
+          <div class="hiw-icon">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <h3>Issue</h3>
+          <p>
+            Your patient receives a code by email so they can collect their
+            prescription from any UK pharmacy or arrange an online prescription
+            delivery service.
+          </p>
+        </div>
+  
+        <!-- Step 4 -->
+        <div class="hiw-step">
+          <div class="hiw-icon">
+            <i class="fa-regular fa-circle-dot"></i>
+          </div>
+          <h3>Track</h3>
+          <p>
+            To view your patient’s prescription history or see the status of the
+            prescription and where it has been collected, just check your
+            private account.
+          </p>
+        </div>
+      </div>
+  
+      <!-- Timeline line with dots -->
+      <div class="hiw-timeline">
+        <span class="hiw-dot"></span>
+        <span class="hiw-line"></span>
+        <span class="hiw-dot"></span>
+        <span class="hiw-line"></span>
+        <span class="hiw-dot"></span>
+        <span class="hiw-line"></span>
+        <span class="hiw-dot"></span>
+      </div>
+    </div>
+  </section>
+
   
 
-   
+
+<!-- COST SECTION -->
+<section class="cost-section">
+    <div class="cost-container">
+  
+      <div class="cost-left">
+        <h2>What Is the Cost?</h2>
+      </div>
+  
+      <div class="cost-right">
+        <p>
+          Our digital prescribing platform uses a simple credit system that allows you to purchase
+          prescription credits individually or in bulk — whichever suits your workflow best.
+        </p>
+  
+        <p>
+          Each prescription credit costs <strong>£1 + VAT</strong>, making it more affordable than posting
+          a physical prescription and far more efficient for busy practices.
+        </p>
+  
+        <div class="cost-divider"></div>
+  
+        <div class="cost-lists">
+          <ul>
+            <li>Time spent phoning, Posting prescriptions to pharmacies</li>
+            <li>Delayed or missing paper prescriptions</li>
+            <li>Risk of prescription tampering or errors</li>
+          </ul>
+  
+          <ul>
+            <li>Buying postage</li>
+            <li>Trips to the post office</li>
+            <li>Unnecessary paper waste</li>
+          </ul>
+        </div>
+      </div>
+  
+    </div>
+  </section>
+  
+  
+  <!-- QUESTION SECTION -->
+  <section class="question-section">
+    <div class="question-container">
+      <h2>Need Help or Want More Information?</h2>
+  
+      <p>
+        Our electronic prescribing system is designed to help clinicians issue medication quickly and
+        securely while keeping full control with just a few clicks. You can create an account in minutes —
+        or, if you’d prefer to speak with a member of our support team, we’re always happy to help.
+      </p>
+  
+      <a href="./contact-us.html" class="question-btn">Contact Us</a>
+    </div>
+  </section>
+  
+
+
 
     <!-- FOOTER (kept as-is) -->
   <div class="footer">

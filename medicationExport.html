@@ -87,7 +87,7 @@
               src="./assets/rxconnect.png"
               alt="logo"
               style="width: 120px; height: auto; margin-bottom: 4px"
-          /></a>
+            /></a>
           <div class="info-bar w-clearfix">
             <div class="info-blocks-wrapper w-clearfix">
               <div class="top-info-block no-right-border w-clearfix">
@@ -105,7 +105,7 @@
                 <div class="top-info-content">
                   <a data-ix="popup-modal-show" href="#" class="contact-link"
                     >M5 3AB<br />
-                    Church Road, Salford, Manchester</a
+                   Church Road, Salford, Manchester</a
                   >
                 </div>
               </div>
@@ -122,23 +122,26 @@
         role="banner"
         class="navbar w-nav"
       >
-        <div class="navbar-container w-container">
-          <a href="index.html" class="brand w-hidden-main w-nav-brand"
-            ><img
-              src="./assets/rxconnect.png"
-              alt="logo"
-              style="width: 140px; height: auto"
+      <div class="navbar-container w-container">
+        <a href="./home.html" class="brand w-hidden-main w-nav-brand"
+          ><img
+            src="./assets/rxconnect.png"
+            alt="logo"
+            style="width: 140px; height: auto;"
           /></a>
-           <nav role="navigation" class="nav-menu w-nav-menu">
+        <nav role="navigation" class="nav-menu w-nav-menu">
     <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
     <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
     <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
-    <a href="./pending-prescription.html" class="nav-link w-nav-link">Pending Prescriptions</a>
-    <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
-    <a href="./patient-history.html" class="nav-link w-nav-link">Patient history</a>
+    <a href="./pending-prescription.html"  class="nav-link w-nav-link" >Pending Prescriptions</a>
+    <!-- <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a> -->
+
+    <a href="./patients.html" class="nav-link w-nav-link">Patients</a>
     <!-- <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a> -->
     <a href="./contacts.html" class="nav-link w-nav-link">Contacts    </a>
     <a href="./billing.html" class="nav-link w-nav-link">Billing</a>
+    <a class="nav-link w-nav-link" href="./myprofile.html">My Profile </a>
+
     <div class="dropdown">
   <button class="nav-link w-nav-link bg-transparent" id="reportsBtn">
     Reports <i class="fa-solid fa-chevron-down"></i>
@@ -146,23 +149,11 @@
   <div class="dropdown-content" id="reportsDropdown">
     <a href="./reports.html">Reports</a>
     <a href="./medicationExport.html">Medication Export</a>
+
   </div>
 </div>
+
   </nav>
-  <script>
-    const monthInput = document.getElementById("exportMonth");
-  
-    if (monthInput) {
-      monthInput.addEventListener("change", function () {
-        if (this.value) {
-          this.classList.add("filled");
-        } else {
-          this.classList.remove("filled");
-        }
-      });
-    }
-  </script>
-  
 <script>
 const reportsBtn = document.getElementById('reportsBtn');
 const reportsDropdown = document.getElementById('reportsDropdown');
@@ -181,10 +172,13 @@ window.addEventListener('click', function(e) {
 });
 </script>
 
-          <div id="menu-btn" class="menu-button w-nav-button">
-            <i class="fa-solid fa-bars" id="menu-icon"></i>
-          </div>
+        <div id="menu-btn" class="menu-button w-nav-button">
+          <i class="fa-solid fa-bars" id="menu-icon"></i>
         </div>
+      </div>
+
+
+
       </div>
     </div>
 
