@@ -864,6 +864,33 @@
         overflow-x: hidden !important;
       }
     }
+   .med-remove-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.circle-minus {
+  display: inline-block;
+  width: 20px;              
+  height: 20px;
+  border: 2px solid #ff4d4d; 
+  border-radius: 50%;
+  position: relative;
+}
+
+.circle-minus::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;              
+  height: 2px;            
+  background-color: #ff4d4d; 
+  transform: translate(-50%, -50%);
+}
+
   </style>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -1053,7 +1080,7 @@ window.addEventListener('click', function(e) {
   <header class="cnp-card-header">
     <span>Patient</span>
     <a href="#" class="cnp-link-small js-add-patient-link">
-      Add New Patient &nbsp; <i class="fa-regular fa-user-plus"></i>
+      Add New Patient &nbsp; <i class="fa-solid fa-user-plus"></i>
     </a>
   </header>
 
@@ -1192,13 +1219,12 @@ window.addEventListener('click', function(e) {
                     </tr>
                   </thead>
                   <tbody id="meds-body">
-                    <!-- Example rows (start with 3 like screenshot) -->
-                    <tr class="med-row">
-                      <td class="med-icon-cell">
-                        <button type="button" class="med-remove-btn">
-                          <i class="fa-regular fa-circle-minus"></i>
-                        </button>
-                      </td>
+                  <td class="med-icon-cell">
+                      <button type="button" class="med-remove-btn">
+                      <span class="circle-minus"></span>
+                      </button>
+                  </td>
+
                       <td>
                         <div class="med-field">
                           <input
@@ -1229,11 +1255,11 @@ window.addEventListener('click', function(e) {
                     </tr>
           
                     <tr class="med-row">
-                      <td class="med-icon-cell">
-                        <button type="button" class="med-remove-btn">
-                          <i class="fa-regular fa-circle-minus"></i>
-                        </button>
-                      </td>
+                       <td class="med-icon-cell">
+                         <button type="button" class="med-remove-btn">
+                         <span class="circle-minus"></span>
+                         </button>
+                       </td>
                       <td>
                         <div class="med-field">
                           <input
@@ -1264,11 +1290,11 @@ window.addEventListener('click', function(e) {
                     </tr>
           
                     <tr class="med-row">
-                      <td class="med-icon-cell">
+                        <td class="med-icon-cell">
                         <button type="button" class="med-remove-btn">
-                          <i class="fa-regular fa-circle-minus"></i>
-                        </button>
-                      </td>
+                         <span class="circle-minus"></span>
+                         </button>
+                    </td>
                       <td>
                         <div class="med-field">
                           <input
