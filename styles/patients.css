@@ -1,0 +1,139 @@
+/* Patients page layout */
+.patients-page {
+  padding: 30px 16px 70px;
+  background-color: #f6f8fa;
+}
+
+.patients-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Top bar */
+.patients-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.patients-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.patients-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.patients-btn {
+  font-size: 12px;
+  padding: 8px 18px;
+}
+
+/* Search row */
+.patients-search-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 900px;
+  margin: 0 auto 14px;
+}
+
+.patients-search-input {
+  flex: 1;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+.patients-search-input:focus {
+  outline: none;
+  border-color: #4f6ff6;
+}
+
+.patients-search-btn {
+  padding: 9px 20px;
+  font-size: 12px;
+}
+
+.btn-secondary {
+  border-radius: 4px;
+  border: none;
+  background-color: #e5e7eb;
+  color: #111827;
+  font-weight: 600;
+  padding: 9px 18px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: #d1d5db;
+}
+
+/* Table card */
+.patients-table-card {
+  max-width: 1100px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+}
+
+.patients-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.patients-table thead {
+  background-color: #f9fafb;
+}
+
+.patients-table th,
+.patients-table td {
+  padding: 10px 16px;
+  font-size: 12px;
+  text-align: left;
+  color: #4b5563;
+}
+
+.patients-table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.patients-empty-cell {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .patients-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .patients-actions {
+    margin-left: 0;
+  }
+
+  .patients-search-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .patients-search-btn,
+  .btn-secondary {
+    width: 100%;
+  }
+}

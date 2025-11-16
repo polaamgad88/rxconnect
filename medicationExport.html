@@ -149,6 +149,20 @@
   </div>
 </div>
   </nav>
+  <script>
+    const monthInput = document.getElementById("exportMonth");
+  
+    if (monthInput) {
+      monthInput.addEventListener("change", function () {
+        if (this.value) {
+          this.classList.add("filled");
+        } else {
+          this.classList.remove("filled");
+        }
+      });
+    }
+  </script>
+  
 <script>
 const reportsBtn = document.getElementById('reportsBtn');
 const reportsDropdown = document.getElementById('reportsDropdown');
@@ -174,61 +188,34 @@ window.addEventListener('click', function(e) {
       </div>
     </div>
 
-    <!-- Scroll navbar (unchanged visually) -->
-    <!-- <div
-      data-collapse="medium"
-      data-animation="default"
-      data-duration="400"
-      data-ix="display-scroll-navbar"
-      data-easing="ease"
-      data-easing2="ease"
-      role="banner"
-      class="navbar-scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav"
-    >
-      <div class="nav-scroll-container w-container">
-        <div class="menu-button scroll-menu-button w-nav-button">
-          <div class="w-icon-nav-menu"></div>
-        </div>
-        <a
-          href="/"
-          aria-current="page"
-          class="brand scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand w--current"
-        >
-          <img
-            src="./assets/rxconnect.png"
-            alt="logo"
-            style="width: 120px; height: auto; margin-bottom: 4px"
-        /></a>
-        <nav role="navigation" class="nav-menu w-nav-menu">
-          <a
-            href="./about-us.html"
-            aria-current="page"
-            class="nav-link w-nav-link w--current"
-            >Who we are</a
-          >
-          <a href="./dr-form.html" class="nav-link w-nav-link"
-            >E-Prescriptions</a
-          >
-          <a href="./prescriptions.html" class="nav-link w-nav-link"
-            >My Prescriptions</a
-          >
-          <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
-          <a href="./patient-history.html" class="nav-link w-nav-link"
-            >Patient history</a
-          >
-          <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a>
-        </nav>
-      </div>
-    </div> -->
-
-    <div class="main-container">
-  <h2>Export Medication Lists</h2>
-  <form>
-    <label for="month">Select Month/Year</label>
-    <input type="month" id="month" name="month" placeholder="Select Month/Year">
-    <button type="submit">Request Export</button>
-  </form>
-</div>
+        <!-- EXPORT MEDICATION LISTS PAGE -->
+        <main class="export-page">
+          <div class="export-wrapper">
+            <h1 class="export-title">Export medication lists</h1>
+    
+            <section class="export-card">
+              <div class="export-row">
+                <label for="exportMonth" class="export-label">
+                  Select Month/Year
+                </label>
+                <input
+                id="exportMonth"
+                type="month"
+                class="export-input month-placeholder"
+                data-placeholder="Select Month/Year"
+              />
+              
+              </div>
+    
+              <div class="export-footer-row">
+                <button type="button" class="btn-primary export-btn">
+                  REQUEST EXPORT
+                </button>
+              </div>
+            </section>
+          </div>
+        </main>
+    
 
     <!-- FOOTER (unchanged) -->
     <div class="footer">
