@@ -125,33 +125,148 @@
 
 
   <div id="navbar-placeholder"></div>
+    <!-- NAVBAR (kept; minor icons retained) -->
+    <div class="navbar-wrapper">
+      <div class="top-info-bar">
+        <div class="top-info-bar-container w-container">
+          <a
+            href="./index.html"
+            class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand"
+            ><img
+              src="./assets/rxconnect.png"
+              alt="logo"
+              style="width: 120px; height: auto; margin-bottom: 4px"
+            /></a>
+          <div class="info-bar w-clearfix">
+            <div class="info-blocks-wrapper w-clearfix">
+              <div class="top-info-block no-right-border w-clearfix">
+                <div class="top-info-icon"></div>
+                <div class="top-info-content">
+                  <a href="tel:+44 20 7123 4567" class="contact-link"
+                    >+44 20 7123 4567</a
+                  ><a href="tel:+44 7712 345678" class="contact-link"
+                    >+44 7712 345678</a
+                  >
+                </div>
+              </div>
+              <div class="top-info-block w-clearfix">
+                <div class="top-info-icon _2"></div>
+                <div class="top-info-content">
+                  <a data-ix="popup-modal-show" href="#" class="contact-link"
+                    >M5 3AB<br />
+                   Church Road, Salford, Manchester</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        data-collapse="medium"
+        data-animation="default"
+        data-duration="400"
+        data-easing="ease"
+        data-easing2="ease"
+        role="banner"
+        class="navbar w-nav"
+      >
+      <div class="navbar-container w-container">
+        <a href="./home.html" class="brand w-hidden-main w-nav-brand"
+          ><img
+            src="./assets/rxconnect.png"
+            alt="logo"
+            style="width: 140px; height: auto;"
+          /></a>
+        <nav role="navigation" class="nav-menu w-nav-menu">
+    <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
+    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
+    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
+    <a href="./pending-prescription.html"  class="nav-link w-nav-link" >Pending Prescriptions</a>
+    <!-- <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a> -->
+
+    <a href="./patients.html" class="nav-link w-nav-link">Patients</a>
+    <!-- <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a> -->
+    <a href="./contacts.html" class="nav-link w-nav-link">Contacts    </a>
+    <a href="./billing.html" class="nav-link w-nav-link">Billing</a>
+    <a class="nav-link w-nav-link" href="./myprofile.html">My Profile </a>
+
+    <div class="dropdown">
+  <button class="nav-link w-nav-link bg-transparent" id="reportsBtn">
+    Reports <i class="fa-solid fa-chevron-down"></i>
+  </button>
+  <div class="dropdown-content" id="reportsDropdown">
+    <a href="./reports.html">Reports</a>
+    <a href="./medicationExport.html">Medication Export</a>
+
+  </div>
+</div>
+
+  </nav>
 <script>
-  (function loadNavbar(){
-    fetch('/partials/navbar.html')
-      .then(r => r.ok ? r.text() : Promise.reject(r.status))
-      .then(html => {
-        document.getElementById('navbar-placeholder').innerHTML = html;
+const reportsBtn = document.getElementById('reportsBtn');
+const reportsDropdown = document.getElementById('reportsDropdown');
 
-        const btn = document.querySelector('#navbar-placeholder .menu-button');
-        const nav = document.querySelector('#navbar-placeholder .w-nav-menu');
-        if (btn && nav) {
-          btn.addEventListener('click', () => {
-            const open = nav.classList.toggle('open');
-            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-            const i = btn.querySelector('i');
-            if (i) { i.classList.toggle('fa-bars'); i.classList.toggle('fa-xmark'); }
-          });
-        }
+// Toggle dropdown on click
+reportsBtn.addEventListener('click', function(e) {
+  e.preventDefault(); // Prevent default link navigation
+  reportsDropdown.classList.toggle('show');
+});
 
-        document.querySelectorAll('#navbar-placeholder .w-nav-menu a').forEach(a=>{
-          if (location.pathname.endsWith(a.getAttribute('href'))) a.classList.add('active');
-        });
-      })
-      .catch(err => {
-        console.error('Failed to load navbar partial:', err);
-      });
-  })();
+// Close the dropdown if clicked outside
+window.addEventListener('click', function(e) {
+  if (!reportsBtn.contains(e.target) && !reportsDropdown.contains(e.target)) {
+    reportsDropdown.classList.remove('show');
+  }
+});
 </script>
+
+        <div id="menu-btn" class="menu-button w-nav-button">
+          <i class="fa-solid fa-bars" id="menu-icon"></i>
+        </div>
+      </div>
+
+
+
+      </div>
+    </div>
+
+    <!-- Scroll navbar (unchanged visually) -->
+    <!-- <div
+      data-collapse="medium"
+      data-animation="default"
+      data-duration="400"
+      data-ix="display-scroll-navbar"
+      data-easing="ease"
+      data-easing2="ease"
+      role="banner"
+      class="navbar-scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav"
+    >
+      <div class="nav-scroll-container w-container">
+        <div class="menu-button scroll-menu-button w-nav-button">
+          <div class="w-icon-nav-menu"></div>
+        </div>
+          <a
+          href="/"
+          aria-current="page"
+          class="brand scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand w--current"
+          > <img
+              src="./assets/rxconnect.png"
+              alt="logo"
+              style="width: 120px; height: auto; margin-bottom: 4px"
+            /></a>
+        <nav role="navigation" class="nav-menu w-nav-menu">
+   <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
+    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
+    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
+    <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
+    <a href="./patient-history.html" class="nav-link w-nav-link">Patient history</a>
+    <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a>
+
+  </nav>
+      
+      </div>
+    </div> -->
   <!-- Scroll navbar (unchanged) -->
   <div data-collapse="medium" data-animation="default" data-duration="400" data-ix="display-scroll-navbar"
        class="navbar-scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav">
@@ -496,7 +611,6 @@
   <!-- JS -->
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=57c55b6ef6306d483a15bdc0"
           integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-  <script src="./scripts/index.js"></script>
 
   <script>
     (function(){

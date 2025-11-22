@@ -34,7 +34,7 @@
 }
 
 .fetch-btn {
-  background-color: #5c7cfa;
+  background-color: green;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -43,7 +43,7 @@
   transition: 0.3s;
 }
 .fetch-btn:hover {
-  background-color: #3c5de0;
+  background-color: green;
 }
 
 .reports-grid {
@@ -68,7 +68,7 @@
 
 .icon-wrap {
   background: #e3ebff;
-  color: #4b6bfb;
+  color: #0b188a;
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -104,7 +104,7 @@
 .report-info .number {
   font-size: 28px;
   font-weight: 700;
-  color: #5c7cfa;
+  color: #00baff;
   margin-right: 5px;
 }
 
@@ -145,7 +145,7 @@
 .download-btn {
   background: none;
   border: 1px solid #cfd6ff;
-  color: #5c7cfa;
+  color: #00baff;
   padding: 8px 14px;
   border-radius: 8px;
   font-weight: 500;
@@ -154,9 +154,9 @@
 }
 .view-btn:hover,
 .download-btn:hover {
-  background: #5c7cfa;
+  background: #00baff;
   color: #fff;
-  border-color: #5c7cfa;
+  border-color: #00baff;
 }
 
 .month-filter label{

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!-- This site was created in Webflow. https://webflow.com --><!-- Last Published: Thu Jul 09 2020 09:28:19 GMT+0000 (Coordinated Universal Time) -->
 <html
@@ -91,11 +92,14 @@
     <div class="navbar-wrapper">
       <div class="top-info-bar">
         <div class="top-info-bar-container w-container">
-         <img
+          <a
+            href="./index.html"
+            class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand"
+            ><img
               src="./assets/rxconnect.png"
               alt="logo"
               style="width: 120px; height: auto; margin-bottom: 4px"
-            />
+            /></a>
           <div class="info-bar w-clearfix">
             <div class="info-blocks-wrapper w-clearfix">
               <div class="top-info-block no-right-border w-clearfix">
@@ -113,7 +117,8 @@
                 <div class="top-info-content">
                   <a data-ix="popup-modal-show" href="#" class="contact-link"
                     >M5 3AB<br />
-                   Church Road, Salford, Manchester</a>
+                   Church Road, Salford, Manchester</a
+                  >
                 </div>
               </div>
             </div>
@@ -129,22 +134,39 @@
         role="banner"
         class="navbar w-nav"
       >
-        <div class="navbar-container w-container">
-          <a href="/" class="brand w-hidden-main w-nav-brand"
-            ><img
-              src="./assets/rxconnect.png"
-              alt="logo"
-              style="width: 140px; height: auto;"
-            /></a>
+      <div class="navbar-container w-container">
+        <a href="./home.html" class="brand w-hidden-main w-nav-brand"
+          ><img
+            src="./assets/rxconnect.png"
+            alt="logo"
+            style="width: 140px; height: auto;"
+          /></a>
         <nav role="navigation" class="nav-menu w-nav-menu">
-    <a href="./home.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
-    <a href="./home-prescription.html" class="nav-link w-nav-link">E-Prescriptions</a>
-    <a href="./index.html" class="nav-link w-nav-link">Pharmacies</a>
- 
+    <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
+    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
+    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
+    <a href="./pending-prescription.html"  class="nav-link w-nav-link" >Pending Prescriptions</a>
+    <!-- <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a> -->
+
+    <a href="./patients.html" class="nav-link w-nav-link">Patients</a>
+    <!-- <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a> -->
+    <a href="./contacts.html" class="nav-link w-nav-link">Contacts    </a>
+    <a href="./billing.html" class="nav-link w-nav-link">Billing</a>
+    <a class="nav-link w-nav-link" href="./myprofile.html">My Profile </a>
+
+    <div class="dropdown">
+  <button class="nav-link w-nav-link bg-transparent" id="reportsBtn">
+    Reports <i class="fa-solid fa-chevron-down"></i>
+  </button>
+  <div class="dropdown-content" id="reportsDropdown">
+    <a href="./reports.html">Reports</a>
+    <a href="./medicationExport.html">Medication Export</a>
+
+  </div>
 </div>
 
   </nav>
-  <script>
+<script>
 const reportsBtn = document.getElementById('reportsBtn');
 const reportsDropdown = document.getElementById('reportsDropdown');
 
@@ -162,14 +184,17 @@ window.addEventListener('click', function(e) {
 });
 </script>
 
-          <div id="menu-btn" class="menu-button w-nav-button">
-            <i class="fa-solid fa-bars" id="menu-icon"></i>
-          </div>
+        <div id="menu-btn" class="menu-button w-nav-button">
+          <i class="fa-solid fa-bars" id="menu-icon"></i>
         </div>
+      </div>
+
 
 
       </div>
     </div>
+
+
 
 
     <!-- POPUP + Fixed contact (unchanged) -->
@@ -325,7 +350,7 @@ window.addEventListener('click', function(e) {
               </div>
 
               <div role="listitem" class="service-item w-dyn-item w-col w-col-4">
-                <a href="./prescriptions.html" class="service-box w-inline-block">
+                <a href="./prescription-view.html" class="service-box w-inline-block">
                   <img width="36"
                        src="https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/57d3ff2ec8cbc2347a40a1e3_emergency-ambulance.png"
                        alt="" class="service-icon" />
@@ -339,7 +364,7 @@ window.addEventListener('click', function(e) {
               </div>
 
               <div role="listitem" class="service-item w-dyn-item w-col w-col-4">
-                <a href="./dispense-prescription.html" class="service-box w-inline-block">
+                <a href="./pharmacy.html" class="service-box w-inline-block">
                   <img width="36"
                        src="https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/57d3ff3306a91cb76ab04896_antibiotics.png"
                        alt="" class="service-icon" />
@@ -403,7 +428,7 @@ window.addEventListener('click', function(e) {
     </div>
 
     <!-- DEPARTMENTS (relabelled to modules/personas only by text) -->
-    <!-- <div class="section">
+    <div class="section">
       <div class="w-container">
         <div class="title-wrapper">
           <h2>Modules & Personas</h2>
@@ -468,7 +493,7 @@ window.addEventListener('click', function(e) {
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
 
     <!-- WHY US -->
     <div class="section tint why-us">
@@ -953,7 +978,7 @@ window.addEventListener('click', function(e) {
           </div>
         </div>
         <div class="div-center">
-          <a href="./about-us.html" class="button all-news-btn w-button">all updates</a>
+          <a href="/news" class="button all-news-btn w-button">all updates</a>
         </div>
       </div>
     </div>
@@ -1250,13 +1275,3 @@ window.addEventListener('click', function(e) {
 
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-

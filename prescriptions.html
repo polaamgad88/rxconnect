@@ -1,190 +1,207 @@
 <!DOCTYPE html>
-<html lang="en"
+<html
+  lang="en"
   data-wf-domain="medicare-template.webflow.io"
   data-wf-page="57c55b6ef6306d483a15bdc1"
   data-wf-site="57c55b6ef6306d483a15bdc0"
-  data-wf-status="1">
-<head>
-  <meta charset="utf-8" />
-  <title>Prescriptions | Medicare</title>
-  <meta content="width=device-width, initial-scale=1" name="viewport" />
-  <meta content="Webflow" name="generator" />
-  <link href="./styles/index.css" rel="stylesheet" type="text/css" />
-  <link href="https://fonts.googleapis.com" rel="preconnect" />
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  data-wf-status="1"
+>
+  <head>
+    <meta charset="utf-8" />
+    <title>Prescriptions | Medicare</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="Webflow" name="generator" />
+    <link href="./styles/index.css" rel="stylesheet" type="text/css" />
+    <link href="./styles/prescriptions.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link
+      href="https://fonts.gstatic.com"
+      rel="preconnect"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
 
-  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-  <script>
-    WebFont.load({
-      google: {
-        families: [
-          "Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic",
-          "Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic",
-          "Source Sans Pro:regular,700"
-        ]
-      }
-    });
-  </script>
-  <script>
-    !(function (o, c) {
-      var n = c.documentElement, t = " w-mod-";
-      n.className += t + "js";
-      ("ontouchstart" in o || (o.DocumentTouch && c instanceof DocumentTouch)) && (n.className += t + "touch");
-    })(window, document);
-  </script>
-  <link href="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/589c409426e3bc615f48b429_favicon.png" rel="shortcut icon" type="image/x-icon" />
-  <link href="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/589b0ba5dbf0b97f5096c916_pharmacy-symbol-darker.png" rel="apple-touch-icon" />
-
-  <style>
-    /* Page-specific enhancements */
-    .page-header { margin-top: 24px; }
-    .table-tools { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin: 8px 0 16px; }
-    .table-tools .search { flex:1; min-width:240px; }
-    .table-tools input, .table-tools select {
-      height: 38px; border: 1px solid #d1d5db; border-radius: 8px; padding: 6px 10px; width: 100%;
-    }
-
-    .rx-table-wrapper { overflow-x:auto; background:#fff; border-radius:12px; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
-    table.rx-table { width:100%; border-collapse:collapse; }
-    .rx-table th, .rx-table td { padding:12px 14px; border-bottom:1px solid #e5e7eb; white-space:nowrap; }
-    .rx-table th { text-align:left; font-weight:600; font-size:14px; background:#f9fafb; position:sticky; top:0; z-index:1; }
-    .rx-table tbody tr:hover { background:#f9fafb; }
-    .btn { display:inline-flex; align-items:center; gap:8px; height:36px; padding:0 12px; border-radius:8px; border:1px solid #d1d5db; background:#fff; cursor:pointer; }
-    .btn.primary { background:#2563eb; color:#fff; border-color:#2563eb; }
-    .badge { display:inline-block; padding:2px 8px; border-radius:9999px; background:#eef2ff; color:#3730a3; font-size:12px; }
-    .idmono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
-
-    /* Modal */
-    .modal-backdrop {
-      display:none; position:fixed; inset:0; background:rgba(0,0,0,.4);
-      align-items:center; justify-content:center; z-index: 1000;
-    }
-    .modal {
-      width:min(900px, 92vw); background:#fff; border-radius:14px; overflow:hidden;
-      box-shadow:0 10px 30px rgba(0,0,0,.25);
-    }
-    .modal-header { padding:16px 20px; background:#f3f4f6; display:flex; justify-content:space-between; align-items:center; }
-    .modal-title { margin:0; font-size:18px; }
-    .modal-close { border:none; background:transparent; font-size:20px; cursor:pointer; }
-    .modal-body { padding:16px 20px; max-height:70vh; overflow:auto; }
-    .kv { display:grid; grid-template-columns: 180px 1fr; gap:6px 16px; margin-bottom:12px; }
-    .rx-items { width:100%; border-collapse:collapse; margin-top:8px; }
-    .rx-items th, .rx-items td { border:1px solid #e5e7eb; padding:8px 10px; }
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
-  /* Base reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.menu-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #00aaff;
-  border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 1001;
-}
-
-.menu-btn img {
-  width: 28px;
-  height: 28px;
-}
-
-.mobile-menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 0;
-  background: #fff;
-  overflow: hidden;
-  transition: height 0.4s ease;
-  z-index: 1000;
-}
-
-.mobile-menu.open {
-  height: 60vh;
-}
-
-.mobile-menu ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  height: 100%;
-}
-
-.mobile-menu a {
-  text-decoration: none;
-  color: #0b214a;
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.close-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: #00aaff;
-  color: white;
-  border: none;
-  font-size: 24px;
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.menu-button {
-  z-index: 999999 !important;
-}
-</style>
-</head>
-<body>
-
-<div id="navbar-placeholder"></div>
-<script>
-  (function loadNavbar(){
-    fetch('/partials/navbar.html')
-      .then(r => r.ok ? r.text() : Promise.reject(r.status))
-      .then(html => {
-        document.getElementById('navbar-placeholder').innerHTML = html;
-
-        const btn = document.querySelector('#navbar-placeholder .menu-button');
-        const nav = document.querySelector('#navbar-placeholder .w-nav-menu');
-        if (btn && nav) {
-          btn.addEventListener('click', () => {
-            const open = nav.classList.toggle('open');
-            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-            const i = btn.querySelector('i');
-            if (i) { i.classList.toggle('fa-bars'); i.classList.toggle('fa-xmark'); }
-          });
-        }
-
-        // set active link based on current path (optional)
-        document.querySelectorAll('#navbar-placeholder .w-nav-menu a').forEach(a=>{
-          if (location.pathname.endsWith(a.getAttribute('href'))) a.classList.add('active');
-        });
-      })
-      .catch(err => {
-        console.error('Failed to load navbar partial:', err);
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+      WebFont.load({
+        google: {
+          families: [
+            "Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic",
+            "Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic",
+            "Source Sans Pro:regular,700",
+          ],
+        },
       });
-  })();
+    </script>
+    <script>
+      !(function (o, c) {
+        var n = c.documentElement,
+          t = " w-mod-";
+        n.className += t + "js";
+        ("ontouchstart" in o ||
+          (o.DocumentTouch && c instanceof DocumentTouch)) &&
+          (n.className += t + "touch");
+      })(window, document);
+    </script>
+    <link
+      href="./assets/favicon.png  "
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+    <link
+      href="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/589b0ba5dbf0b97f5096c916_pharmacy-symbol-darker.png"
+      rel="apple-touch-icon"
+    />
+  </head>
+  <body>
+    <div id="navbar-placeholder"></div>
+    <!-- NAVBAR (kept; minor icons retained) -->
+    <div class="navbar-wrapper">
+      <div class="top-info-bar">
+        <div class="top-info-bar-container w-container">
+          <a
+            href="./index.html"
+            class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand"
+            ><img
+              src="./assets/rxconnect.png"
+              alt="logo"
+              style="width: 120px; height: auto; margin-bottom: 4px"
+            /></a>
+          <div class="info-bar w-clearfix">
+            <div class="info-blocks-wrapper w-clearfix">
+              <div class="top-info-block no-right-border w-clearfix">
+                <div class="top-info-icon"></div>
+                <div class="top-info-content">
+                  <a href="tel:+44 20 7123 4567" class="contact-link"
+                    >+44 20 7123 4567</a
+                  ><a href="tel:+44 7712 345678" class="contact-link"
+                    >+44 7712 345678</a
+                  >
+                </div>
+              </div>
+              <div class="top-info-block w-clearfix">
+                <div class="top-info-icon _2"></div>
+                <div class="top-info-content">
+                  <a data-ix="popup-modal-show" href="#" class="contact-link"
+                    >M5 3AB<br />
+                   Church Road, Salford, Manchester</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        data-collapse="medium"
+        data-animation="default"
+        data-duration="400"
+        data-easing="ease"
+        data-easing2="ease"
+        role="banner"
+        class="navbar w-nav"
+      >
+      <div class="navbar-container w-container">
+        <a href="./home.html" class="brand w-hidden-main w-nav-brand"
+          ><img
+            src="./assets/rxconnect.png"
+            alt="logo"
+            style="width: 140px; height: auto;"
+          /></a>
+        <nav role="navigation" class="nav-menu w-nav-menu">
+    <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
+    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
+    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
+    <a href="./pending-prescription.html"  class="nav-link w-nav-link" >Pending Prescriptions</a>
+    <!-- <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a> -->
+
+    <a href="./patients.html" class="nav-link w-nav-link">Patients</a>
+    <!-- <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a> -->
+    <a href="./contacts.html" class="nav-link w-nav-link">Contacts    </a>
+    <a href="./billing.html" class="nav-link w-nav-link">Billing</a>
+    <a class="nav-link w-nav-link" href="./myprofile.html">My Profile </a>
+
+    <div class="dropdown">
+  <button class="nav-link w-nav-link bg-transparent" id="reportsBtn">
+    Reports <i class="fa-solid fa-chevron-down"></i>
+  </button>
+  <div class="dropdown-content" id="reportsDropdown">
+    <a href="./reports.html">Reports</a>
+    <a href="./medicationExport.html">Medication Export</a>
+
+  </div>
+</div>
+
+  </nav>
+<script>
+const reportsBtn = document.getElementById('reportsBtn');
+const reportsDropdown = document.getElementById('reportsDropdown');
+
+// Toggle dropdown on click
+reportsBtn.addEventListener('click', function(e) {
+  e.preventDefault(); // Prevent default link navigation
+  reportsDropdown.classList.toggle('show');
+});
+
+// Close the dropdown if clicked outside
+window.addEventListener('click', function(e) {
+  if (!reportsBtn.contains(e.target) && !reportsDropdown.contains(e.target)) {
+    reportsDropdown.classList.remove('show');
+  }
+});
 </script>
 
-  <!-- Page Header -->
-  <div class="section page-header">
+        <div id="menu-btn" class="menu-button w-nav-button">
+          <i class="fa-solid fa-bars" id="menu-icon"></i>
+        </div>
+      </div>
+
+
+
+      </div>
+    </div>
+
+    <!-- Scroll navbar (unchanged visually) -->
+    <!-- <div
+      data-collapse="medium"
+      data-animation="default"
+      data-duration="400"
+      data-ix="display-scroll-navbar"
+      data-easing="ease"
+      data-easing2="ease"
+      role="banner"
+      class="navbar-scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav"
+    >
+      <div class="nav-scroll-container w-container">
+        <div class="menu-button scroll-menu-button w-nav-button">
+          <div class="w-icon-nav-menu"></div>
+        </div>
+          <a
+          href="/"
+          aria-current="page"
+          class="brand scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand w--current"
+          > <img
+              src="./assets/rxconnect.png"
+              alt="logo"
+              style="width: 120px; height: auto; margin-bottom: 4px"
+            /></a>
+        <nav role="navigation" class="nav-menu w-nav-menu">
+   <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
+    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
+    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
+    <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
+    <a href="./patient-history.html" class="nav-link w-nav-link">Patient history</a>
+    <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a>
+
+  </nav>
+      
+      </div>
+    </div> -->
+    <!-- Page Header -->
+    <!-- <div class="section page-header">
     <div class="w-container">
       <div class="title-wrapper">
         <h2>Prescriptions</h2>
@@ -212,14 +229,16 @@
           <thead>
             <tr>
               <th style="width: 220px;">Prescription ID</th>
-              <th style="width: 150px;">Date</th>
-              <th style="width: 160px;">Doctor ID</th>
-              <th style="width: 120px;">Actions</th>
+              <th style="width: 150px;">Patient</th>
+              <th style="width: 160px;">Medication</th>
+              <th style="width: 120px;">Last Updated</th>
+              <th style="width: 120px;">Status</th>
+              <th style="width: 120px;">Send to SP</th>
             </tr>
           </thead>
-          <tbody id="rxTbody">
-            <!-- JS populates rows -->
-          </tbody>
+          <tbody id="rxTbody"> -->
+    <!-- JS populates rows -->
+    <!-- </tbody>
         </table>
       </div>
 
@@ -227,23 +246,192 @@
         No prescriptions match your filters.
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <!-- Modal -->
-  <div class="modal-backdrop" id="rxModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="rxModalTitle">
+    <!-- Modal -->
+    <!-- <div class="modal-backdrop" id="rxModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="rxModalTitle">
     <div class="modal">
       <div class="modal-header">
         <h3 class="modal-title" id="rxModalTitle">Prescription Details</h3>
         <button class="modal-close" id="rxModalClose" aria-label="Close">&times;</button>
       </div>
-      <div class="modal-body" id="rxModalBody">
-        <!-- JS injects details -->
-      </div>
+      <div class="modal-body" id="rxModalBody"> -->
+    <!-- JS injects details -->
+    <!-- </div>
     </div>
-  </div>
+  </div> -->
+ 
 
-  <!-- FOOTER (exactly as your site) -->
- <div class="footer">
+
+
+
+    <!-- PRESCRIPTION TRACKER PAGE -->
+    <main class="prescription-page">
+      <div class="prescription-wrapper">
+        <!-- Top title + button -->
+        <div class="pt-header">
+          <h1>Prescription Tracker</h1>
+          <button class="btn-primary" onclick="window.location.href='dr-form.html'">
+            ADD NEW PRESCRIPTION
+          </button>
+        </div>
+
+        <!-- Filters row -->
+        <div class="pt-filters">
+          <select class="pt-input">
+            <option>Status</option>
+            <option>Issued</option>
+            <option>Dispensed</option>
+            <option>Cancelled</option>
+          </select>
+
+          <div class="pt-date-range">
+            <div class="pt-date">
+              <i class="fa-regular fa-calendar"></i>
+              <input type="date" class="pt-input" />
+            </div>
+            <span class="pt-to">to</span>
+            <div class="pt-date">
+              <i class="fa-regular fa-calendar"></i>
+              <input type="date" class="pt-input" />
+            </div>
+          </div>
+
+          <input
+            type="text"
+            class="pt-input pt-search"
+            placeholder="Search prescription ID or patient name"
+          />
+
+          <button class="btn-primary pt-search-btn">SEARCH</button>
+          <button class="btn-secondary" type="button" id="pt-clear-btn">
+            CLEAR
+          </button>
+        </div>
+
+        <!-- Table card -->
+        <div class="pt-table-card">
+          <table class="pt-table">
+            <thead>
+              <tr>
+                <th>PRESCRIPTION ID</th>
+                <th>PATIENT</th>
+                <th>MEDICATION</th>
+                <th>LAST UPDATED</th>
+                <th>STATUS</th>
+                <th>SEND TO SP</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Multiple sample records -->
+              <tr>
+                <td>RX-2025-0001</td>
+                <td>John Smith</td>
+                <td>Atorvastatin 20 mg tablets</td>
+                <td>15 Nov 2025, 10:32</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0002</td>
+                <td>Sarah Johnson</td>
+                <td>Amoxicillin 500 mg capsules</td>
+                <td>14 Nov 2025, 17:20</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0003</td>
+                <td>Michael Brown</td>
+                <td>Metformin 850 mg tablets</td>
+                <td>13 Nov 2025, 09:10</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0004</td>
+                <td>Emma Wilson</td>
+                <td>Lisinopril 10 mg tablets</td>
+                <td>12 Nov 2025, 11:48</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0005</td>
+                <td>David Miller</td>
+                <td>Amlodipine 5 mg tablets</td>
+                <td>11 Nov 2025, 15:25</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0006</td>
+                <td>Olivia Harris</td>
+                <td>Ibuprofen 400 mg tablets</td>
+                <td>10 Nov 2025, 13:39</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0007</td>
+                <td>William Thompson</td>
+                <td>Paracetamol 500 mg tablets</td>
+                <td>09 Nov 2025, 08:50</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0008</td>
+                <td>Jessica Davis</td>
+                <td>Omeprazole 20 mg capsules</td>
+                <td>08 Nov 2025, 14:05</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0009</td>
+                <td>Matthew Garcia</td>
+                <td>Sertraline 50 mg tablets</td>
+                <td>07 Nov 2025, 16:41</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            
+              <tr>
+                <td>RX-2025-0010</td>
+                <td>Sophia Martinez</td>
+                <td>Gabapentin 300 mg capsules</td>
+                <td>06 Nov 2025, 12:17</td>
+                <td><span class="pt-status pt-status-issued">Issued</span></td>
+                <td><button class="btn-chip" type="button">Send</button></td>
+              </tr>
+            </tbody>
+            
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // Simple clear behaviour: reset filters and search
+      document.getElementById("pt-clear-btn").addEventListener("click", function () {
+        const selects = document.querySelectorAll(".pt-filters select");
+        const inputs = document.querySelectorAll(".pt-filters input");
+        selects.forEach((s) => (s.selectedIndex = 0));
+        inputs.forEach((i) => (i.value = ""));
+      });
+    </script>
+
+    <!-- FOOTER (exactly as your site) -->
+    <div class="footer">
       <div class="w-container">
         <div class="emergency-wrapper">
           <img
@@ -266,10 +454,10 @@
               style="width: 160px; height: auto; margin-bottom: 2px"
             />
             <p class="white footer-paragraph">
-              RxConnect is an international private health care provider. We have
-              more than 20 years of experience. Our patients are provided with
-              access to comprehensive outpatient and inpatient services, as well
-              as a full range of laboratory diagnostics.
+              RxConnect is an international private health care provider. We
+              have more than 20 years of experience. Our patients are provided
+              with access to comprehensive outpatient and inpatient services, as
+              well as a full range of laboratory diagnostics.
             </p>
           </div>
           <div class="_17-percent-column">
@@ -278,11 +466,15 @@
                 <h4 class="footer-title">Navigation</h4>
                 <div class="footer-line"></div>
               </div>
-               <a href="./about-us.html" class="footer-link">Who we are</a>
+              <a href="./about-us.html" class="footer-link">Who we are</a>
               <a href="./dr-form.html" class="footer-link">E-prescription</a>
-              <a href="./prescriptions.html" class="footer-link">My prescription</a>
+              <a href="./prescriptions.html" class="footer-link"
+                >My prescription</a
+              >
               <a href="./doctors.html" class="footer-link">Doctors</a>
-              <a href="./patient-history.html" class="footer-link">Patient history</a>
+              <a href="./patient-history.html" class="footer-link"
+                >Patient history</a
+              >
               <a href="./FAQs.html" class="footer-link">FAQs</a>
             </div>
           </div>
@@ -295,22 +487,36 @@
               <div class="w-dyn-list">
                 <div role="list" class="w-dyn-items">
                   <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/accident-and-emergency-ae" class="footer-link">Physiotherapy</a>
+                    <a
+                      href="/departments/accident-and-emergency-ae"
+                      class="footer-link"
+                      >Physiotherapy</a
+                    >
                   </div>
                   <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/eye-care" class="footer-link">Optical</a>
+                    <a href="/departments/eye-care" class="footer-link"
+                      >Optical</a
+                    >
                   </div>
                   <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/traumatology" class="footer-link">Dental</a>
+                    <a href="/departments/traumatology" class="footer-link"
+                      >Dental</a
+                    >
                   </div>
                   <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/dental-care" class="footer-link">X-Ray</a>
+                    <a href="/departments/dental-care" class="footer-link"
+                      >X-Ray</a
+                    >
                   </div>
                   <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/cardiology" class="footer-link">Cardiology</a>
+                    <a href="/departments/cardiology" class="footer-link"
+                      >Cardiology</a
+                    >
                   </div>
                   <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/neurology" class="footer-link">Neurology</a>
+                    <a href="/departments/neurology" class="footer-link"
+                      >Neurology</a
+                    >
                   </div>
                 </div>
               </div>
@@ -329,7 +535,12 @@
                   class="footer-contact-icon"
                 />
                 <div>
-                  <a data-ix="popup-modal-show" href="#" class="footer-link contact">M5 3AB Church Road, Salford, Manchester</a>
+                  <a
+                    data-ix="popup-modal-show"
+                    href="#"
+                    class="footer-link contact"
+                    >M5 3AB Church Road, Salford, Manchester</a
+                  >
                 </div>
               </div>
               <div class="footer-contact-block">
@@ -339,7 +550,9 @@
                   class="footer-contact-icon"
                 />
                 <div>
-                  <a href="mailto:" class="footer-link contact">info@rxconnect.com</a>
+                  <a href="mailto:" class="footer-link contact"
+                    >info@rxconnect.com</a
+                  >
                 </div>
               </div>
               <div class="footer-contact-block">
@@ -349,8 +562,12 @@
                   class="footer-contact-icon"
                 />
                 <div>
-                  <a href="tel:+61393455522" class="footer-link">+44 7712 345678</a>
-                  <a href="tel:+61393455522" class="footer-link">+44 20 7123 4567</a>
+                  <a href="tel:+61393455522" class="footer-link"
+                    >+44 7712 345678</a
+                  >
+                  <a href="tel:+61393455522" class="footer-link"
+                    >+44 20 7123 4567</a
+                  >
                 </div>
               </div>
             </div>
@@ -371,7 +588,9 @@
                   class="footer-contact-icon"
                 />
                 <div>
-                  <div class="footer-link"> 267 Collins St Melbourne Victoria 3000 </div>
+                  <div class="footer-link">
+                    267 Collins St Melbourne Victoria 3000
+                  </div>
                 </div>
               </div>
               <div class="footer-contact-block">
@@ -381,7 +600,9 @@
                   class="footer-contact-icon"
                 />
                 <div>
-                  <a href="mailto:" class="footer-link contact">info@medicare.com</a>
+                  <a href="mailto:" class="footer-link contact"
+                    >info@medicare.com</a
+                  >
                 </div>
               </div>
               <div class="footer-contact-block">
@@ -391,8 +612,12 @@
                   class="footer-contact-icon"
                 />
                 <div>
-                  <a href="tel:+61393455522" class="footer-link">03-9345-5522</a>
-                  <a href="tel:+61393455522" class="footer-link">03-9345-4422</a>
+                  <a href="tel:+61393455522" class="footer-link"
+                    >03-9345-5522</a
+                  >
+                  <a href="tel:+61393455522" class="footer-link"
+                    >03-9345-4422</a
+                  >
                 </div>
               </div>
             </div>
@@ -406,9 +631,13 @@
               </div>
               <a href="./about-us.html" class="footer-link">Who we are</a>
               <a href="./dr-form.html" class="footer-link">E-prescription</a>
-              <a href="./prescriptions.html" class="footer-link">My prescription</a>
+              <a href="./prescriptions.html" class="footer-link"
+                >My prescription</a
+              >
               <a href="./doctors.html" class="footer-link">Doctors</a>
-              <a href="./patient-history.html" class="footer-link">Patient history</a>
+              <a href="./patient-history.html" class="footer-link"
+                >Patient history</a
+              >
               <a href="./FAQs.html" class="footer-link">FAQs</a>
             </div>
           </div>
@@ -421,12 +650,38 @@
               </div>
               <div class="w-dyn-list">
                 <div role="list" class="w-dyn-items">
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/accident-and-emergency-ae" class="footer-link">Physiotherapy</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/eye-care" class="footer-link">Optical</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/traumatology" class="footer-link">Dental </a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/dental-care" class="footer-link">X-Ray</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/cardiology" class="footer-link">Cardiology</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/neurology" class="footer-link">Neurology</a></div>
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a
+                      href="/departments/accident-and-emergency-ae"
+                      class="footer-link"
+                      >Physiotherapy</a
+                    >
+                  </div>
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a href="/departments/eye-care" class="footer-link"
+                      >Optical</a
+                    >
+                  </div>
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a href="/departments/traumatology" class="footer-link"
+                      >Dental
+                    </a>
+                  </div>
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a href="/departments/dental-care" class="footer-link"
+                      >X-Ray</a
+                    >
+                  </div>
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a href="/departments/cardiology" class="footer-link"
+                      >Cardiology</a
+                    >
+                  </div>
+                  <div role="listitem" class="w-clearfix w-dyn-item">
+                    <a href="/departments/neurology" class="footer-link"
+                      >Neurology</a
+                    >
+                  </div>
                 </div>
               </div>
             </div>
@@ -475,7 +730,9 @@
                   <div>Thank you! Your submission has been received!</div>
                 </div>
                 <div class="w-form-fail">
-                  <div> Oops! Something went wrong while submitting the form </div>
+                  <div>
+                    Oops! Something went wrong while submitting the form
+                  </div>
                 </div>
               </div>
             </div>
@@ -493,214 +750,516 @@
         </div>
       </div>
     </div>
-  <!-- /FOOTER -->
+    <!-- /FOOTER -->
 
-  <!-- Scripts -->
-  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=57c55b6ef6306d483a15bdc0"
-          integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-  <script src="./scripts/index.js"></script>
+    <!-- Scripts -->
+    <script
+      src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=57c55b6ef6306d483a15bdc0"
+      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+      crossorigin="anonymous"
+    ></script>
 
-  <script>
-    // Demo dataset; replace with fetch('/api/prescriptions') in production.
-    const RX = [
-      {
-        id: "RX-2025-0001",
-        date: "2025-10-03",
-        doctorId: "D-1009",
-        patientId: "P-7781",
-        notes: "Take with food. Monitor for rash.",
-        items: [
-          { drug:"Amoxicillin", strength:"500 mg", form:"Cap", route:"PO", dose:"1 cap", freq:"TID", duration:"7 d", qty:21, refills:0, note:"" },
-          { drug:"Paracetamol", strength:"500 mg", form:"Tab", route:"PO", dose:"1 tab", freq:"Q8h PRN", duration:"5 d", qty:15, refills:0, note:"Max 3 g/day" }
-        ]
-      },
+    <script>
+      // Demo dataset; replace with fetch('/api/prescriptions') in production.
+      const RX = [
+        {
+          id: "RX-2025-0001",
+          date: "2025-10-03",
+          doctorId: "D-1009",
+          patientId: "P-7781",
+          notes: "Take with food. Monitor for rash.",
+          items: [
+            {
+              drug: "Amoxicillin",
+              strength: "500 mg",
+              form: "Cap",
+              route: "PO",
+              dose: "1 cap",
+              freq: "TID",
+              duration: "7 d",
+              qty: 21,
+              refills: 0,
+              note: "",
+            },
+            {
+              drug: "Paracetamol",
+              strength: "500 mg",
+              form: "Tab",
+              route: "PO",
+              dose: "1 tab",
+              freq: "Q8h PRN",
+              duration: "5 d",
+              qty: 15,
+              refills: 0,
+              note: "Max 3 g/day",
+            },
+          ],
+        },
 
-      
-      {
-        id: "RX-2025-0002",
-        date: "2025-10-04",
-        doctorId: "D-1002",
-        patientId: "P-5532",
-        notes: "",
-        items: [
-          { drug:"Lisinopril", strength:"10 mg", form:"Tab", route:"PO", dose:"1 tab", freq:"OD", duration:"30 d", qty:30, refills:3, note:"Check BP weekly" }
-        ]
-      },
-      {
-        id: "RX-2025-0003",
-        date: "2025-10-05",
-        doctorId: "D-1015",
-        patientId: "P-9901",
-        notes: "Patient reports penicillin allergy.",
-        items: [
-          { drug:"Azithromycin", strength:"500 mg", form:"Tab", route:"PO", dose:"1 tab", freq:"OD", duration:"3 d", qty:3, refills:0, note:"" }
-        ]
-      },
-      {
-        id: "RX-2025-0001",
-        date: "2025-10-03",
-        doctorId: "D-1009",
-        patientId: "P-7781",
-        notes: "Take with food. Monitor for rash.",
-        items: [
-          { drug:"Amoxicillin", strength:"500 mg", form:"Cap", route:"PO", dose:"1 cap", freq:"TID", duration:"7 d", qty:21, refills:0, note:"" },
-          { drug:"Paracetamol", strength:"500 mg", form:"Tab", route:"PO", dose:"1 tab", freq:"Q8h PRN", duration:"5 d", qty:15, refills:0, note:"Max 3 g/day" }
-        ]
-      }, {
-        id: "RX-2025-0001",
-        date: "2025-10-03",
-        doctorId: "D-1009",
-        patientId: "P-7781",
-        notes: "Take with food. Monitor for rash.",
-        items: [
-          { drug:"Amoxicillin", strength:"500 mg", form:"Cap", route:"PO", dose:"1 cap", freq:"TID", duration:"7 d", qty:21, refills:0, note:"" },
-          { drug:"Paracetamol", strength:"500 mg", form:"Tab", route:"PO", dose:"1 tab", freq:"Q8h PRN", duration:"5 d", qty:15, refills:0, note:"Max 3 g/day" }
-        ]
-      }, {
-        id: "RX-2025-0001",
-        date: "2025-10-03",
-        doctorId: "D-1009",
-        patientId: "P-7781",
-        notes: "Take with food. Monitor for rash.",
-        items: [
-          { drug:"Amoxicillin", strength:"500 mg", form:"Cap", route:"PO", dose:"1 cap", freq:"TID", duration:"7 d", qty:21, refills:0, note:"" },
-          { drug:"Paracetamol", strength:"500 mg", form:"Tab", route:"PO", dose:"1 tab", freq:"Q8h PRN", duration:"5 d", qty:15, refills:0, note:"Max 3 g/day" }
-        ]
-      }, {
-        id: "RX-2025-0001",
-        date: "2025-10-03",
-        doctorId: "D-1009",
-        patientId: "P-7781",
-        notes: "Take with food. Monitor for rash.",
-        items: [
-          { drug:"Amoxicillin", strength:"500 mg", form:"Cap", route:"PO", dose:"1 cap", freq:"TID", duration:"7 d", qty:21, refills:0, note:"" },
-          { drug:"Paracetamol", strength:"500 mg", form:"Tab", route:"PO", dose:"1 tab", freq:"Q8h PRN", duration:"5 d", qty:15, refills:0, note:"Max 3 g/day" }
-        ]
-      }, {
-        id: "RX-2025-0001",
-        date: "2025-10-03",
-        doctorId: "D-1009",
-        patientId: "P-7781",
-        notes: "Take with food. Monitor for rash.",
-        items: [
-          { drug:"Amoxicillin", strength:"500 mg", form:"Cap", route:"PO", dose:"1 cap", freq:"TID", duration:"7 d", qty:21, refills:0, note:"" },
-          { drug:"Paracetamol", strength:"500 mg", form:"Tab", route:"PO", dose:"1 tab", freq:"Q8h PRN", duration:"5 d", qty:15, refills:0, note:"Max 3 g/day" }
-        ]
-      }, {
-        id: "RX-2025-0001",
-        date: "2025-10-03",
-        doctorId: "D-1009",
-        patientId: "P-7781",
-        notes: "Take with food. Monitor for rash.",
-        items: [
-          { drug:"Amoxicillin", strength:"500 mg", form:"Cap", route:"PO", dose:"1 cap", freq:"TID", duration:"7 d", qty:21, refills:0, note:"" },
-          { drug:"Paracetamol", strength:"500 mg", form:"Tab", route:"PO", dose:"1 tab", freq:"Q8h PRN", duration:"5 d", qty:15, refills:0, note:"Max 3 g/day" }
-        ]
-      }, {
-        id: "RX-2025-0001",
-        date: "2025-10-03",
-        doctorId: "D-1009",
-        patientId: "P-7781",
-        notes: "Take with food. Monitor for rash.",
-        items: [
-          { drug:"Amoxicillin", strength:"500 mg", form:"Cap", route:"PO", dose:"1 cap", freq:"TID", duration:"7 d", qty:21, refills:0, note:"" },
-          { drug:"Paracetamol", strength:"500 mg", form:"Tab", route:"PO", dose:"1 tab", freq:"Q8h PRN", duration:"5 d", qty:15, refills:0, note:"Max 3 g/day" }
-        ]
-      }, {
-        id: "RX-2025-0001",
-        date: "2025-10-03",
-        doctorId: "D-1009",
-        patientId: "P-7781",
-        notes: "Take with food. Monitor for rash.",
-        items: [
-          { drug:"Amoxicillin", strength:"500 mg", form:"Cap", route:"PO", dose:"1 cap", freq:"TID", duration:"7 d", qty:21, refills:0, note:"" },
-          { drug:"Paracetamol", strength:"500 mg", form:"Tab", route:"PO", dose:"1 tab", freq:"Q8h PRN", duration:"5 d", qty:15, refills:0, note:"Max 3 g/day" }
-        ]
-      }, {
-        id: "RX-2025-0001",
-        date: "2025-10-03",
-        doctorId: "D-1009",
-        patientId: "P-7781",
-        notes: "Take with food. Monitor for rash.",
-        items: [
-          { drug:"Amoxicillin", strength:"500 mg", form:"Cap", route:"PO", dose:"1 cap", freq:"TID", duration:"7 d", qty:21, refills:0, note:"" },
-          { drug:"Paracetamol", strength:"500 mg", form:"Tab", route:"PO", dose:"1 tab", freq:"Q8h PRN", duration:"5 d", qty:15, refills:0, note:"Max 3 g/day" }
-        ]
-      }, {
-        id: "RX-2025-0001",
-        date: "2025-10-03",
-        doctorId: "D-1009",
-        patientId: "P-7781",
-        notes: "Take with food. Monitor for rash.",
-        items: [
-          { drug:"Amoxicillin", strength:"500 mg", form:"Cap", route:"PO", dose:"1 cap", freq:"TID", duration:"7 d", qty:21, refills:0, note:"" },
-          { drug:"Paracetamol", strength:"500 mg", form:"Tab", route:"PO", dose:"1 tab", freq:"Q8h PRN", duration:"5 d", qty:15, refills:0, note:"Max 3 g/day" }
-        ]
-      }, {
-        id: "RX-2025-0001",
-        date: "2025-10-03",
-        doctorId: "D-1009",
-        patientId: "P-7781",
-        notes: "Take with food. Monitor for rash.",
-        items: [
-          { drug:"Amoxicillin", strength:"500 mg", form:"Cap", route:"PO", dose:"1 cap", freq:"TID", duration:"7 d", qty:21, refills:0, note:"" },
-          { drug:"Paracetamol", strength:"500 mg", form:"Tab", route:"PO", dose:"1 tab", freq:"Q8h PRN", duration:"5 d", qty:15, refills:0, note:"Max 3 g/day" }
-        ]
-      }
-    ];
+        {
+          id: "RX-2025-0002",
+          date: "2025-10-04",
+          doctorId: "D-1002",
+          patientId: "P-5532",
+          notes: "",
+          items: [
+            {
+              drug: "Lisinopril",
+              strength: "10 mg",
+              form: "Tab",
+              route: "PO",
+              dose: "1 tab",
+              freq: "OD",
+              duration: "30 d",
+              qty: 30,
+              refills: 3,
+              note: "Check BP weekly",
+            },
+          ],
+        },
+        {
+          id: "RX-2025-0003",
+          date: "2025-10-05",
+          doctorId: "D-1015",
+          patientId: "P-9901",
+          notes: "Patient reports penicillin allergy.",
+          items: [
+            {
+              drug: "Azithromycin",
+              strength: "500 mg",
+              form: "Tab",
+              route: "PO",
+              dose: "1 tab",
+              freq: "OD",
+              duration: "3 d",
+              qty: 3,
+              refills: 0,
+              note: "",
+            },
+          ],
+        },
+        {
+          id: "RX-2025-0001",
+          date: "2025-10-03",
+          doctorId: "D-1009",
+          patientId: "P-7781",
+          notes: "Take with food. Monitor for rash.",
+          items: [
+            {
+              drug: "Amoxicillin",
+              strength: "500 mg",
+              form: "Cap",
+              route: "PO",
+              dose: "1 cap",
+              freq: "TID",
+              duration: "7 d",
+              qty: 21,
+              refills: 0,
+              note: "",
+            },
+            {
+              drug: "Paracetamol",
+              strength: "500 mg",
+              form: "Tab",
+              route: "PO",
+              dose: "1 tab",
+              freq: "Q8h PRN",
+              duration: "5 d",
+              qty: 15,
+              refills: 0,
+              note: "Max 3 g/day",
+            },
+          ],
+        },
+        {
+          id: "RX-2025-0001",
+          date: "2025-10-03",
+          doctorId: "D-1009",
+          patientId: "P-7781",
+          notes: "Take with food. Monitor for rash.",
+          items: [
+            {
+              drug: "Amoxicillin",
+              strength: "500 mg",
+              form: "Cap",
+              route: "PO",
+              dose: "1 cap",
+              freq: "TID",
+              duration: "7 d",
+              qty: 21,
+              refills: 0,
+              note: "",
+            },
+            {
+              drug: "Paracetamol",
+              strength: "500 mg",
+              form: "Tab",
+              route: "PO",
+              dose: "1 tab",
+              freq: "Q8h PRN",
+              duration: "5 d",
+              qty: 15,
+              refills: 0,
+              note: "Max 3 g/day",
+            },
+          ],
+        },
+        {
+          id: "RX-2025-0001",
+          date: "2025-10-03",
+          doctorId: "D-1009",
+          patientId: "P-7781",
+          notes: "Take with food. Monitor for rash.",
+          items: [
+            {
+              drug: "Amoxicillin",
+              strength: "500 mg",
+              form: "Cap",
+              route: "PO",
+              dose: "1 cap",
+              freq: "TID",
+              duration: "7 d",
+              qty: 21,
+              refills: 0,
+              note: "",
+            },
+            {
+              drug: "Paracetamol",
+              strength: "500 mg",
+              form: "Tab",
+              route: "PO",
+              dose: "1 tab",
+              freq: "Q8h PRN",
+              duration: "5 d",
+              qty: 15,
+              refills: 0,
+              note: "Max 3 g/day",
+            },
+          ],
+        },
+        {
+          id: "RX-2025-0001",
+          date: "2025-10-03",
+          doctorId: "D-1009",
+          patientId: "P-7781",
+          notes: "Take with food. Monitor for rash.",
+          items: [
+            {
+              drug: "Amoxicillin",
+              strength: "500 mg",
+              form: "Cap",
+              route: "PO",
+              dose: "1 cap",
+              freq: "TID",
+              duration: "7 d",
+              qty: 21,
+              refills: 0,
+              note: "",
+            },
+            {
+              drug: "Paracetamol",
+              strength: "500 mg",
+              form: "Tab",
+              route: "PO",
+              dose: "1 tab",
+              freq: "Q8h PRN",
+              duration: "5 d",
+              qty: 15,
+              refills: 0,
+              note: "Max 3 g/day",
+            },
+          ],
+        },
+        {
+          id: "RX-2025-0001",
+          date: "2025-10-03",
+          doctorId: "D-1009",
+          patientId: "P-7781",
+          notes: "Take with food. Monitor for rash.",
+          items: [
+            {
+              drug: "Amoxicillin",
+              strength: "500 mg",
+              form: "Cap",
+              route: "PO",
+              dose: "1 cap",
+              freq: "TID",
+              duration: "7 d",
+              qty: 21,
+              refills: 0,
+              note: "",
+            },
+            {
+              drug: "Paracetamol",
+              strength: "500 mg",
+              form: "Tab",
+              route: "PO",
+              dose: "1 tab",
+              freq: "Q8h PRN",
+              duration: "5 d",
+              qty: 15,
+              refills: 0,
+              note: "Max 3 g/day",
+            },
+          ],
+        },
+        {
+          id: "RX-2025-0001",
+          date: "2025-10-03",
+          doctorId: "D-1009",
+          patientId: "P-7781",
+          notes: "Take with food. Monitor for rash.",
+          items: [
+            {
+              drug: "Amoxicillin",
+              strength: "500 mg",
+              form: "Cap",
+              route: "PO",
+              dose: "1 cap",
+              freq: "TID",
+              duration: "7 d",
+              qty: 21,
+              refills: 0,
+              note: "",
+            },
+            {
+              drug: "Paracetamol",
+              strength: "500 mg",
+              form: "Tab",
+              route: "PO",
+              dose: "1 tab",
+              freq: "Q8h PRN",
+              duration: "5 d",
+              qty: 15,
+              refills: 0,
+              note: "Max 3 g/day",
+            },
+          ],
+        },
+        {
+          id: "RX-2025-0001",
+          date: "2025-10-03",
+          doctorId: "D-1009",
+          patientId: "P-7781",
+          notes: "Take with food. Monitor for rash.",
+          items: [
+            {
+              drug: "Amoxicillin",
+              strength: "500 mg",
+              form: "Cap",
+              route: "PO",
+              dose: "1 cap",
+              freq: "TID",
+              duration: "7 d",
+              qty: 21,
+              refills: 0,
+              note: "",
+            },
+            {
+              drug: "Paracetamol",
+              strength: "500 mg",
+              form: "Tab",
+              route: "PO",
+              dose: "1 tab",
+              freq: "Q8h PRN",
+              duration: "5 d",
+              qty: 15,
+              refills: 0,
+              note: "Max 3 g/day",
+            },
+          ],
+        },
+        {
+          id: "RX-2025-0001",
+          date: "2025-10-03",
+          doctorId: "D-1009",
+          patientId: "P-7781",
+          notes: "Take with food. Monitor for rash.",
+          items: [
+            {
+              drug: "Amoxicillin",
+              strength: "500 mg",
+              form: "Cap",
+              route: "PO",
+              dose: "1 cap",
+              freq: "TID",
+              duration: "7 d",
+              qty: 21,
+              refills: 0,
+              note: "",
+            },
+            {
+              drug: "Paracetamol",
+              strength: "500 mg",
+              form: "Tab",
+              route: "PO",
+              dose: "1 tab",
+              freq: "Q8h PRN",
+              duration: "5 d",
+              qty: 15,
+              refills: 0,
+              note: "Max 3 g/day",
+            },
+          ],
+        },
+        {
+          id: "RX-2025-0001",
+          date: "2025-10-03",
+          doctorId: "D-1009",
+          patientId: "P-7781",
+          notes: "Take with food. Monitor for rash.",
+          items: [
+            {
+              drug: "Amoxicillin",
+              strength: "500 mg",
+              form: "Cap",
+              route: "PO",
+              dose: "1 cap",
+              freq: "TID",
+              duration: "7 d",
+              qty: 21,
+              refills: 0,
+              note: "",
+            },
+            {
+              drug: "Paracetamol",
+              strength: "500 mg",
+              form: "Tab",
+              route: "PO",
+              dose: "1 tab",
+              freq: "Q8h PRN",
+              duration: "5 d",
+              qty: 15,
+              refills: 0,
+              note: "Max 3 g/day",
+            },
+          ],
+        },
+        {
+          id: "RX-2025-0001",
+          date: "2025-10-03",
+          doctorId: "D-1009",
+          patientId: "P-7781",
+          notes: "Take with food. Monitor for rash.",
+          items: [
+            {
+              drug: "Amoxicillin",
+              strength: "500 mg",
+              form: "Cap",
+              route: "PO",
+              dose: "1 cap",
+              freq: "TID",
+              duration: "7 d",
+              qty: 21,
+              refills: 0,
+              note: "",
+            },
+            {
+              drug: "Paracetamol",
+              strength: "500 mg",
+              form: "Tab",
+              route: "PO",
+              dose: "1 tab",
+              freq: "Q8h PRN",
+              duration: "5 d",
+              qty: 15,
+              refills: 0,
+              note: "Max 3 g/day",
+            },
+          ],
+        },
+        {
+          id: "RX-2025-0001",
+          date: "2025-10-03",
+          doctorId: "D-1009",
+          patientId: "P-7781",
+          notes: "Take with food. Monitor for rash.",
+          items: [
+            {
+              drug: "Amoxicillin",
+              strength: "500 mg",
+              form: "Cap",
+              route: "PO",
+              dose: "1 cap",
+              freq: "TID",
+              duration: "7 d",
+              qty: 21,
+              refills: 0,
+              note: "",
+            },
+            {
+              drug: "Paracetamol",
+              strength: "500 mg",
+              form: "Tab",
+              route: "PO",
+              dose: "1 tab",
+              freq: "Q8h PRN",
+              duration: "5 d",
+              qty: 15,
+              refills: 0,
+              note: "Max 3 g/day",
+            },
+          ],
+        },
+      ];
 
-    const tbody = document.getElementById('rxTbody');
-    const noRows = document.getElementById('noRows');
-    const searchInput = document.getElementById('searchInput');
-    const dateFrom = document.getElementById('dateFrom');
-    const dateTo = document.getElementById('dateTo');
+      const tbody = document.getElementById("rxTbody");
+      const noRows = document.getElementById("noRows");
+      const searchInput = document.getElementById("searchInput");
+      const dateFrom = document.getElementById("dateFrom");
+      const dateTo = document.getElementById("dateTo");
+      // <td><button class="btn primary" data-rx="${rx.id}"><i class="fa-regular fa-eye"></i> View</button></td>
+      // <td>${rx.date}</td>
 
-    function renderRows(data){
-      tbody.innerHTML = '';
-      data.forEach(rx => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
+      function renderRows(data) {
+        tbody.innerHTML = "";
+        data.forEach((rx) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
           <td class="idmono">${rx.id}</td>
-          <td>${rx.date}</td>
           <td class="idmono">${rx.doctorId}</td>
-          <td><button class="btn primary" data-rx="${rx.id}"><i class="fa-regular fa-eye"></i> View</button></td>
         `;
-        tbody.appendChild(tr);
-      });
-      noRows.style.display = data.length ? 'none' : 'block';
-    }
+          tbody.appendChild(tr);
+        });
+        noRows.style.display = data.length ? "none" : "block";
+      }
 
-    function withinDate(d, min, max){
-      const t = new Date(d).setHours(0,0,0,0);
-      if (min && t < new Date(min).setHours(0,0,0,0)) return false;
-      if (max && t > new Date(max).setHours(0,0,0,0)) return false;
-      return true;
-    }
+      function withinDate(d, min, max) {
+        const t = new Date(d).setHours(0, 0, 0, 0);
+        if (min && t < new Date(min).setHours(0, 0, 0, 0)) return false;
+        if (max && t > new Date(max).setHours(0, 0, 0, 0)) return false;
+        return true;
+      }
 
-    function applyFilters(){
-      const q = (searchInput.value || '').trim().toLowerCase();
-      const f = (dateFrom.value || null);
-      const t = (dateTo.value || null);
-      const filtered = RX.filter(r =>
-        withinDate(r.date, f, t) &&
-        (!q || r.id.toLowerCase().includes(q) || r.doctorId.toLowerCase().includes(q))
-      );
-      renderRows(filtered);
-    }
+      function applyFilters() {
+        const q = (searchInput.value || "").trim().toLowerCase();
+        const f = dateFrom.value || null;
+        const t = dateTo.value || null;
+        const filtered = RX.filter(
+          (r) =>
+            withinDate(r.date, f, t) &&
+            (!q ||
+              r.id.toLowerCase().includes(q) ||
+              r.doctorId.toLowerCase().includes(q))
+        );
+        renderRows(filtered);
+      }
 
-    // Modal handling
-    const backdrop = document.getElementById('rxModalBackdrop');
-    const closeBtn = document.getElementById('rxModalClose');
-    const bodyEl = document.getElementById('rxModalBody');
+      // Modal handling
+      const backdrop = document.getElementById("rxModalBackdrop");
+      const closeBtn = document.getElementById("rxModalClose");
+      const bodyEl = document.getElementById("rxModalBody");
 
-    function openModal(rxId){
-      const rx = RX.find(x => x.id === rxId);
-      if(!rx) return;
+      function openModal(rxId) {
+        const rx = RX.find((x) => x.id === rxId);
+        if (!rx) return;
 
-      // Build HTML
-      const itemsRows = rx.items.map((it, idx) => `
+        // Build HTML
+        const itemsRows = rx.items
+          .map(
+            (it, idx) => `
         <tr>
-          <td>${idx+1}</td>
+          <td>${idx + 1}</td>
           <td>${it.drug}</td>
           <td>${it.strength}</td>
           <td>${it.form}</td>
@@ -712,14 +1271,26 @@
           <td>${it.refills}</td>
           <td>${it.note || ""}</td>
         </tr>
-      `).join('');
+      `
+          )
+          .join("");
 
-      bodyEl.innerHTML = `
-        <div class="kv"><div><strong>Prescription ID</strong></div><div class="idmono">${rx.id}</div></div>
-        <div class="kv"><div><strong>Date</strong></div><div>${rx.date}</div></div>
-        <div class="kv"><div><strong>Doctor ID</strong></div><div class="idmono">${rx.doctorId}</div></div>
-        <div class="kv"><div><strong>Patient ID</strong></div><div class="idmono">${rx.patientId}</div></div>
-        <div class="kv"><div><strong>Notes</strong></div><div>${rx.notes || "-"}</div></div>
+        bodyEl.innerHTML = `
+        <div class="kv"><div><strong>Prescription ID</strong></div><div class="idmono">${
+          rx.id
+        }</div></div>
+        <div class="kv"><div><strong>Date</strong></div><div>${
+          rx.date
+        }</div></div>
+        <div class="kv"><div><strong>Doctor ID</strong></div><div class="idmono">${
+          rx.doctorId
+        }</div></div>
+        <div class="kv"><div><strong>Patient ID</strong></div><div class="idmono">${
+          rx.patientId
+        }</div></div>
+        <div class="kv"><div><strong>Notes</strong></div><div>${
+          rx.notes || "-"
+        }</div></div>
 
         <h4 style="margin-top:12px;">Medications</h4>
         <table class="rx-items">
@@ -733,70 +1304,91 @@
         </table>
       `;
 
-      backdrop.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal(){
-      backdrop.style.display = 'none';
-      document.body.style.overflow = '';
-    }
-
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('button[data-rx]');
-      if (btn) {
-        openModal(btn.getAttribute('data-rx'));
+        backdrop.style.display = "flex";
+        document.body.style.overflow = "hidden";
       }
-    });
 
-    backdrop.addEventListener('click', (e) => {
-      if (e.target === backdrop) closeModal();
-    });
-    closeBtn.addEventListener('click', closeModal);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
-
-    // Filters
-    [searchInput, dateFrom, dateTo].forEach(el => el.addEventListener('input', applyFilters));
-
-    // Initial render
-    renderRows(RX);
-  </script>
-   <!-- JS -->
-      <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const menuButton = document.querySelector(".menu-button");
-    const navMenu = document.querySelector(".w-nav-menu");
-    const icon = menuButton.querySelector("i");
-
-    menuButton.addEventListener("click", function () {
-      navMenu.classList.toggle("open");
-
-      icon.classList.toggle("fa-bars");
-      icon.classList.toggle("fa-xmark");
-
-      if (navMenu.classList.contains("open")) {
-        navMenu.style.display = "block";
-        setTimeout(() => navMenu.style.opacity = "1", 10);
-      } else {
-        navMenu.style.opacity = "0";
-        setTimeout(() => navMenu.style.display = "none", 400);
+      function closeModal() {
+        backdrop.style.display = "none";
+        document.body.style.overflow = "";
       }
-    });
 
-    const links = navMenu.querySelectorAll("a");
-    links.forEach(link => {
-      link.addEventListener("click", () => {
-        navMenu.classList.remove("open");
-        icon.classList.add("fa-bars");
-        icon.classList.remove("fa-xmark");
-        navMenu.style.opacity = "0";
-        setTimeout(() => navMenu.style.display = "none", 400);
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-rx]");
+        if (btn) {
+          openModal(btn.getAttribute("data-rx"));
+        }
       });
-    });
-  });
-</script>
 
+      backdrop.addEventListener("click", (e) => {
+        if (e.target === backdrop) closeModal();
+      });
+      closeBtn.addEventListener("click", closeModal);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
+      });
 
-  <script src="./scripts/index.js"></script>
-</body>
+      // Filters
+      [searchInput, dateFrom, dateTo].forEach((el) =>
+        el.addEventListener("input", applyFilters)
+      );
+
+      // Initial render
+      renderRows(RX);
+    </script>
+    <!-- JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuButton = document.querySelector(".menu-button");
+        const navMenu = document.querySelector(".w-nav-menu");
+        const icon = menuButton.querySelector("i");
+
+        function resetNav() {
+          // Remove any inline styles left from a previous visit
+          navMenu.style.removeProperty("display");
+          navMenu.style.removeProperty("opacity");
+          navMenu.classList.remove("open");
+          icon.classList.add("fa-bars");
+          icon.classList.remove("fa-xmark");
+        }
+
+        // Reset on initial load
+        resetNav();
+
+        // Reset when page is restored from bfcache
+        window.addEventListener("pageshow", function (e) {
+          if (e.persisted) resetNav();
+        });
+
+        // Optional: also reset when switching from mobile to desktop widths
+        window.addEventListener("resize", function () {
+          if (window.innerWidth >= 992) resetNav(); // align with your breakpoint
+        });
+
+        menuButton.addEventListener("click", function () {
+          const open = navMenu.classList.toggle("open");
+          icon.classList.toggle("fa-bars", !open);
+          icon.classList.toggle("fa-xmark", open);
+
+          if (open) {
+            // Prefer class-based visibility; avoid permanent inline styles
+            navMenu.style.removeProperty("display");
+            navMenu.style.removeProperty("opacity");
+          } else {
+            navMenu.style.removeProperty("display");
+            navMenu.style.removeProperty("opacity");
+          }
+        });
+
+        const links = navMenu.querySelectorAll("a");
+        links.forEach((link) => {
+          link.addEventListener("click", () => {
+            resetNav();
+          });
+        });
+      });
+    </script>
+
+    <script src="./scripts/index.js"></script>
+  </body>
 </html>

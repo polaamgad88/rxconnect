@@ -1,37 +1,31 @@
 <!DOCTYPE html>
-<html lang="en"
-  data-wf-domain="medicare-template.webflow.io"
-  data-wf-status="1">
-<head>
-      <meta charset="utf-8" />
-    <title>RxConnect</title>
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <meta content="Webflow" name="generator" />
-    <link href="./styles/index.css" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link
-      href="https://fonts.gstatic.com"
-      rel="preconnect"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<html lang="en" data-wf-domain="medicare-template.webflow.io" data-wf-status="1">
 
-    <script
-      src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
-      type="text/javascript"
-    ></script>
-    <script type="text/javascript">
-      WebFont.load({
-        google: {
-          families: [
-            "Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic",
-            "Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic",
-            "Source Sans Pro:regular,700",
-          ],
-        },
-      });
-    </script>
-    <script type="text/javascript">
+<head>
+  <meta charset="utf-8" />
+  <title>RxConnect</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="Webflow" name="generator" />
+  <link href="./styles/index.css" rel="stylesheet" type="text/css" />
+  <link href="./styles/dr-form.css" rel="stylesheet" type="text/css" />
+
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    WebFont.load({
+      google: {
+        families: [
+          "Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic",
+          "Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic",
+          "Source Sans Pro:regular,700",
+        ],
+      },
+    });
+  </script>
+   <script type="text/javascript">
       !(function (o, c) {
         var n = c.documentElement,
           t = " w-mod-";
@@ -40,1017 +34,1607 @@
             (o.DocumentTouch && c instanceof DocumentTouch)) &&
             (n.className += t + "touch");
       })(window, document);
-    </script>
-    <link
-      href="./assets/favicon.png  "
-      rel="shortcut icon"
-      type="image/x-icon"
-    />
-    <link
-      href="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/589b0ba5dbf0b97f5096c916_pharmacy-symbol-darker.png"
-      rel="apple-touch-icon"
-    />
+    </script> 
+  <link href="./assets/favicon.png  " rel="shortcut icon" type="image/x-icon" />
+  <link
+    href="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/589b0ba5dbf0b97f5096c916_pharmacy-symbol-darker.png"
+    rel="apple-touch-icon" />
 
   <style>
-    .rx-container { max-width: 1100px; margin: 40px auto; }
-    .rx-card { background: #fff; padding: 24px; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .rx-container {
+      max-width: 1100px;
+      margin: 40px auto;
+    }
 
-    .rx-grid { display: grid; gap: 16px; grid-template-columns: repeat(12, 1fr); }
-    .rx-col-6 { grid-column: span 6; } .rx-col-4 { grid-column: span 4; } .rx-col-12 { grid-column: span 12; }
-    .rx-field label { display:block; font-weight:600; margin-bottom:6px; }
-    .rx-field small { color:#666; display:block; margin-top:4px; }
+    .rx-card {
+      background: #fff;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
+    }
 
-    .rx-items { margin-top: 12px; overflow-x:auto; }
-    .rx-items table { width:100%; border-collapse: collapse; }
-    .rx-items th, .rx-items td { border-bottom: 1px solid #e5e7eb; padding: 8px; text-align: left; }
-    .rx-items th { font-weight:600; }
+    .rx-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(12, 1fr);
+    }
 
-    .rx-actions { display:flex; gap:8px; flex-wrap:wrap; }
-    .rx-btn { cursor:pointer; border:0; padding:10px 14px; border-radius:6px; font-size:14px; }
-    .rx-btn.primary { background:#2563eb; color:#fff; }
-    .rx-btn.secondary { background:#e5e7eb; color:#111827; }
-    .rx-btn.danger { background:#b91c1c; color:#fff; }
-    .rx-inline { display:flex; gap:8px; align-items:center; }
-    .rx-muted { color:#6b7280; }
-    .rx-section-title { margin-top: 24px; margin-bottom: 6px; font-size: 18px; font-weight: 700; }
-    .rx-divider { height:1px; background:#e5e7eb; margin: 12px 0 16px; }
-    .rx-json { white-space:pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background:#111827; color:#e5e7eb; padding:12px; border-radius:6px; display:none; }
-    .text-field.w-input, .text-field.w-select, textarea.w-input { width: 100%; }
+    .rx-col-6 {
+      grid-column: span 6;
+    }
 
-    .rx-items table td { vertical-align: middle; }
+    .rx-col-4 {
+      grid-column: span 4;
+    }
+
+    .rx-col-12 {
+      grid-column: span 12;
+    }
+
+    .rx-field label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .rx-field small {
+      color: #666;
+      display: block;
+      margin-top: 4px;
+    }
+
+    .rx-items {
+      margin-top: 12px;
+      overflow-x: auto;
+    }
+
+    .rx-items table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .rx-items th,
+    .rx-items td {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 8px;
+      text-align: left;
+    }
+
+    .rx-items th {
+      font-weight: 600;
+    }
+
+    .rx-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .rx-btn {
+      cursor: pointer;
+      border: 0;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .rx-btn.primary {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .rx-btn.secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .rx-btn.danger {
+      background: #b91c1c;
+      color: #fff;
+    }
+
+    .rx-inline {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .rx-muted {
+      color: #6b7280;
+    }
+
+    .rx-section-title {
+      margin-top: 24px;
+      margin-bottom: 6px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .rx-divider {
+      height: 1px;
+      background: #e5e7eb;
+      margin: 12px 0 16px;
+    }
+
+    .rx-json {
+      white-space: pre-wrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: #111827;
+      color: #e5e7eb;
+      padding: 12px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .text-field.w-input,
+    .text-field.w-select,
+    textarea.w-input {
+      width: 100%;
+    }
+
+    .rx-items table td {
+      vertical-align: middle;
+    }
+
     .rx-items input[type="text"],
     .rx-items input[type="number"],
     .rx-items select.text-field,
     .rx-items button.rx-btn {
-      height: 38px;              
-      box-sizing: border-box;    
+      height: 38px;
+      box-sizing: border-box;
       vertical-align: middle;
       margin: 0;
     }
-    .rx-items select.text-field { padding: 6px 10px; } 
-    .rx-items small.rx-muted { display:block; margin-top:2px; font-size:12px; }
-    .rx-items .rx-inline { align-items:center; }
 
-    @media(max-width: 768px){ .rx-grid { grid-template-columns: 1fr; } }
-.navbar-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav-menu {
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap; 
-  gap: 25px;
-  width: 100%;
-}
-
-.nav-link, 
-.nav-link.w-nav-link, 
-.w-dropdown-toggle {
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap !important;
-  font-weight: 600;
-  text-transform: capitalize;
-  padding: 10px 5px;
-}
-
-.appointment-button {
-  padding: 10px 22px;
-  border-radius: 25px;
-  background-color: #00baff;
-  color: #fff;
-  font-weight: 600;
-  white-space: nowrap; 
-  margin-left: 15px;
-  transition: background 0.3s;
-}
-
-.w-dropdown, .nav-link, .appointment-button {
-  flex-shrink: 0; 
-}
-  /* Base reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.menu-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #00aaff;
-  border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 1001;
-}
-
-.menu-btn img {
-  width: 28px;
-  height: 28px;
-}
-
-.mobile-menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 0;
-  background: #fff;
-  overflow: hidden;
-  transition: height 0.4s ease;
-  z-index: 1000;
-}
-
-.mobile-menu.open {
-  height: 60vh;
-}
-
-.mobile-menu ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  height: 100%;
-}
-
-.mobile-menu a {
-  text-decoration: none;
-  color: #0b214a;
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.close-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: #00aaff;
-  color: white;
-  border: none;
-  font-size: 24px;
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.menu-button {
-  z-index: 999999 !important;
-}
-.rx-container { padding: 20px; }
-.rx-card { padding: 20px; }
-
-.rx-grid { display: grid; gap: 16px; grid-template-columns: repeat(12, 1fr); }
-.rx-col-12 { grid-column: 1 / -1; }
-.rx-col-6  { grid-column: span 6; }
-.rx-col-4  { grid-column: span 4; }
-
-
-.rx-actions .rx-btn { padding: 10px 14px; border-radius: 6px; }
-.rx-actions .rx-btn.primary { background: #2563eb; color: #fff; }
-
-.rx-items { margin-top: 12px; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-
-.rx-items table { width: 100%; border-collapse: collapse; min-width: 900px; }
-.rx-items th, .rx-items td { border-bottom: 1px solid #e5e7eb; padding: 10px; vertical-align: middle; }
-
-@media (max-width: 520px) {
-  .rx-items table,
-  .rx-items thead,
-  .rx-items tbody,
-  .rx-items th,
-  .rx-items td,
-  .rx-items tr { display: block; }
-
-  .rx-items thead { display: none; }
-
-  .rx-items tr { margin: 0 0 12px 0; border: 1px solid #f0f0f0; border-radius: 8px; padding: 8px; background:#fff; }
-
-  .rx-items td {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 10px;
-  }
-
-  .rx-items td::before {
-    content: attr(data-label);
-    font-weight: 600;
-    color: #374151;
-    margin-right: 12px;
-    flex: 0 0 42%;
-    font-size: 13px;
-  }
-
-  .rx-items td .rx-inline { gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-  .rx-items input, .rx-items select, .rx-items button { width: 100%; max-width: 220px; }
-}
-
-
-@media (max-width: 520px) {
-  .rx-items td:nth-child(1)::before { content: "Drug"; }
-  .rx-items td:nth-child(2)::before { content: "Strength"; }
-  .rx-items td:nth-child(3)::before { content: "Form"; }
-  .rx-items td:nth-child(4)::before { content: "Route"; }
-  .rx-items td:nth-child(5)::before { content: "Dose"; }
-  .rx-items td:nth-child(6)::before { content: "Duration"; }
-  .rx-items td:nth-child(7)::before { content: "Qty"; }
-  .rx-items td:nth-child(8)::before { content: "Refills"; }
-  .rx-items td:nth-child(9)::before { content: "Actions"; }
-}
-
-@media (max-width: 768px) {
-  .rx-grid { grid-template-columns: 1fr; }
-  .rx-col-4, .rx-col-6 { grid-column: 1 / -1; }
-
-  /* Make buttons full width on mobile (improves UX) */
-  .rx-actions .rx-btn { width: 100%; display:block; }
-  .rx-actions { gap: 10px; align-items: stretch; }
-
-  /* preview JSON box stretch */
-  .rx-json { font-size: 13px; }
-}
-
-.nav-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .2s ease;
-  z-index: 1000;
-}
-
-@media (max-width: 991px) {
-  .nav-menu.w-nav-menu {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 84%;
-    max-width: 360px;
-    height: 100vh;
-    background: #fff;
-    box-shadow: -8px 0 32px rgba(2,6,23,0.12);
-    transform: translateX(100%);
-    transition: transform .28s ease;
-    display: flex !important;
-    flex-direction: column;
-    gap: 8px;
-    padding: 18px;
-    z-index: 1001;
-    overflow-y: auto;
-  }
-
-  .nav-menu.w-nav-menu.open { transform: translateX(0); }
-  .nav-overlay.active { opacity: 1; pointer-events: auto; }
-
-  .nav-menu.w-nav-menu a { padding: 12px 10px; border-bottom: 1px solid #f0f0f0; color: #0b214a; font-weight:600; }
-}
-
-@media (max-width: 420px) {
-  .nav-menu.w-nav-menu { width: 92%; }
-  .nav-overlay { background: rgba(0,0,0,0.5); }
-}
-
-.menu-button { z-index: 1100; }
-@media (max-width: 520px) {
-  .rx-items table,
-  .rx-items thead,
-  .rx-items tbody,
-  .rx-items th,
-  .rx-items td,
-  .rx-items tr {
-    display: block;
-  }
-
-  .rx-items thead { display: none; }
-
-  .rx-items tr {
-    margin: 0 0 14px;
-    border-radius: 10px;
-    padding: 12px;
-    background: #fff;
-    box-shadow: 0 2px 6px rgba(10,10,10,0.04);
-    border: 1px solid #f0f0f0;
-  }
-
-  .rx-items td {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 6px 0;
-    border: none;
-  }
-
-  .rx-items td::before {
-    content: "";
-    font-weight: 700;
-    color: #374151;
-    font-size: 13px;
-    margin-bottom: 6px;
-  }
-
-  .rx-items td:nth-child(1)::before { content: "Drug"; }
-  .rx-items td:nth-child(2)::before { content: "Strength"; }
-  .rx-items td:nth-child(3)::before { content: "Form"; }
-  .rx-items td:nth-child(4)::before { content: "Route"; }
-  .rx-items td:nth-child(5)::before { content: "Dose"; }
-  .rx-items td:nth-child(6)::before { content: "Duration"; }
-  .rx-items td:nth-child(7)::before { content: "Qty"; }
-  .rx-items td:nth-child(8)::before { content: "Refills"; }
-  .rx-items td:nth-child(9)::before { content: "Actions"; }
-
-  .rx-items input[type="text"],
-  .rx-items input[type="number"],
-  .rx-items select,
-  .rx-items .text-field {
-    width: 100% !important;
-    box-sizing: border-box;
-    padding: 10px 12px;
-    font-size: 14px;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
-    background: #fff;
-  }
-
-  .rx-items td:nth-child(9) {
-    margin-top: 8px;
-  }
-  .rx-items td:nth-child(9) .rx-inline {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-  }
-
-  .rx-items .rx-btn {
-    min-width: 110px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    font-size: 14px;
-  }
-
-  @media (max-width: 380px) {
-    .rx-items .rx-inline { flex-direction: column; align-items: stretch; }
-    .rx-items .rx-btn { width: 100%; min-width: auto; }
-  }
-
-  .rx-items .rx-note-area {
-    width: 100%;
-    margin-top: 8px;
-    display: none; 
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
-    min-height: 80px;
-  }
-
-  .rx-items .rx-btn.danger {
-    background: #b91c1c;
-    color: #fff;
-    border: none;
-  }
-}
-
-@media screen and (max-width: 991px) {
-  .rx-items table {
-    width: 100% !important;
-    table-layout: fixed;     
-    border-collapse: collapse;
-    min-width: 0;            
-  }
-}
-
-
-.rx-items th,
-.rx-items td {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;      
-  min-width: 0;             
-  word-break: break-word;
-}
-
-.rx-items input,
-.rx-items select,
-.rx-items textarea,
-.rx-items .text-field,
-.rx-items .w-input,
-.rx-items .w-select {
-  width: 100% !important;
-  max-width: 100% !important;
-  box-sizing: border-box;
-  min-width: 0;
-}
-
-@media (max-width: 900px) {
-  .rx-items th,
-  .rx-items td { padding: 6px 6px; }
-  .rx-items input,
-  .rx-items select { padding: 8px; }
-}
-
-@media (max-width: 520px) {
-
-  .rx-items { overflow-x: hidden; padding: 0 8px; }
-
-  .rx-items table,
-  .rx-items thead,
-  .rx-items tbody,
-  .rx-items th,
-  .rx-items td,
-  .rx-items tr {
-    display: block;
-  }
-
-  .rx-items thead { display: none; }
-
-  .rx-items tr {
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    margin: 12px 0;
-    padding: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-  }
-
-  .rx-items td {
-    display: flex;
-    flex-direction: column;
-    padding: 8px 0;
-    border: none;
-    width: 100%;
-    min-width: 0;
-  }
-
-  .rx-items td::before {
-    content: "";
-    font-weight: 700;
-    color: #374151;
-    margin-bottom: 6px;
-    font-size: 13px;
-    display: block;
-  }
-
-  .rx-items td:nth-child(1)::before { content: "Drug"; }
-  .rx-items td:nth-child(2)::before { content: "Strength"; }
-  .rx-items td:nth-child(3)::before { content: "Form"; }
-  .rx-items td:nth-child(4)::before { content: "Route"; }
-  .rx-items td:nth-child(5)::before { content: "Dose"; }
-  .rx-items td:nth-child(6)::before { content: "Duration"; }
-  .rx-items td:nth-child(7)::before { content: "Qty"; }
-  .rx-items td:nth-child(8)::before { content: "Refills"; }
-  .rx-items td:nth-child(9)::before { content: "Actions"; }
-
-  .rx-items input,
-  .rx-items select,
-  .rx-items textarea,
-  .rx-items .text-field,
-  .rx-items .w-input,
-  .rx-items .w-select {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box;
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 6px;
-    border: 1px solid #d1d5db;
-  }
-
-  .rx-items td:nth-child(9) .rx-inline {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    margin-top: 6px;
-    flex-wrap: wrap;
-  }
-
-  .rx-items .rx-note-area { display: none; margin-top: 8px; }
-
-  html, body, .rx-items, .rx-items table { overflow-x: hidden !important; }
-}
-
-</style>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const menuButtons = document.querySelectorAll('.menu-button');
-  menuButtons.forEach(btn => {
-    const container = btn.closest('.navbar-container') || btn.closest('.nav-scroll-container') || document;
-    const navMenu = container.querySelector('.w-nav-menu');
-    const overlay = container.querySelector('.nav-overlay');
-
-    if (!navMenu) return;
-
-    btn.addEventListener('click', function (e) {
-      const open = navMenu.classList.toggle('open');
-      if (overlay) overlay.classList.toggle('active', open);
-      const icon = btn.querySelector('i');
-      if (icon) {
-        icon.classList.toggle('fa-bars', !open);
-        icon.classList.toggle('fa-xmark', open);
-      }
-      // lock body scroll when open
-      document.body.style.overflow = open ? 'hidden' : '';
-    });
-
-    if (overlay) overlay.addEventListener('click', function(){ 
-      navMenu.classList.remove('open'); 
-      overlay.classList.remove('active'); 
-      document.body.style.overflow = '';
-      const icon = btn.querySelector('i');
-      if (icon) { icon.classList.add('fa-bars'); icon.classList.remove('fa-xmark'); }
-    });
-  });
-
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape') {
-      document.querySelectorAll('.w-nav-menu.open').forEach(menu => menu.classList.remove('open'));
-      document.querySelectorAll('.nav-overlay.active').forEach(ov => ov.classList.remove('active'));
-      document.body.style.overflow = '';
-      document.querySelectorAll('.menu-button i.fa-xmark').forEach(ic => { ic.classList.remove('fa-xmark'); ic.classList.add('fa-bars'); });
+    .rx-items select.text-field {
+      padding: 6px 10px;
     }
-  });
-});
-</script>
 
-</head>
-<body>
+    .rx-items small.rx-muted {
+      display: block;
+      margin-top: 2px;
+      font-size: 12px;
+    }
+
+    .rx-items .rx-inline {
+      align-items: center;
+    }
+
+    @media(max-width: 768px) {
+      .rx-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .navbar-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-menu {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: nowrap;
+      gap: 25px;
+      width: 100%;
+    }
+
+    .nav-link,
+    .nav-link.w-nav-link,
+    .w-dropdown-toggle {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap !important;
+      font-weight: 600;
+      text-transform: capitalize;
+      padding: 10px 5px;
+    }
+
+    .appointment-button {
+      padding: 10px 22px;
+      border-radius: 25px;
+      background-color: #00baff;
+      color: #fff;
+      font-weight: 600;
+      white-space: nowrap;
+      margin-left: 15px;
+      transition: background 0.3s;
+    }
+
+    .w-dropdown,
+    .nav-link,
+    .appointment-button {
+      flex-shrink: 0;
+    }
+
+    /* Base reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .menu-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #00aaff;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .menu-btn img {
+      width: 28px;
+      height: 28px;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+      background: #fff;
+      overflow: hidden;
+      transition: height 0.4s ease;
+      z-index: 1000;
+    }
+
+    .mobile-menu.open {
+      height: 60vh;
+    }
+
+    .mobile-menu ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      height: 100%;
+    }
+
+    .mobile-menu a {
+      text-decoration: none;
+      color: #0b214a;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #00aaff;
+      color: white;
+      border: none;
+      font-size: 24px;
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .menu-button {
+      z-index: 999999 !important;
+    }
+
+    .rx-container {
+      padding: 20px;
+    }
+
+    .rx-card {
+      padding: 20px;
+    }
+
+    .rx-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(12, 1fr);
+    }
+
+    .rx-col-12 {
+      grid-column: 1 / -1;
+    }
+
+    .rx-col-6 {
+      grid-column: span 6;
+    }
+
+    .rx-col-4 {
+      grid-column: span 4;
+    }
 
 
-   <div id="navbar-placeholder"></div>
-<script>
-  (function loadNavbar(){
-    fetch('/partials/navbar.html')
-      .then(r => r.ok ? r.text() : Promise.reject(r.status))
-      .then(html => {
-        document.getElementById('navbar-placeholder').innerHTML = html;
+    .rx-actions .rx-btn {
+      padding: 10px 14px;
+      border-radius: 6px;
+    }
 
-        const btn = document.querySelector('#navbar-placeholder .menu-button');
-        const nav = document.querySelector('#navbar-placeholder .w-nav-menu');
-        if (btn && nav) {
-          btn.addEventListener('click', () => {
-            const open = nav.classList.toggle('open');
-            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-            const i = btn.querySelector('i');
-            if (i) { i.classList.toggle('fa-bars'); i.classList.toggle('fa-xmark'); }
-          });
+    .rx-actions .rx-btn.primary {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .rx-items {
+      margin-top: 12px;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .rx-items table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px;
+    }
+
+    .rx-items th,
+    .rx-items td {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 10px;
+      vertical-align: middle;
+    }
+
+    @media (max-width: 520px) {
+
+      .rx-items table,
+      .rx-items thead,
+      .rx-items tbody,
+      .rx-items th,
+      .rx-items td,
+      .rx-items tr {
+        display: block;
+      }
+
+      .rx-items thead {
+        display: none;
+      }
+
+      .rx-items tr {
+        margin: 0 0 12px 0;
+        border: 1px solid #f0f0f0;
+        border-radius: 8px;
+        padding: 8px;
+        background: #fff;
+      }
+
+      .rx-items td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 10px;
+      }
+
+      .rx-items td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #374151;
+        margin-right: 12px;
+        flex: 0 0 42%;
+        font-size: 13px;
+      }
+
+      .rx-items td .rx-inline {
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .rx-items input,
+      .rx-items select,
+      .rx-items button {
+        width: 100%;
+        max-width: 220px;
+      }
+    }
+
+
+    @media (max-width: 520px) {
+      .rx-items td:nth-child(1)::before {
+        content: "Drug";
+      }
+
+      .rx-items td:nth-child(2)::before {
+        content: "Strength";
+      }
+
+      .rx-items td:nth-child(3)::before {
+        content: "Form";
+      }
+
+      .rx-items td:nth-child(4)::before {
+        content: "Route";
+      }
+
+      .rx-items td:nth-child(5)::before {
+        content: "Dose";
+      }
+
+      .rx-items td:nth-child(6)::before {
+        content: "Duration";
+      }
+
+      .rx-items td:nth-child(7)::before {
+        content: "Qty";
+      }
+
+      .rx-items td:nth-child(8)::before {
+        content: "Refills";
+      }
+
+      .rx-items td:nth-child(9)::before {
+        content: "Actions";
+      }
+    }
+
+    @media (max-width: 768px) {
+      .rx-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .rx-col-4,
+      .rx-col-6 {
+        grid-column: 1 / -1;
+      }
+
+      /* Make buttons full width on mobile (improves UX) */
+      .rx-actions .rx-btn {
+        width: 100%;
+        display: block;
+      }
+
+      .rx-actions {
+        gap: 10px;
+        align-items: stretch;
+      }
+
+      /* preview JSON box stretch */
+      .rx-json {
+        font-size: 13px;
+      }
+    }
+
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease;
+      z-index: 1000;
+    }
+
+    @media (max-width: 991px) {
+      .nav-menu.w-nav-menu {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 84%;
+        max-width: 360px;
+        height: 100vh;
+        background: #fff;
+        box-shadow: -8px 0 32px rgba(2, 6, 23, 0.12);
+        transform: translateX(100%);
+        transition: transform .28s ease;
+        display: flex !important;
+        flex-direction: column;
+        gap: 8px;
+        padding: 18px;
+        z-index: 1001;
+        overflow-y: auto;
+      }
+
+      .nav-menu.w-nav-menu.open {
+        transform: translateX(0);
+      }
+
+      .nav-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .nav-menu.w-nav-menu a {
+        padding: 12px 10px;
+        border-bottom: 1px solid #f0f0f0;
+        color: #0b214a;
+        font-weight: 600;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .nav-menu.w-nav-menu {
+        width: 92%;
+      }
+
+      .nav-overlay {
+        background: rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    .menu-button {
+      z-index: 1100;
+    }
+
+    @media (max-width: 520px) {
+
+      .rx-items table,
+      .rx-items thead,
+      .rx-items tbody,
+      .rx-items th,
+      .rx-items td,
+      .rx-items tr {
+        display: block;
+      }
+
+      .rx-items thead {
+        display: none;
+      }
+
+      .rx-items tr {
+        margin: 0 0 14px;
+        border-radius: 10px;
+        padding: 12px;
+        background: #fff;
+        box-shadow: 0 2px 6px rgba(10, 10, 10, 0.04);
+        border: 1px solid #f0f0f0;
+      }
+
+      .rx-items td {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 6px 0;
+        border: none;
+      }
+
+      .rx-items td::before {
+        content: "";
+        font-weight: 700;
+        color: #374151;
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+
+      .rx-items td:nth-child(1)::before {
+        content: "Drug";
+      }
+
+      .rx-items td:nth-child(2)::before {
+        content: "Strength";
+      }
+
+      .rx-items td:nth-child(3)::before {
+        content: "Form";
+      }
+
+      .rx-items td:nth-child(4)::before {
+        content: "Route";
+      }
+
+      .rx-items td:nth-child(5)::before {
+        content: "Dose";
+      }
+
+      .rx-items td:nth-child(6)::before {
+        content: "Duration";
+      }
+
+      .rx-items td:nth-child(7)::before {
+        content: "Qty";
+      }
+
+      .rx-items td:nth-child(8)::before {
+        content: "Refills";
+      }
+
+      .rx-items td:nth-child(9)::before {
+        content: "Actions";
+      }
+
+      .rx-items input[type="text"],
+      .rx-items input[type="number"],
+      .rx-items select,
+      .rx-items .text-field {
+        width: 100% !important;
+        box-sizing: border-box;
+        padding: 10px 12px;
+        font-size: 14px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        background: #fff;
+      }
+
+      .rx-items td:nth-child(9) {
+        margin-top: 8px;
+      }
+
+      .rx-items td:nth-child(9) .rx-inline {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+      }
+
+      .rx-items .rx-btn {
+        min-width: 110px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-size: 14px;
+      }
+
+      @media (max-width: 380px) {
+        .rx-items .rx-inline {
+          flex-direction: column;
+          align-items: stretch;
         }
 
-        // set active link based on current path (optional)
-        document.querySelectorAll('#navbar-placeholder .w-nav-menu a').forEach(a=>{
-          if (location.pathname.endsWith(a.getAttribute('href'))) a.classList.add('active');
-        });
-      })
-      .catch(err => {
-        console.error('Failed to load navbar partial:', err);
+        .rx-items .rx-btn {
+          width: 100%;
+          min-width: auto;
+        }
+      }
+
+      .rx-items .rx-note-area {
+        width: 100%;
+        margin-top: 8px;
+        display: none;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        min-height: 80px;
+      }
+
+      .rx-items .rx-btn.danger {
+        background: #b91c1c;
+        color: #fff;
+        border: none;
+      }
+    }
+
+    @media screen and (max-width: 991px) {
+      .rx-items table {
+        width: 100% !important;
+        table-layout: fixed;
+        border-collapse: collapse;
+        min-width: 0;
+      }
+    }
+
+
+    .rx-items th,
+    .rx-items td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+      word-break: break-word;
+    }
+
+    .rx-items input,
+    .rx-items select,
+    .rx-items textarea,
+    .rx-items .text-field,
+    .rx-items .w-input,
+    .rx-items .w-select {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    @media (max-width: 900px) {
+
+      .rx-items th,
+      .rx-items td {
+        padding: 6px 6px;
+      }
+
+      .rx-items input,
+      .rx-items select {
+        padding: 8px;
+      }
+    }
+
+    @media (max-width: 520px) {
+
+      .rx-items {
+        overflow-x: hidden;
+        padding: 0 8px;
+      }
+
+      .rx-items table,
+      .rx-items thead,
+      .rx-items tbody,
+      .rx-items th,
+      .rx-items td,
+      .rx-items tr {
+        display: block;
+      }
+
+      .rx-items thead {
+        display: none;
+      }
+
+      .rx-items tr {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        margin: 12px 0;
+        padding: 12px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      }
+
+      .rx-items td {
+        display: flex;
+        flex-direction: column;
+        padding: 8px 0;
+        border: none;
+        width: 100%;
+        min-width: 0;
+      }
+
+      .rx-items td::before {
+        content: "";
+        font-weight: 700;
+        color: #374151;
+        margin-bottom: 6px;
+        font-size: 13px;
+        display: block;
+      }
+
+      .rx-items td:nth-child(1)::before {
+        content: "Drug";
+      }
+
+      .rx-items td:nth-child(2)::before {
+        content: "Strength";
+      }
+
+      .rx-items td:nth-child(3)::before {
+        content: "Form";
+      }
+
+      .rx-items td:nth-child(4)::before {
+        content: "Route";
+      }
+
+      .rx-items td:nth-child(5)::before {
+        content: "Dose";
+      }
+
+      .rx-items td:nth-child(6)::before {
+        content: "Duration";
+      }
+
+      .rx-items td:nth-child(7)::before {
+        content: "Qty";
+      }
+
+      .rx-items td:nth-child(8)::before {
+        content: "Refills";
+      }
+
+      .rx-items td:nth-child(9)::before {
+        content: "Actions";
+      }
+
+      .rx-items input,
+      .rx-items select,
+      .rx-items textarea,
+      .rx-items .text-field,
+      .rx-items .w-input,
+      .rx-items .w-select {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 6px;
+        border: 1px solid #d1d5db;
+      }
+
+      .rx-items td:nth-child(9) .rx-inline {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        margin-top: 6px;
+        flex-wrap: wrap;
+      }
+
+      .rx-items .rx-note-area {
+        display: none;
+        margin-top: 8px;
+      }
+
+      html,
+      body,
+      .rx-items,
+      .rx-items table {
+        overflow-x: hidden !important;
+      }
+    }
+   .med-remove-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.circle-minus {
+  display: inline-block;
+  width: 20px;              
+  height: 20px;
+  border: 2px solid #ff4d4d; 
+  border-radius: 50%;
+  position: relative;
+}
+
+.circle-minus::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;              
+  height: 2px;            
+  background-color: #ff4d4d; 
+  transform: translate(-50%, -50%);
+}
+
+  </style>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const addLink = document.querySelector(".js-add-patient-link");
+    const modal = document.getElementById("cnp-add-patient-modal");
+    const closeBtn = document.getElementById("cnp-add-patient-close");
+
+    if (addLink && modal && closeBtn) {
+      addLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        modal.classList.add("open");
       });
-  })();
+
+      closeBtn.addEventListener("click", function () {
+        modal.classList.remove("open");
+      });
+    }
+  });
 </script>
 
-  <!-- PAGE CONTENT -->
-  <div class="rx-container w-container">
-    <div class="rx-card">
-      <h2>Fill Prescription</h2>
-      <div class="underline no-center"></div>
 
-      <form id="rx-form" class="w-clearfix" method="post" action="/api/prescriptions" novalidate>
-        <!-- Meta -->
-        <div class="rx-grid">
-          <div class="rx-field rx-col-4">
-            <label for="prescriptionId">Prescription ID</label>
-            <input id="prescriptionId" name="prescriptionId" class="text-field w-input" type="text" required readonly />
-            <small class="rx-muted">Auto-generated on load.</small>
-          </div>
-          <div class="rx-field rx-col-4">
-            <label for="prescribedAt">Date & Time</label>
-            <input id="prescribedAt" name="prescribedAt" class="text-field w-input" type="datetime-local" required />
-          </div>
-          <div class="rx-field rx-col-4">
-            <label for="doctorId">Doctor</label>
-            <select id="doctorId" name="doctorId" class="text-field w-select" required>
-              <option value="">Select doctor…</option>
-              <option value="dr-001">Dr. Jessica Doe</option>
-              <option value="dr-002">Dr. William Doe</option>
-              <option value="dr-003">Dr. Jack Doe</option>
-              <option value="dr-004">Dr. Peter Doe</option>
-              <option value="dr-005">Dr. Robert Doe</option>
-              <option value="dr-006">Dr. Arthur Doe</option>
-            </select>
-          </div>
+</head>
 
-          <div class="rx-field rx-col-6">
-            <label for="patientId">Patient ID</label>
-            <input id="patientId" name="patientId" class="text-field w-input" type="text" placeholder="e.g. PT-2025-0001" required />
-          </div>
-          <div class="rx-field rx-col-6">
-            <label for="patientName">Patient Full Name</label>
-            <input id="patientName" name="patientName" class="text-field w-input" type="text" placeholder="e.g. John Smith" required />
-          </div>
+<body>
 
-          <div class="rx-field rx-col-12">
-            <label for="diagnosis">Diagnosis / Notes</label>
-            <textarea id="diagnosis" name="diagnosis" class="text-field textarea w-input" rows="3" placeholder="Optional: diagnosis, clinical notes, cautions"></textarea>
-          </div>
-        </div>
-
-        <!-- Medications -->
-        <div class="rx-section-title">Medications</div>
-        <div class="rx-divider"></div>
-
-        <div class="rx-items">
-          <table aria-label="Medications table">
-            <thead>
-              <tr>
-                <th style="width:18%">Drug</th>
-                <th style="width:10%">Strength</th>
-                <th style="width:10%">Form</th>
-                <th style="width:10%">Route</th>
-                <th style="width:12%">Dose</th>
-                <!-- <th style="width:12%">Frequency</th> -->
-                <th style="width:10%">Duration</th>
-                <th style="width:8%">Qty</th>
-                <th style="width:8%">Refills</th>
-                <th style="width:12%">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="rx-tbody"></tbody>
-          </table>
-
-          <div class="rx-actions" style="margin-top:12px">
-            <button type="button" class="rx-btn secondary" id="addRowBtn">Add medication</button>
-            <span class="rx-muted">At least one medication is required.</span>
-          </div>
-        </div>
-
-        <!-- Instructions -->
-        <div class="rx-section-title">Patient Instructions</div>
-        <div class="rx-divider"></div>
-        <div class="rx-grid">
-          <div class="rx-field rx-col-12">
-            <label for="instructions">General Instructions</label>
-            <textarea id="instructions" name="instructions" class="text-field textarea w-input" rows="3"
-              placeholder="e.g., Take after meals. Do not exceed prescribed dose."></textarea>
-          </div>
-          <div class="rx-field rx-col-6">
-            <label for="followUpDate">Follow-up Date (optional)</label>
-            <input id="followUpDate" name="followUpDate" class="text-field w-input" type="date" />
-          </div>
-          <div class="rx-field rx-col-6">
-            <label for="dispenseAsWritten">Dispense As Written</label>
-            <select id="dispenseAsWritten" name="dispenseAsWritten" class="text-field w-select" required>
-              <option value="no" selected>No (generic allowed)</option>
-              <option value="yes">Yes (no substitution)</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Actions -->
-        <div class="rx-actions" style="margin-top:18px">
-          <button type="submit" class="rx-btn primary">Submit Prescription</button>
-          <button type="button" class="rx-btn secondary" id="previewBtn" aria-controls="previewBox" aria-expanded="false">Preview JSON</button>
-        </div>
-
-        <div id="previewBox" class="rx-json" aria-live="polite"></div>
-
-        <!-- Hidden row template -->
-        <template id="rx-row-template">
-          <tr>
-            <td>
-              <input type="text" class="text-field w-input" required
-                     name="__NAME__[drug]" placeholder="e.g., Amoxicillin" autocomplete="off" />
-              <!-- <small class="rx-muted">Drug/brand or code</small> -->
-            </td>
-            <td>
-              <input type="text" class="text-field w-input" required
-                     name="__NAME__[strength]" placeholder="e.g., 500 mg" />
-            </td>
-            <td>
-              <select class="text-field w-select" required name="__NAME__[form]">
-                <option value="">Form…</option>
-                <option>Tablet</option><option>Capsule</option><option>Syrup</option>
-                <option>Injection</option><option>Drops</option><option>Ointment</option>
-              </select>
-            </td>
-            <td>
-              <select class="text-field w-select" required name="__NAME__[route]">
-                <option value="">Route…</option>
-                <option>PO</option><option>IV</option><option>IM</option><option>SC</option>
-                <option>SL</option><option>PR</option><option>Topical</option>
-                <option>Ophthalmic</option><option>Otic</option><option>Inhalation</option>
-              </select>
-            </td>
-            <td>
-              <input type="text" class="text-field w-input" required
-                     name="__NAME__[dose]" placeholder="e.g., 1 tab" />
-            </td>
-            <!-- <td>
-              <input type="text" class="text-field w-input" required
-                     name="__NAME__[frequency]" placeholder="e.g., TID" />
-              <small class="rx-muted">e.g., OD, BID, TID, QID, q8h</small>
-            </td> -->
-            <td>
-              <input type="text" class="text-field w-input" required
-                     name="__NAME__[duration]" placeholder="e.g., 7 days" />
-            </td>
-            <td>
-              <input type="number" class="text-field w-input" required min="1"
-                     name="__NAME__[quantity]" placeholder="e.g., 21" />
-            </td>
-            <td>
-              <input type="number" class="text-field w-input" min="0"
-                     name="__NAME__[refills]" placeholder="0" value="0" />
-            </td>
-            <td>
-              <div class="rx-inline">
-                <button type="button" class="rx-btn secondary rx-notes">Notes</button>
-                <button type="button" class="rx-btn danger rx-remove">Remove</button>
-              </div>
-              <textarea class="text-field textarea w-input rx-note-area" rows="2" placeholder="Per-item notes (optional)"
-                        name="__NAME__[notes]" style="display:none;margin-top:6px;"></textarea>
-            </td>
-          </tr>
-        </template>
-      </form>
-    </div>
-  </div>
-  <!-- /PAGE CONTENT -->
-
-  <!-- FOOTER (exactly as your snippet) -->
- <div class="footer">
-      <div class="w-container">
-        <div class="emergency-wrapper">
-          <img
-            src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/5822042610a8d4ee31522b7d_24-hours-phone-service.png"
-            width="64"
-            alt=""
-            class="emergency-footer-icon"
-          />
-          <h4 class="white">emergency cases</h4>
-          <a href="tel:+1-600-700-6200" class="w-inline-block"
-            ><div class="emergency-number">+44 20 7123 4567</div></a
-          >
-        </div>
-        <div class="flex-box space-between">
-          <div class="_33-percent-column right-padding">
-            <img
+<!-- // NAVBAR  how da !  -->
+  <div id="navbar-placeholder"></div>
+     <!-- NAVBAR (kept; minor icons retained) -->
+     <div class="navbar-wrapper">
+      <div class="top-info-bar">
+        <div class="top-info-bar-container w-container">
+          <a
+            href="./index.html"
+            class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand"
+            ><img
               src="./assets/rxconnect.png"
-              alt=""
-              class="footer-logo"
-              style="width: 160px; height: auto; margin-bottom: 2px"
-            />
-            <p class="white footer-paragraph">
-              RxConnect is an international private health care provider. We have
-              more than 20 years of experience. Our patients are provided with
-              access to comprehensive outpatient and inpatient services, as well
-              as a full range of laboratory diagnostics.
-            </p>
-          </div>
-          <div class="_17-percent-column">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Navigation</h4>
-                <div class="footer-line"></div>
-              </div>
-               <a href="./about-us.html" class="footer-link">Who we are</a>
-              <a href="./dr-form.html" class="footer-link">E-prescription</a>
-              <a href="./prescriptions.html" class="footer-link">My prescription</a>
-              <a href="./doctors.html" class="footer-link">Doctors</a>
-              <a href="./patient-history.html" class="footer-link">Patient history</a>
-              <a href="./FAQs.html" class="footer-link">FAQs</a>
-            </div>
-          </div>
-          <div class="_17-percent-column next">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Departments</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="w-dyn-list">
-                <div role="list" class="w-dyn-items">
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/accident-and-emergency-ae" class="footer-link">Physiotherapy</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/eye-care" class="footer-link">Optical</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/traumatology" class="footer-link">Dental</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/dental-care" class="footer-link">X-Ray</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/cardiology" class="footer-link">Cardiology</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/neurology" class="footer-link">Neurology</a>
-                  </div>
+              alt="logo"
+              style="width: 120px; height: auto; margin-bottom: 4px"
+            /></a>
+          <div class="info-bar w-clearfix">
+            <div class="info-blocks-wrapper w-clearfix">
+              <div class="top-info-block no-right-border w-clearfix">
+                <div class="top-info-icon"></div>
+                <div class="top-info-content">
+                  <a href="tel:+44 20 7123 4567" class="contact-link"
+                    >+44 20 7123 4567</a
+                  ><a href="tel:+44 7712 345678" class="contact-link"
+                    >+44 7712 345678</a
+                  >
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="_33-percent-column contact-footer">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Contact Us</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb365745bf29a4636cc96d_marker_white.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a data-ix="popup-modal-show" href="#" class="footer-link contact">M5 3AB Church Road, Salford, Manchester</a>
+              <div class="top-info-block w-clearfix">
+                <div class="top-info-icon _2"></div>
+                <div class="top-info-content">
+                  <a data-ix="popup-modal-show" href="#" class="contact-link"
+                    >M5 3AB<br />
+                   Church Road, Salford, Manchester</a
+                  >
                 </div>
               </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="mailto:" class="footer-link contact">info@rxconnect.com</a>
-                </div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="tel:+61393455522" class="footer-link">+44 7712 345678</a>
-                  <a href="tel:+61393455522" class="footer-link">+44 20 7123 4567</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="test-row w-row">
-          <div class="footer-column w-col w-col-3">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Contact Us</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb365745bf29a4636cc96d_marker_white.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <div class="footer-link"> 267 Collins St Melbourne Victoria 3000 </div>
-                </div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="mailto:" class="footer-link contact">info@medicare.com</a>
-                </div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="tel:+61393455522" class="footer-link">03-9345-5522</a>
-                  <a href="tel:+61393455522" class="footer-link">03-9345-4422</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="footer-column w-col w-col-3">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Navigation</h4>
-                <div class="footer-line"></div>
-              </div>
-                <a href="./about-us.html" class="footer-link">Who we are</a>
-              <a href="./dr-form.html" class="footer-link">E-prescription</a>
-              <a href="./prescriptions.html" class="footer-link">My prescription</a>
-              <a href="./doctors.html" class="footer-link">Doctors</a>
-              <a href="./patient-history.html" class="footer-link">Patient history</a>
-              <a href="./FAQs.html" class="footer-link">FAQs</a>
-            </div>
-          </div>
-
-          <div class="footer-column w-col w-col-3">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Departments</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="w-dyn-list">
-                <div role="list" class="w-dyn-items">
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/accident-and-emergency-ae" class="footer-link">Physiotherapy</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/eye-care" class="footer-link">Optical</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/traumatology" class="footer-link">Dental </a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/dental-care" class="footer-link">X-Ray</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/cardiology" class="footer-link">Cardiology</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/neurology" class="footer-link">Neurology</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="footer-column w-col w-col-3">
-            <div class="footer-header-wrapper">
-              <h4 class="footer-title">Message us</h4>
-              <div class="footer-line"></div>
-            </div>
-            <div>
-              <div class="w-form">
-                <form
-                  id="email-form-2"
-                  name="email-form-2"
-                  data-name="Email Form 2"
-                  method="get"
-                  data-wf-page-id="57c55b6ef6306d483a15bdc1"
-                  data-wf-element-id="7c121d8a-d022-a32b-02d7-eb05da342546"
-                >
-                  <input
-                    class="text-field name full-width w-input"
-                    maxlength="256"
-                    name="name"
-                    data-name="Name"
-                    placeholder="Enter your name"
-                    type="text"
-                    id="name"
-                  /><input
-                    class="text-field email full-width w-input"
-                    maxlength="256"
-                    name="email"
-                    data-name="Email 3"
-                    placeholder="Enter your email address"
-                    type="email"
-                    id="email-3"
-                    required=""
-                  /><input
-                    type="submit"
-                    data-wait="Please wait..."
-                    class="button white full-width w-button"
-                    value="Submit"
-                  />
-                </form>
-                <div class="w-form-done">
-                  <div>Thank you! Your submission has been received!</div>
-                </div>
-                <div class="w-form-fail">
-                  <div> Oops! Something went wrong while submitting the form </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="footer-credits">
-          <div class="credits-wrapper">
-            <div class="footer-socials">
-              <a href="#" class="social-icon facebook w-inline-block"></a>
-              <a href="#" class="social-icon twitter w-inline-block"></a>
-              <a href="#" class="social-icon linkedin w-inline-block"></a>
             </div>
           </div>
         </div>
       </div>
+      <div
+        data-collapse="medium"
+        data-animation="default"
+        data-duration="400"
+        data-easing="ease"
+        data-easing2="ease"
+        role="banner"
+        class="navbar w-nav"
+      >
+      <div class="navbar-container w-container">
+        <a href="./home.html" class="brand w-hidden-main w-nav-brand"
+          ><img
+            src="./assets/rxconnect.png"
+            alt="logo"
+            style="width: 140px; height: auto;"
+          /></a>
+        <nav role="navigation" class="nav-menu w-nav-menu">
+    <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
+    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
+    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
+    <a href="./pending-prescription.html"  class="nav-link w-nav-link" >Pending Prescriptions</a>
+    <!-- <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a> -->
+
+    <a href="./patients.html" class="nav-link w-nav-link">Patients</a>
+    <!-- <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a> -->
+    <a href="./contacts.html" class="nav-link w-nav-link">Contacts    </a>
+    <a href="./billing.html" class="nav-link w-nav-link">Billing</a>
+    <a class="nav-link w-nav-link" href="./myprofile.html">My Profile </a>
+
+    <div class="dropdown">
+  <button class="nav-link w-nav-link bg-transparent" id="reportsBtn">
+    Reports <i class="fa-solid fa-chevron-down"></i>
+  </button>
+  <div class="dropdown-content" id="reportsDropdown">
+    <a href="./reports.html">Reports</a>
+    <a href="./medicationExport.html">Medication Export</a>
+
+  </div>
+</div>
+
+  </nav>
+<script>
+const reportsBtn = document.getElementById('reportsBtn');
+const reportsDropdown = document.getElementById('reportsDropdown');
+
+// Toggle dropdown on click
+reportsBtn.addEventListener('click', function(e) {
+  e.preventDefault(); // Prevent default link navigation
+  reportsDropdown.classList.toggle('show');
+});
+
+// Close the dropdown if clicked outside
+window.addEventListener('click', function(e) {
+  if (!reportsBtn.contains(e.target) && !reportsDropdown.contains(e.target)) {
+    reportsDropdown.classList.remove('show');
+  }
+});
+</script>
+
+        <div id="menu-btn" class="menu-button w-nav-button">
+          <i class="fa-solid fa-bars" id="menu-icon"></i>
+        </div>
+      </div>
+
+
+
+      </div>
     </div>
+
+    <!-- Scroll navbar (unchanged visually) -->
+    <!-- <div
+      data-collapse="medium"
+      data-animation="default"
+      data-duration="400"
+      data-ix="display-scroll-navbar"
+      data-easing="ease"
+      data-easing2="ease"
+      role="banner"
+      class="navbar-scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav"
+    >
+      <div class="nav-scroll-container w-container">
+        <div class="menu-button scroll-menu-button w-nav-button">
+          <div class="w-icon-nav-menu"></div>
+        </div>
+          <a
+          href="/"
+          aria-current="page"
+          class="brand scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand w--current"
+          > <img
+              src="./assets/rxconnect.png"
+              alt="logo"
+              style="width: 120px; height: auto; margin-bottom: 4px"
+            /></a>
+        <nav role="navigation" class="nav-menu w-nav-menu">
+   <a href="./about-us.html"  class="nav-link w-nav-link ">Who we are</a>
+    <a href="./dr-form.html" aria-current="page" class="nav-link w-nav-link w--current">E-Prescriptions</a>
+    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
+    <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
+    <a href="./patient-history.html" class="nav-link w-nav-link">Patient history</a>
+    <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a>
+
+  </nav>
+      
+      </div>
+    </div> -->
+
+  <!-- PAGE CONTENT -->
+     <!-- CREATE NEW PRESCRIPTION PAGE -->
+     <main class="cnp-page">
+      <div class="cnp-wrapper">
+        <!-- Top title + back button -->
+        <div class="cnp-header">
+          <h1>Create New Prescription</h1>
+          <button class="cnp-btn-secondary" onclick="window.location.href='prescriptions.html'">
+            BACK TO PRESCRIPTIONS TRACKER
+          </button>
+        </div>
+
+        <!-- Patient + Medicines row -->
+        <div class="cnp-row">
+          <!-- Patient card -->
+     <section class="cnp-card cnp-card-patient">
+  <header class="cnp-card-header">
+    <span>Patient</span>
+    <a href="#" class="cnp-link-small js-add-patient-link">
+      Add New Patient &nbsp; <i class="fa-solid fa-user-plus"></i>
+    </a>
+  </header>
+
+  <div class="cnp-card-body">
+    <!-- Search -->
+    <div class="cnp-input-icon">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input
+        type="text"
+        class="cnp-input"
+        placeholder="search patient.."
+      />
+    </div>
+
+    <!-- Patient summary (placeholder) -->
+    <div class="cnp-patient-summary">
+      <p class="cnp-patient-name">Patient Name Here</p>
+      <p>0 years – dd-mm-yyyy</p>
+      <p>Gender: Male/Female/Other</p>
+
+      <p><strong>Address:</strong></p>
+      <p><strong>Contact:</strong></p>
+      <p><strong>Phone:</strong></p>
+      <p><strong>Email:</strong></p>
+      <p><strong>NHS Number:</strong></p>
+    </div>
+  </div>
+
+  <!-- Add New Patient panel -->
+  <div class="cnp-add-patient-modal" id="cnp-add-patient-modal">
+    <div class="cnp-ap-header">
+      <h2>Add New Patient</h2>
+      <button type="button" class="cnp-ap-close" id="cnp-add-patient-close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="cnp-ap-grid">
+      <div class="cnp-ap-field">
+        <label>First Name</label>
+        <input type="text" class="cnp-input" />
+      </div>
+      <div class="cnp-ap-field">
+        <label>Last Name</label>
+        <input type="text" class="cnp-input" />
+      </div>
+
+      <div class="cnp-ap-field">
+        <label>Gender</label>
+        <select class="cnp-input">
+          <option value="">Select</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="cnp-ap-field">
+        <label>Phone</label>
+        <input type="text" class="cnp-input" />
+      </div>
+
+      <div class="cnp-ap-field">
+        <label>Email</label>
+        <input type="email" class="cnp-input" />
+      </div>
+      <div class="cnp-ap-field">
+        <label>NHS Number</label>
+        <input
+          type="text"
+          class="cnp-input"
+          placeholder="e.g. 123 456 7891"
+        />
+      </div>
+
+      <div class="cnp-ap-field cnp-ap-dob full-width">
+        <label>Date of Birth</label>
+        <div class="cnp-ap-dob-row">
+          <input type="text" class="cnp-input cnp-ap-dob-input" placeholder="DD" />
+          <span>/</span>
+          <input type="text" class="cnp-input cnp-ap-dob-input" placeholder="MM" />
+          <span>/</span>
+          <input type="text" class="cnp-input cnp-ap-dob-input-year" placeholder="YYYY" />
+        </div>
+      </div>
+
+      <div class="cnp-ap-field">
+        <label>Address Line 1</label>
+        <input type="text" class="cnp-input" />
+      </div>
+      <div class="cnp-ap-field">
+        <label>Address Line 2</label>
+        <input type="text" class="cnp-input" />
+      </div>
+
+      <div class="cnp-ap-field">
+        <label>Town/City</label>
+        <input type="text" class="cnp-input" />
+      </div>
+      <div class="cnp-ap-field">
+        <label>Postcode</label>
+        <input type="text" class="cnp-input" />
+      </div>
+
+      <div class="cnp-ap-field full-width">
+        <label>Country</label>
+        <select class="cnp-input">
+          <option>United Kingdom</option>
+          <option>—</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="cnp-ap-footer">
+      <button type="button" class="cnp-btn-primary cnp-ap-submit">
+        CREATE &amp; SELECT
+      </button>
+    </div>
+  </div>
+</section>
+
+          <!-- Medicines card -->
+          <section class="cnp-card cnp-card-meds">
+            <header class="cnp-card-header">
+              <span>Medicines</span>
+            </header>
+          
+            <div class="cnp-card-body">
+              <div class="med-table-wrapper">
+                <table class="cnp-meds-table">
+                  <thead>
+                    <tr>
+                      <th class="med-icon-header"></th>
+                      <th>Item Description</th>
+                      <th>Dosage Instruction</th>
+                      <th>Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody id="meds-body">
+                  <td class="med-icon-cell">
+                      <button type="button" class="med-remove-btn">
+                      <span class="circle-minus"></span>
+                      </button>
+                  </td>
+
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input"
+                            placeholder="Item name"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input"
+                            placeholder="Dosage Instruction"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input med-input-qty"
+                            placeholder="Qty"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+          
+                    <tr class="med-row">
+                       <td class="med-icon-cell">
+                         <button type="button" class="med-remove-btn">
+                         <span class="circle-minus"></span>
+                         </button>
+                       </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input"
+                            placeholder="Item name"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input"
+                            placeholder="Dosage Instruction"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input med-input-qty"
+                            placeholder="Qty"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+          
+                    <tr class="med-row">
+                        <td class="med-icon-cell">
+                        <button type="button" class="med-remove-btn">
+                         <span class="circle-minus"></span>
+                         </button>
+                    </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input"
+                            placeholder="Item name"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input"
+                            placeholder="Dosage Instruction"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <div class="med-field">
+                          <input
+                            type="text"
+                            class="med-input med-input-qty"
+                            placeholder="Qty"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+          
+                    <!-- Add new row -->
+                    <tr id="add-med-row">
+                      <td class="med-icon-cell">
+                        <i class="fa-regular fa-square-plus med-add-icon"></i>
+                      </td>
+                      <td colspan="3">
+                        <a href="#" id="add-med-btn" class="cnp-link-small">
+                          Add new
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+          
+              <div class="cnp-notes-block">
+                <label for="prescription-notes">Prescription Notes</label>
+                <textarea
+                  id="prescription-notes"
+                  class="cnp-textarea"
+                  rows="4"
+                ></textarea>
+              </div>
+            </div>
+          </section>
+          
+        </div>
+
+        <!-- Grey spacer strip (like screenshot) -->
+        <div class="cnp-strip"></div>
+
+        <!-- Actions row -->
+        <div class="cnp-card cnp-card-actions">
+          <div class="cnp-actions-inner">
+            <button class="cnp-btn-disabled">SAVE AS DRAFT</button>
+
+            <div class="cnp-actions-right">
+              <button class="cnp-btn-primary">
+                ISSUE RX FOR COLLECTION
+              </button>
+              <button class="cnp-btn-dropdown">
+                <i class="fa-solid fa-caret-down"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Details cards row -->
+        <div class="cnp-row cnp-details-row">
+          <section class="cnp-card cnp-card-details">
+            <h3>Your Details</h3>
+            <p>Abdulmoez Laklouk</p>
+            <p>Pharmacist Independent Prescriber</p>
+            <p>Registration Number: 2082759</p>
+            <p>Registration Body: GPHC</p>
+          </section>
+
+          <section class="cnp-card cnp-card-details">
+            <h3>Prescription on behalf of<br />Berkshire Medical Group</h3>
+            <p>121 Chatham Street</p>
+            <p>Reading – RG1 7JE</p>
+            <p>Phone: +441189505121</p>
+            <p>Email: info@berkshiremedicalgroup.co.uk</p>
+          </section>
+        </div>
+
+        <!-- Bottom info block -->
+        <section class="cnp-card cnp-card-info">
+          <ul>
+            <li>
+              When a prescription is marked for collection, the patient will be
+              sent a prescription ID via email which they can present at any
+              pharmacy.
+            </li>
+            <li>
+              A delivery prescription will be sent securely to Signature
+              Pharmacy. The pharmacy will contact the patient with a link where
+              they can pay for their prescription and choose their preferred
+              delivery option.
+            </li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
+  <!-- /PAGE CONTENT -->
+
+  <!-- FOOTER (exactly as your snippet) -->
+  <div class="footer">
+    <div class="w-container">
+      <div class="emergency-wrapper">
+        <img
+          src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/5822042610a8d4ee31522b7d_24-hours-phone-service.png"
+          width="64" alt="" class="emergency-footer-icon" />
+        <h4 class="white">emergency cases</h4>
+        <a href="tel:+1-600-700-6200" class="w-inline-block">
+          <div class="emergency-number">+44 20 7123 4567</div>
+        </a>
+      </div>
+      <div class="flex-box space-between">
+        <div class="_33-percent-column right-padding">
+          <img src="./assets/rxconnect.png" alt="" class="footer-logo"
+            style="width: 160px; height: auto; margin-bottom: 2px" />
+          <p class="white footer-paragraph">
+            RxConnect is an international private health care provider. We have
+            more than 20 years of experience. Our patients are provided with
+            access to comprehensive outpatient and inpatient services, as well
+            as a full range of laboratory diagnostics.
+          </p>
+        </div>
+        <div class="_17-percent-column">
+          <div>
+            <div class="footer-header-wrapper">
+              <h4 class="footer-title">Navigation</h4>
+              <div class="footer-line"></div>
+            </div>
+            <a href="./about-us.html" class="footer-link">Who we are</a>
+            <a href="./dr-form.html" class="footer-link">E-prescription</a>
+            <a href="./prescriptions.html" class="footer-link">My prescription</a>
+            <a href="./doctors.html" class="footer-link">Doctors</a>
+            <a href="./patient-history.html" class="footer-link">Patient history</a>
+            <a href="./FAQs.html" class="footer-link">FAQs</a>
+          </div>
+        </div>
+        <div class="_17-percent-column next">
+          <div>
+            <div class="footer-header-wrapper">
+              <h4 class="footer-title">Departments</h4>
+              <div class="footer-line"></div>
+            </div>
+            <div class="w-dyn-list">
+              <div role="list" class="w-dyn-items">
+                <div role="listitem" class="w-clearfix w-dyn-item">
+                  <a href="/departments/accident-and-emergency-ae" class="footer-link">Physiotherapy</a>
+                </div>
+                <div role="listitem" class="w-clearfix w-dyn-item">
+                  <a href="/departments/eye-care" class="footer-link">Optical</a>
+                </div>
+                <div role="listitem" class="w-clearfix w-dyn-item">
+                  <a href="/departments/traumatology" class="footer-link">Dental</a>
+                </div>
+                <div role="listitem" class="w-clearfix w-dyn-item">
+                  <a href="/departments/dental-care" class="footer-link">X-Ray</a>
+                </div>
+                <div role="listitem" class="w-clearfix w-dyn-item">
+                  <a href="/departments/cardiology" class="footer-link">Cardiology</a>
+                </div>
+                <div role="listitem" class="w-clearfix w-dyn-item">
+                  <a href="/departments/neurology" class="footer-link">Neurology</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="_33-percent-column contact-footer">
+          <div>
+            <div class="footer-header-wrapper">
+              <h4 class="footer-title">Contact Us</h4>
+              <div class="footer-line"></div>
+            </div>
+            <div class="footer-contact-block">
+              <img
+                src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb365745bf29a4636cc96d_marker_white.png"
+                alt="" class="footer-contact-icon" />
+              <div>
+                <a data-ix="popup-modal-show" href="#" class="footer-link contact">M5 3AB Church Road, Salford,
+                  Manchester</a>
+              </div>
+            </div>
+            <div class="footer-contact-block">
+              <img
+                src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
+                alt="" class="footer-contact-icon" />
+              <div>
+                <a href="mailto:" class="footer-link contact">info@rxconnect.com</a>
+              </div>
+            </div>
+            <div class="footer-contact-block">
+              <img
+                src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
+                alt="" class="footer-contact-icon" />
+              <div>
+                <a href="tel:+61393455522" class="footer-link">+44 7712 345678</a>
+                <a href="tel:+61393455522" class="footer-link">+44 20 7123 4567</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-row w-row">
+        <div class="footer-column w-col w-col-3">
+          <div>
+            <div class="footer-header-wrapper">
+              <h4 class="footer-title">Contact Us</h4>
+              <div class="footer-line"></div>
+            </div>
+            <div class="footer-contact-block">
+              <img
+                src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb365745bf29a4636cc96d_marker_white.png"
+                alt="" class="footer-contact-icon" />
+              <div>
+                <div class="footer-link"> 267 Collins St Melbourne Victoria 3000 </div>
+              </div>
+            </div>
+            <div class="footer-contact-block">
+              <img
+                src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
+                alt="" class="footer-contact-icon" />
+              <div>
+                <a href="mailto:" class="footer-link contact">info@medicare.com</a>
+              </div>
+            </div>
+            <div class="footer-contact-block">
+              <img
+                src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
+                alt="" class="footer-contact-icon" />
+              <div>
+                <a href="tel:+61393455522" class="footer-link">03-9345-5522</a>
+                <a href="tel:+61393455522" class="footer-link">03-9345-4422</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-column w-col w-col-3">
+          <div>
+            <div class="footer-header-wrapper">
+              <h4 class="footer-title">Navigation</h4>
+              <div class="footer-line"></div>
+            </div>
+            <a href="./about-us.html" class="footer-link">Who we are</a>
+            <a href="./dr-form.html" class="footer-link">E-prescription</a>
+            <a href="./prescriptions.html" class="footer-link">My prescription</a>
+            <a href="./doctors.html" class="footer-link">Doctors</a>
+            <a href="./patient-history.html" class="footer-link">Patient history</a>
+            <a href="./FAQs.html" class="footer-link">FAQs</a>
+          </div>
+        </div>
+
+        <div class="footer-column w-col w-col-3">
+          <div>
+            <div class="footer-header-wrapper">
+              <h4 class="footer-title">Departments</h4>
+              <div class="footer-line"></div>
+            </div>
+            <div class="w-dyn-list">
+              <div role="list" class="w-dyn-items">
+                <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/accident-and-emergency-ae"
+                    class="footer-link">Physiotherapy</a></div>
+                <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/eye-care"
+                    class="footer-link">Optical</a></div>
+                <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/traumatology"
+                    class="footer-link">Dental </a></div>
+                <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/dental-care"
+                    class="footer-link">X-Ray</a></div>
+                <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/cardiology"
+                    class="footer-link">Cardiology</a></div>
+                <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/neurology"
+                    class="footer-link">Neurology</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-column w-col w-col-3">
+          <div class="footer-header-wrapper">
+            <h4 class="footer-title">Message us</h4>
+            <div class="footer-line"></div>
+          </div>
+          <div>
+            <div class="w-form">
+              <form id="email-form-2" name="email-form-2" data-name="Email Form 2" method="get"
+                data-wf-page-id="57c55b6ef6306d483a15bdc1" data-wf-element-id="7c121d8a-d022-a32b-02d7-eb05da342546">
+                <input class="text-field name full-width w-input" maxlength="256" name="name" data-name="Name"
+                  placeholder="Enter your name" type="text" id="name" /><input
+                  class="text-field email full-width w-input" maxlength="256" name="email" data-name="Email 3"
+                  placeholder="Enter your email address" type="email" id="email-3" required="" /><input type="submit"
+                  data-wait="Please wait..." class="button white full-width w-button" value="Submit" />
+              </form>
+              <div class="w-form-done">
+                <div>Thank you! Your submission has been received!</div>
+              </div>
+              <div class="w-form-fail">
+                <div> Oops! Something went wrong while submitting the form </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-credits">
+        <div class="credits-wrapper">
+          <div class="footer-socials">
+            <a href="#" class="social-icon facebook w-inline-block"></a>
+            <a href="#" class="social-icon twitter w-inline-block"></a>
+            <a href="#" class="social-icon linkedin w-inline-block"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- /FOOTER -->
 
-  <!-- jQuery (same version as your site) -->
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js"
           integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 
-  <!-- Your global site script (unchanged) -->
-  <script src="./scripts/index.js" type="text/javascript"></script>
 
   <!-- Page logic -->
-  <script>
+   <script>
     (function() {
       const form = document.getElementById('rx-form');
       const tbody = document.getElementById('rx-tbody');
@@ -1199,8 +1783,9 @@ document.addEventListener('DOMContentLoaded', function() {
       setDefaultMeta();
       ensureAtLeastOneRow();
     })();
-  </script>
-  
-  <script src="./scripts/index.js"></script>
+  </script> 
+
+  <script src="./scripts/dr-form.js"></script>
 </body>
+
 </html>

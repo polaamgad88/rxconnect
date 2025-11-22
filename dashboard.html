@@ -5,6 +5,8 @@
     <title>RxConnect</title>
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <link href="./styles/index.css" rel="stylesheet" type="text/css" />
+    <link href="./styles/dashboard.css" rel="stylesheet" type="text/css" />
+
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
       rel="stylesheet"
@@ -36,38 +38,36 @@
         font-family: "Open Sans", sans-serif;
       }
 
-      .register-section {
-        min-height: 75vh;
+      .login-section {
+        min-height: 70vh;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 60px 20px;
       }
 
-      .register-card {
+      .login-card {
         background: #fff;
         border-radius: 8px;
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-        max-width: 600px;
+        max-width: 420px;
         width: 100%;
         padding: 40px 30px;
+        text-align: center;
       }
 
-      .register-card h2 {
+      .login-card h2 {
         font-family: "Montserrat", sans-serif;
-        text-align: center;
         margin-bottom: 10px;
       }
 
-      .register-card p {
+      .login-card p {
         color: #666;
         font-size: 14px;
-        text-align: center;
-        margin-bottom: 25px;
+        margin-bottom: 30px;
       }
 
-      .register-input,
-      .register-select {
+      .login-input {
         width: 100%;
         padding: 12px 14px;
         margin-bottom: 15px;
@@ -76,7 +76,7 @@
         font-size: 15px;
       }
 
-      .register-btn {
+      .login-btn {
         width: 100%;
         background-color: #20baf8;
         color: #fff;
@@ -89,24 +89,19 @@
         transition: background 0.2s ease-in;
       }
 
-      .register-btn:hover {
+      .login-btn:hover {
         background-color: #00aee8;
       }
 
-      .register-footer {
+      .login-footer {
         margin-top: 20px;
         font-size: 13px;
-        text-align: center;
       }
 
-      .register-footer a {
+      .login-footer a {
         color: #20baf8;
         text-decoration: none;
         font-weight: 600;
-      }
-
-      .hidden {
-        display: none;
       }
     </style>
   </head>
@@ -117,11 +112,14 @@
     <div class="navbar-wrapper">
       <div class="top-info-bar">
         <div class="top-info-bar-container w-container">
-         <img
+          <a
+            href="./index.html"
+            class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand"
+            ><img
               src="./assets/rxconnect.png"
               alt="logo"
               style="width: 120px; height: auto; margin-bottom: 4px"
-            />
+            /></a>
           <div class="info-bar w-clearfix">
             <div class="info-blocks-wrapper w-clearfix">
               <div class="top-info-block no-right-border w-clearfix">
@@ -139,7 +137,8 @@
                 <div class="top-info-content">
                   <a data-ix="popup-modal-show" href="#" class="contact-link"
                     >M5 3AB<br />
-                   Church Road, Salford, Manchester</a>
+                   Church Road, Salford, Manchester</a
+                  >
                 </div>
               </div>
             </div>
@@ -155,22 +154,39 @@
         role="banner"
         class="navbar w-nav"
       >
-        <div class="navbar-container w-container">
-          <a href="/" class="brand w-hidden-main w-nav-brand"
-            ><img
-              src="./assets/rxconnect.png"
-              alt="logo"
-              style="width: 140px; height: auto;"
-            /></a>
+      <div class="navbar-container w-container">
+        <a href="./home.html" class="brand w-hidden-main w-nav-brand"
+          ><img
+            src="./assets/rxconnect.png"
+            alt="logo"
+            style="width: 140px; height: auto;"
+          /></a>
         <nav role="navigation" class="nav-menu w-nav-menu">
-    <a href="./index.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
-    <a href="./home-prescription.html" class="nav-link w-nav-link">E-Prescriptions</a>
-    <a href="./home.html" class="nav-link w-nav-link">Pharmacies</a>
- 
+    <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
+    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
+    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
+    <a href="./pending-prescription.html"  class="nav-link w-nav-link" >Pending Prescriptions</a>
+    <!-- <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a> -->
+
+    <a href="./patients.html" class="nav-link w-nav-link">Patients</a>
+    <!-- <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a> -->
+    <a href="./contacts.html" class="nav-link w-nav-link">Contacts    </a>
+    <a href="./billing.html" class="nav-link w-nav-link">Billing</a>
+    <a class="nav-link w-nav-link" href="./myprofile.html">My Profile </a>
+
+    <div class="dropdown">
+  <button class="nav-link w-nav-link bg-transparent" id="reportsBtn">
+    Reports <i class="fa-solid fa-chevron-down"></i>
+  </button>
+  <div class="dropdown-content" id="reportsDropdown">
+    <a href="./reports.html">Reports</a>
+    <a href="./medicationExport.html">Medication Export</a>
+
+  </div>
 </div>
 
   </nav>
-  <script>
+<script>
 const reportsBtn = document.getElementById('reportsBtn');
 const reportsDropdown = document.getElementById('reportsDropdown');
 
@@ -188,16 +204,18 @@ window.addEventListener('click', function(e) {
 });
 </script>
 
-          <div id="menu-btn" class="menu-button w-nav-button">
-            <i class="fa-solid fa-bars" id="menu-icon"></i>
-          </div>
+        <div id="menu-btn" class="menu-button w-nav-button">
+          <i class="fa-solid fa-bars" id="menu-icon"></i>
         </div>
+      </div>
+
 
 
       </div>
+    </div>
 
-    <!-- Scroll navbar (unchanged visually) -->
-    <!-- <div
+    <!-- Scroll navbar (unchanged visually)
+    <div
       data-collapse="medium"
       data-animation="default"
       data-duration="400"
@@ -230,125 +248,131 @@ window.addEventListener('click', function(e) {
 
   </nav>
       
-      </div>
-    </div> -->
-
-
-    <!-- REGISTRATION FORM -->
-    <div class="register-section">
-      <div class="register-card">
-        <h2>Create an Account</h2>
-        <p>Select your role and fill out the required information</p>
-
-        <form id="registerForm">
-          <select id="userType" class="register-select" required>
-            <option value="">Select User Type</option>
-            <option value="doctor">Doctor</option>
-            <option value="pharmacist">Pharmacist</option>
-            <option value="patient">Patient</option>
-          </select>
-
-          <!-- Common fields -->
-          <input
-            type="text"
-            id="fullName"
-            class="register-input"
-            placeholder="Full Name"
-            required
-          />
-          <input
-            type="email"
-            id="email"
-            class="register-input"
-            placeholder="Email Address"
-            required
-          />
-          <input
-            type="password"
-            id="password"
-            class="register-input"
-            placeholder="Password"
-            required
-          />
-
-          <!-- Doctor-specific fields -->
-          <div id="doctorFields" class="hidden">
-            <input
-              type="text"
-              id="licenseNumber"
-              class="register-input"
-              placeholder="Medical License Number"
-            />
-            <input
-              type="text"
-              id="specialization"
-              class="register-input"
-              placeholder="Specialization"
-            />
-            <input
-              type="text"
-              id="clinicName"
-              class="register-input"
-              placeholder="Clinic/Hospital Name"
-            />
-          </div>
-
-          <!-- Pharmacist-specific fields -->
-          <div id="pharmacyFields" class="hidden">
-            <input
-              type="text"
-              id="pharmacyName"
-              class="register-input"
-              placeholder="Pharmacy Name"
-            />
-            <input
-              type="text"
-              id="pharmacyLicense"
-              class="register-input"
-              placeholder="Pharmacy License Number"
-            />
-            <input
-              type="text"
-              id="pharmacyAddress"
-              class="register-input"
-              placeholder="Pharmacy Address"
-            />
-          </div>
-
-          <!-- Patient-specific fields -->
-          <div id="patientFields" class="hidden">
-            <input
-              type="date"
-              id="dob"
-              class="register-input"
-              placeholder="Date of Birth"
-            />
-            <input
-              type="text"
-              id="bloodGroup"
-              class="register-input"
-              placeholder="Blood Group (e.g., A+)"
-            />
-            <input
-              type="text"
-              id="allergies"
-              class="register-input"
-              placeholder="Known Allergies (optional)"
-            />
-          </div>
-
-          <button type="submit" class="register-btn" onclick="window.location.href='./home.html'">Register</button>
-        </form>
-
-        <div class="register-footer">
-          Already have an account?
-          <a href="./login.html">Login here</a>
+     <!-- DASHBOARD BODY -->
+     <main class="dashboard-section">
+        <div class="dashboard-wrapper">
+          <header class="dashboard-header">
+            <h1>RxConnect – Dashboard</h1>
+            <p>Generate, track and manage your prescriptions and patients</p>
+          </header>
+  
+          <section class="dashboard-grid">
+            <!-- Prescription Tracker -->
+            <article class="dashboard-card">
+              <div class="card-icon">
+                <i class="fa-solid fa-clipboard-list"></i>
+              </div>
+              <div class="card-content">
+                <h2>Prescription Tracker</h2>
+                <p>
+                  View your patient’s prescription history, or see the status of the prescriptions.
+                </p>
+                <a href="./prescriptions.html" class="card-link">
+                  Explore all prescriptions <span>→</span>
+                </a>
+              </div>
+            </article>
+  
+            <!-- Patients -->
+            <article class="dashboard-card">
+              <div class="card-icon">
+                <i class="fa-solid fa-users"></i>
+              </div>
+              <div class="card-content">
+                <h2>Patients</h2>
+                <p>Manage and edit your patient database.</p>
+                <a href="./patient-history.html" class="card-link">
+                  Manage your patients <span>→</span>
+                </a>
+              </div>
+            </article>
+  
+            <!-- New Prescription -->
+            <article class="dashboard-card">
+              <div class="card-icon">
+                <i class="fa-solid fa-file-prescription"></i>
+              </div>
+              <div class="card-content">
+                <h2>New Prescription</h2>
+                <p>Issue a new prescription.</p>
+                <a href="./dr-form.html" class="card-link">
+                  Add new prescription <span>→</span>
+                </a>
+              </div>
+            </article>
+  
+            <!-- New Patient -->
+            <article class="dashboard-card">
+              <div class="card-icon">
+                <i class="fa-solid fa-user-plus"></i>
+              </div>
+              <div class="card-content">
+                <h2>New Patient</h2>
+                <p>Add a new patient to your clinic.</p>
+                <a href="./doctors.html" class="card-link">
+                  Add new patient <span>→</span>
+                </a>
+              </div>
+            </article>
+  
+            <!-- Integration Code -->
+            <article class="dashboard-card">
+              <div class="card-icon">
+                <i class="fa-solid fa-code-branch"></i>
+              </div>
+              <div class="card-content">
+                <h2>Integration Code</h2>
+                <p class="integration-label">Use this code to integrate with your systems:</p>
+                <div class="integration-row">
+                  <code class="integration-code">
+                    V0hldG55blVtTE4yZDdoZjB5dGdJdz09
+                  </code>
+                  <button class="copy-btn" type="button" onclick="copyIntegrationCode()">
+                    <i class="fa-regular fa-copy"></i>
+                  </button>
+                </div>
+              </div>
+            </article>
+  
+            <!-- Clinic Information -->
+            <article class="dashboard-card">
+              <div class="card-icon">
+                <i class="fa-solid fa-hospital-user"></i>
+              </div>
+              <div class="card-content">
+                <h2>Your Clinic Information</h2>
+                <ul class="clinic-info">
+                  <li><strong>Clinic ID:</strong> 425979</li>
+                  <li><strong>Clinic Name:</strong> Berkshire Medical Group</li>
+                  <li>
+                    <strong>Clinic Address:</strong> 121 Chatham Street, Reading, RG1 7JE
+                  </li>
+                </ul>
+              </div>
+            </article>
+          </section>
         </div>
-      </div>
-    </div>
+      </main>
+  
+      <script>
+        function copyIntegrationCode() {
+          const code = document.querySelector(".integration-code").textContent.trim();
+          navigator.clipboard.writeText(code).then(
+            () => {
+              alert("Integration code copied to clipboard");
+            },
+            () => {
+              alert("Unable to copy code. Please copy it manually.");
+            }
+          );
+        }
+      </script>
+  
 
-    <!-- FOOTER -->
-   <div class="footer">
+   
+
+    <!-- FOOTER (kept as-is) -->
+  <div class="footer">
       <div class="w-container">
         <div class="emergency-wrapper">
           <img
@@ -600,27 +624,19 @@ window.addEventListener('click', function(e) {
     </div>
 
     <script>
-      const userTypeSelect = document.getElementById("userType");
-      const doctorFields = document.getElementById("doctorFields");
-      const pharmacyFields = document.getElementById("pharmacyFields");
-      const patientFields = document.getElementById("patientFields");
-
-      userTypeSelect.addEventListener("change", function () {
-        const type = this.value;
-        doctorFields.classList.add("hidden");
-        pharmacyFields.classList.add("hidden");
-        patientFields.classList.add("hidden");
-
-        if (type === "doctor") doctorFields.classList.remove("hidden");
-        else if (type === "pharmacist") pharmacyFields.classList.remove("hidden");
-        else if (type === "patient") patientFields.classList.remove("hidden");
-      });
-
       document
-        .getElementById("registerForm")
+        .getElementById("loginForm")
         .addEventListener("submit", function (e) {
           e.preventDefault();
-          alert("Registration submitted successfully!");
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+
+          if (email === "doctor@example.com" && password === "password") {
+            alert("Login successful! Redirecting...");
+            window.location.href = "./dashboard.html";
+          } else {
+            alert("Invalid credentials. Please try again.");
+          }
         });
     </script>
     <script>
@@ -656,5 +672,4 @@ window.addEventListener('click', function(e) {
     });
   });
 </script>
-  </body>
 </html>
