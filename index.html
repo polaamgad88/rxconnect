@@ -83,89 +83,121 @@
     .btn-dispense:hover {
       background-color: darkgreen;
     }
+   .navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  padding: 10px 20px;
+  gap: 20px;
+}
+
+.brand img {
+  width: 140px;
+  height: auto;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+}
+
+ .btn-main {
+    background-color: green;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s;
+    white-space: nowrap; 
+    display: inline-block;
+  }
+
+.btn-main:hover {
+  background-color: green;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.top-bar-login-btn {
+    display: inline-block;
+    padding: 8px 16px; 
+    border: 2px solid green; 
+    border-radius: 8px; 
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out; 
+        color: #ffffff; 
+    background-color: green; 
+}
+
+.top-bar-login-btn:hover {
+    color: green; 
+    background-color: transparent; 
+    border-color: green; 
+    text-decoration: none;
+}
+
+.top-info-block {
+    display: flex;
+    align-items: center; 
+}
+
+.top-info-block .button {
+    margin: 0; 
+}
   </style>
 </head>
 
   <body>
     <!-- NAVBAR (kept; minor icons retained) -->
     <div class="navbar-wrapper">
-      <div class="top-info-bar">
-        <div class="top-info-bar-container w-container">
-         <img
-              src="./assets/rxconnect.png"
-              alt="logo"
-              style="width: 120px; height: auto; margin-bottom: 4px"
-            />
-          <div class="info-bar w-clearfix">
+     <div class="top-info-bar">
+    <div class="top-info-bar-container w-container">
+        <img
+            src="./assets/rxconnect.png"
+            alt="logo"
+            style="width: 120px; height: auto; margin-bottom: 4px"
+        />
+        <div class="info-bar w-clearfix">
             <div class="info-blocks-wrapper w-clearfix">
-              <div class="top-info-block no-right-border w-clearfix">
-                <div class="top-info-icon"></div>
-                <div class="top-info-content">
-                  <a href="tel:+44 20 7123 4567" class="contact-link"
-                    >+44 20 7123 4567</a
-                  ><a href="tel:+44 7712 345678" class="contact-link"
-                    >+44 7712 345678</a
-                  >
+                <div class="top-info-block no-right-border w-clearfix">
+                    <div class="top-info-icon"></div>
+                    <div class="top-info-content">
+                        <a href="tel:+44 20 7123 4567" class="contact-link"
+                            >+44 20 7123 4567</a
+                        ><a href="tel:+44 7712 345678" class="contact-link"
+                            >+44 7712 345678</a
+                        >
+                    </div>
                 </div>
-              </div>
-              <div class="top-info-block w-clearfix">
-                <div class="top-info-icon _2"></div>
-                <div class="top-info-content">
-                  <a data-ix="popup-modal-show" href="#" class="contact-link"
-                    >M5 3AB<br />
-                   Church Road, Salford, Manchester</a>
+                <div class="top-info-block w-clearfix">
+                    <div class="top-info-icon _2"></div>
+                    <div class="top-info-content">
+                        <a data-ix="popup-modal-show" href="#" class="contact-link"
+                            >M5 3AB<br />
+                            Church Road, Salford, Manchester</a
+                        >
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        data-collapse="medium"
-        data-animation="default"
-        data-duration="400"
-        data-easing="ease"
-        data-easing2="ease"
-        role="banner"
-        class="navbar w-nav"
-      >
-        <div class="navbar-container w-container">
-          <a href="/" class="brand w-hidden-main w-nav-brand"
-            ><img
-              src="./assets/rxconnect.png"
-              alt="logo"
-              style="width: 140px; height: auto;"
-            /></a>
-        <nav role="navigation" class="nav-menu w-nav-menu">
-    <a href="./home.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
-    <a href="./home-prescription.html" class="nav-link w-nav-link">E-Prescriptions</a>
-    <a href="./index.html" class="nav-link w-nav-link">Pharmacies</a>
- 
+               <div class="top-info-block w-clearfix" style="border-right: none;">
+    <a href="./login.html" class="top-bar-login-btn">Login</a>
 </div>
-
-  </nav>
-  <script>
-const reportsBtn = document.getElementById('reportsBtn');
-const reportsDropdown = document.getElementById('reportsDropdown');
-
-// Toggle dropdown on click
-reportsBtn.addEventListener('click', function(e) {
-  e.preventDefault(); // Prevent default link navigation
-  reportsDropdown.classList.toggle('show');
-});
-
-// Close the dropdown if clicked outside
-window.addEventListener('click', function(e) {
-  if (!reportsBtn.contains(e.target) && !reportsDropdown.contains(e.target)) {
-    reportsDropdown.classList.remove('show');
-  }
-});
-</script>
-
-          <div id="menu-btn" class="menu-button w-nav-button">
-            <i class="fa-solid fa-bars" id="menu-icon"></i>
-          </div>
+                
+                </div>
         </div>
+    </div>
+</div>
+   
 
 
       </div>
@@ -248,12 +280,23 @@ window.addEventListener('click', function(e) {
           </div>
           
           <div class="top-margin" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-            <a href="./register.html" class="button white w-button" style="background-color:green; color:#fff; border:none;">
+            <a href="./dispense-prescription.html"
+   class="button white w-button"
+   style="background-color:green;
+          color:#fff;
+          border:none;
+          padding: 25px 40px;
+          font-size: 24px;
+          display:inline-block;">
+  Dispense Prescription
+</a>
+
+            <!-- <a href="./register.html" class="button white w-button" style="background-color:green; color:#fff; border:none;">
               JOIN US NOW
             </a>
             <a href="./login.html" class="button white w-button" style="background-color:#ffffff; color:#20baf8; border:2px solid #20baf8;">
               Already a member? Login
-            </a>
+            </a> -->
           </div>
           
         </div>

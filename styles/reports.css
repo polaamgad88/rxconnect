@@ -48,9 +48,9 @@
 
 .reports-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  margin-bottom: 40px;
+  grid-template-columns: repeat(4, 1fr); 
+    gap: 20px; 
+    padding: 20px 0; 
 }
 
 .report-card {
@@ -68,7 +68,7 @@
 
 .icon-wrap {
   background: #e3ebff;
-  color: #0b188a;
+  color: rgb(37, 37, 37);
   width: 60px;
   height: 60px;
   border-radius: 50%;

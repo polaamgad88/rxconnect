@@ -32,7 +32,7 @@ body {
 .container {
     /* background-color: #ffffff; */
     width: 100%;
-    max-width: 1400px; 
+    max-width: 1200px; 
     margin: 0 auto;
     padding: 30px;
     box-sizing: border-box;
@@ -45,7 +45,7 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
-    border-bottom: 3px solid #00baff; 
+    border-bottom: 2px solid rgb(201, 199, 199); 
     padding-bottom: 15px;
 }
 
