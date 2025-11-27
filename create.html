@@ -200,11 +200,156 @@
   padding-top: 4px !important;
   padding-bottom: 4px !important;
 }
+@media screen and (max-width: 991px) {
+    
+    .top-info-bar-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between; 
+      align-items: center;
+      padding: 10px 15px;
+      position: relative;
+    }
+
+    .brand.w-nav-brand {
+      display: block !important;
+      flex: 0 0 auto;
+    }
+    .brand img {
+        width: 100px !important;
+    }
+
+    .info-bar {
+      display: none !important;
+    }
+
+    .custom-menu-btn {
+      display: block;
+      font-size: 26px;
+      cursor: pointer;
+      color: #333;
+      padding: 5px;
+      order: 2; 
+    }
+
+    .user-dropdown-container {
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+      order: 3; 
+    }
+
+    .nav-menu.w-nav-menu {
+        display: none; 
+        flex-direction: column;
+        background-color: white;
+        width: 100%;
+        padding: 10px 0;
+        border-top: 1px solid #ddd;
+    }
+
+    .nav-menu.w-nav-menu.active {
+        display: flex !important;
+    }
+
+    .nav-link {
+        display: block;
+        padding: 10px 20px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+  }
+
+  @media screen and (min-width: 992px) {
+    .custom-menu-btn {
+      display: none;
+    }
+    .nav-menu.w-nav-menu {
+        display: flex !important; 
+    }
+  }
+    </style>
+    <style>
+  @media screen and (max-width: 991px) {
+    
+    .top-info-bar-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 10px 10px 0px !important; 
+    }
+
+    .brand.w-nav-brand {
+      display: block !important;
+      flex: 0 0 auto;
+      margin-left: 0 !important; 
+    }
+    
+    .brand img {
+        width: 140px !important; 
+        height: auto;
+    }
+
+    .info-bar { display: none !important; }
+
+    .custom-menu-btn {
+      display: block;
+      font-size: 28px; 
+      cursor: pointer;
+      color: #333;
+      padding: 5px;
+      order: 2;
+    }
+
+    .user-dropdown-container {
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+      order: 3;
+    }
+
+    .nav-menu.w-nav-menu {
+        display: none;
+        flex-direction: column;
+        background-color: white;
+        width: 100%;
+        padding: 10px 0;
+        border-top: 1px solid #ddd;
+    }
+
+    .nav-menu.w-nav-menu.active {
+        display: flex !important;
+    }
+  }
+
+  /* Desktop Styles (No change) */
+  @media screen and (min-width: 992px) {
+    .custom-menu-btn { display: none; }
+    .nav-menu.w-nav-menu { display: flex !important; }
+  }
+  @media screen and (max-width: 991px) {
+    
+    .user-dropdown-container {
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+      padding-top: 10px;
+      
+      border-top: none; 
+      
+      order: 3;
+    }
+    
+}
 
     </style>
   </head>
   <body>
-    <div id="navbar-placeholder"></div>
+   <div id="navbar-placeholder"></div>
     <!-- NAVBAR (kept; minor icons retained) -->
      <div class="navbar-wrapper">
       <div class="top-info-bar">
@@ -217,6 +362,9 @@
               alt="logo"
               style="width: 120px; height: auto; margin-bottom: 4px"
             /></a>
+             <div id="menu-btn" class="menu-button w-nav-button">
+          <i class="fa-solid fa-bars" id="menu-icon"></i>
+        </div>
           <div class="info-bar w-clearfix">
             <div class="info-blocks-wrapper w-clearfix">
               <div class="top-info-block no-right-border w-clearfix">
@@ -405,12 +553,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-
 </script>
 
-        <div id="menu-btn" class="menu-button w-nav-button">
-          <i class="fa-solid fa-bars" id="menu-icon"></i>
-        </div>
+       
       </div>
 
 

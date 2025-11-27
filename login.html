@@ -101,6 +101,38 @@
         text-decoration: none;
         font-weight: 600;
       }
+      @media (max-width: 768px) {
+
+  .navbar-wrapper .top-info-bar-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 8px 12px !important;
+  }
+
+  .navbar-wrapper .top-info-bar-container > img {
+    display: block !important;
+    max-width: 120px !important;
+    height: auto !important;
+    margin-bottom: 0 !important;
+  }
+
+  .navbar-wrapper .info-blocks-wrapper .top-info-block:not(:last-child) {
+    display: none !important;
+  }
+
+  .navbar-wrapper .info-bar,
+  .navbar-wrapper .info-blocks-wrapper,
+  .navbar-wrapper .top-info-block:last-child {
+    display: block !important;
+  }
+}
+@media (max-width: 768px) {
+  .navbar-wrapper .top-info-bar {
+    display: none !important;
+  }
+}
+
     </style>
   </head>
 
@@ -182,12 +214,13 @@ window.addEventListener('click', function(e) {
 </script>
 
           <div id="menu-btn" class="menu-button w-nav-button">
-            <i class="fa-solid fa-bars" id="menu-icon"></i>
+            <!-- <i class="fa-solid fa-bars" id="menu-icon"></i> -->
           </div>
         </div>
 
 
       </div>
+    </div>
 
     <!-- Scroll navbar (unchanged visually)
     <div

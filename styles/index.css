@@ -4394,13 +4394,13 @@ html.w-mod-js *[data-ix="display-scroll-navbar"] {
 }
 
 @media screen and (max-width: 991px) {
-  .navbar {
+  /* .navbar {
     padding-top: 15px;
     padding-bottom: 15px;
   }
   .top-info-bar {
     display: none;
-  }
+  } */
   .section {
     padding-right: 20px;
     padding-left: 20px;

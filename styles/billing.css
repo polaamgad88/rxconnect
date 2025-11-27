@@ -506,3 +506,49 @@ input:checked + .slider:before {
   color: #555;
   text-align: center;
 }
+@media screen and (max-width: 991px) {
+    .tokens-grid {
+        display: flex;
+        flex-direction: column; 
+        gap: 20px; 
+    }
+
+    .tokens-grid .card {
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+    
+    .token-pricing .pricing-box {
+        display: flex;
+        flex-direction: column; 
+        gap: 20px;
+    }
+
+    .counter {
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+        width: 150px; 
+        margin: 10px auto;
+    }
+    .history {
+        overflow-x: auto; 
+        padding-bottom: 15px; 
+    }
+
+    .history table {
+        min-width: 850px; 
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .history table th, 
+    .history table td {
+        white-space: nowrap;
+        padding: 10px 12px;
+        text-align: left;
+    }
+}

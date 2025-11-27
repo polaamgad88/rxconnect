@@ -155,6 +155,45 @@
 .top-info-block .button {
     margin: 0; 
 }
+@media (max-width: 768px) {
+
+  .navbar-wrapper .top-info-bar-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 8px 12px !important;
+  }
+
+  .navbar-wrapper .top-info-bar-container > img {
+    display: block !important;
+    max-width: 120px !important;
+    height: auto !important;
+    margin-bottom: 0 !important;
+  }
+
+  .navbar-wrapper .info-blocks-wrapper .top-info-block:not(:last-child) {
+    display: none !important;
+  }
+
+  .navbar-wrapper .info-bar,
+  .navbar-wrapper .info-blocks-wrapper,
+  .navbar-wrapper .top-info-block:last-child {
+    display: block !important;
+  }
+
+  .navbar-wrapper .top-bar-login-btn {
+    display: inline-block !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    background-color: green !important;
+    color: #fff !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+  }
+}
+
   </style>
 </head>
 
@@ -201,8 +240,6 @@
 
 
       </div>
-    </div>
-
 
     <!-- POPUP + Fixed contact (unchanged) -->
     <div data-ix="popup-modal-initial-appearance" class="popup">
