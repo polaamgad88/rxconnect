@@ -193,7 +193,20 @@
     white-space: nowrap !important;
   }
 }
-
+@media (max-width: 768px) {
+    .top-margin {
+        gap: 10px !important; 
+        padding: 10px 0;
+    }
+    
+    .top-margin a.button {
+        padding: 20px 30px !important;        
+        font-size: 24px !important;       
+        margin-bottom: 15px !important;    
+        width: 90%; 
+        text-align: center;
+    }
+}
   </style>
 </head>
 
@@ -306,25 +319,16 @@
       </video>
       <div class="hero-container w-container">
         <div data-ix="show-on-load-6" class="hero-content">
-          <div class="hero-subheader">e-Prescription & Pharmacy Platform</div>
-          <h1 class="hero-header">
-            Create, track, and dispense prescriptions—fast and securely
-          </h1>
-          <div class="hero-card-paragraph">
-            Doctors compose prescriptions, patients view instructions, and
-            pharmacists dispense with safety checks. Real-time lists, search,
-            and detailed prescription views keep everyone aligned.
-          </div>
-          
-          <div class="top-margin" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+               <div class="top-margin" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
             <a href="./dispense-prescription.html"
    class="button white w-button"
    style="background-color:green;
           color:#fff;
           border:none;
-          padding: 25px 40px;
-          font-size: 24px;
-          display:inline-block;">
+          padding: 55px 70px;
+          font-size: 54px;
+          display:inline-block;
+          margin-bottom: 30px;">
   Dispense Prescription
 </a>
 
@@ -335,6 +339,17 @@
               Already a member? Login
             </a> -->
           </div>
+          <div class="hero-subheader">e-Prescription & Pharmacy Platform</div>
+          <h1 class="hero-header">
+            Create, track, and dispense prescriptions—fast and securely
+          </h1>
+          <div class="hero-card-paragraph">
+            Doctors compose prescriptions, patients view instructions, and
+            pharmacists dispense with safety checks. Real-time lists, search,
+            and detailed prescription views keep everyone aligned.
+          </div>
+          
+     
           
         </div>
       </div>

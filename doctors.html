@@ -5,36 +5,54 @@
   data-wf-site="57c55b6ef6306d483a15bdc0"
   data-wf-status="1">
 <head>
-  <meta charset="utf-8" />
-  <title>RxConnect</title>
-  <meta content="width=device-width, initial-scale=1" name="viewport" />
-  <meta content="Webflow" name="generator" />
-  <link href="./styles/index.css" rel="stylesheet" type="text/css" />
-  <link href="https://fonts.googleapis.com" rel="preconnect" />
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+   <meta charset="utf-8" />
+    <title>Prescriptions | Medicare</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="Webflow" name="generator" />
+    <link href="./styles/index.css" rel="stylesheet" type="text/css" />
+    <link href="./styles/prescriptions.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link
+      href="https://fonts.gstatic.com"
+      rel="preconnect"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
 
-  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-  <script>
-    WebFont.load({
-      google: {
-        families: [
-          "Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic",
-          "Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic",
-          "Source Sans Pro:regular,700"
-        ]
-      }
-    });
-  </script>
-  <script>
-    !(function (o, c) {
-      var n = c.documentElement, t = " w-mod-";
-      n.className += t + "js";
-      ("ontouchstart" in o || (o.DocumentTouch && c instanceof DocumentTouch)) && (n.className += t + "touch");
-    })(window, document);
-  </script>
-  <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
-  <link href="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/589b0ba5dbf0b97f5096c916_pharmacy-symbol-darker.png" rel="apple-touch-icon" />
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+      WebFont.load({
+        google: {
+          families: [
+            "Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic",
+            "Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic",
+            "Source Sans Pro:regular,700",
+          ],
+        },
+      });
+    </script>
+    <script>
+      !(function (o, c) {
+        var n = c.documentElement,
+          t = " w-mod-";
+        n.className += t + "js";
+        ("ontouchstart" in o ||
+          (o.DocumentTouch && c instanceof DocumentTouch)) &&
+          (n.className += t + "touch");
+      })(window, document);
+    </script>
+    <link
+      href="./assets/favicon.png  "
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+    <link
+      href="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/589b0ba5dbf0b97f5096c916_pharmacy-symbol-darker.png"
+      rel="apple-touch-icon"
+    />
   <style>
     /* Page-specific, non-intrusive */
     .filters-bar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:16px; }
@@ -118,25 +136,291 @@
 .menu-button {
   z-index: 999999 !important;
 }
+.user-dropdown-container {
+    position: relative; 
+    cursor: pointer;
+    margin-left: 20px;
+}
 
+.user-trigger {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+    color: #767777; 
+        white-space: nowrap; 
+}
+
+.user-dropdown-menu {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    position: absolute;
+    top: 100%; 
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    min-width: 150px;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+    display: none; 
+}
+
+.user-dropdown-menu li a {
+    text-decoration: none;
+    color: #333;
+    padding: 8px 15px;
+    display: block;
+}
+
+.user-dropdown-menu li a:hover {
+    background-color: #f5f5f5;
+}
+
+.user-dropdown-menu li .fa-solid {
+    margin-right: 8px;
+}
+
+.divider {
+    border-top: 1px solid #eee;
+    margin: 5px 0;
+}
+.user-dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.user-trigger {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.user-dropdown-menu {
+  position: absolute;
+  right: 0;            
+  top: 100%;          
+  margin-top: 8px;
+  list-style: none;
+  padding: 8px 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  min-width: 180px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  z-index: 9999;         
+  display: none;        
+}
+
+.user-dropdown-menu li a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  color: #333;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.user-dropdown-menu li a:hover {
+  background-color: #f5f5f5;
+}
+
+.user-dropdown-menu .divider {
+  margin: 4px 0;
+  border-top: 1px solid #eee;
+  pointer-events: none;
+}
+.user-dropdown-menu.show {
+  display: block;
+}
+.nav-menu .w-nav-link {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+
+.nav-menu.w-nav-menu {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.navbar-container.w-container {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+@media screen and (max-width: 991px) {
+    
+    .top-info-bar-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between; 
+      align-items: center;
+      padding: 10px 15px;
+      position: relative;
+    }
+
+    .brand.w-nav-brand {
+      display: block !important;
+      flex: 0 0 auto;
+    }
+    .brand img {
+        width: 100px !important;
+    }
+
+    .info-bar {
+      display: none !important;
+    }
+
+    .custom-menu-btn {
+      display: block;
+      font-size: 26px;
+      cursor: pointer;
+      color: #333;
+      padding: 5px;
+      order: 2; 
+    }
+
+    .user-dropdown-container {
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+      order: 3; 
+    }
+
+    .nav-menu.w-nav-menu {
+        display: none; 
+        flex-direction: column;
+        background-color: white;
+        width: 100%;
+        padding: 10px 0;
+        border-top: 1px solid #ddd;
+    }
+
+    .nav-menu.w-nav-menu.active {
+        display: flex !important;
+    }
+
+    .nav-link {
+        display: block;
+        padding: 10px 20px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+  }
+
+  @media screen and (min-width: 992px) {
+    .custom-menu-btn {
+      display: none;
+    }
+    .nav-menu.w-nav-menu {
+        display: flex !important; 
+    }
+  }
+    </style>
+    <style>
+  @media screen and (max-width: 991px) {
+    
+    .top-info-bar-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 10px 10px 0px !important; 
+    }
+
+    .brand.w-nav-brand {
+      display: block !important;
+      flex: 0 0 auto;
+      margin-left: 0 !important; 
+    }
+    
+    .brand img {
+        width: 140px !important; 
+        height: auto;
+    }
+
+    .info-bar { display: none !important; }
+
+    .custom-menu-btn {
+      display: block;
+      font-size: 28px; 
+      cursor: pointer;
+      color: #333;
+      padding: 5px;
+      order: 2;
+    }
+
+    .user-dropdown-container {
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+      order: 3;
+    }
+
+    .nav-menu.w-nav-menu {
+        display: none;
+        flex-direction: column;
+        background-color: white;
+        width: 100%;
+        padding: 10px 0;
+        border-top: 1px solid #ddd;
+    }
+
+    .nav-menu.w-nav-menu.active {
+        display: flex !important;
+    }
+  }
+
+  /* Desktop Styles (No change) */
+  @media screen and (min-width: 992px) {
+    .custom-menu-btn { display: none; }
+    .nav-menu.w-nav-menu { display: flex !important; }
+  }
+  @media screen and (max-width: 991px) {
+    
+    .user-dropdown-container {
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+      padding-top: 10px;
+      
+      border-top: none; 
+      
+      order: 3;
+    }
+    
+}
   </style>
 </head>
 <body>
 
 
-  <div id="navbar-placeholder"></div>
+    <div id="navbar-placeholder"></div>
     <!-- NAVBAR (kept; minor icons retained) -->
-    <div class="navbar-wrapper">
+     <div class="navbar-wrapper">
       <div class="top-info-bar">
         <div class="top-info-bar-container w-container">
           <a
-            href="./index.html"
+            href="./dashboard.html"
             class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand"
             ><img
               src="./assets/rxconnect.png"
               alt="logo"
               style="width: 120px; height: auto; margin-bottom: 4px"
             /></a>
+             <div id="menu-btn" class="menu-button w-nav-button">
+          <i class="fa-solid fa-bars" id="menu-icon"></i>
+        </div>
           <div class="info-bar w-clearfix">
             <div class="info-blocks-wrapper w-clearfix">
               <div class="top-info-block no-right-border w-clearfix">
@@ -160,8 +444,21 @@
               </div>
             </div>
           </div>
+          <div class="user-dropdown-container">
+            <div class="user-trigger">
+    <span>Hello, Abdulmoez Laklouk</span>
+    <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+</div>
+            <ul class="user-dropdown-menu">
+                <li><a href="./myprofile.html"><i class="fa-solid fa-user"></i> My Profile</a></li>
+                <li class="divider"></li>
+                <li><a href="./login.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+            </ul>
         </div>
+        </div>
+        
       </div>
+      
       <div
         data-collapse="medium"
         data-animation="default"
@@ -172,16 +469,11 @@
         class="navbar w-nav"
       >
       <div class="navbar-container w-container">
-        <a href="./home.html" class="brand w-hidden-main w-nav-brand"
-          ><img
-            src="./assets/rxconnect.png"
-            alt="logo"
-            style="width: 140px; height: auto;"
-          /></a>
+       
         <nav role="navigation" class="nav-menu w-nav-menu">
-    <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
-    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
-    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
+    <!-- <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a> -->
+    <!-- <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a> -->
+    <a href="./prescriptions.html" class="nav-link w-nav-link">Prescriptions</a>
     <a href="./pending-prescription.html"  class="nav-link w-nav-link" >Pending Prescriptions</a>
     <!-- <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a> -->
 
@@ -189,7 +481,7 @@
     <!-- <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a> -->
     <a href="./contacts.html" class="nav-link w-nav-link">Contacts    </a>
     <a href="./billing.html" class="nav-link w-nav-link">Billing</a>
-    <a class="nav-link w-nav-link" href="./myprofile.html">My Profile </a>
+    <!-- <a class="nav-link w-nav-link" href="./myprofile.html">My Profile </a> -->
 
     <div class="dropdown">
   <button class="nav-link w-nav-link bg-transparent" id="reportsBtn">
@@ -203,6 +495,7 @@
 </div>
 
   </nav>
+  
 <script>
 const reportsBtn = document.getElementById('reportsBtn');
 const reportsDropdown = document.getElementById('reportsDropdown');
@@ -219,17 +512,113 @@ window.addEventListener('click', function(e) {
     reportsDropdown.classList.remove('show');
   }
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const userTrigger = document.querySelector('.user-trigger');
+    const userMenu = document.querySelector('.user-dropdown-menu');
+
+    userTrigger.addEventListener('click', function() {
+        const isHidden = userMenu.style.display === 'none' || userMenu.style.display === '';
+        userMenu.style.display = isHidden ? 'block' : 'none';
+        
+        const icon = userTrigger.querySelector('.dropdown-icon');
+        icon.classList.toggle('fa-chevron-down');
+        icon.classList.toggle('fa-chevron-up');
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!userTrigger.contains(event.target) && !userMenu.contains(event.target)) {
+            userMenu.style.display = 'none';
+            const icon = userTrigger.querySelector('.dropdown-icon');
+            if (icon && icon.classList.contains('fa-chevron-up')) {
+                 icon.classList.remove('fa-chevron-up');
+                 icon.classList.add('fa-chevron-down');
+            }
+        }
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const userTrigger = document.querySelector('.user-trigger');
+    const userMenu = document.querySelector('.user-dropdown-menu');
+
+    userTrigger.addEventListener('click', function(e) {
+        e.stopPropagation(); 
+        userMenu.classList.toggle('show');
+        
+        const icon = userTrigger.querySelector('.dropdown-icon');
+        icon.classList.toggle('fa-chevron-down');
+        icon.classList.toggle('fa-chevron-up');
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!userTrigger.contains(event.target) && !userMenu.contains(event.target)) {
+            userMenu.classList.remove('show');
+            const icon = userTrigger.querySelector('.dropdown-icon');
+            if (icon && icon.classList.contains('fa-chevron-up')) {
+                 icon.classList.remove('fa-chevron-up');
+                 icon.classList.add('fa-chevron-down');
+            }
+        }
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const userTrigger = document.querySelector('.user-trigger');
+    const userMenu = document.querySelector('.user-dropdown-menu');
+
+    userTrigger.addEventListener('click', function(e) {
+        e.stopPropagation(); 
+        userMenu.classList.toggle('show');
+        
+        const icon = userTrigger.querySelector('.dropdown-icon');
+        icon.classList.toggle('fa-chevron-down');
+        icon.classList.toggle('fa-chevron-up');
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!userTrigger.contains(event.target) && !userMenu.contains(event.target)) {
+            userMenu.classList.remove('show');
+            const icon = userTrigger.querySelector('.dropdown-icon');
+            if (icon && icon.classList.contains('fa-chevron-up')) {
+                 icon.classList.remove('fa-chevron-up');
+                 icon.classList.add('fa-chevron-down');
+            }
+        }
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const userTrigger = document.querySelector('.user-trigger');
+    const userMenu = document.querySelector('.user-dropdown-menu');
+
+    userTrigger.addEventListener('click', function(e) {
+        e.stopPropagation(); 
+        userMenu.classList.toggle('show');
+        
+        const icon = userTrigger.querySelector('.dropdown-icon');
+        icon.classList.toggle('fa-chevron-down');
+        icon.classList.toggle('fa-chevron-up');
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!userTrigger.contains(event.target) && !userMenu.contains(event.target)) {
+            userMenu.classList.remove('show');
+            const icon = userTrigger.querySelector('.dropdown-icon');
+            if (icon && icon.classList.contains('fa-chevron-up')) {
+                 icon.classList.remove('fa-chevron-up');
+                 icon.classList.add('fa-chevron-down');
+            }
+        }
+    });
+});
+
 </script>
 
-        <div id="menu-btn" class="menu-button w-nav-button">
-          <i class="fa-solid fa-bars" id="menu-icon"></i>
-        </div>
+       
       </div>
 
 
 
       </div>
     </div>
+   
 
     <!-- Scroll navbar (unchanged visually) -->
     <!-- <div
