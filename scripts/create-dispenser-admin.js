@@ -1,14 +1,8 @@
-// scripts/create-dispenser-admin.js
 document.addEventListener("DOMContentLoaded", function () {
-  const user = RX.requireAuth(["managment"]);
-  if (!user) return;
+  const user = RX.getUser();
 
-  // Require admin flag (your backend decorator uses require_admin=True)
-  if (!user.is_admin) {
-    alert("Admin access required.");
-    window.location.href = "./login.html";
-    return;
-  }
+  if (!RX.getToken() || !user) return;
+  if (user.login_type !== "managment" || user.login_type !== "managment" || !user.is_admin) return;
 
   const container =
     document.querySelector(".dashboard-container") ||
@@ -83,7 +77,6 @@ document.addEventListener("DOMContentLoaded", function () {
     <div id="d_result" style="margin-top:12px;color:#111;"></div>
   `;
 
-  // Insert near top
   if (container.firstChild) container.insertBefore(card, container.firstChild);
   else container.appendChild(card);
 
@@ -147,7 +140,6 @@ document.addEventListener("DOMContentLoaded", function () {
          username: <strong>${resp.username}</strong>`,
         false
       );
-      // Optionally clear password only
       $("d_password").value = "";
     } catch (err) {
       setResult(err.message || "Create failed", true);

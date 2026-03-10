@@ -1,12 +1,16 @@
 // ./scripts/rxconnect.js
 (function () {
-  const API_BASE = window.RXCONNECT_API_BASE || "http://localhost:5000";
+  const API_BASE = String(window.RXCONNECT_API_BASE || "http://localhost:5000").replace(/\/+$/, "");
 
   const TOKEN_KEY = "rxconnect_token";
   const USER_KEY = "rxconnect_user";
 
   function safeJsonParse(s) {
-    try { return JSON.parse(s); } catch { return null; }
+    try {
+      return JSON.parse(s);
+    } catch {
+      return null;
+    }
   }
 
   const RX = {
@@ -61,29 +65,51 @@
         if (t) h["Authorization"] = `Bearer ${t}`;
       }
 
-      const res = await fetch(`${API_BASE}${path}`, { method, headers: h, body });
+      const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+      const res = await fetch(`${API_BASE}${normalizedPath}`, {
+        method,
+        headers: h,
+        body,
+      });
+
       const text = await res.text();
       let data = null;
-      try { data = text ? JSON.parse(text) : null; } catch { data = { raw: text }; }
+      try {
+        data = text ? JSON.parse(text) : null;
+      } catch {
+        data = text ? { raw: text } : null;
+      }
 
       if (!res.ok) {
-        const err = new Error((data && data.message) ? data.message : `Request failed (${res.status})`);
+        const message =
+          (data && (data.message || data.error || data.details)) ||
+          `Request failed (${res.status})`;
+
+        const err = new Error(message);
         err.status = res.status;
         err.data = data;
         throw err;
       }
+
       return data;
     },
 
     api: {
-      get(path, opts) { return RX.request(path, { ...opts, method: "GET" }); },
-      post(path, body, opts) { return RX.request(path, { ...opts, method: "POST", body }); },
-      put(path, body, opts) { return RX.request(path, { ...opts, method: "PUT", body }); },
-      del(path, opts) { return RX.request(path, { ...opts, method: "DELETE" }); },
+      get(path, opts) {
+        return RX.request(path, { ...opts, method: "GET" });
+      },
+      post(path, body, opts) {
+        return RX.request(path, { ...opts, method: "POST", body });
+      },
+      put(path, body, opts) {
+        return RX.request(path, { ...opts, method: "PUT", body });
+      },
+      del(path, opts) {
+        return RX.request(path, { ...opts, method: "DELETE" });
+      },
     },
   };
 
-  //  bind logout links if they exist
   document.addEventListener("click", function (e) {
     const a = e.target.closest("a[data-rx-logout]");
     if (!a) return;

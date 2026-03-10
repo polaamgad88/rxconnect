@@ -107,6 +107,36 @@
         text-decoration: none;
         font-weight: 600;
       }
+      .register-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      .register-status {
+        display: none;
+        margin-bottom: 15px;
+        padding: 12px 14px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      .register-status.info {
+        background: #eef7ff;
+        color: #0b5cab;
+        border: 1px solid #cfe6ff;
+      }
+
+      .register-status.success {
+        background: #edf9f0;
+        color: #1d6b36;
+        border: 1px solid #cdeed7;
+      }
+
+      .register-status.error {
+        background: #fff1f0;
+        color: #b42318;
+        border: 1px solid #ffd6d2;
+      }
 
       .hidden {
         display: none;
@@ -270,20 +300,23 @@ window.addEventListener('click', function(e) {
 
 
     <!-- REGISTRATION FORM -->
+         <!-- REGISTRATION FORM -->
     <div class="register-section">
       <div class="register-card">
         <h2>Create an Account</h2>
         <p>Select your role and fill out the required information</p>
 
-        <form id="registerForm">
+        <div id="registerStatus" class="register-status" aria-live="polite"></div>
+
+        <form id="registerForm" novalidate>
           <select id="userType" class="register-select" required>
             <option value="">Select User Type</option>
-            <option value="doctor">Doctor</option>
+            <option value="chobham">Chobham</option>
+            <option value="clinic">Clinic</option>
+            <option value="prescriber">Prescriber</option>
             <option value="pharmacist">Pharmacist</option>
-            <option value="patient">Patient</option>
           </select>
 
-          <!-- Common fields -->
           <input
             type="text"
             id="fullName"
@@ -299,6 +332,12 @@ window.addEventListener('click', function(e) {
             required
           />
           <input
+            type="text"
+            id="phone"
+            class="register-input"
+            placeholder="Phone Number (optional)"
+          />
+          <input
             type="password"
             id="password"
             class="register-input"
@@ -306,8 +345,30 @@ window.addEventListener('click', function(e) {
             required
           />
 
-          <!-- Doctor-specific fields -->
-          <div id="doctorFields" class="hidden">
+          <div id="chobhamFields" class="hidden"></div>
+
+          <div id="clinicFields" class="hidden">
+            <input
+              type="text"
+              id="clinicRegisterName"
+              class="register-input"
+              placeholder="Clinic Name"
+            />
+            <input
+              type="text"
+              id="clinicLicense"
+              class="register-input"
+              placeholder="Clinic License Number (optional)"
+            />
+            <input
+              type="text"
+              id="clinicAddress"
+              class="register-input"
+              placeholder="Clinic Address (optional)"
+            />
+          </div>
+
+          <div id="prescriberFields" class="hidden">
             <input
               type="text"
               id="licenseNumber"
@@ -318,18 +379,17 @@ window.addEventListener('click', function(e) {
               type="text"
               id="specialization"
               class="register-input"
-              placeholder="Specialization"
+              placeholder="Specialization (optional)"
             />
             <input
               type="text"
               id="clinicName"
               class="register-input"
-              placeholder="Clinic/Hospital Name"
+              placeholder="Requested Clinic / Hospital Name (optional)"
             />
           </div>
 
-          <!-- Pharmacist-specific fields -->
-          <div id="pharmacyFields" class="hidden">
+          <div id="pharmacistFields" class="hidden">
             <input
               type="text"
               id="pharmacyName"
@@ -340,39 +400,17 @@ window.addEventListener('click', function(e) {
               type="text"
               id="pharmacyLicense"
               class="register-input"
-              placeholder="Pharmacy License Number"
+              placeholder="Pharmacy License Number (optional)"
             />
             <input
               type="text"
               id="pharmacyAddress"
               class="register-input"
-              placeholder="Pharmacy Address"
+              placeholder="Pharmacy Address (optional)"
             />
           </div>
 
-          <!-- Patient-specific fields -->
-          <div id="patientFields" class="hidden">
-            <input
-              type="date"
-              id="dob"
-              class="register-input"
-              placeholder="Date of Birth"
-            />
-            <input
-              type="text"
-              id="bloodGroup"
-              class="register-input"
-              placeholder="Blood Group (e.g., A+)"
-            />
-            <input
-              type="text"
-              id="allergies"
-              class="register-input"
-              placeholder="Known Allergies (optional)"
-            />
-          </div>
-
-          <button type="submit" class="register-btn" onclick="window.location.href='./dashboard.html'">Register</button>
+          <button type="submit" class="register-btn">Register</button>
         </form>
 
         <div class="register-footer">
@@ -634,7 +672,7 @@ window.addEventListener('click', function(e) {
       </div>
     </div>
 
-    <script>
+    <!-- <script>
       const userTypeSelect = document.getElementById("userType");
       const doctorFields = document.getElementById("doctorFields");
       const pharmacyFields = document.getElementById("pharmacyFields");
@@ -690,6 +728,6 @@ window.addEventListener('click', function(e) {
       });
     });
   });
-</script>
+</script> -->
   </body>
 </html>

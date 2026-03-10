@@ -285,19 +285,19 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  async function resolveMedicationIdByName(name) {
-    const key = String(name || "").trim().toLowerCase();
-    if (!key) return null;
+  // async function resolveMedicationIdByName(name) {
+  //   const key = String(name || "").trim().toLowerCase();
+  //   if (!key) return null;
 
-    await loadMedicationIndexOnce();
-    if (medNameToId.has(key)) return medNameToId.get(key);
+  //   await loadMedicationIndexOnce();
+  //   if (medNameToId.has(key)) return medNameToId.get(key);
 
-    // Create dummy medication
-    const created = await RX.api.post("/medications/create", { medication_name: name }, { auth: false });
-    const id = created.medication_id;
-    if (id) medNameToId.set(key, id);
-    return id;
-  }
+  //   // Create dummy medication
+  //   const created = await RX.api.post("/medications/create", { medication_name: name }, { auth: false });
+  //   const id = created.medication_id;
+  //   if (id) medNameToId.set(key, id);
+  //   return id;
+  // }
 
   function collectItemsFromTable() {
     const tbody = document.getElementById("meds-body");
@@ -375,22 +375,22 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Convert medication_name -> medication_id
     const items = [];
-    for (const it of rawItems) {
-      const medication_id = await resolveMedicationIdByName(it.medication_name);
-      if (!medication_id) {
-        alert(`Could not resolve medication id for: ${it.medication_name}`);
-        return;
-      }
-      items.push({
-        medication_id,
-        dosage_instructions: it.dosage_instructions,
-        quantity_prescribed: it.quantity_prescribed,
-        unit: it.unit,
-        duration_days: it.duration_days,
-        refills_allowed: it.refills_allowed,
-        notes: it.notes,
-      });
-    }
+    // for (const it of rawItems) {
+    //   const medication_id = await resolveMedicationIdByName(it.medication_name);
+    //   if (!medication_id) {
+    //     alert(`Could not resolve medication id for: ${it.medication_name}`);
+    //     return;
+    //   }
+    //   items.push({
+    //     medication_id,
+    //     dosage_instructions: it.dosage_instructions,
+    //     quantity_prescribed: it.quantity_prescribed,
+    //     unit: it.unit,
+    //     duration_days: it.duration_days,
+    //     refills_allowed: it.refills_allowed,
+    //     notes: it.notes,
+    //   });
+    // }
 
     const payload = {
       patient_id: selectedPatient.patient_id,
