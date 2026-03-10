@@ -100,9 +100,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       // Medication column: show pharmacy (where dispensed) if backend provides it
       const medText = r.medication_summary || r.medication || "";
       const where = r.last_dispensed_at_pharmacy || r.dispensed_at_pharmacy || "";
+      const dispDate = r.last_dispensed_at ? new Date(r.last_dispensed_at).toLocaleString() : "";
       const medHtml = `
         <div>${medText || "-"}</div>
-        ${where ? `<small style="color:#6b7280;">Dispensed at: ${where}</small>` : ""}
+        ${where ? `<small style="color:#6b7280;">Dispensed at: ${where}${dispDate ? " • " + dispDate : ""}</small>` : ""}
       `;
 
       tr.innerHTML = `
