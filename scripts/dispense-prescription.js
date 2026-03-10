@@ -1,4 +1,3 @@
-// ./scripts/dispense-prescription.js
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector(".form-card form");
   const codeEl = document.getElementById("prescription-id");
@@ -14,97 +13,164 @@ document.addEventListener("DOMContentLoaded", function () {
     form.parentElement.appendChild(resultBox);
   }
 
+  let lastLookup = null;
+
+  function normalizeValue(value) {
+    return String(value || "").trim().toUpperCase();
+  }
+
+  function showMessage(message, isError = false) {
+    resultBox.innerHTML = `
+      <div style="
+        margin-top:12px;
+        background:${isError ? "#fff1f0" : "#fff"};
+        color:#222;
+        border:1px solid ${isError ? "#ffccc7" : "#eee"};
+        border-radius:10px;
+        padding:14px;
+        box-shadow:0 6px 18px rgba(0,0,0,.08);
+        text-align:left;
+      ">
+        ${message}
+      </div>
+    `;
+  }
+
   function renderLookup(data, canDispense) {
-    const items = data.items || [];
-    const rows = items.map((it, i) => {
-      const stock = it.stock_on_hand != null ? ` (stock: ${it.stock_on_hand})` : "";
-      const qtyRemain = (it.quantity_prescribed != null && it.quantity_dispensed_total != null)
-        ? (Number(it.quantity_prescribed) - Number(it.quantity_dispensed_total))
+  const items = Array.isArray(data.items) ? data.items : [];
+  const displayCode = data.code || data.prescription_number || "-";
+  const displayUnique = data.prescriber_unique_string || "-";
+
+  const rows = items.map((it, i) => {
+    const stock = it.stock_on_hand != null ? ` (stock: ${it.stock_on_hand})` : "";
+    const qtyRemain =
+      it.quantity_prescribed != null && it.quantity_dispensed_total != null
+        ? Number(it.quantity_prescribed) - Number(it.quantity_dispensed_total)
         : null;
 
-      const qtyInfo = qtyRemain != null ? `Remaining: ${qtyRemain}` : "";
+    const qtyInfo = qtyRemain != null ? `Remaining: ${qtyRemain}` : "";
 
-      return `
-        <tr>
-          <td>${i + 1}</td>
-          <td>${it.medication_name || it.medication_id}</td>
-          <td>${it.schedule || ""}</td>
-          <td>${it.quantity_prescribed || ""}</td>
-          <td>${it.quantity_dispensed_total || ""}</td>
-          <td>${qtyInfo}${stock}</td>
-          ${
-            canDispense
-              ? `<td>
-                  <input data-pi="${it.prescription_item_id}" data-mid="${it.medication_id}" class="rx-qty" type="number" min="0" step="1" placeholder="Qty" style="width:90px" />
-                  <input data-pi="${it.prescription_item_id}" class="rx-price" type="number" min="0" step="0.01" placeholder="Price" style="width:110px" />
-                </td>`
-              : `<td>-</td>`
-          }
-        </tr>
-      `;
-    }).join("");
-
-    const header = `
-      <div style="background:#fff;border-radius:10px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.08);text-align:left;">
-        <div><strong>Status:</strong> ${data.status || "-"}</div>
-        <div><strong>Issue date:</strong> ${data.issue_date || "-"}</div>
-        <div><strong>Expires at:</strong> ${data.expires_at || "-"}</div>
-      </div>
+    return `
+      <tr>
+        <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">${i + 1}</td>
+        <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">${it.medication_name || it.medication_id || ""}</td>
+        <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">${it.schedule || ""}</td>
+        <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">${it.quantity_prescribed || ""}</td>
+        <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">${it.quantity_dispensed_total || ""}</td>
+        <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">${qtyInfo}${stock}</td>
+        ${
+          canDispense
+            ? `<td style="padding:8px;border-bottom:1px solid #eee;color:#222;">
+                <input
+                  data-pi="${it.prescription_item_id}"
+                  data-mid="${it.medication_id}"
+                  class="rx-qty"
+                  type="number"
+                  min="0"
+                  step="1"
+                  placeholder="Qty"
+                  style="width:90px;margin-right:8px;color:#222;background:#fff;"
+                />
+                <input
+                  data-pi="${it.prescription_item_id}"
+                  class="rx-price"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="Price"
+                  style="width:110px;color:#222;background:#fff;"
+                />
+              </td>`
+            : `<td style="padding:8px;border-bottom:1px solid #eee;color:#222;">-</td>`
+        }
+      </tr>
     `;
+  }).join("");
 
-    const table = `
-      <div style="margin-top:12px;background:#fff;border-radius:10px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.08);overflow:auto;">
-        <table style="width:100%;border-collapse:collapse;">
-          <thead>
-            <tr>
-              <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;">#</th>
-              <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;">Medication</th>
-              <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;">Schedule</th>
-              <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;">Prescribed</th>
-              <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;">Dispensed</th>
-              <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;">Info</th>
-              <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;">Dispense</th>
-            </tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-    `;
+  const header = `
+    <div style="background:#fff;color:#222;border-radius:10px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.08);text-align:left;">
+      <div><strong>Prescription code:</strong> ${displayCode}</div>
+      <div><strong>Unique string:</strong> ${displayUnique}</div>
+      <div><strong>Status:</strong> ${data.status || "-"}</div>
+      <div><strong>Issue date:</strong> ${data.issue_date || "-"}</div>
+      <div><strong>Expires at:</strong> ${data.expires_at || "-"}</div>
+    </div>
+  `;
 
-    const btn = canDispense
-      ? `<button id="doDispense" type="button" class="button full-width w-button" style="margin-top:12px;background:green;">
-           Dispense (logged-in pharmacy)
-         </button>`
-      : `<div style="margin-top:10px;color:#444;">
-           Logged-out mode: lookup only. Login as a dispenser to dispense.
-         </div>`;
+  const table = `
+    <div style="margin-top:12px;background:#fff;color:#222;border-radius:10px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.08);overflow:auto;">
+      <table style="width:100%;border-collapse:collapse;color:#222;">
+        <thead>
+          <tr>
+            <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;color:#222;">#</th>
+            <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;color:#222;">Medication</th>
+            <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;color:#222;">Schedule</th>
+            <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;color:#222;">Prescribed</th>
+            <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;color:#222;">Dispensed</th>
+            <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;color:#222;">Info</th>
+            <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;color:#222;">Dispense</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows || `<tr><td colspan="7" style="padding:12px;color:#222;">No items found for this prescription.</td></tr>`}
+        </tbody>
+      </table>
+    </div>
+  `;
 
-    resultBox.innerHTML = header + table + btn;
+  const btn = canDispense
+    ? `<button id="doDispense" type="button" class="button full-width w-button" style="margin-top:12px;background:green;">
+         Dispense (logged-in pharmacy)
+       </button>`
+    : `<div style="margin-top:10px;color:#444;">
+         Logged-out mode: lookup only. Login as a dispenser to dispense.
+       </div>`;
+
+  resultBox.innerHTML = header + table + btn;
+}
+
+  async function lookupPrescription() {
+    const enteredCode = normalizeValue(codeEl.value);
+    const dob = dobEl.value;
+
+    if (!enteredCode || !dob) {
+      throw new Error("Prescription code and DOB are required");
+    }
+
+    const user = RX.getUser();
+    const canPortalLookup =
+      user && (user.login_type === "dispenser" || user.login_type === "chobham");
+
+    const payload = {
+      code: enteredCode,
+      date_of_birth: dob,
+    };
+
+    const data = canPortalLookup
+      ? await RX.api.post("/prescriptions/lookup", payload)
+      : await RX.api.post("/prescriptions/public/lookup", payload, { auth: false });
+
+    lastLookup = {
+      inputCode: enteredCode,
+      dob,
+      canPortalLookup,
+      data,
+    };
+
+    return { data, canPortalLookup };
   }
 
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
-    resultBox.innerHTML = "";
-
-    const code = (codeEl.value || "").trim();
-    const dob = dobEl.value;
-
-    if (!code || !dob) {
-      alert("Prescription ID and DOB are required");
-      return;
-    }
-
-    const user = RX.getUser();
-    const canPortalLookup = user && (user.login_type === "dispenser" || user.login_type === "chobham");
+    showMessage("Searching...");
 
     try {
-      const data = canPortalLookup
-        ? await RX.api.post("/prescriptions/lookup", { code, date_of_birth: dob })
-        : await RX.api.post("/prescriptions/public/lookup", { code, date_of_birth: dob }, { auth: false });
-
+      const { data, canPortalLookup } = await lookupPrescription();
+      console.log("lookup response:", data);
       renderLookup(data, canPortalLookup);
     } catch (err) {
-      alert(err.message || "Lookup failed");
+      console.error(err);
+      showMessage(err.message || "Lookup failed", true);
     }
   });
 
@@ -114,25 +180,28 @@ document.addEventListener("DOMContentLoaded", function () {
     const user = RX.requireAuth(["dispenser", "chobham"]);
     if (!user) return;
 
-    const code = (codeEl.value || "").trim();
-    const dob = dobEl.value;
-
     let lookup;
     try {
-      lookup = await RX.api.post("/prescriptions/lookup", { code, date_of_birth: dob });
+      lookup = lastLookup?.data;
+      if (!lookup) {
+        const refreshed = await lookupPrescription();
+        lookup = refreshed.data;
+        renderLookup(lookup, true);
+      }
     } catch (err) {
-      alert(err.message || "Failed to refresh prescription data");
+      showMessage(err.message || "Failed to refresh prescription data", true);
       return;
     }
 
     if (!lookup.prescription_id || !lookup.patient_id) {
-      alert("This prescription cannot be dispensed from this view (missing IDs).");
+      showMessage("This prescription cannot be dispensed because prescription_id or patient_id is missing from lookup.", true);
       return;
     }
 
     const items = (lookup.items || []).map((it) => {
       const qtyEl = resultBox.querySelector(`.rx-qty[data-pi="${it.prescription_item_id}"]`);
       const priceEl = resultBox.querySelector(`.rx-price[data-pi="${it.prescription_item_id}"]`);
+
       const quantity_dispensed = qtyEl ? Number(qtyEl.value || 0) : 0;
       const unit_price = priceEl ? Number(priceEl.value || 0) : 0;
 
@@ -147,22 +216,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }).filter(Boolean);
 
     if (!items.length) {
-      alert("Enter quantity and unit price for at least one item.");
+      showMessage("Enter quantity and unit price for at least one item.", true);
       return;
     }
 
     try {
-      await RX.api.post("/dispensations/create", {
+      const resp = await RX.api.post("/dispensations/create", {
         prescription_id: lookup.prescription_id,
         patient_id: lookup.patient_id,
+        prescriber_unique_string: lookup.prescriber_unique_string,
         verified_first_name: lookup.first_name || "Unknown",
         verified_last_name: lookup.last_name || "Unknown",
-        verified_date_of_birth: dob,
+        verified_date_of_birth: lastLookup?.dob || dobEl.value,
         items,
       });
-      alert("Dispensation created successfully");
+
+      showMessage(resp.message || "Dispensation created successfully");
     } catch (err) {
-      alert(err.message || "Dispense failed");
+      console.error(err);
+      showMessage(err.message || "Dispense failed", true);
     }
   });
 });

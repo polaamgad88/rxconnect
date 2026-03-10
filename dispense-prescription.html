@@ -61,6 +61,20 @@
       rel="apple-touch-icon"
     />
     <style>
+      #rxResult,
+      #rxResult * {
+        color: #222;
+      }
+
+      #rxResult table th,
+      #rxResult table td {
+        color: #222 !important;
+      }
+
+      #rxResult input {
+        color: #222 !important;
+        background: #fff;
+      }
       body,
       html {
         margin: 0;
@@ -385,18 +399,18 @@
 const reportsBtn = document.getElementById('reportsBtn');
 const reportsDropdown = document.getElementById('reportsDropdown');
 
-// Toggle dropdown on click
-reportsBtn.addEventListener('click', function(e) {
-  e.preventDefault(); // Prevent default link navigation
-  reportsDropdown.classList.toggle('show');
-});
+if (reportsBtn && reportsDropdown) {
+  reportsBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    reportsDropdown.classList.toggle('show');
+  });
 
-// Close the dropdown if clicked outside
-window.addEventListener('click', function(e) {
-  if (!reportsBtn.contains(e.target) && !reportsDropdown.contains(e.target)) {
-    reportsDropdown.classList.remove('show');
-  }
-});
+  window.addEventListener('click', function(e) {
+    if (!reportsBtn.contains(e.target) && !reportsDropdown.contains(e.target)) {
+      reportsDropdown.classList.remove('show');
+    }
+  });
+}
 </script>
 
           <div id="menu-btn" class="menu-button w-nav-button">
@@ -419,7 +433,7 @@ window.addEventListener('click', function(e) {
 
         <div class="form-card">
           <form>
-            <label for="prescription-id">Prescription ID</label>
+            <label for="prescription-id">Prescription Code</label>
             <input
               type="text"
               id="prescription-id"
@@ -440,6 +454,9 @@ window.addEventListener('click', function(e) {
               Search
             </button>
           </form>
+          <p style="margin-top:10px;color:#666;font-size:14px;text-align:left;">
+            Enter the prescription code given to the patient, not the database numeric ID.
+          </p>
         </div>
       </div>
     </section>
