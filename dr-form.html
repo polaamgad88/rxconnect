@@ -1631,7 +1631,6 @@ document.addEventListener('DOMContentLoaded', function() {
               <span>Medicines</span>
             </header>
           
-            <div class="cnp-card-body">
               <div class="med-table-wrapper">
                 <table class="cnp-meds-table">
                   <thead>
@@ -1653,8 +1652,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="med-field">
                           <input
                             type="text"
-                            class="med-input"
-                            placeholder="Item name"
+                            class="med-input med-input-medicine-search"
+                            placeholder="Item name (search or select from list)"
                           />
                         </div>
                       </td>
@@ -1688,8 +1687,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="med-field">
                           <input
                             type="text"
-                            class="med-input"
-                            placeholder="Item name"
+                            class="med-input med-input-medicine-search"
+                            placeholder="Item name (search or select from list)"
                           />
                         </div>
                       </td>
@@ -1723,8 +1722,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="med-field">
                           <input
                             type="text"
-                            class="med-input"
-                            placeholder="Item name"
+                            class="med-input med-input-medicine-search"
+                            placeholder="Item name (search or select from list)"
                           />
                         </div>
                       </td>
@@ -2058,7 +2057,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
   <!-- Page logic -->
-   <script>
+   <!-- <script>
     (function() {
       const form = document.getElementById('rx-form');
       const tbody = document.getElementById('rx-tbody');
@@ -2207,7 +2206,7 @@ document.addEventListener('DOMContentLoaded', function() {
       setDefaultMeta();
       ensureAtLeastOneRow();
     })();
-  </script> 
+  </script>  -->
  <!-- JS -->
       <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -2242,7 +2241,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 </script>
-
+  <script>window.RXCONNECT_API_BASE = "http://localhost:5000"; window.RXCONNECT_PUBLIC_URL="https://RxConnect.co.uk";</script>
+  <script src="./scripts/rxconnect.js"></script>
   <script src="./scripts/dr-form.js"></script>
 </body>
 
