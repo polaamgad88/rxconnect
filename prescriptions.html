@@ -639,8 +639,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <th>SEND TO SP</th>
               </tr>
             </thead>
-            <tbody>
-              <!-- Multiple sample records -->
+            <!-- <tbody>
               <tr>
                 <td>RX-2025-0001</td>
                 <td>John Smith</td>
@@ -730,8 +729,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td><span class="pt-status pt-status-issued">Issued</span></td>
                 <td><button class="btn-chip" type="button">Send</button></td>
               </tr>
-            </tbody>
-            
+            </tbody> -->
+            <tbody></tbody>
           </table>
         </div>
       </div>
@@ -1705,7 +1704,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       });
     </script>
-
+    <script>window.RXCONNECT_API_BASE = "http://localhost:5000";</script>
+    <script src="./scripts/rxconnect.js"></script>
+    <script src="./scripts/prescriptions-rx.js"></script>
     <script src="./scripts/index.js"></script>
   </body>
 </html>
