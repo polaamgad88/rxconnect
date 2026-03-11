@@ -56,16 +56,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const prescribed = asNumber(it.quantity_prescribed, 0);
     const dispensed = asNumber(it.quantity_dispensed_total, 0);
     const remaining = Math.max(prescribed - dispensed, 0);
-    const stock =
-      it.stock_on_hand != null && it.stock_on_hand !== ""
-        ? `Stock: ${it.stock_on_hand}`
-        : "";
 
     const infoParts = [];
     if (it.item_status) infoParts.push(`Status: ${it.item_status}`);
-    if (remaining || prescribed === 0)
-      infoParts.push(`Remaining: ${remaining}`);
-    if (stock) infoParts.push(stock);
+    infoParts.push(`Remaining: ${remaining}`);
     if (it.dosage_instructions)
       infoParts.push(`Dose: ${it.dosage_instructions}`);
 
@@ -95,15 +89,6 @@ document.addEventListener("DOMContentLoaded", function () {
                   step="1"
                   max="${remaining}"
                   placeholder="Qty"
-                  style="width:90px;margin-right:8px;color:#222;background:#fff;"
-                />
-                <input
-                  data-pi="${escapeHtml(it.prescription_item_id)}"
-                  class="rx-price"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="Price"
                   style="width:110px;color:#222;background:#fff;"
                 />
               </td>`
@@ -157,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const btn =
       canDispense && items.length
         ? `<button id="doDispense" type="button" class="button full-width w-button" style="margin-top:12px;background:green;">
-             Dispense (Logged-In Pharmacy)
+             Dispense
            </button>`
         : canDispense
           ? `<div style="margin-top:10px;color:#444;">This prescription has no items to dispense.</div>`
@@ -248,27 +233,21 @@ document.addEventListener("DOMContentLoaded", function () {
         const qtyEl = resultBox.querySelector(
           `.rx-qty[data-pi="${it.prescription_item_id}"]`,
         );
-        const priceEl = resultBox.querySelector(
-          `.rx-price[data-pi="${it.prescription_item_id}"]`,
-        );
 
         const quantity_dispensed = qtyEl ? Number(qtyEl.value || 0) : 0;
-        const unit_price = priceEl ? Number(priceEl.value || 0) : 0;
 
         if (!quantity_dispensed || quantity_dispensed <= 0) return null;
-        if (!unit_price || unit_price <= 0) return null;
 
         return {
           prescription_item_id: it.prescription_item_id,
           medication_id: it.medication_id,
           quantity_dispensed,
-          unit_price,
         };
       })
       .filter(Boolean);
 
     if (!items.length) {
-      showMessage("Enter quantity and unit price for at least one item.", true);
+      showMessage("Enter quantity for at least one item.", true);
       return;
     }
 
