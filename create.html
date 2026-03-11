@@ -390,7 +390,12 @@
           </div>
           <div class="user-dropdown-container">
             <div class="user-trigger">
-    <span>Hello, Abdulmoez Laklouk</span>
+    <span id="username"></span>
+
+    <script>
+        const name = window.name;
+        document.getElementById("username").textContent = `Hello, ${name}`;
+    </script>
     <i class="fa-solid fa-chevron-down dropdown-icon"></i>
 </div>
             <ul class="user-dropdown-menu">

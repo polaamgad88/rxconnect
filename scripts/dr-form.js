@@ -863,4 +863,195 @@ document.addEventListener("DOMContentLoaded", async function () {
       menu.style.display = menu.style.display === "none" ? "block" : "none";
     });
   }
+
+let medicationsCache = [];
+
+async function loadMedicationsForSearch() {
+  try {
+    const resp = await RX.api.get("/medications");
+    medicationsCache = resp.medications || resp.meds || [];
+  } catch (err) {
+    console.error("Failed to load medications", err);
+  }
+}
+
+function attachMedicationAutocomplete(input) {
+
+  const dropdown = document.createElement("div");
+  dropdown.className = "rx-med-dd";
+
+  dropdown.style.position = "absolute";
+  dropdown.style.left = "0";
+  dropdown.style.right = "0";
+  dropdown.style.top = "42px";
+  dropdown.style.background = "#fff";
+  dropdown.style.border = "1px solid #e5e7eb";
+  dropdown.style.borderRadius = "6px";
+  dropdown.style.boxShadow = "0 10px 20px rgba(0,0,0,.08)";
+  dropdown.style.maxHeight = "220px";
+  dropdown.style.overflowY = "auto";
+  dropdown.style.zIndex = "9999";
+  dropdown.style.display = "none";
+
+  input.parentElement.style.position = "relative";
+  input.parentElement.appendChild(dropdown);
+
+  input.addEventListener("input", function () {
+
+    const q = input.value.toLowerCase().trim();
+
+    if (!q) {
+      dropdown.style.display = "none";
+      return;
+    }
+
+    const matches = medicationsCache
+      .filter(m =>
+        (m.medication_name || "")
+          .toLowerCase()
+          .startsWith(q)
+      )
+      .slice(0, 10);
+
+    dropdown.innerHTML = "";
+
+    matches.forEach(function (med) {
+
+      const item = document.createElement("div");
+
+      item.textContent = med.medication_name;
+
+      item.style.padding = "8px 10px";
+      item.style.cursor = "pointer";
+      item.style.borderBottom = "1px solid #f1f1f1";
+
+      item.addEventListener("click", function () {
+
+        input.value = med.medication_name;
+        input.dataset.medicationId = med.medication_id;
+
+        dropdown.style.display = "none";
+
+      });
+
+      dropdown.appendChild(item);
+
+    });
+
+    dropdown.style.display = matches.length ? "block" : "none";
+
+  });
+
+  document.addEventListener("click", function (e) {
+
+    if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.style.display = "none";
+    }
+
+  });
+
+}
+function initMedicationInputs() {
+
+  const inputs = document.querySelectorAll(".med-input-medicine-search");
+
+  inputs.forEach(function (input) {
+
+    if (!input.dataset.autocompleteAttached) {
+      attachMedicationAutocomplete(input);
+      input.dataset.autocompleteAttached = "1";
+    }
+
+  });
+
+}
+try {
+    await loadMedicationsForSearch();
+    initMedicationInputs();
+    initMedicineRowActions();
+  } catch (error) {
+    console.error(error);
+  }
+function attachRemoveHandler(row) {
+  const removeBtn = row.querySelector(".med-remove-btn");
+  if (!removeBtn) return;
+
+  removeBtn.addEventListener("click", function () {
+    row.remove();
+  });
+}
+
+function createMedicineRow() {
+  const tr = document.createElement("tr");
+  tr.className = "med-row";
+
+  tr.innerHTML = `
+    <td class="med-icon-cell">
+      <button type="button" class="med-remove-btn">
+        <span class="circle-minus"></span>
+      </button>
+    </td>
+    <td>
+      <div class="med-field">
+        <input
+          type="text"
+          class="med-input med-input-medicine-search"
+          placeholder="Item name (search or select from list)"
+        />
+      </div>
+    </td>
+    <td>
+      <div class="med-field">
+        <input
+          type="text"
+          class="med-input"
+          placeholder="Dosage Instruction"
+        />
+      </div>
+    </td>
+    <td>
+      <div class="med-field">
+        <input
+          type="text"
+          class="med-input med-input-qty"
+          placeholder="Qty"
+        />
+      </div>
+    </td>
+  `;
+
+  attachRemoveHandler(tr);
+
+  const medInput = tr.querySelector(".med-input-medicine-search");
+  if (medInput) {
+    attachMedicationAutocomplete(medInput);
+    medInput.dataset.autocompleteAttached = "1";
+  }
+
+  return tr;
+}
+
+function initMedicineRowActions() {
+  document.querySelectorAll("#meds-body .med-row").forEach(function (row) {
+    if (!row.dataset.removeAttached) {
+      attachRemoveHandler(row);
+      row.dataset.removeAttached = "1";
+    }
+  });
+
+  const addBtn = document.getElementById("add-med-btn");
+  const addRow = document.getElementById("add-med-row");
+  const medsBody = document.getElementById("meds-body");
+
+  if (addBtn && addRow && medsBody && !addBtn.dataset.bound) {
+    addBtn.dataset.bound = "1";
+
+    addBtn.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      const newRow = createMedicineRow();
+      medsBody.insertBefore(newRow, addRow);
+    });
+  }
+}
 });

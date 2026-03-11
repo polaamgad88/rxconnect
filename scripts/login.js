@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // expected: { access_token, user }
       RX.setSession(resp.access_token, resp.user);
-
+      window.name =  `${resp.user.full_name}`; 
       const lt = resp.user?.login_type;
       if (lt === "dispenser" || lt === "chobham") window.location.href = "./dispense-prescription.html";
       else if (lt === "clinician") window.location.href = "./dr-form.html";
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
       else if (lt === "managment") window.location.href = "./dashboard.html";
       else window.location.href = "./dashboard.html";
     } catch (err) {
-      alert(err.message || "Login failed");
+      alert(err?.response?.error || err.message || "Login failed");
     }
   });
 });

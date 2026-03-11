@@ -4562,7 +4562,6 @@ Webflow.require("ix").init([
     },
   },
 ]);
-Explain;
 // ---- Simple IntersectionObserver reveal ----
 (function() {
   var observerSupported = 'IntersectionObserver' in window;

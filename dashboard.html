@@ -434,7 +434,12 @@
           </div>
           <div class="user-dropdown-container">
             <div class="user-trigger">
-    <span>Hello, Abdulmoez Laklouk</span>
+    <span id="username"></span>
+
+    <script>
+        const name = window.name;
+        document.getElementById("username").textContent = `Hello, ${name}`;
+    </script>
     <i class="fa-solid fa-chevron-down dropdown-icon"></i>
 </div>
             <ul class="user-dropdown-menu">
@@ -469,6 +474,7 @@
     <!-- <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a> -->
     <a href="./contacts.html" class="nav-link w-nav-link">Contacts    </a>
     <a href="./billing.html" class="nav-link w-nav-link">Billing</a>
+    <a href="./approvals.html" class="btn btn-light">Approvals</a>
     <!-- <a class="nav-link w-nav-link" href="./myprofile.html">My Profile </a> -->
 
     <div class="dropdown">
@@ -983,22 +989,6 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </div>
 
-    <script>
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
-
-          if (email === "doctor@example.com" && password === "password") {
-            alert("Login successful! Redirecting...");
-            window.location.href = "./dashboard.html";
-          } else {
-            alert("Invalid credentials. Please try again.");
-          }
-        });
-    </script>
     <script>
   document.addEventListener("DOMContentLoaded", function () {
     const menuButton = document.querySelector(".menu-button");

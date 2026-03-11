@@ -1211,24 +1211,7 @@
 }
 
   </style>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const addLink = document.querySelector(".js-add-patient-link");
-    const modal = document.getElementById("cnp-add-patient-modal");
-    const closeBtn = document.getElementById("cnp-add-patient-close");
 
-    if (addLink && modal && closeBtn) {
-      addLink.addEventListener("click", function (e) {
-        e.preventDefault();
-        modal.classList.add("open");
-      });
-
-      closeBtn.addEventListener("click", function () {
-        modal.classList.remove("open");
-      });
-    }
-  });
-</script>
 
 
 </head>
@@ -1275,7 +1258,12 @@
           </div>
           <div class="user-dropdown-container">
             <div class="user-trigger">
-    <span>Hello, Abdulmoez Laklouk</span>
+    <span id="username"></span>
+
+    <script>
+        const name = window.name;
+        document.getElementById("username").textContent = `Hello, ${name}`;
+    </script>
     <i class="fa-solid fa-chevron-down dropdown-icon"></i>
 </div>
             <ul class="user-dropdown-menu">

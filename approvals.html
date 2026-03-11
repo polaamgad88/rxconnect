@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RxConnect - Approvals</title>
+  <link rel="stylesheet" href="./styles/approvals.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img
+            src="./assets/rxconnect.png"
+            alt="logo"
+            style="width: 120px; height: auto; margin-bottom: 4px"
+        />
+      <div class="brand-text">
+        <div class="brand-sub">Management Dashboard</div>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <div class="env">
+      </div>
+      <button id="logoutBtn" class="btn btn-light">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="controls">
+      <div class="tabs">
+        <button class="tab active" data-type="clinic">Clinic Requests</button>
+        <button class="tab" data-type="clinician">Clinician Requests</button>
+        <button class="tab" data-type="all">All Pending</button>
+        <button class="tab" data-type="approved_clinics">Approved Clinics</button>
+        <button class="tab" data-type="approved_clinicians">Approved Clinicians</button>
+      </div>
+
+      <div class="filters">
+        <div class="search">
+          <input id="searchInput" type="text" placeholder="Search by request id, name, email, clinic..." />
+          <button id="searchBtn" class="btn btn-primary">Search</button>
+          <button id="clearBtn" class="btn btn-light">Clear</button>
+        </div>
+
+        <div class="right">
+          <span id="countPill" class="pill">0 pending</span>
+          <button id="refreshBtn" class="btn btn-light">Refresh</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="table-card">
+      <div class="table-head">
+        <div class="th">Request</div>
+        <div class="th">Requester</div>
+        <div class="th">Entity</div>
+        <div class="th">Submitted</div>
+        <div class="th">Notes</div>
+        <div class="th">Actions</div>
+      </div>
+
+      <div id="tableBody" class="table-body">
+        <!-- rows injected -->
+      </div>
+
+      <div id="emptyState" class="empty hidden">
+        No pending approvals.
+      </div>
+    </section>
+  </main>
+
+  <!-- Details drawer -->
+  <div id="drawerBackdrop" class="backdrop hidden"></div>
+  <aside id="drawer" class="drawer hidden" aria-hidden="true">
+    <div class="drawer-header">
+      <div>
+        <div id="dTitle" class="drawer-title">Request</div>
+        <div id="dSub" class="drawer-sub">Details</div>
+      </div>
+      <button id="drawerClose" class="icon-btn">✕</button>
+    </div>
+
+    <div class="drawer-content">
+      <div class="kv">
+        <div class="k">Request ID</div><div class="v" id="dId">-</div>
+        <div class="k">Type</div><div class="v" id="dType">-</div>
+        <div class="k">Submitted</div><div class="v" id="dSubmitted">-</div>
+        <div class="k">Requester</div><div class="v" id="dRequester">-</div>
+        <div class="k">Requester Email</div><div class="v" id="dEmail">-</div>
+        <div class="k">Clinic</div><div class="v" id="dClinic">-</div>
+        <div class="k">Clinician License</div><div class="v" id="dClinLic">-</div>
+        <div class="k">Specialty</div><div class="v" id="dSpec">-</div>
+        <div class="k">Requested Clinic</div><div class="v" id="dReqClinic">-</div>
+      </div>
+
+      <div class="block">
+        <div class="block-title">Request Notes</div>
+        <div id="dReqNotes" class="block-body muted">-</div>
+      </div>
+
+      <div class="block">
+        <div class="block-title">Review Notes (optional)</div>
+        <textarea id="reviewNotes" rows="3" class="textarea" placeholder="Add review notes (optional)"></textarea>
+      </div>
+
+      <div id="clinicOverrideWrap" class="block hidden">
+        <div class="block-title">Override Clinic ID (optional for clinician)</div>
+        <input id="overrideClinicId" class="input" placeholder="e.g. 12" />
+        <div class="hint">If provided, clinician will be attached to this clinic on approval.</div>
+      </div>
+
+      <div class="drawer-actions">
+        <button id="approveBtn" class="btn btn-success">Approve</button>
+        <button id="rejectBtn" class="btn btn-danger">Reject</button>
+      </div>
+    </div>
+  </aside>
+
+  <script>window.RXCONNECT_API_BASE = "http://localhost:5000";</script>
+  <script src="./scripts/rxconnect.js"></script>
+  <script src="./scripts/approvals.js"></script>
+</body>
+</html>
