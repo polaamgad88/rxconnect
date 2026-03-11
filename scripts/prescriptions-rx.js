@@ -18,8 +18,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   const modalClose = document.getElementById("rxModalClose");
 
   let allPrescriptions = [];
-  const detailsCache = new Map(); // prescription_id -> detail response
-  const medSummaryCache = new Map(); // prescription_id -> string
+  const detailsCache = new Map();
+  const medSummaryCache = new Map();
 
   function showLoading(show, text = "Loading prescriptions...") {
     if (!loadingBox) return;
@@ -42,17 +42,17 @@ document.addEventListener("DOMContentLoaded", async function () {
       .replace(/'/g, "&#039;");
   }
 
-  function fmtDate(dt) {
-    if (!dt) return "-";
-    const d = new Date(dt);
-    if (isNaN(d.getTime())) return String(dt);
+  function fmtDate(value) {
+    if (!value) return "-";
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return String(value);
     return d.toLocaleString();
   }
 
-  function fmtDateShort(dt) {
-    if (!dt) return "-";
-    const d = new Date(dt);
-    if (isNaN(d.getTime())) return String(dt);
+  function fmtDateShort(value) {
+    if (!value) return "-";
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return String(value);
     return d.toLocaleDateString();
   }
 
@@ -64,24 +64,29 @@ document.addEventListener("DOMContentLoaded", async function () {
       cls = "pt-status-dispensed";
     else if (s === "cancelled") cls = "pt-status-cancelled";
     else if (s === "expired") cls = "pt-status-expired";
-    else if (s === "active" || s === "issued" || s === "partially_dispensed")
+    else if (s === "active" || s === "issued" || s === "partially_dispensed") {
       cls = "pt-status-issued";
+    }
 
     return `<span class="pt-status ${cls}">${escapeHtml(status || "-")}</span>`;
   }
 
   function normalizeStatusFilter(uiVal) {
     const v = String(uiVal || "")
-      .toLowerCase()
-      .trim();
+      .trim()
+      .toLowerCase();
     if (!v) return null;
     if (v === "issued") return ["active", "partially_dispensed", "issued"];
     if (v === "dispensed") return ["fully_dispensed", "dispensed"];
     return [v];
   }
 
-  function getReferenceDate(r) {
-    return r.updated_at || r.created_at || r.issue_date || null;
+  function getReferenceDate(rx) {
+    return rx.last_dispensed_at || rx.created_at || rx.issue_date || null;
+  }
+
+  function getDispensedWhere(rx) {
+    return rx.last_dispensed_at_pharmacy || rx.pharmacy_name || "-";
   }
 
   function applyFilters(list) {
@@ -93,16 +98,15 @@ document.addEventListener("DOMContentLoaded", async function () {
     const fromD = from ? new Date(from + "T00:00:00") : null;
     const toD = to ? new Date(to + "T23:59:59") : null;
 
-    return list.filter((r) => {
-      const currentStatus = String(r.status || "").toLowerCase();
-
+    return list.filter(function (rx) {
+      const currentStatus = String(rx.status || "").toLowerCase();
       const statusOk = !statusAllowed || statusAllowed.includes(currentStatus);
 
       let dateOk = true;
-      const ref = getReferenceDate(r);
+      const ref = getReferenceDate(rx);
       if (ref && (fromD || toD)) {
         const d = new Date(ref);
-        if (!isNaN(d.getTime())) {
+        if (!Number.isNaN(d.getTime())) {
           if (fromD && d < fromD) dateOk = false;
           if (toD && d > toD) dateOk = false;
         }
@@ -111,13 +115,15 @@ document.addEventListener("DOMContentLoaded", async function () {
       let qOk = true;
       if (q) {
         const code = String(
-          r.prescription_number || r.code || "",
+          rx.prescription_number || rx.code || "",
         ).toLowerCase();
-        const uniq = String(r.prescriber_unique_string || "").toLowerCase();
-        const patient = String(r.patient_name || "").toLowerCase();
-        const diag = String(r.diagnosis || "").toLowerCase();
+        const uniq = String(rx.prescriber_unique_string || "").toLowerCase();
+        const patient = String(rx.patient_name || "").toLowerCase();
+        const diag = String(rx.diagnosis || "").toLowerCase();
+        const status = String(rx.status || "").toLowerCase();
+        const where = String(getDispensedWhere(rx) || "").toLowerCase();
         const meds = String(
-          medSummaryCache.get(r.prescription_id) || "",
+          medSummaryCache.get(rx.prescription_id) || "",
         ).toLowerCase();
 
         qOk =
@@ -125,6 +131,8 @@ document.addEventListener("DOMContentLoaded", async function () {
           uniq.includes(q) ||
           patient.includes(q) ||
           diag.includes(q) ||
+          status.includes(q) ||
+          where.includes(q) ||
           meds.includes(q);
       }
 
@@ -133,53 +141,57 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   async function getPrescriptionDetails(prescriptionId) {
-    if (detailsCache.has(prescriptionId)) {
-      return detailsCache.get(prescriptionId);
+    if (detailsCache.has(String(prescriptionId))) {
+      return detailsCache.get(String(prescriptionId));
     }
 
     const resp = await RX.api.get(`/prescriptions/${prescriptionId}`);
-    detailsCache.set(prescriptionId, resp);
+    detailsCache.set(String(prescriptionId), resp);
     return resp;
   }
 
   async function getMedicationSummary(prescriptionId) {
-    if (medSummaryCache.has(prescriptionId)) {
-      return medSummaryCache.get(prescriptionId);
+    if (medSummaryCache.has(String(prescriptionId))) {
+      return medSummaryCache.get(String(prescriptionId));
     }
 
     try {
       const resp = await getPrescriptionDetails(prescriptionId);
       const items = Array.isArray(resp.items) ? resp.items : [];
+
       const names = items
-        .map((it) => it.medication_name || `Medication #${it.medication_id}`)
+        .map(function (item) {
+          return item.medication_name || `Medication #${item.medication_id}`;
+        })
         .filter(Boolean);
 
       const summary = names.length ? names.join(", ") : "-";
-      medSummaryCache.set(prescriptionId, summary);
+      medSummaryCache.set(String(prescriptionId), summary);
       return summary;
-    } catch (err) {
-      medSummaryCache.set(prescriptionId, "-");
+    } catch (error) {
+      medSummaryCache.set(String(prescriptionId), "-");
       return "-";
     }
   }
 
-  function buildRowHtml(r, medicationSummary) {
+  function buildRowHtml(rx, medicationSummary) {
     return `
       <td>
         <button
           type="button"
           class="btn-chip rx-open-details"
-          data-rxid="${escapeHtml(r.prescription_id)}"
+          data-rxid="${escapeHtml(rx.prescription_id)}"
         >
-          ${escapeHtml(r.prescription_number || r.code || "-")}
+          ${escapeHtml(rx.prescription_number || rx.code || "-")}
         </button>
       </td>
-      <td>${escapeHtml(r.patient_name || `Patient #${r.patient_id || "-"}`)}</td>
+      <td>${escapeHtml(rx.patient_name || `Patient #${rx.patient_id || "-"}`)}</td>
       <td>${escapeHtml(medicationSummary || "-")}</td>
-      <td>${escapeHtml(fmtDate(getReferenceDate(r)))}</td>
-      <td>${statusPill(r.status)}</td>
+      <td>${escapeHtml(fmtDateShort(rx.issue_date || rx.created_at))}</td>
+      <td>${statusPill(rx.status)}</td>
+      <td>${escapeHtml(getDispensedWhere(rx))}</td>
       <td>
-        <button class="btn-chip" type="button" data-share="${escapeHtml(r.prescription_id)}">
+        <button class="btn-chip" type="button" data-share="${escapeHtml(rx.prescription_id)}">
           Send
         </button>
       </td>
@@ -197,22 +209,21 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     showEmpty(false);
 
-    for (const r of list) {
+    for (const rx of list) {
       const tr = document.createElement("tr");
-      tr.setAttribute("data-rxid", r.prescription_id);
+      tr.setAttribute("data-rxid", String(rx.prescription_id));
       tr.style.cursor = "pointer";
       tr.innerHTML = buildRowHtml(
-        r,
-        medSummaryCache.get(r.prescription_id) || "Loading...",
+        rx,
+        medSummaryCache.get(String(rx.prescription_id)) || "Loading...",
       );
       tbody.appendChild(tr);
     }
 
-    // Load medication summaries lazily after rows render
-    for (const r of list) {
-      const summary = await getMedicationSummary(r.prescription_id);
+    for (const rx of list) {
+      const summary = await getMedicationSummary(rx.prescription_id);
       const row = tbody.querySelector(
-        `tr[data-rxid="${CSS.escape(String(r.prescription_id))}"]`,
+        `tr[data-rxid="${CSS.escape(String(rx.prescription_id))}"]`,
       );
       if (row && row.children[2]) {
         row.children[2].textContent = summary || "-";
@@ -229,19 +240,19 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const itemsRows = items.length
       ? items
-          .map(
-            (it, idx) => `
-              <tr>
-                <td>${idx + 1}</td>
-                <td>${escapeHtml(it.medication_name || `Medication #${it.medication_id || "-"}`)}</td>
-                <td>${escapeHtml(it.dosage_instructions || "-")}</td>
-                <td>${escapeHtml(it.quantity_prescribed ?? "-")}</td>
-                <td>${escapeHtml(it.quantity_dispensed_total ?? "-")}</td>
-                <td>${escapeHtml(it.unit || "-")}</td>
-                <td>${escapeHtml(it.item_status || "-")}</td>
-              </tr>
-            `,
-          )
+          .map(function (item, index) {
+            return `
+                <tr>
+                  <td>${index + 1}</td>
+                  <td>${escapeHtml(item.medication_name || `Medication #${item.medication_id || "-"}`)}</td>
+                  <td>${escapeHtml(item.dosage_instructions || "-")}</td>
+                  <td>${escapeHtml(item.quantity_prescribed ?? "-")}</td>
+                  <td>${escapeHtml(item.quantity_dispensed_total ?? "-")}</td>
+                  <td>${escapeHtml(item.unit || "-")}</td>
+                  <td>${escapeHtml(item.item_status || "-")}</td>
+                </tr>
+              `;
+          })
           .join("")
       : `<tr><td colspan="7">No items found.</td></tr>`;
 
@@ -258,16 +269,16 @@ document.addEventListener("DOMContentLoaded", async function () {
           </thead>
           <tbody>
             ${dispensations
-              .map(
-                (d, idx) => `
-                  <tr>
-                    <td>${idx + 1}</td>
-                    <td>${escapeHtml(d.dispensation_id || "-")}</td>
-                    <td>${escapeHtml(fmtDate(d.dispensed_at))}</td>
-                    <td>${escapeHtml(d.pharmacy_name || "-")}</td>
-                  </tr>
-                `,
-              )
+              .map(function (disp, index) {
+                return `
+                    <tr>
+                      <td>${index + 1}</td>
+                      <td>${escapeHtml(disp.dispensation_id || "-")}</td>
+                      <td>${escapeHtml(fmtDate(disp.dispensed_at))}</td>
+                      <td>${escapeHtml(disp.pharmacy_name || "-")}</td>
+                    </tr>
+                  `;
+              })
               .join("")}
           </tbody>
         </table>
@@ -277,18 +288,19 @@ document.addEventListener("DOMContentLoaded", async function () {
     modalBody.innerHTML = `
       <div class="rx-grid">
         <div>Prescription ID</div><div>${escapeHtml(rx.prescription_id || "-")}</div>
-        <div>Prescription Code</div><div>${escapeHtml(rx.prescription_number || "-")}</div>
+        <div>Prescription Code</div><div>${escapeHtml(rx.prescription_number || rx.code || "-")}</div>
         <div>Unique String</div><div>${escapeHtml(rx.prescriber_unique_string || "-")}</div>
         <div>Status</div><div>${statusPill(rx.status)}</div>
         <div>Patient ID</div><div>${escapeHtml(rx.patient_id || "-")}</div>
         <div>Clinician ID</div><div>${escapeHtml(rx.clinician_id || "-")}</div>
         <div>Clinic ID</div><div>${escapeHtml(rx.clinic_id || "-")}</div>
         <div>Issue Date</div><div>${escapeHtml(fmtDate(rx.issue_date))}</div>
+        <div>Expires At</div><div>${escapeHtml(fmtDate(rx.expires_at))}</div>
         <div>Diagnosis</div><div>${escapeHtml(rx.diagnosis || "-")}</div>
         <div>Notes</div><div>${escapeHtml(rx.notes || "-")}</div>
       </div>
 
-      <h4 style="margin:0 0 10px;">Items</h4>
+      <h4 style="margin:18px 0 10px;">Items</h4>
       <table class="rx-items-table">
         <thead>
           <tr>
@@ -310,7 +322,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       ${dispRows}
     `;
 
-    modalBackdrop.style.display = "flex";
+    if (modalBackdrop) modalBackdrop.style.display = "flex";
   }
 
   function closeModal() {
@@ -323,9 +335,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       const data = await getPrescriptionDetails(prescriptionId);
       showLoading(false);
       renderDetailsModal(data);
-    } catch (err) {
+    } catch (error) {
       showLoading(false);
-      alert(err.message || "Failed to load prescription details");
+      alert(error.message || "Failed to load prescription details");
     }
   }
 
@@ -343,8 +355,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       } catch (_) {
         alert("Copy this manually:\n\n" + text);
       }
-    } catch (err) {
-      alert(err.message || "Failed to prepare prescription code");
+    } catch (error) {
+      alert(error.message || "Failed to prepare prescription code");
     }
   }
 
@@ -355,12 +367,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         send_to_chobham: true,
       });
 
-      const msg =
-        resp.sms_text || resp.message || "Share prepared successfully.";
-
-      alert(msg);
-    } catch (err) {
-      // fallback because backend share endpoint may not exist
+      alert(resp.sms_text || resp.message || "Share prepared successfully.");
+    } catch (_) {
       await copyShareFallback(prescriptionId);
     }
   }
@@ -368,6 +376,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   async function load() {
     showLoading(true);
     showEmpty(false);
+
     try {
       const resp = await RX.api.get("/clinicians/me/prescriptions");
       allPrescriptions = Array.isArray(resp.prescriptions)
@@ -375,11 +384,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         : [];
       showLoading(false);
       await render(applyFilters(allPrescriptions));
-    } catch (err) {
+    } catch (error) {
       showLoading(false);
       showEmpty(true, "Failed to load prescriptions.");
       alert(
-        (err.message || "Failed to load prescriptions") +
+        (error.message || "Failed to load prescriptions") +
           "\n\nExpected endpoint: GET /clinicians/me/prescriptions",
       );
     }
@@ -389,85 +398,110 @@ document.addEventListener("DOMContentLoaded", async function () {
     await render(applyFilters(allPrescriptions));
   }
 
-  if (searchBtn) {
-    searchBtn.addEventListener("click", async function () {
-      await rerender();
-    });
-  }
-
-  if (searchInput) {
-    searchInput.addEventListener("input", async function () {
-      await rerender();
-    });
-  }
-
-  if (statusSelect) {
-    statusSelect.addEventListener("change", async function () {
-      await rerender();
-    });
-  }
-
-  if (dateFromInput) {
-    dateFromInput.addEventListener("change", async function () {
-      await rerender();
-    });
-  }
-
-  if (dateToInput) {
-    dateToInput.addEventListener("change", async function () {
-      await rerender();
-    });
-  }
-
-  if (clearBtn) {
-    clearBtn.addEventListener("click", async function () {
-      if (statusSelect) statusSelect.value = "";
-      if (dateFromInput) dateFromInput.value = "";
-      if (dateToInput) dateToInput.value = "";
-      if (searchInput) searchInput.value = "";
-      await rerender();
-    });
-  }
-
-  if (modalClose) {
-    modalClose.addEventListener("click", closeModal);
-  }
-
-  if (modalBackdrop) {
-    modalBackdrop.addEventListener("click", function (e) {
-      if (e.target === modalBackdrop) closeModal();
-    });
-  }
-
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") closeModal();
-  });
-
-  document.addEventListener("click", async function (e) {
-    const shareBtn = e.target.closest("button[data-share]");
-    if (shareBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-      const id = shareBtn.getAttribute("data-share");
-      if (id) await handleShare(id);
-      return;
+  function bindFilters() {
+    if (searchBtn) {
+      searchBtn.addEventListener("click", async function () {
+        await rerender();
+      });
     }
 
-    const openBtn = e.target.closest(".rx-open-details");
-    if (openBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-      const id = openBtn.getAttribute("data-rxid");
-      if (id) await openPrescriptionDetails(id);
-      return;
+    if (searchInput) {
+      searchInput.addEventListener("input", async function () {
+        await rerender();
+      });
     }
 
-    const row = e.target.closest("tr[data-rxid]");
-    if (row && !e.target.closest("button")) {
-      const id = row.getAttribute("data-rxid");
-      if (id) await openPrescriptionDetails(id);
+    if (statusSelect) {
+      statusSelect.addEventListener("change", async function () {
+        await rerender();
+      });
     }
-  });
+
+    if (dateFromInput) {
+      dateFromInput.addEventListener("change", async function () {
+        await rerender();
+      });
+    }
+
+    if (dateToInput) {
+      dateToInput.addEventListener("change", async function () {
+        await rerender();
+      });
+    }
+
+    if (clearBtn) {
+      clearBtn.addEventListener("click", async function () {
+        if (statusSelect) statusSelect.value = "";
+        if (dateFromInput) dateFromInput.value = "";
+        if (dateToInput) dateToInput.value = "";
+        if (searchInput) searchInput.value = "";
+        await rerender();
+      });
+    }
+  }
+
+  function bindModal() {
+    if (modalClose) {
+      modalClose.addEventListener("click", closeModal);
+    }
+
+    if (modalBackdrop) {
+      modalBackdrop.addEventListener("click", function (event) {
+        if (event.target === modalBackdrop) closeModal();
+      });
+    }
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") closeModal();
+    });
+  }
+
+  function bindTableActions() {
+    document.addEventListener("click", async function (event) {
+      const shareBtn = event.target.closest("button[data-share]");
+      if (shareBtn) {
+        event.preventDefault();
+        event.stopPropagation();
+        const id = shareBtn.getAttribute("data-share");
+        if (id) await handleShare(id);
+        return;
+      }
+
+      const openBtn = event.target.closest(".rx-open-details");
+      if (openBtn) {
+        event.preventDefault();
+        event.stopPropagation();
+        const id = openBtn.getAttribute("data-rxid");
+        if (id) await openPrescriptionDetails(id);
+        return;
+      }
+
+      const row = event.target.closest("tr[data-rxid]");
+      if (row && !event.target.closest("button")) {
+        const id = row.getAttribute("data-rxid");
+        if (id) await openPrescriptionDetails(id);
+      }
+    });
+  }
+
+  async function openPrescriptionFromQueryIfNeeded() {
+    const params = new URLSearchParams(window.location.search);
+    const openId = params.get("open");
+    if (!openId) return;
+
+    const found = allPrescriptions.find(function (rx) {
+      return String(rx.prescription_id) === String(openId);
+    });
+
+    if (!found) return;
+
+    await openPrescriptionDetails(openId);
+  }
+
+  bindFilters();
+  bindModal();
+  bindTableActions();
 
   await load();
+  await openPrescriptionFromQueryIfNeeded();
 });
