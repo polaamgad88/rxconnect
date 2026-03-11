@@ -21,6 +21,13 @@ document.addEventListener("DOMContentLoaded", function () {
     pharmacist: ["pharmacyName"],
   };
 
+  const fileFieldsByRole = {
+    clinic: document.getElementById("clinicVerificationFiles"),
+    prescriber: document.getElementById("prescriberVerificationFiles"),
+  };
+
+  const API_BASE = String(window.RXCONNECT_API_BASE || "").replace(/\/+$/, "");
+
   function byId(id) {
     return document.getElementById(id);
   }
@@ -43,10 +50,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function clearDynamicRequirements() {
-    Object.values(requiredFieldsByRole).flat().forEach((fieldId) => {
-      const el = byId(fieldId);
-      if (el) el.required = false;
-    });
+    Object.values(requiredFieldsByRole)
+      .flat()
+      .forEach((fieldId) => {
+        const el = byId(fieldId);
+        if (el) el.required = false;
+      });
   }
 
   function toggleRoleFields() {
@@ -68,16 +77,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (role === "clinic" || role === "prescriber") {
       setStatus(
-        "This registration will be created in pending status until approved.",
-        "info"
+        "This registration will be created in pending status until approved. Please upload your verification files before submitting.",
+        "info",
       );
       return;
     }
 
     if (role === "pharmacist") {
       setStatus(
-        "Pharmacist registration will create a dispenser account and login user.",
-        "info"
+        "Pharmacist registration creates a dispenser account and login user.",
+        "info",
       );
       return;
     }
@@ -85,12 +94,115 @@ document.addEventListener("DOMContentLoaded", function () {
     if (role === "chobham") {
       setStatus(
         "Chobham registration creates a direct Chobham login user.",
-        "info"
+        "info",
       );
       return;
     }
 
     setStatus("", "");
+  }
+
+  async function apiPostJSON(path, payload, options = {}) {
+    const auth = options.auth !== false;
+
+    if (window.RX?.api?.post) {
+      return window.RX.api.post(path, payload, { auth });
+    }
+
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    if (auth) {
+      const token =
+        localStorage.getItem("access_token") ||
+        localStorage.getItem("token") ||
+        sessionStorage.getItem("access_token") ||
+        sessionStorage.getItem("token");
+
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+    }
+
+    const response = await fetch(`${API_BASE}${path}`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
+      credentials: "include",
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      const err = new Error(
+        data?.message || `Request failed (${response.status})`,
+      );
+      err.data = data;
+      throw err;
+    }
+
+    return data;
+  }
+
+  async function uploadVerificationFiles(fileList, docTypePrefix) {
+    const files = Array.from(fileList || []).filter(Boolean);
+    if (!files.length) return [];
+
+    const uploaded = [];
+
+    for (let i = 0; i < files.length; i += 1) {
+      const file = files[i];
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("doc_type", `${docTypePrefix}_${i + 1}`);
+
+      const response = await fetch(`${API_BASE}/verification/upload`, {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        const err = new Error(
+          data?.message || `File upload failed for ${file.name}`,
+        );
+        err.data = data;
+        throw err;
+      }
+
+      uploaded.push({
+        filename: data.filename || file.name,
+        url: data.url ? new URL(data.url, `${API_BASE}/`).toString() : null,
+        doc_type: `${docTypePrefix}_${i + 1}`,
+        original_name: file.name,
+      });
+    }
+
+    return uploaded;
+  }
+
+  function buildRequestNotes(existingNotes, uploadedFiles, fallbackHeading) {
+    const parts = [];
+    const cleanExisting = (existingNotes || "").trim();
+
+    if (cleanExisting) {
+      parts.push(cleanExisting);
+    }
+
+    if (uploadedFiles?.length) {
+      parts.push(fallbackHeading);
+      uploadedFiles.forEach((file, index) => {
+        const label =
+          file.original_name || file.filename || `document_${index + 1}`;
+        const target = file.url || file.filename || "";
+        parts.push(`- ${label}: ${target}`);
+      });
+    }
+
+    return parts.join("\n");
   }
 
   userTypeSelect?.addEventListener("change", toggleRoleFields);
@@ -123,11 +235,13 @@ document.addEventListener("DOMContentLoaded", function () {
           password,
         };
 
-        const resp = await RX.api.post("/chobham/register", payload, { auth: false });
+        const resp = await apiPostJSON("/chobham/register", payload, {
+          auth: false,
+        });
 
         setStatus(
           `Chobham account created successfully. User #${resp.user_id}. Redirecting to login...`,
-          "success"
+          "success",
         );
 
         setTimeout(() => {
@@ -141,6 +255,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const clinic_name = valueOf("clinicRegisterName");
         const license_number = valueOf("clinicLicense");
         const address = valueOf("clinicAddress");
+        const uploadedFiles = await uploadVerificationFiles(
+          fileFieldsByRole.clinic?.files,
+          "clinic_verification",
+        );
 
         if (!clinic_name) {
           throw new Error("Clinic name is required.");
@@ -155,13 +273,21 @@ document.addEventListener("DOMContentLoaded", function () {
           username: email,
           full_name,
           password,
+          verification_files: uploadedFiles,
+          request_notes: buildRequestNotes(
+            null,
+            uploadedFiles,
+            "Clinic verification files:",
+          ),
         };
 
-        const resp = await RX.api.post("/clinics/register", payload, { auth: false });
+        const resp = await apiPostJSON("/clinics/register", payload, {
+          auth: false,
+        });
 
         setStatus(
           `Clinic registration submitted successfully. Approval request #${resp.approval_request_id}. Redirecting to login...`,
-          "success"
+          "success",
         );
 
         setTimeout(() => {
@@ -175,6 +301,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const license_number = valueOf("licenseNumber");
         const specialty = valueOf("specialization");
         const clinicName = valueOf("clinicName");
+        const uploadedFiles = await uploadVerificationFiles(
+          fileFieldsByRole.prescriber?.files,
+          "clinician_verification",
+        );
 
         if (!license_number) {
           throw new Error("Medical license number is required.");
@@ -189,15 +319,22 @@ document.addEventListener("DOMContentLoaded", function () {
           professional_license_no: license_number,
           license_number,
           specialty: specialty || null,
-          request_notes: clinicName ? `Requested clinic: ${clinicName}` : null,
+          request_notes: buildRequestNotes(
+            clinicName ? `Requested clinic: ${clinicName}` : null,
+            uploadedFiles,
+            "Clinician verification files:",
+          ),
           requested_clinic_name: clinicName || null,
+          verification_files: uploadedFiles,
         };
 
-        const resp = await RX.api.post("/clinicians/register", payload, { auth: false });
+        const resp = await apiPostJSON("/clinicians/register", payload, {
+          auth: false,
+        });
 
         setStatus(
           `Prescriber registration submitted successfully. Approval request #${resp.approval_request_id}. Redirecting to login...`,
-          "success"
+          "success",
         );
 
         setTimeout(() => {
@@ -227,11 +364,13 @@ document.addEventListener("DOMContentLoaded", function () {
           password,
         };
 
-        const resp = await RX.api.post("/dispensers/register", payload, { auth: false });
+        const resp = await apiPostJSON("/dispensers/register", payload, {
+          auth: false,
+        });
 
         setStatus(
           `Pharmacist registration completed successfully. Dispenser #${resp.dispenser_id}. Redirecting to login...`,
-          "success"
+          "success",
         );
 
         setTimeout(() => {
@@ -243,7 +382,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       throw new Error("Unsupported user type.");
     } catch (err) {
-      const apiMessage = err?.data?.message || err?.message || "Registration failed";
+      const apiMessage =
+        err?.data?.message || err?.message || "Registration failed";
       setStatus(apiMessage, "error");
     } finally {
       setSubmitting(false);

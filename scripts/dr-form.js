@@ -4,7 +4,9 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (!user) return;
 
   // ---------- Patient selection ----------
-  const patientSearchInput = document.querySelector(".cnp-card-patient .cnp-input-icon input");
+  const patientSearchInput = document.querySelector(
+    ".cnp-card-patient .cnp-input-icon input",
+  );
   const patientSummary = document.querySelector(".cnp-patient-summary");
   const addPatientLink = document.querySelector(".js-add-patient-link");
 
@@ -85,7 +87,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   function hideDropdown() {
-    const dd = patientSearchInput?.parentElement?.querySelector(".rx-patient-dd");
+    const dd =
+      patientSearchInput?.parentElement?.querySelector(".rx-patient-dd");
     if (dd) dd.style.display = "none";
   }
 
@@ -143,9 +146,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     await loadPatients();
     const preId = sessionStorage.getItem("rx_selected_patient_id");
     if (preId) {
-      selectedPatient = patients.find((p) => String(p.patient_id) === String(preId)) || null;
+      selectedPatient =
+        patients.find((p) => String(p.patient_id) === String(preId)) || null;
       if (selectedPatient && patientSearchInput) {
-        patientSearchInput.value = `${selectedPatient.first_name} ${selectedPatient.last_name}`.trim();
+        patientSearchInput.value =
+          `${selectedPatient.first_name} ${selectedPatient.last_name}`.trim();
       }
     }
   } catch {}
@@ -198,7 +203,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (modalSubmit) {
     modalSubmit.addEventListener("click", async () => {
       const { inputs, selects } = modalInputs();
-      // Based on current modal layout order in your HTML
       const first_name = (inputs[0]?.value || "").trim();
       const last_name = (inputs[1]?.value || "").trim();
       const gender = selects[0]?.value || null;
@@ -228,7 +232,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (city) notesParts.push(city);
       if (postcode) notesParts.push(postcode);
       if (country) notesParts.push(country);
-      const notes = notesParts.length ? `Address: ${notesParts.join(", ")}` : null;
+      const notes = notesParts.length
+        ? `Address: ${notesParts.join(", ")}`
+        : null;
 
       try {
         const resp = await RX.api.post("/patients/create", {
@@ -243,11 +249,18 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         await loadPatients();
-        selectedPatient = patients.find((p) => String(p.patient_id) === String(resp.patient_id)) || null;
+        selectedPatient =
+          patients.find(
+            (p) => String(p.patient_id) === String(resp.patient_id),
+          ) || null;
 
         if (selectedPatient && patientSearchInput) {
-          patientSearchInput.value = `${selectedPatient.first_name} ${selectedPatient.last_name}`.trim();
-          sessionStorage.setItem("rx_selected_patient_id", String(selectedPatient.patient_id));
+          patientSearchInput.value =
+            `${selectedPatient.first_name} ${selectedPatient.last_name}`.trim();
+          sessionStorage.setItem(
+            "rx_selected_patient_id",
+            String(selectedPatient.patient_id),
+          );
         }
         renderPatientSummary(selectedPatient);
         closeModal();
@@ -260,72 +273,105 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // ---------- Medicines -> prescription create ----------
   const notesEl = document.getElementById("prescription-notes");
-  const issueBtn = document.querySelector(".cnp-card-actions .cnp-actions-right .cnp-btn-primary");
-  const dropBtn = document.querySelector(".cnp-card-actions .cnp-actions-right .cnp-btn-dropdown");
+  const issueBtn = document.querySelector(
+    ".cnp-card-actions .cnp-actions-right .cnp-btn-primary",
+  );
+  const dropBtn = document.querySelector(
+    ".cnp-card-actions .cnp-actions-right .cnp-btn-dropdown",
+  );
 
-  // Medication cache
   let medIndexLoaded = false;
   const medNameToId = new Map();
 
-  async function loadMedicationIndexOnce() {
-    if (medIndexLoaded) return;
-    medIndexLoaded = true;
+  async function loadMedicationIndexOnce(forceReload = false) {
+    if (medIndexLoaded && !forceReload) return;
 
     try {
-      const resp = await RX.api.get("/medications", { auth: false }); // if your endpoint requires auth, remove auth:false
+      const resp = await RX.api.get("/medications");
       const list = resp.medications || resp.meds || [];
+      medNameToId.clear();
+
       list.forEach((m) => {
-        const name = String(m.medication_name || "").trim().toLowerCase();
+        const name = String(m.medication_name || "")
+          .trim()
+          .toLowerCase();
         if (name && m.medication_id && !medNameToId.has(name)) {
-          medNameToId.set(name, m.medication_id);
+          medNameToId.set(name, Number(m.medication_id));
         }
       });
-    } catch {
-      // ok if it fails, we'll create meds on demand
+
+      medIndexLoaded = true;
+    } catch (err) {
+      medIndexLoaded = false;
+      throw err;
     }
   }
 
-  // async function resolveMedicationIdByName(name) {
-  //   const key = String(name || "").trim().toLowerCase();
-  //   if (!key) return null;
+  async function resolveMedicationIdByName(name) {
+    const cleanName = String(name || "").trim();
+    const key = cleanName.toLowerCase();
+    if (!key) return null;
 
-  //   await loadMedicationIndexOnce();
-  //   if (medNameToId.has(key)) return medNameToId.get(key);
+    await loadMedicationIndexOnce();
+    if (medNameToId.has(key)) return medNameToId.get(key);
 
-  //   // Create dummy medication
-  //   const created = await RX.api.post("/medications/create", { medication_name: name }, { auth: false });
-  //   const id = created.medication_id;
-  //   if (id) medNameToId.set(key, id);
-  //   return id;
-  // }
+    const created = await RX.api.post(
+      "/medications/create",
+      { medication_name: cleanName },
+      { auth: false },
+    );
+
+    const createdId = Number(created.medication_id || 0) || null;
+    if (!createdId) {
+      throw new Error(`Could not create medication for: ${cleanName}`);
+    }
+
+    medNameToId.set(key, createdId);
+    return createdId;
+  }
 
   function collectItemsFromTable() {
     const tbody = document.getElementById("meds-body");
     if (!tbody) return [];
 
-    // Find all medicine-name inputs and use their row to find dosage + qty
-    const nameInputs = Array.from(tbody.querySelectorAll("input.med-input-medicine-search"));
-
+    const rows = Array.from(tbody.querySelectorAll("tr"));
     const items = [];
-    for (const nameInput of nameInputs) {
-      const tr = nameInput.closest("tr") || nameInput.parentElement;
-      const name = (nameInput.value || "").trim();
-      if (!name) continue;
+
+    for (const tr of rows) {
+      const inputs = Array.from(tr.querySelectorAll("input"));
+      if (!inputs.length) continue;
+
+      const nameInput =
+        tr.querySelector("input.med-input-medicine-search") ||
+        inputs.find((el) => {
+          const ph = String(el.getAttribute("placeholder") || "").toLowerCase();
+          return ph.includes("item name") || ph.includes("search or select");
+        });
 
       const qtyInput =
-        tr?.querySelector("input.med-input-qty") ||
-        tr?.querySelector("input[placeholder='Qty']");
+        tr.querySelector("input.med-input-qty") ||
+        inputs.find((el) => {
+          const ph = String(el.getAttribute("placeholder") || "").toLowerCase();
+          return ph === "qty" || ph.includes("qty") || ph.includes("quantity");
+        });
 
       const dosageInput =
-        tr?.querySelector("input.med-input:not(.med-input-medicine-search):not(.med-input-qty)") ||
-        tr?.querySelector("input[placeholder='Dosage Instruction']");
+        inputs.find((el) => {
+          if (el === nameInput || el === qtyInput) return false;
+          const ph = String(el.getAttribute("placeholder") || "").toLowerCase();
+          return ph.includes("dosage");
+        }) || tr.querySelector("input.med-input-dosage");
 
+      const name = (nameInput?.value || "").trim();
       const qty = Number((qtyInput?.value || "").trim() || 0);
+      const dosage = (dosageInput?.value || "").trim();
+
+      if (!name) continue;
       if (!qty || qty <= 0) continue;
 
       items.push({
         medication_name: name,
-        dosage_instructions: (dosageInput?.value || "").trim() || null,
+        dosage_instructions: dosage || null,
         quantity_prescribed: qty,
         unit: "unit",
         duration_days: null,
@@ -333,17 +379,26 @@ document.addEventListener("DOMContentLoaded", async function () {
         notes: null,
       });
     }
+
     return items;
   }
 
-  async function sendMail({ toEmail, content, sender = "RxConnect", number = "" }) {
+  async function sendMail({
+    toEmail,
+    content,
+    sender = "RxConnect",
+    number = "",
+  }) {
     const fd = new FormData();
     fd.append("email", toEmail);
     fd.append("content", content);
     fd.append("sender", sender);
     fd.append("number", number);
 
-    const res = await fetch(`${RX.API_BASE}/send-mail`, { method: "POST", body: fd });
+    const res = await fetch(`${RX.API_BASE}/send-mail`, {
+      method: "POST",
+      body: fd,
+    });
     if (!res.ok) {
       const t = await res.text();
       throw new Error(t || "Failed to send email");
@@ -373,24 +428,30 @@ document.addEventListener("DOMContentLoaded", async function () {
       return;
     }
 
-    // Convert medication_name -> medication_id
     const items = [];
-    // for (const it of rawItems) {
-    //   const medication_id = await resolveMedicationIdByName(it.medication_name);
-    //   if (!medication_id) {
-    //     alert(`Could not resolve medication id for: ${it.medication_name}`);
-    //     return;
-    //   }
-    //   items.push({
-    //     medication_id,
-    //     dosage_instructions: it.dosage_instructions,
-    //     quantity_prescribed: it.quantity_prescribed,
-    //     unit: it.unit,
-    //     duration_days: it.duration_days,
-    //     refills_allowed: it.refills_allowed,
-    //     notes: it.notes,
-    //   });
-    // }
+    for (const it of rawItems) {
+      const medication_id = await resolveMedicationIdByName(it.medication_name);
+      if (!medication_id) {
+        alert(`Could not resolve medication id for: ${it.medication_name}`);
+        return;
+      }
+
+      items.push({
+        medication_id,
+        medication_name: it.medication_name,
+        dosage_instructions: it.dosage_instructions,
+        quantity_prescribed: it.quantity_prescribed,
+        unit: it.unit,
+        duration_days: it.duration_days,
+        refills_allowed: it.refills_allowed,
+        notes: it.notes,
+      });
+    }
+
+    if (!items.length) {
+      alert("At least one prescription item is required");
+      return;
+    }
 
     const payload = {
       patient_id: selectedPatient.patient_id,
@@ -400,11 +461,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
 
     try {
+      console.log("creating prescription payload:", payload);
       const created = await RX.api.post("/prescriptions/create", payload);
       const code = created.code || "(code not returned)";
       const msg = buildPatientMessage(code);
 
-      // Default: show message always
       alert(`Prescription created.\n\nCode: ${code}`);
 
       if (sendMode === "patient") {
@@ -424,8 +485,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (sendMode === "chobham") {
         let chobhamEmail = localStorage.getItem("RX_CHOBHAM_EMAIL") || "";
         if (!chobhamEmail) {
-          chobhamEmail = prompt("Enter Chobham Pharmacy email (saved for next time):") || "";
-          if (chobhamEmail) localStorage.setItem("RX_CHOBHAM_EMAIL", chobhamEmail);
+          chobhamEmail =
+            prompt("Enter Chobham Pharmacy email (saved for next time):") || "";
+          if (chobhamEmail)
+            localStorage.setItem("RX_CHOBHAM_EMAIL", chobhamEmail);
         }
         if (!chobhamEmail) {
           alert("No Chobham email provided. Code is:\n\n" + code);
@@ -440,14 +503,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       }
 
-      // Go to tracker
       window.location.href = "./prescriptions.html";
     } catch (err) {
+      console.error(err);
       alert(err.message || "Failed to create prescription");
     }
   }
 
-  // Dropdown menu for send mode
   function ensureIssueMenu() {
     if (!dropBtn) return null;
 
@@ -491,7 +553,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     document.addEventListener("click", (e) => {
-      if (!e.target.closest("#rxIssueMenu") && !e.target.closest(".cnp-btn-dropdown")) {
+      if (
+        !e.target.closest("#rxIssueMenu") &&
+        !e.target.closest(".cnp-btn-dropdown")
+      ) {
         menu.style.display = "none";
       }
     });
@@ -502,7 +567,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (issueBtn) {
     issueBtn.addEventListener("click", async (e) => {
       e.preventDefault();
-      // Default behaviour: issue only
       await createPrescriptionAndMaybeSend("none");
     });
   }
