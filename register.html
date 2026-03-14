@@ -258,9 +258,7 @@
         <select id="userType" class="register-select" required>
           <option value="">Select User Type</option>
           <option value="chobham">Chobham</option>
-          <option value="clinic">Clinic</option>
           <option value="prescriber">Prescriber</option>
-          <option value="pharmacist">Pharmacist (Dispenser)</option>
         </select>
 
         <input type="text" id="fullName" class="register-input" placeholder="Full Name" required />
@@ -270,14 +268,6 @@
 
         <div id="chobhamFields" class="hidden"></div>
 
-        <div id="clinicFields" class="hidden">
-          <input type="text" id="clinicRegisterName" class="register-input" placeholder="Clinic Name" />
-          <input type="text" id="clinicLicense" class="register-input" placeholder="Clinic License Number" />
-          <input type="text" id="clinicAddress" class="register-input" placeholder="Clinic Address (optional)" />
-          <input type="file" id="clinicVerificationFiles" class="register-file" accept=".pdf,.png,.jpg,.jpeg"
-            multiple />
-          <small class="register-hint">Upload clinic verification files (PDF, PNG, JPG, JPEG).</small>
-        </div>
 
         <div id="prescriberFields" class="hidden">
           <input type="text" id="licenseNumber" class="register-input" placeholder="Medical License Number" />
@@ -289,12 +279,7 @@
           <small class="register-hint">Upload clinician verification files (PDF, PNG, JPG, JPEG).</small>
         </div>
 
-        <div id="pharmacistFields" class="hidden">
-          <input type="text" id="pharmacyName" class="register-input" placeholder="Pharmacy Name" />
-          <input type="text" id="pharmacyLicense" class="register-input"
-            placeholder="Pharmacy License Number (optional)" />
-          <input type="text" id="pharmacyAddress" class="register-input" placeholder="Pharmacy Address (optional)" />
-        </div>
+
 
         <button type="submit" class="register-btn">Register</button>
       </form>

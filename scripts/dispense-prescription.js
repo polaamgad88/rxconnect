@@ -3,6 +3,15 @@ document.addEventListener("DOMContentLoaded", function () {
   const codeEl = document.getElementById("prescription-id");
   const dobEl = document.getElementById("dob");
 
+  const inquiryBox = document.getElementById("clinicInquiryBox");
+  const inquiryClinicNameEl = document.getElementById("inquiryClinicName");
+  const inquiryClinicPhoneEl = document.getElementById("inquiryClinicPhone");
+  const inquiryClinicEmailEl = document.getElementById("inquiryClinicEmail");
+  const inquiryClinicLicenseNumberEl = document.getElementById("inquiryClinicLicenseNumber");
+  const inquiryClinicAddressEl = document.getElementById("inquiryClinicAddress");
+  const inquiryBtn = document.getElementById("submitClinicInquiry");
+  const inquiryStatusEl = document.getElementById("clinicInquiryStatus");
+
   if (!form || !codeEl || !dobEl) return;
 
   let resultBox = document.getElementById("rxResult");
@@ -16,9 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let lastLookup = null;
 
   function normalizeValue(value) {
-    return String(value || "")
-      .trim()
-      .toUpperCase();
+    return String(value || "").trim().toUpperCase();
   }
 
   function asNumber(value, fallback = 0) {
@@ -52,16 +59,27 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
   }
 
+  function setInquiryVisibility() {
+    const isLoggedOut = !RX.getUser();
+    if (inquiryBox) {
+      inquiryBox.style.display = isLoggedOut ? "block" : "none";
+    }
+  }
+
+  function showInquiryStatus(message, isError = false) {
+    if (!inquiryStatusEl) return;
+    inquiryStatusEl.style.display = message ? "block" : "none";
+    inquiryStatusEl.style.color = isError ? "#c62828" : "#2e7d32";
+    inquiryStatusEl.textContent = message || "";
+  }
+
   function buildRow(it, index, canDispense) {
     const prescribed = asNumber(it.quantity_prescribed, 0);
     const dispensed = asNumber(it.quantity_dispensed_total, 0);
-    const remaining = Math.max(prescribed - dispensed, 0);
 
     const infoParts = [];
     if (it.item_status) infoParts.push(`Status: ${it.item_status}`);
-    infoParts.push(`Remaining: ${remaining}`);
-    if (it.dosage_instructions)
-      infoParts.push(`Dose: ${it.dosage_instructions}`);
+    if (it.dosage_instructions) infoParts.push(`Dose: ${it.dosage_instructions}`);
 
     return `
       <tr>
@@ -80,17 +98,15 @@ document.addEventListener("DOMContentLoaded", function () {
         ${
           canDispense
             ? `<td style="padding:8px;border-bottom:1px solid #eee;color:#222;">
-                <input
+                <button
+                  type="button"
+                  class="rx-select"
                   data-pi="${escapeHtml(it.prescription_item_id)}"
                   data-mid="${escapeHtml(it.medication_id)}"
-                  class="rx-qty"
-                  type="number"
-                  min="0"
-                  step="1"
-                  max="${remaining}"
-                  placeholder="Qty"
-                  style="width:110px;color:#222;background:#fff;"
-                />
+                  style="padding:4px 10px;"
+                >
+                  Include
+                </button>
               </td>`
             : `<td style="padding:8px;border-bottom:1px solid #eee;color:#222;">-</td>`
         }
@@ -101,14 +117,12 @@ document.addEventListener("DOMContentLoaded", function () {
   function renderLookup(data, canDispense) {
     const items = Array.isArray(data.items) ? data.items : [];
     const displayCode = data.code || data.prescription_number || "-";
-    const displayUnique = data.prescriber_unique_string || "-";
 
     const rows = items.map((it, i) => buildRow(it, i, canDispense)).join("");
 
     const header = `
       <div style="background:#fff;color:#222;border-radius:10px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.08);text-align:left;">
         <div><strong>Prescription code:</strong> ${escapeHtml(displayCode)}</div>
-        <div><strong>Unique string:</strong> ${escapeHtml(displayUnique)}</div>
         <div><strong>Status:</strong> ${escapeHtml(data.status || "-")}</div>
         <div><strong>Issue date:</strong> ${escapeHtml(data.issue_date || "-")}</div>
         <div><strong>Expires at:</strong> ${escapeHtml(data.expires_at || "-")}</div>
@@ -147,8 +161,8 @@ document.addEventListener("DOMContentLoaded", function () {
         : canDispense
           ? `<div style="margin-top:10px;color:#444;">This prescription has no items to dispense.</div>`
           : `<div style="margin-top:10px;color:#444;">
-             Logged-out mode: lookup only. Login as a dispenser to dispense.
-           </div>`;
+               Logged-out mode: lookup only. Login as a dispenser to dispense.
+             </div>`;
 
     resultBox.innerHTML = header + table + btn;
   }
@@ -193,11 +207,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     try {
       const { data, canPortalLookup } = await lookupPrescription();
-      console.log("lookup response:", data);
       renderLookup(data, canPortalLookup);
     } catch (err) {
       console.error(err);
       showMessage(err.message || "Lookup failed", true);
+    }
+  });
+
+  resultBox.addEventListener("click", function (e) {
+    if (!e.target.classList.contains("rx-select")) return;
+
+    const btn = e.target;
+    btn.classList.toggle("selected");
+
+    if (btn.classList.contains("selected")) {
+      btn.style.background = "#2e7d32";
+      btn.style.color = "#fff";
+      btn.textContent = "Included";
+    } else {
+      btn.style.background = "";
+      btn.style.color = "";
+      btn.textContent = "Include";
     }
   });
 
@@ -223,31 +253,20 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!lookup.prescription_id || !lookup.patient_id) {
       showMessage(
         "This prescription cannot be dispensed because prescription_id or patient_id is missing from lookup.",
-        true,
+        true
       );
       return;
     }
 
-    const items = (lookup.items || [])
-      .map((it) => {
-        const qtyEl = resultBox.querySelector(
-          `.rx-qty[data-pi="${it.prescription_item_id}"]`,
-        );
-
-        const quantity_dispensed = qtyEl ? Number(qtyEl.value || 0) : 0;
-
-        if (!quantity_dispensed || quantity_dispensed <= 0) return null;
-
-        return {
-          prescription_item_id: it.prescription_item_id,
-          medication_id: it.medication_id,
-          quantity_dispensed,
-        };
-      })
-      .filter(Boolean);
+    const items = Array.from(
+      resultBox.querySelectorAll(".rx-select.selected")
+    ).map((btn) => ({
+      prescription_item_id: btn.dataset.pi,
+      medication_id: btn.dataset.mid,
+    }));
 
     if (!items.length) {
-      showMessage("Enter quantity for at least one item.", true);
+      showMessage("Select at least one item to dispense.", true);
       return;
     }
 
@@ -268,4 +287,51 @@ document.addEventListener("DOMContentLoaded", function () {
       showMessage(err.message || "Dispense failed", true);
     }
   });
+
+  inquiryBtn?.addEventListener("click", async function () {
+    if (RX.getUser()) return;
+
+    const clinic_name = (inquiryClinicNameEl?.value || "").trim();
+    const email = (inquiryClinicEmailEl?.value || "").trim();
+    const phone = (inquiryClinicPhoneEl?.value || "").trim();
+    const license_number = (inquiryClinicLicenseNumberEl?.value || "").trim();
+    const address = (inquiryClinicAddressEl?.value || "").trim();
+
+
+    if (!clinic_name || !phone || !email || !license_number) {
+      showInquiryStatus("Clinic data is missing please fill the fields which are required.", true);
+      return;
+    }
+
+    try {
+      inquiryBtn.disabled = true;
+      inquiryBtn.textContent = "Sending...";
+      showInquiryStatus("");
+
+      const resp = await RX.api.post(
+        "/clinics/register",
+        { clinic_name, phone, license_number, address, email },
+        { auth: false }
+      );
+
+      showInquiryStatus(
+        resp.message || "Clinic inquiry submitted successfully.",
+        false
+      );
+
+      if (inquiryClinicNameEl) inquiryClinicNameEl.value = "";
+      if (inquiryClinicPhoneEl) inquiryClinicPhoneEl.value = "";
+    } catch (err) {
+      console.error(err);
+      showInquiryStatus(
+        err.message || "Failed to submit clinic inquiry.",
+        true
+      );
+    } finally {
+      inquiryBtn.disabled = false;
+      inquiryBtn.textContent = "Send Inquiry";
+    }
+  });
+
+  setInquiryVisibility();
 });

@@ -348,7 +348,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const code = rx.prescription_number || "";
       const unique = rx.prescriber_unique_string || "";
 
-      const text = `Prescription code: ${code}\nUnique string: ${unique}`;
+      const text = `Prescription code: ${code}\n`;
       try {
         await navigator.clipboard.writeText(text);
         alert("Prescription code copied.\n\n" + text);
