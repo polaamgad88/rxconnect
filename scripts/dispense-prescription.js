@@ -3,14 +3,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const codeEl = document.getElementById("prescription-id");
   const dobEl = document.getElementById("dob");
 
-  const inquiryBox = document.getElementById("clinicInquiryBox");
-  const inquiryClinicNameEl = document.getElementById("inquiryClinicName");
-  const inquiryClinicPhoneEl = document.getElementById("inquiryClinicPhone");
-  const inquiryClinicEmailEl = document.getElementById("inquiryClinicEmail");
-  const inquiryClinicLicenseNumberEl = document.getElementById("inquiryClinicLicenseNumber");
-  const inquiryClinicAddressEl = document.getElementById("inquiryClinicAddress");
-  const inquiryBtn = document.getElementById("submitClinicInquiry");
-  const inquiryStatusEl = document.getElementById("clinicInquiryStatus");
+  const pharmacyBox = document.getElementById("pharmacyRegistrationBox");
+  const pharmacyNameEl = document.getElementById("pharmacyName");
+  const pharmacyPhoneEl = document.getElementById("pharmacyPhone");
+  const pharmacyEmailEl = document.getElementById("pharmacyEmail");
+  const pharmacyPasswordEl = document.getElementById("pharmacyPassword");
+  const pharmacyLicenseNumberEl = document.getElementById("pharmacyLicenseNumber");
+  const pharmacyAddressEl = document.getElementById("pharmacyAddress");
+  const pharmacyStatusEl = document.getElementById("pharmacyRegistrationStatus");
 
   if (!form || !codeEl || !dobEl) return;
 
@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   let lastLookup = null;
+  let isSubmittingDispense = false;
 
   function normalizeValue(value) {
     return String(value || "").trim().toUpperCase();
@@ -38,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
+      .replace(/\"/g, "&quot;")
       .replace(/'/g, "&#039;");
   }
 
@@ -59,21 +60,125 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
   }
 
-  function setInquiryVisibility() {
-    const isLoggedOut = !RX.getUser();
-    if (inquiryBox) {
-      inquiryBox.style.display = isLoggedOut ? "block" : "none";
+  function showPharmacyStatus(message, isError = false) {
+    if (!pharmacyStatusEl) return;
+    pharmacyStatusEl.style.display = message ? "block" : "none";
+    pharmacyStatusEl.style.color = isError ? "#c62828" : "#2e7d32";
+    pharmacyStatusEl.textContent = message || "";
+  }
+
+  function setPharmacyBoxVisibility() {
+    const user = RX.getUser();
+    const canAlreadyDispense =
+      user && ["dispenser", "chobham"].includes(user.login_type);
+
+    if (pharmacyBox) {
+      pharmacyBox.style.display = canAlreadyDispense ? "none" : "block";
     }
   }
 
-  function showInquiryStatus(message, isError = false) {
-    if (!inquiryStatusEl) return;
-    inquiryStatusEl.style.display = message ? "block" : "none";
-    inquiryStatusEl.style.color = isError ? "#c62828" : "#2e7d32";
-    inquiryStatusEl.textContent = message || "";
+  function getPharmacyFormData() {
+    return {
+      pharmacy_name: (pharmacyNameEl?.value || "").trim(),
+      phone: (pharmacyPhoneEl?.value || "").trim(),
+      email: (pharmacyEmailEl?.value || "").trim(),
+      password: pharmacyPasswordEl?.value || "",
+      license_number: (pharmacyLicenseNumberEl?.value || "").trim(),
+      address: (pharmacyAddressEl?.value || "").trim(),
+    };
   }
 
-  function buildRow(it, index, canDispense) {
+  function validatePharmacyFormData(data) {
+    if (!data.pharmacy_name) {
+      return "Pharmacy name is required.";
+    }
+    if (!data.license_number) {
+      return "License number is required.";
+    }
+    if (!data.email) {
+      return "Email is required.";
+    }
+    if (!data.password) {
+      return "Password is required.";
+    }
+    return null;
+  }
+
+  function clearPharmacyForm() {
+    if (pharmacyNameEl) pharmacyNameEl.value = "";
+    if (pharmacyPhoneEl) pharmacyPhoneEl.value = "";
+    if (pharmacyEmailEl) pharmacyEmailEl.value = "";
+    if (pharmacyPasswordEl) pharmacyPasswordEl.value = "";
+    if (pharmacyLicenseNumberEl) pharmacyLicenseNumberEl.value = "";
+    if (pharmacyAddressEl) pharmacyAddressEl.value = "";
+  }
+
+  async function ensureDispenserSession() {
+    let user = RX.getUser();
+    if (user && ["dispenser", "chobham"].includes(user.login_type)) {
+      return user;
+    }
+
+    const pharmacyData = getPharmacyFormData();
+    const validationError = validatePharmacyFormData(pharmacyData);
+    if (validationError) {
+      throw new Error(validationError);
+    }
+
+    showPharmacyStatus("Creating pharmacy account...");
+
+    try {
+      await RX.api.post(
+        "/dispensers/register",
+        {
+          pharmacy_name: pharmacyData.pharmacy_name,
+          license_number: pharmacyData.license_number,
+          phone: pharmacyData.phone || null,
+          email: pharmacyData.email,
+          address: pharmacyData.address || null,
+          username: pharmacyData.email,
+          full_name: pharmacyData.pharmacy_name,
+          password: pharmacyData.password,
+        },
+        { auth: false }
+      );
+    } catch (err) {
+      const msg = String(err?.message || "").toLowerCase();
+      const alreadyExists =
+        msg.includes("already taken") ||
+        msg.includes("duplicate") ||
+        msg.includes("integrity");
+
+      if (!alreadyExists) {
+        throw err;
+      }
+    }
+
+    showPharmacyStatus("Signing in pharmacy account...");
+
+    const loginResp = await RX.api.post(
+      "/login",
+      {
+        username: pharmacyData.email,
+        password: pharmacyData.password,
+      },
+      { auth: false }
+    );
+
+    RX.setSession(loginResp.access_token, loginResp.user);
+    setPharmacyBoxVisibility();
+    showPharmacyStatus("Pharmacy account is ready.", false);
+    clearPharmacyForm();
+
+    user = loginResp.user;
+    if (!user || !["dispenser", "chobham"].includes(user.login_type)) {
+      throw new Error("Authenticated user is not allowed to dispense.");
+    }
+
+    return user;
+  }
+
+  function buildRow(it, index) {
     const prescribed = asNumber(it.quantity_prescribed, 0);
     const dispensed = asNumber(it.quantity_dispensed_total, 0);
 
@@ -95,30 +200,26 @@ document.addEventListener("DOMContentLoaded", function () {
         <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">
           ${escapeHtml(infoParts.join(" | "))}
         </td>
-        ${
-          canDispense
-            ? `<td style="padding:8px;border-bottom:1px solid #eee;color:#222;">
-                <button
-                  type="button"
-                  class="rx-select"
-                  data-pi="${escapeHtml(it.prescription_item_id)}"
-                  data-mid="${escapeHtml(it.medication_id)}"
-                  style="padding:4px 10px;"
-                >
-                  Include
-                </button>
-              </td>`
-            : `<td style="padding:8px;border-bottom:1px solid #eee;color:#222;">-</td>`
-        }
+        <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">
+          <button
+            type="button"
+            class="rx-select"
+            data-pi="${escapeHtml(it.prescription_item_id)}"
+            data-mid="${escapeHtml(it.medication_id)}"
+            style="padding:4px 10px;"
+          >
+            Include
+          </button>
+        </td>
       </tr>
     `;
   }
 
-  function renderLookup(data, canDispense) {
+  function renderLookup(data) {
     const items = Array.isArray(data.items) ? data.items : [];
     const displayCode = data.code || data.prescription_number || "-";
 
-    const rows = items.map((it, i) => buildRow(it, i, canDispense)).join("");
+    const rows = items.map((it, i) => buildRow(it, i)).join("");
 
     const header = `
       <div style="background:#fff;color:#222;border-radius:10px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.08);text-align:left;">
@@ -153,16 +254,11 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
     `;
 
-    const btn =
-      canDispense && items.length
-        ? `<button id="doDispense" type="button" class="button full-width w-button" style="margin-top:12px;background:green;">
-             Dispense
-           </button>`
-        : canDispense
-          ? `<div style="margin-top:10px;color:#444;">This prescription has no items to dispense.</div>`
-          : `<div style="margin-top:10px;color:#444;">
-               Logged-out mode: lookup only. Login as a dispenser to dispense.
-             </div>`;
+    const btn = items.length
+      ? `<button id="doDispense" type="button" class="button full-width w-button" style="margin-top:12px;background:green;">
+           Dispense
+         </button>`
+      : `<div style="margin-top:10px;color:#444;">This prescription has no items to dispense.</div>`;
 
     resultBox.innerHTML = header + table + btn;
   }
@@ -177,8 +273,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const user = RX.getUser();
     const canPortalLookup =
-      user &&
-      (user.login_type === "dispenser" || user.login_type === "chobham");
+      user && (user.login_type === "dispenser" || user.login_type === "chobham");
 
     const payload = {
       code: enteredCode,
@@ -198,7 +293,7 @@ document.addEventListener("DOMContentLoaded", function () {
       data,
     };
 
-    return { data, canPortalLookup };
+    return { data };
   }
 
   form.addEventListener("submit", async function (e) {
@@ -206,8 +301,8 @@ document.addEventListener("DOMContentLoaded", function () {
     showMessage("Searching...");
 
     try {
-      const { data, canPortalLookup } = await lookupPrescription();
-      renderLookup(data, canPortalLookup);
+      const { data } = await lookupPrescription();
+      renderLookup(data);
     } catch (err) {
       console.error(err);
       showMessage(err.message || "Lookup failed", true);
@@ -232,45 +327,38 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   resultBox.addEventListener("click", async function (e) {
-    if (e.target.id !== "doDispense") return;
+    if (e.target.id !== "doDispense" || isSubmittingDispense) return;
 
-    const user = RX.requireAuth(["dispenser", "chobham"]);
-    if (!user) return;
+    isSubmittingDispense = true;
+    showPharmacyStatus("");
 
-    let lookup;
     try {
-      lookup = lastLookup?.data;
+      let lookup = lastLookup?.data;
       if (!lookup) {
         const refreshed = await lookupPrescription();
         lookup = refreshed.data;
-        renderLookup(lookup, true);
+        renderLookup(lookup);
       }
-    } catch (err) {
-      showMessage(err.message || "Failed to refresh prescription data", true);
-      return;
-    }
 
-    if (!lookup.prescription_id || !lookup.patient_id) {
-      showMessage(
-        "This prescription cannot be dispensed because prescription_id or patient_id is missing from lookup.",
-        true
-      );
-      return;
-    }
+      if (!lookup.prescription_id || !lookup.patient_id) {
+        throw new Error(
+          "This prescription cannot be dispensed because prescription_id or patient_id is missing from lookup."
+        );
+      }
 
-    const items = Array.from(
-      resultBox.querySelectorAll(".rx-select.selected")
-    ).map((btn) => ({
-      prescription_item_id: btn.dataset.pi,
-      medication_id: btn.dataset.mid,
-    }));
+      const items = Array.from(
+        resultBox.querySelectorAll(".rx-select.selected")
+      ).map((btn) => ({
+        prescription_item_id: btn.dataset.pi,
+        medication_id: btn.dataset.mid,
+      }));
 
-    if (!items.length) {
-      showMessage("Select at least one item to dispense.", true);
-      return;
-    }
+      if (!items.length) {
+        throw new Error("Select at least one item to dispense.");
+      }
 
-    try {
+      await ensureDispenserSession();
+
       const resp = await RX.api.post("/dispensations/create", {
         prescription_id: lookup.prescription_id,
         patient_id: lookup.patient_id,
@@ -282,56 +370,14 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       showMessage(resp.message || "Dispensation created successfully");
+      setPharmacyBoxVisibility();
     } catch (err) {
       console.error(err);
       showMessage(err.message || "Dispense failed", true);
-    }
-  });
-
-  inquiryBtn?.addEventListener("click", async function () {
-    if (RX.getUser()) return;
-
-    const clinic_name = (inquiryClinicNameEl?.value || "").trim();
-    const email = (inquiryClinicEmailEl?.value || "").trim();
-    const phone = (inquiryClinicPhoneEl?.value || "").trim();
-    const license_number = (inquiryClinicLicenseNumberEl?.value || "").trim();
-    const address = (inquiryClinicAddressEl?.value || "").trim();
-
-
-    if (!clinic_name || !phone || !email || !license_number) {
-      showInquiryStatus("Clinic data is missing please fill the fields which are required.", true);
-      return;
-    }
-
-    try {
-      inquiryBtn.disabled = true;
-      inquiryBtn.textContent = "Sending...";
-      showInquiryStatus("");
-
-      const resp = await RX.api.post(
-        "/clinics/register",
-        { clinic_name, phone, license_number, address, email },
-        { auth: false }
-      );
-
-      showInquiryStatus(
-        resp.message || "Clinic inquiry submitted successfully.",
-        false
-      );
-
-      if (inquiryClinicNameEl) inquiryClinicNameEl.value = "";
-      if (inquiryClinicPhoneEl) inquiryClinicPhoneEl.value = "";
-    } catch (err) {
-      console.error(err);
-      showInquiryStatus(
-        err.message || "Failed to submit clinic inquiry.",
-        true
-      );
     } finally {
-      inquiryBtn.disabled = false;
-      inquiryBtn.textContent = "Send Inquiry";
+      isSubmittingDispense = false;
     }
   });
 
-  setInquiryVisibility();
+  setPharmacyBoxVisibility();
 });

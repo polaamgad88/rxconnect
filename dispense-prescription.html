@@ -281,8 +281,7 @@
       <h1>Dispense Prescription</h1>
       <p>
         Enter the prescription code or unique string together with the
-        patient date of birth to load the prescription. After lookup, enter
-        the quantity to dispense for each item and complete the dispensation.
+        patient date of birth to load the prescription. After lookup, select the items to dispense, complete the pharmacy registration details, and finish the dispensation.
       </p>
 
       <div class="form-card">
@@ -305,38 +304,38 @@
           </button>
         </form>
 
-        <div id="clinicInquiryBox" style="display:none;margin-top:16px;padding:14px;border:1px solid #eee;border-radius:10px;background:#fafafa;text-align:left;">
-          <div style="font-weight:600;color:#222;margin-bottom:8px;">Clinic inquiry</div>
+        <p style="margin-top:10px;color:#666;font-size:14px;text-align:left;">
+          This page only needs the prescription code and date of birth for lookup. To dispense, select the items and complete the pharmacy registration form. Price and stock are not required.
+        </p>
+
+
+
+        <div id="pharmacyRegistrationBox" style="display:none;margin-top:16px;padding:14px;border:1px solid #eee;border-radius:10px;background:#fafafa;text-align:left;">
+          <div style="font-weight:600;color:#222;margin-bottom:8px;">Pharmacy Registration</div>
           <p style="margin:0 0 12px 0;color:#666;font-size:14px;">
-            Not registered yet? Leave your clinic name and phone number and we will follow up.
+            If you are not logged in, complete the pharmacy details below. The system will create your pharmacy account, sign you in, and continue the dispensation.
           </p>
 
-          <label for="inquiryClinicName">Clinic Name</label>
-          <input type="text" id="inquiryClinicName" class="text-field w-input" placeholder="Enter clinic name" />
+          <label for="pharmacyName">Pharmacy Name</label>
+          <input type="text" id="pharmacyName" class="text-field w-input" placeholder="Enter pharmacy name" />
 
-          <label for="inquiryClinicEmail">Clinic Email</label>
-          <input type="text" id="inquiryClinicEmail" class="text-field w-input" placeholder="Enter clinic email " />
-          
-          <label for="inquiryClinicPhone" style="margin-top:10px;">Phone Number</label>
-          <input type="text" id="inquiryClinicPhone" class="text-field w-input" placeholder="Enter phone number" />
+          <label for="pharmacyPhone" style="margin-top:10px;">Phone Number</label>
+          <input type="text" id="pharmacyPhone" class="text-field w-input" placeholder="Enter phone number" />
 
-          <label for="inquiryClinicLicenseNumber" style="margin-top:10px;">License Number</label>
-          <input type="text" id="inquiryClinicLicenseNumber" class="text-field w-input" placeholder="Enter license number" />
+          <label for="pharmacyEmail" style="margin-top:10px;">Email</label>
+          <input type="email" id="pharmacyEmail" class="text-field w-input" placeholder="Enter email" />
 
-          <label for="inquiryClinicAddress" style="margin-top:10px;">Address</label>
-          <input type="text" id="inquiryClinicAddress" class="text-field w-input" placeholder="Enter clinic address" />
+          <label for="pharmacyPassword" style="margin-top:10px;">Password</label>
+          <input type="password" id="pharmacyPassword" class="text-field w-input" placeholder="Enter password" />
 
-          <button id="submitClinicInquiry" type="button" class="button full-width w-button" style="margin-top:12px;">
-            Send Inquiry
-          </button>
+          <label for="pharmacyLicenseNumber" style="margin-top:10px;">License Number</label>
+          <input type="text" id="pharmacyLicenseNumber" class="text-field w-input" placeholder="Enter license number" />
 
-          <div id="clinicInquiryStatus" style="display:none;margin-top:10px;font-size:14px;"></div>
+          <label for="pharmacyAddress" style="margin-top:10px;">Address (optional)</label>
+          <input type="text" id="pharmacyAddress" class="text-field w-input" placeholder="Enter address" />
+
+          <div id="pharmacyRegistrationStatus" style="display:none;margin-top:10px;font-size:14px;"></div>
         </div>
-
-        <p style="margin-top:10px;color:#666;font-size:14px;text-align:left;">
-          This page only needs the prescription code and date of birth for lookup,
-          then quantity for dispensing. Price and stock are not required.
-        </p>
 
         <div id="rxResult" style="margin-top:18px;"></div>
       </div>
