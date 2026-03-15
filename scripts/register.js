@@ -9,20 +9,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const sections = {
     chobham: document.getElementById("chobhamFields"),
-    clinic: document.getElementById("clinicFields"),
     prescriber: document.getElementById("prescriberFields"),
-    pharmacist: document.getElementById("pharmacistFields"),
   };
 
   const requiredFieldsByRole = {
     chobham: [],
-    clinic: ["clinicRegisterName"],
     prescriber: ["licenseNumber"],
-    pharmacist: ["pharmacyName"],
   };
 
   const fileFieldsByRole = {
-    clinic: document.getElementById("clinicVerificationFiles"),
     prescriber: document.getElementById("prescriberVerificationFiles"),
   };
 
@@ -75,17 +70,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (el) el.required = true;
     });
 
-    if (role === "clinic" || role === "prescriber") {
+    if (role === "prescriber") {
       setStatus(
         "This registration will be created in pending status until approved. Please upload your verification files before submitting.",
-        "info",
-      );
-      return;
-    }
-
-    if (role === "pharmacist") {
-      setStatus(
-        "Pharmacist registration creates a dispenser account and login user.",
         "info",
       );
       return;
@@ -251,51 +238,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      if (userType === "clinic") {
-        const clinic_name = valueOf("clinicRegisterName");
-        const license_number = valueOf("clinicLicense");
-        const address = valueOf("clinicAddress");
-        const uploadedFiles = await uploadVerificationFiles(
-          fileFieldsByRole.clinic?.files,
-          "clinic_verification",
-        );
-
-        if (!clinic_name) {
-          throw new Error("Clinic name is required.");
-        }
-
-        const payload = {
-          clinic_name,
-          license_number: license_number || null,
-          address: address || null,
-          phone: phone || null,
-          email,
-          username: email,
-          full_name,
-          password,
-          verification_files: uploadedFiles,
-          request_notes: buildRequestNotes(
-            null,
-            uploadedFiles,
-            "Clinic verification files:",
-          ),
-        };
-
-        const resp = await apiPostJSON("/clinics/register", payload, {
-          auth: false,
-        });
-
-        setStatus(
-          `Clinic registration submitted successfully. Approval request #${resp.approval_request_id}. Redirecting to login...`,
-          "success",
-        );
-
-        setTimeout(() => {
-          window.location.href = "./login.html";
-        }, 1200);
-
-        return;
-      }
 
       if (userType === "prescriber") {
         const license_number = valueOf("licenseNumber");
@@ -344,43 +286,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      if (userType === "pharmacist") {
-        const pharmacy_name = valueOf("pharmacyName");
-        const license_number = valueOf("pharmacyLicense");
-        const address = valueOf("pharmacyAddress");
 
-        if (!pharmacy_name) {
-          throw new Error("Pharmacy name is required.");
-        }
-
-        const payload = {
-          pharmacy_name,
-          license_number: license_number || null,
-          address: address || null,
-          phone: phone || null,
-          email,
-          username: email,
-          full_name: full_name || pharmacy_name,
-          password,
-        };
-
-        const resp = await apiPostJSON("/dispensers/register", payload, {
-          auth: false,
-        });
-
-        setStatus(
-          `Pharmacist registration completed successfully. Dispenser #${resp.dispenser_id}. Redirecting to login...`,
-          "success",
-        );
-
-        setTimeout(() => {
-          window.location.href = "./login.html";
-        }, 1200);
-
-        return;
-      }
-
-      throw new Error("Unsupported user type.");
     } catch (err) {
       const apiMessage =
         err?.data?.message || err?.message || "Registration failed";

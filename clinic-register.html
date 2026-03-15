@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>RxConnect | Clinic Registration</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="./styles/index.css" rel="stylesheet" type="text/css" />
+    <link href="./styles/create.css" rel="stylesheet" type="text/css" />
+    <link href="./styles/clinic-register-style.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
+  </head>
+  <body class="clinic-register-page">
+    <header class="clinic-topbar">
+      <div class="clinic-topbar-inner">
+        <a href="./index.html" class="clinic-brand" aria-label="RxConnect home">
+          <img src="./assets/rxconnect.png" alt="RxConnect" />
+        </a>
+
+        <nav class="clinic-top-actions" aria-label="Primary">
+          <a href="./login.html" class="clinic-top-link">Login</a>
+          <a href="./register.html" class="clinic-top-link clinic-top-link-muted">Other registration</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="clinic-register-main">
+      <section class="clinic-register-shell">
+        <div class="clinic-register-intro">
+          <span class="clinic-eyebrow">RxConnect</span>
+          <h1>Clinic Registration</h1>
+          <p class="clinic-intro-text">
+            Submit your clinic details to create a clinic account request. Management approval is required before the clinic can sign in.
+          </p>
+
+          <div class="clinic-info-list">
+            <div class="clinic-info-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Separate page dedicated to clinic onboarding</span>
+            </div>
+            <div class="clinic-info-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Clinic login username defaults to the clinic email</span>
+            </div>
+            <div class="clinic-info-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Requests are submitted in pending status for review</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="clinic-register-card">
+          <div class="clinic-card-header">
+            <div>
+              <h2>Create clinic account request</h2>
+              <p>Complete the form below and submit it for approval.</p>
+            </div>
+            <a href="./login.html" class="clinic-back-link">Back to Login</a>
+          </div>
+
+          <form id="clinicRegisterForm" class="clinic-register-form" novalidate>
+            <div class="clinic-form-grid">
+              <div class="clinic-field clinic-field-full">
+                <label for="c_clinic_name">Clinic Name <span>*</span></label>
+                <input id="c_clinic_name" type="text" autocomplete="organization" required />
+              </div>
+
+              <div class="clinic-field">
+                <label for="c_license_number">License Number</label>
+                <input id="c_license_number" type="text" />
+              </div>
+
+              <div class="clinic-field">
+                <label for="c_phone">Phone Number</label>
+                <input id="c_phone" type="tel" autocomplete="tel" />
+              </div>
+
+              <div class="clinic-field clinic-field-full">
+                <label for="c_email">Email Address <span>*</span></label>
+                <input id="c_email" type="email" autocomplete="email" required />
+              </div>
+
+              <div class="clinic-field clinic-field-full">
+                <label for="c_address">Address</label>
+                <input id="c_address" type="text" autocomplete="street-address" />
+              </div>
+
+              <div class="clinic-field">
+                <label for="c_username">Username</label>
+                <input id="c_username" type="text" placeholder="Defaults to email" />
+              </div>
+
+              <div class="clinic-field">
+                <label for="c_full_name">Account Name</label>
+                <input id="c_full_name" type="text" placeholder="Defaults to clinic name" />
+              </div>
+
+              <div class="clinic-field clinic-field-full">
+                <label for="c_password">Password <span>*</span></label>
+                <input id="c_password" type="password" autocomplete="new-password" required />
+              </div>
+
+              <div class="clinic-field clinic-field-full">
+                <label for="c_request_notes">Request Notes</label>
+                <textarea id="c_request_notes" rows="4" placeholder="Optional notes for management review"></textarea>
+              </div>
+            </div>
+
+            <div id="c_result" class="clinic-result" aria-live="polite"></div>
+
+            <div class="clinic-form-actions">
+              <button id="c_submit" type="submit" class="clinic-primary-btn">Submit Registration</button>
+              <button id="c_clear" type="button" class="clinic-secondary-btn">Clear</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="clinic-register-footer">
+      <div class="clinic-register-footer-inner">
+        <div>
+          <img src="./assets/rxconnect.png" alt="RxConnect" class="clinic-footer-logo" />
+          <p>Secure prescription and clinic onboarding workflow for RxConnect.</p>
+        </div>
+        <div class="clinic-footer-links">
+          <a href="./login.html">Login</a>
+          <a href="./register.html">General Registration</a>
+          <a href="./dispense-prescription.html">Dispense Prescription</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>window.RXCONNECT_API_BASE = "http://localhost:5000";</script>
+    <script src="./scripts/rxconnect.js"></script>
+    <script src="./scripts/clinic-register-fixed.js"></script>
+  </body>
+</html>

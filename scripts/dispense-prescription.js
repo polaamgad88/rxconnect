@@ -3,6 +3,15 @@ document.addEventListener("DOMContentLoaded", function () {
   const codeEl = document.getElementById("prescription-id");
   const dobEl = document.getElementById("dob");
 
+  const pharmacyBox = document.getElementById("pharmacyRegistrationBox");
+  const pharmacyNameEl = document.getElementById("pharmacyName");
+  const pharmacyPhoneEl = document.getElementById("pharmacyPhone");
+  const pharmacyEmailEl = document.getElementById("pharmacyEmail");
+  const pharmacyPasswordEl = document.getElementById("pharmacyPassword");
+  const pharmacyLicenseNumberEl = document.getElementById("pharmacyLicenseNumber");
+  const pharmacyAddressEl = document.getElementById("pharmacyAddress");
+  const pharmacyStatusEl = document.getElementById("pharmacyRegistrationStatus");
+
   if (!form || !codeEl || !dobEl) return;
 
   let resultBox = document.getElementById("rxResult");
@@ -14,11 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   let lastLookup = null;
+  let isSubmittingDispense = false;
 
   function normalizeValue(value) {
-    return String(value || "")
-      .trim()
-      .toUpperCase();
+    return String(value || "").trim().toUpperCase();
   }
 
   function asNumber(value, fallback = 0) {
@@ -31,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
+      .replace(/\"/g, "&quot;")
       .replace(/'/g, "&#039;");
   }
 
@@ -52,16 +60,131 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
   }
 
-  function buildRow(it, index, canDispense) {
+  function showPharmacyStatus(message, isError = false) {
+    if (!pharmacyStatusEl) return;
+    pharmacyStatusEl.style.display = message ? "block" : "none";
+    pharmacyStatusEl.style.color = isError ? "#c62828" : "#2e7d32";
+    pharmacyStatusEl.textContent = message || "";
+  }
+
+  function setPharmacyBoxVisibility() {
+    const user = RX.getUser();
+    const canAlreadyDispense =
+      user && ["dispenser", "chobham"].includes(user.login_type);
+
+    if (pharmacyBox) {
+      pharmacyBox.style.display = canAlreadyDispense ? "none" : "block";
+    }
+  }
+
+  function getPharmacyFormData() {
+    return {
+      pharmacy_name: (pharmacyNameEl?.value || "").trim(),
+      phone: (pharmacyPhoneEl?.value || "").trim(),
+      email: (pharmacyEmailEl?.value || "").trim(),
+      password: pharmacyPasswordEl?.value || "",
+      license_number: (pharmacyLicenseNumberEl?.value || "").trim(),
+      address: (pharmacyAddressEl?.value || "").trim(),
+    };
+  }
+
+  function validatePharmacyFormData(data) {
+    if (!data.pharmacy_name) {
+      return "Pharmacy name is required.";
+    }
+    if (!data.license_number) {
+      return "License number is required.";
+    }
+    if (!data.email) {
+      return "Email is required.";
+    }
+    if (!data.password) {
+      return "Password is required.";
+    }
+    return null;
+  }
+
+  function clearPharmacyForm() {
+    if (pharmacyNameEl) pharmacyNameEl.value = "";
+    if (pharmacyPhoneEl) pharmacyPhoneEl.value = "";
+    if (pharmacyEmailEl) pharmacyEmailEl.value = "";
+    if (pharmacyPasswordEl) pharmacyPasswordEl.value = "";
+    if (pharmacyLicenseNumberEl) pharmacyLicenseNumberEl.value = "";
+    if (pharmacyAddressEl) pharmacyAddressEl.value = "";
+  }
+
+  async function ensureDispenserSession() {
+    let user = RX.getUser();
+    if (user && ["dispenser", "chobham"].includes(user.login_type)) {
+      return user;
+    }
+
+    const pharmacyData = getPharmacyFormData();
+    const validationError = validatePharmacyFormData(pharmacyData);
+    if (validationError) {
+      throw new Error(validationError);
+    }
+
+    showPharmacyStatus("Creating pharmacy account...");
+
+    try {
+      await RX.api.post(
+        "/dispensers/register",
+        {
+          pharmacy_name: pharmacyData.pharmacy_name,
+          license_number: pharmacyData.license_number,
+          phone: pharmacyData.phone || null,
+          email: pharmacyData.email,
+          address: pharmacyData.address || null,
+          username: pharmacyData.email,
+          full_name: pharmacyData.pharmacy_name,
+          password: pharmacyData.password,
+        },
+        { auth: false }
+      );
+    } catch (err) {
+      const msg = String(err?.message || "").toLowerCase();
+      const alreadyExists =
+        msg.includes("already taken") ||
+        msg.includes("duplicate") ||
+        msg.includes("integrity");
+
+      if (!alreadyExists) {
+        throw err;
+      }
+    }
+
+    showPharmacyStatus("Signing in pharmacy account...");
+
+    const loginResp = await RX.api.post(
+      "/login",
+      {
+        username: pharmacyData.email,
+        password: pharmacyData.password,
+      },
+      { auth: false }
+    );
+
+    RX.setSession(loginResp.access_token, loginResp.user);
+    setPharmacyBoxVisibility();
+    showPharmacyStatus("Pharmacy account is ready.", false);
+    clearPharmacyForm();
+
+    user = loginResp.user;
+    if (!user || !["dispenser", "chobham"].includes(user.login_type)) {
+      throw new Error("Authenticated user is not allowed to dispense.");
+    }
+
+    return user;
+  }
+
+  function buildRow(it, index) {
     const prescribed = asNumber(it.quantity_prescribed, 0);
     const dispensed = asNumber(it.quantity_dispensed_total, 0);
-    const remaining = Math.max(prescribed - dispensed, 0);
 
     const infoParts = [];
     if (it.item_status) infoParts.push(`Status: ${it.item_status}`);
-    infoParts.push(`Remaining: ${remaining}`);
-    if (it.dosage_instructions)
-      infoParts.push(`Dose: ${it.dosage_instructions}`);
+    if (it.dosage_instructions) infoParts.push(`Dose: ${it.dosage_instructions}`);
 
     return `
       <tr>
@@ -77,38 +200,30 @@ document.addEventListener("DOMContentLoaded", function () {
         <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">
           ${escapeHtml(infoParts.join(" | "))}
         </td>
-        ${
-          canDispense
-            ? `<td style="padding:8px;border-bottom:1px solid #eee;color:#222;">
-                <input
-                  data-pi="${escapeHtml(it.prescription_item_id)}"
-                  data-mid="${escapeHtml(it.medication_id)}"
-                  class="rx-qty"
-                  type="number"
-                  min="0"
-                  step="1"
-                  max="${remaining}"
-                  placeholder="Qty"
-                  style="width:110px;color:#222;background:#fff;"
-                />
-              </td>`
-            : `<td style="padding:8px;border-bottom:1px solid #eee;color:#222;">-</td>`
-        }
+        <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">
+          <button
+            type="button"
+            class="rx-select"
+            data-pi="${escapeHtml(it.prescription_item_id)}"
+            data-mid="${escapeHtml(it.medication_id)}"
+            style="padding:4px 10px;"
+          >
+            Include
+          </button>
+        </td>
       </tr>
     `;
   }
 
-  function renderLookup(data, canDispense) {
+  function renderLookup(data) {
     const items = Array.isArray(data.items) ? data.items : [];
     const displayCode = data.code || data.prescription_number || "-";
-    const displayUnique = data.prescriber_unique_string || "-";
 
-    const rows = items.map((it, i) => buildRow(it, i, canDispense)).join("");
+    const rows = items.map((it, i) => buildRow(it, i)).join("");
 
     const header = `
       <div style="background:#fff;color:#222;border-radius:10px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.08);text-align:left;">
         <div><strong>Prescription code:</strong> ${escapeHtml(displayCode)}</div>
-        <div><strong>Unique string:</strong> ${escapeHtml(displayUnique)}</div>
         <div><strong>Status:</strong> ${escapeHtml(data.status || "-")}</div>
         <div><strong>Issue date:</strong> ${escapeHtml(data.issue_date || "-")}</div>
         <div><strong>Expires at:</strong> ${escapeHtml(data.expires_at || "-")}</div>
@@ -139,16 +254,11 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
     `;
 
-    const btn =
-      canDispense && items.length
-        ? `<button id="doDispense" type="button" class="button full-width w-button" style="margin-top:12px;background:green;">
-             Dispense
-           </button>`
-        : canDispense
-          ? `<div style="margin-top:10px;color:#444;">This prescription has no items to dispense.</div>`
-          : `<div style="margin-top:10px;color:#444;">
-             Logged-out mode: lookup only. Login as a dispenser to dispense.
-           </div>`;
+    const btn = items.length
+      ? `<button id="doDispense" type="button" class="button full-width w-button" style="margin-top:12px;background:green;">
+           Dispense
+         </button>`
+      : `<div style="margin-top:10px;color:#444;">This prescription has no items to dispense.</div>`;
 
     resultBox.innerHTML = header + table + btn;
   }
@@ -163,8 +273,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const user = RX.getUser();
     const canPortalLookup =
-      user &&
-      (user.login_type === "dispenser" || user.login_type === "chobham");
+      user && (user.login_type === "dispenser" || user.login_type === "chobham");
 
     const payload = {
       code: enteredCode,
@@ -184,7 +293,7 @@ document.addEventListener("DOMContentLoaded", function () {
       data,
     };
 
-    return { data, canPortalLookup };
+    return { data };
   }
 
   form.addEventListener("submit", async function (e) {
@@ -192,66 +301,64 @@ document.addEventListener("DOMContentLoaded", function () {
     showMessage("Searching...");
 
     try {
-      const { data, canPortalLookup } = await lookupPrescription();
-      console.log("lookup response:", data);
-      renderLookup(data, canPortalLookup);
+      const { data } = await lookupPrescription();
+      renderLookup(data);
     } catch (err) {
       console.error(err);
       showMessage(err.message || "Lookup failed", true);
     }
   });
 
+  resultBox.addEventListener("click", function (e) {
+    if (!e.target.classList.contains("rx-select")) return;
+
+    const btn = e.target;
+    btn.classList.toggle("selected");
+
+    if (btn.classList.contains("selected")) {
+      btn.style.background = "#2e7d32";
+      btn.style.color = "#fff";
+      btn.textContent = "Included";
+    } else {
+      btn.style.background = "";
+      btn.style.color = "";
+      btn.textContent = "Include";
+    }
+  });
+
   resultBox.addEventListener("click", async function (e) {
-    if (e.target.id !== "doDispense") return;
+    if (e.target.id !== "doDispense" || isSubmittingDispense) return;
 
-    const user = RX.requireAuth(["dispenser", "chobham"]);
-    if (!user) return;
+    isSubmittingDispense = true;
+    showPharmacyStatus("");
 
-    let lookup;
     try {
-      lookup = lastLookup?.data;
+      let lookup = lastLookup?.data;
       if (!lookup) {
         const refreshed = await lookupPrescription();
         lookup = refreshed.data;
-        renderLookup(lookup, true);
+        renderLookup(lookup);
       }
-    } catch (err) {
-      showMessage(err.message || "Failed to refresh prescription data", true);
-      return;
-    }
 
-    if (!lookup.prescription_id || !lookup.patient_id) {
-      showMessage(
-        "This prescription cannot be dispensed because prescription_id or patient_id is missing from lookup.",
-        true,
-      );
-      return;
-    }
-
-    const items = (lookup.items || [])
-      .map((it) => {
-        const qtyEl = resultBox.querySelector(
-          `.rx-qty[data-pi="${it.prescription_item_id}"]`,
+      if (!lookup.prescription_id || !lookup.patient_id) {
+        throw new Error(
+          "This prescription cannot be dispensed because prescription_id or patient_id is missing from lookup."
         );
+      }
 
-        const quantity_dispensed = qtyEl ? Number(qtyEl.value || 0) : 0;
+      const items = Array.from(
+        resultBox.querySelectorAll(".rx-select.selected")
+      ).map((btn) => ({
+        prescription_item_id: btn.dataset.pi,
+        medication_id: btn.dataset.mid,
+      }));
 
-        if (!quantity_dispensed || quantity_dispensed <= 0) return null;
+      if (!items.length) {
+        throw new Error("Select at least one item to dispense.");
+      }
 
-        return {
-          prescription_item_id: it.prescription_item_id,
-          medication_id: it.medication_id,
-          quantity_dispensed,
-        };
-      })
-      .filter(Boolean);
+      await ensureDispenserSession();
 
-    if (!items.length) {
-      showMessage("Enter quantity for at least one item.", true);
-      return;
-    }
-
-    try {
       const resp = await RX.api.post("/dispensations/create", {
         prescription_id: lookup.prescription_id,
         patient_id: lookup.patient_id,
@@ -263,9 +370,14 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       showMessage(resp.message || "Dispensation created successfully");
+      setPharmacyBoxVisibility();
     } catch (err) {
       console.error(err);
       showMessage(err.message || "Dispense failed", true);
+    } finally {
+      isSubmittingDispense = false;
     }
   });
+
+  setPharmacyBoxVisibility();
 });

@@ -281,15 +281,14 @@
       <h1>Dispense Prescription</h1>
       <p>
         Enter the prescription code or unique string together with the
-        patient date of birth to load the prescription. After lookup, enter
-        the quantity to dispense for each item and complete the dispensation.
+        patient date of birth to load the prescription. After lookup, select the items to dispense, complete the pharmacy registration details, and finish the dispensation.
       </p>
 
       <div class="form-card">
         <form>
           <label for="prescription-id">Prescription Code</label>
           <input type="text" id="prescription-id" class="text-field w-input"
-            placeholder="Enter prescription code" required />xx
+            placeholder="Enter prescription code" required />
 
           <label for="dob">Patient DOB</label>
           <input type="date" id="dob" class="text-field w-input" required />
@@ -306,9 +305,37 @@
         </form>
 
         <p style="margin-top:10px;color:#666;font-size:14px;text-align:left;">
-          This page only needs the prescription code and date of birth for lookup,
-          then quantity for dispensing. Price and stock are not required.
+          This page only needs the prescription code and date of birth for lookup. To dispense, select the items and complete the pharmacy registration form. Price and stock are not required.
         </p>
+
+
+
+        <div id="pharmacyRegistrationBox" style="display:none;margin-top:16px;padding:14px;border:1px solid #eee;border-radius:10px;background:#fafafa;text-align:left;">
+          <div style="font-weight:600;color:#222;margin-bottom:8px;">Pharmacy Registration</div>
+          <p style="margin:0 0 12px 0;color:#666;font-size:14px;">
+            If you are not logged in, complete the pharmacy details below. The system will create your pharmacy account, sign you in, and continue the dispensation.
+          </p>
+
+          <label for="pharmacyName">Pharmacy Name</label>
+          <input type="text" id="pharmacyName" class="text-field w-input" placeholder="Enter pharmacy name" />
+
+          <label for="pharmacyPhone" style="margin-top:10px;">Phone Number</label>
+          <input type="text" id="pharmacyPhone" class="text-field w-input" placeholder="Enter phone number" />
+
+          <label for="pharmacyEmail" style="margin-top:10px;">Email</label>
+          <input type="email" id="pharmacyEmail" class="text-field w-input" placeholder="Enter email" />
+
+          <label for="pharmacyPassword" style="margin-top:10px;">Password</label>
+          <input type="password" id="pharmacyPassword" class="text-field w-input" placeholder="Enter password" />
+
+          <label for="pharmacyLicenseNumber" style="margin-top:10px;">License Number</label>
+          <input type="text" id="pharmacyLicenseNumber" class="text-field w-input" placeholder="Enter license number" />
+
+          <label for="pharmacyAddress" style="margin-top:10px;">Address (optional)</label>
+          <input type="text" id="pharmacyAddress" class="text-field w-input" placeholder="Enter address" />
+
+          <div id="pharmacyRegistrationStatus" style="display:none;margin-top:10px;font-size:14px;"></div>
+        </div>
 
         <div id="rxResult" style="margin-top:18px;"></div>
       </div>
