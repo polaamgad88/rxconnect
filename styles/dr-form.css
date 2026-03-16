@@ -1679,10 +1679,18 @@ body {
   position: fixed;
   inset: 0;
   z-index: 650;
+  display: none;
   padding: 32px 18px;
   background: rgba(9, 21, 43, 0.28);
   backdrop-filter: blur(8px);
   overflow: auto;
+}
+
+/* because your JS sets modal.style.display = "block" */
+.cnp-add-patient-modal[style*="display: block"] {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
 }
 
 .cnp-ap-dialog {
