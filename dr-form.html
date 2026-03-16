@@ -581,6 +581,7 @@
     </footer>
 
     <script>
+ 
       document.addEventListener("DOMContentLoaded", function () {
         const menuButton = document.getElementById("menu-btn");
         const navMenu = document.getElementById("nav-menu");
@@ -593,13 +594,28 @@
         const footerFormFeedback = document.getElementById("footerFormFeedback");
         const addPatientModal = document.getElementById("cnp-add-patient-modal");
         const addPatientClose = document.getElementById("cnp-add-patient-close");
+        const addPatientLink = document.querySelector(".js-add-patient-link");
 
-        function syncModalState() {
-          if (!addPatientModal) return;
-          const isOpen = window.getComputedStyle(addPatientModal).display !== "none";
-          document.body.classList.toggle("modal-open", isOpen);
-          addPatientModal.setAttribute("aria-hidden", String(!isOpen));
-        }
+        function openPatientModal() {
+  if (!addPatientModal) return;
+  addPatientModal.style.display = "flex";
+  addPatientModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+}
+
+function closePatientModal() {
+  if (!addPatientModal) return;
+  addPatientModal.style.display = "none";
+  addPatientModal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+}
+
+function syncModalState() {
+  if (!addPatientModal) return;
+  const isOpen = window.getComputedStyle(addPatientModal).display !== "none";
+  document.body.classList.toggle("modal-open", isOpen);
+  addPatientModal.setAttribute("aria-hidden", String(!isOpen));
+
 
         function setExpandedState(button, state) {
           if (button) button.setAttribute("aria-expanded", String(state));
@@ -642,22 +658,35 @@
         }
 
         setUsername();
+if (addPatientLink) {
+  addPatientLink.addEventListener("click", function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    openPatientModal();
+  });
+}
+     if (addPatientModal) {
+  syncModalState();
 
-        if (addPatientModal) {
-          syncModalState();
-          const modalObserver = new MutationObserver(syncModalState);
-          modalObserver.observe(addPatientModal, {
-            attributes: true,
-            attributeFilter: ["style", "class", "aria-hidden"],
-          });
+  const modalObserver = new MutationObserver(syncModalState);
+  modalObserver.observe(addPatientModal, {
+    attributes: true,
+    attributeFilter: ["style", "class", "aria-hidden"],
+  });
 
-          addPatientModal.addEventListener("click", function (event) {
-            if (event.target === addPatientModal || event.target.closest("[data-close-modal]")) {
-              addPatientModal.style.display = "none";
-              syncModalState();
-            }
-          });
-        }
+  addPatientModal.addEventListener("click", function (event) {
+    if (event.target === addPatientModal || event.target.closest("[data-close-modal]")) {
+      closePatientModal();
+    }
+  });
+}
+
+if (addPatientClose) {
+  addPatientClose.addEventListener("click", function (event) {
+    event.preventDefault();
+    closePatientModal();
+  });
+}
 
         if (menuButton && navMenu) {
           menuButton.addEventListener("click", function () {
@@ -713,10 +742,9 @@
           if (event.key === "Escape") {
             closeDropdown(reportsWrap, reportsButton);
             closeDropdown(userWrap, userButton);
-            if (addPatientModal && window.getComputedStyle(addPatientModal).display !== "none") {
-              addPatientModal.style.display = "none";
-              syncModalState();
-            }
+         if (addPatientModal && window.getComputedStyle(addPatientModal).display !== "none") {
+  closePatientModal();
+}
             if (menuButton && navMenu) {
               navMenu.classList.remove("is-open");
               setExpandedState(menuButton, false);

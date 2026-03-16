@@ -1,7 +1,7 @@
 // scripts/dr-form.js
 document.addEventListener("DOMContentLoaded", async function () {
-  const user = RX.requireAuth(["clinician"]);
-  if (!user) return;
+  // const user = RX.requireAuth(["clinician"]);
+  // if (!user) return;
 
   const patientSearchInput = document.querySelector(
     ".cnp-card-patient .cnp-input-icon input",
@@ -378,13 +378,19 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  function openModal() {
-    if (modal) modal.style.display = "block";
-  }
+function openModal() {
+  if (!modal) return;
+  modal.style.display = "flex";
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+}
 
-  function closeModal() {
-    if (modal) modal.style.display = "none";
-  }
+function closeModal() {
+  if (!modal) return;
+  modal.style.display = "none";
+  modal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+}
 
   function modalInputs() {
     const grid = modal?.querySelector(".cnp-ap-grid");
