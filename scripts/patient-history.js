@@ -250,48 +250,92 @@ document.addEventListener("DOMContentLoaded", async function () {
     const container = document.querySelector(".history-section .w-container");
     if (!container) return;
 
-    if (!document.getElementById("patientHistoryPrivateArea")) {
-      const block = document.createElement("div");
-      block.id = "patientHistoryPrivateArea";
-      block.innerHTML = `
-        <div class="rx-private-grid">
-          <div class="rx-private-card" id="privateNotesWrap">
-            <h4>Private Clinician Notes</h4>
-            <form id="clinicianNoteForm" class="rx-private-form">
-              <div id="clinicianNoteEditingLabel" class="rx-editing-label" style="display:none;">Editing note</div>
-              <textarea id="clinicianNoteInput" placeholder="Write a private note for this patient. Other clinicians cannot see this."></textarea>
-              <div class="rx-btn-row">
-                <button type="submit" id="clinicianNoteSubmit" class="rx-pill-btn">Save note</button>
-                <button type="button" id="clinicianNoteCancel" class="rx-pill-btn ghost" style="display:none;">Cancel edit</button>
-              </div>
-            </form>
-            <div id="clinicianNotesList" class="rx-list"></div>
-          </div>
+ if (!document.getElementById("patientHistoryPrivateArea")) {
+  const block = document.createElement("div");
+  block.id = "patientHistoryPrivateArea";
+  block.innerHTML = `
+    <style>
+      #patientHistoryPrivateArea {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 32px 0;
+      }
 
-          <div class="rx-private-card" id="privatePmrWrap">
-            <h4>Private PMR / Consultation Record</h4>
-            <form id="clinicianPmrForm" class="rx-private-form">
-              <div id="clinicianPmrEditingLabel" class="rx-editing-label" style="display:none;">Editing PMR record</div>
-              <input id="clinicianPmrTitle" type="text" placeholder="Record title" />
-              <select id="clinicianPmrType">
-                <option value="consultation_note">Consultation note</option>
-                <option value="review">Review</option>
-                <option value="follow_up">Follow-up</option>
-                <option value="treatment_plan">Treatment plan</option>
-                <option value="prescription_consultation">Prescription consultation</option>
-              </select>
-              <textarea id="clinicianPmrNotes" placeholder="Enter clinical notes, findings, diagnosis, and plan."></textarea>
-              <div class="rx-btn-row">
-                <button type="submit" id="clinicianPmrSubmit" class="rx-pill-btn">Save PMR record</button>
-                <button type="button" id="clinicianPmrCancel" class="rx-pill-btn ghost" style="display:none;">Cancel edit</button>
-              </div>
-            </form>
-            <div id="clinicianPmrList" class="rx-list"></div>
+      #patientHistoryPrivateArea .rx-private-grid {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      #patientHistoryPrivateArea .rx-private-card {
+        width: 100%;
+        max-width: 760px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 18px;
+        padding: 24px;
+        box-sizing: border-box;
+      }
+
+      #patientHistoryPrivateArea .rx-private-card h4 {
+        text-align: center;
+        margin-bottom: 18px;
+      }
+
+      #patientHistoryPrivateArea .rx-private-form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      #patientHistoryPrivateArea .rx-editing-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1f4e8c;
+      }
+
+      #patientHistoryPrivateArea #clinicianNoteInput {
+        width: 100%;
+        min-height: 150px;
+        padding: 14px 16px;
+        border: 1px solid #d8deea;
+        border-radius: 14px;
+        resize: vertical;
+        font-size: 15px;
+        line-height: 1.5;
+        box-sizing: border-box;
+      }
+
+      #patientHistoryPrivateArea .rx-btn-row {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      #patientHistoryPrivateArea #clinicianNotesList {
+        margin-top: 18px;
+      }
+    </style>
+
+    <div class="rx-private-grid">
+      <div class="rx-private-card" id="privateNotesWrap">
+        <h4>Private Clinician Notes</h4>
+        <form id="clinicianNoteForm" class="rx-private-form">
+          <div id="clinicianNoteEditingLabel" class="rx-editing-label" style="display:none;">Editing note</div>
+          <textarea id="clinicianNoteInput" placeholder="Write a private note for this patient. Other clinicians cannot see this."></textarea>
+          <div class="rx-btn-row">
+            <button type="submit" id="clinicianNoteSubmit" class="rx-pill-btn">Save note</button>
+            <button type="button" id="clinicianNoteCancel" class="rx-pill-btn ghost" style="display:none;">Cancel edit</button>
           </div>
-        </div>
-      `;
-      container.appendChild(block);
-    }
+        </form>
+        <div id="clinicianNotesList" class="rx-list"></div>
+      </div>
+    </div>
+  `;
+  container.appendChild(block);
+}
 
     const patientCardMeta = document.querySelector(
       ".patient-card .patient-meta",
