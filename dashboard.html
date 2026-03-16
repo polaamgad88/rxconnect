@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+  <!-- =========================================================
+       1) DOCUMENT HEAD
+       ========================================================= -->
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0c2247" />
     <title>RxConnect Dashboard</title>
 
+    <!-- =========================================================
+         2) FONTS / ICONS / STYLES
+         ========================================================= -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,19 +23,36 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles/dashboard.css" />
-    <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
+    <link
+      href="./assets/favicon.png"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
   </head>
 
   <body>
+    <!-- =========================================================
+         3) SITE HEADER / NAVBAR
+         ========================================================= -->
     <header class="site-header">
       <div class="navbar-wrapper">
         <nav class="main-navbar" aria-label="Primary navigation">
           <div class="navbar-shell">
             <div class="navbar-container">
-              <a href="./index.html" class="navbar-brand" aria-label="RxConnect Home">
+              <!-- =========================================================
+                   4) NAVBAR BRAND
+                   ========================================================= -->
+              <a
+                href="./index.html"
+                class="navbar-brand"
+                aria-label="RxConnect Home"
+              >
                 <img src="./assets/rxconnect.png" alt="RxConnect" />
               </a>
 
+              <!-- =========================================================
+                   5) MOBILE MENU BUTTON
+                   ========================================================= -->
               <button
                 id="menu-btn"
                 class="menu-button"
@@ -41,11 +64,18 @@
                 <i class="fa-solid fa-bars" aria-hidden="true"></i>
               </button>
 
+              <!-- =========================================================
+                   6) NAVIGATION LINKS / USER MENU
+                   ========================================================= -->
               <div class="navbar-right" id="nav-menu">
+                <!-- Main navigation links -->
                 <div class="nav-center">
-                  <a href="./prescriptions.html" class="nav-link">Prescriptions</a>
+                  <a href="./prescriptions.html" class="nav-link"
+                    >Prescriptions</a
+                  >
                   <a href="./contact-us.html" class="nav-link">Contact Us</a>
 
+                  <!-- Reports dropdown -->
                   <div class="dropdown" id="reportsDropdownWrap">
                     <button
                       class="dropdown-toggle"
@@ -55,7 +85,10 @@
                       aria-controls="reportsDropdown"
                     >
                       <span>Reports</span>
-                      <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+                      <i
+                        class="fa-solid fa-chevron-down dropdown-icon"
+                        aria-hidden="true"
+                      ></i>
                     </button>
 
                     <div class="dropdown-content" id="reportsDropdown">
@@ -63,12 +96,14 @@
                       <a href="./reports.html">Monthly Reports</a>
                       <a href="./billing.html">Billing</a>
                       <a href="./medicationExport.html">Medication Export</a>
+                      <a href="./approvals.html">Approvals</a>
                     </div>
                   </div>
 
                   <a href="./register.html" class="join-btn">Join Us</a>
                 </div>
 
+                <!-- User dropdown -->
                 <div class="user-dropdown-container" id="userDropdownWrap">
                   <button
                     class="user-trigger"
@@ -78,7 +113,10 @@
                   >
                     <span class="hello-label">Hello,</span>
                     <span id="username">admin.builtin</span>
-                    <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+                    <i
+                      class="fa-solid fa-chevron-down dropdown-icon"
+                      aria-hidden="true"
+                    ></i>
                   </button>
 
                   <ul class="user-dropdown-menu" id="userDropdownMenu">
@@ -91,27 +129,39 @@
                     <li class="divider" aria-hidden="true"></li>
                     <li>
                       <a href="./login.html">
-                        <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                        <i
+                          class="fa-solid fa-right-from-bracket"
+                          aria-hidden="true"
+                        ></i>
                         <span>Logout</span>
                       </a>
                     </li>
                   </ul>
                 </div>
               </div>
+              <!-- /navbar-right -->
             </div>
           </div>
         </nav>
       </div>
     </header>
 
+    <!-- =========================================================
+         7) MAIN DASHBOARD CONTENT
+         ========================================================= -->
     <main class="dashboard-section">
       <div class="dashboard-wrapper">
+        <!-- Dashboard heading -->
         <header class="dashboard-header">
           <h1>RxConnect – Dashboard</h1>
           <p>Generate, track and manage your prescriptions and patients.</p>
         </header>
 
+        <!-- =========================================================
+             8) DASHBOARD CARDS GRID
+             ========================================================= -->
         <section class="dashboard-grid" aria-label="Dashboard shortcuts">
+          <!-- Prescription Tracker card -->
           <article class="dashboard-card">
             <div class="card-icon" aria-hidden="true">
               <i class="fa-solid fa-clipboard-list"></i>
@@ -120,8 +170,8 @@
             <div class="card-content">
               <h2>Prescription Tracker</h2>
               <p>
-                View your patient’s prescription history and monitor the live status
-                of every prescription.
+                View your patient’s prescription history and monitor the live
+                status of every prescription.
               </p>
               <a href="./prescriptions.html" class="card-link">
                 Explore all prescriptions <span aria-hidden="true">→</span>
@@ -129,6 +179,7 @@
             </div>
           </article>
 
+          <!-- Patients card -->
           <article class="dashboard-card">
             <div class="card-icon" aria-hidden="true">
               <i class="fa-solid fa-users"></i>
@@ -136,13 +187,16 @@
             <div class="card-art" aria-hidden="true"></div>
             <div class="card-content">
               <h2>Patients</h2>
-              <p>Manage, review, and update your patient database in one place.</p>
+              <p>
+                Manage, review, and update your patient database in one place.
+              </p>
               <a href="./patient-history.html" class="card-link">
                 Manage your patients <span aria-hidden="true">→</span>
               </a>
             </div>
           </article>
 
+          <!-- New Prescription card -->
           <article class="dashboard-card" id="newPrescriptionCard">
             <div class="card-icon" aria-hidden="true">
               <i class="fa-solid fa-file-prescription"></i>
@@ -150,13 +204,17 @@
             <div class="card-art" aria-hidden="true"></div>
             <div class="card-content">
               <h2>New Prescription</h2>
-              <p>Create and issue a new prescription with your current clinic workflow.</p>
+              <p>
+                Create and issue a new prescription with your current clinic
+                workflow.
+              </p>
               <a href="./dr-form.html" class="card-link">
                 Add new prescription <span aria-hidden="true">→</span>
               </a>
             </div>
           </article>
 
+          <!-- New Patient card -->
           <article class="dashboard-card">
             <div class="card-icon" aria-hidden="true">
               <i class="fa-solid fa-user-plus"></i>
@@ -164,13 +222,16 @@
             <div class="card-art" aria-hidden="true"></div>
             <div class="card-content">
               <h2>New Patient</h2>
-              <p>Add a new patient profile and connect it to your clinic records.</p>
+              <p>
+                Add a new patient profile and connect it to your clinic records.
+              </p>
               <a href="./create-patient.html" class="card-link">
                 Add new patient <span aria-hidden="true">→</span>
               </a>
             </div>
           </article>
 
+          <!-- Integration Code card -->
           <article class="dashboard-card">
             <div class="card-icon" aria-hidden="true">
               <i class="fa-solid fa-code"></i>
@@ -178,10 +239,14 @@
             <div class="card-art" aria-hidden="true"></div>
             <div class="card-content">
               <h2>Integration Code</h2>
-              <p class="integration-label">Use this code to integrate with your systems:</p>
+              <p class="integration-label">
+                Use this code to integrate with your systems:
+              </p>
 
               <div class="integration-row">
-                <code class="integration-code" id="integrationCode">V0hldG55blVtTE4yZDdoZjB5dGdJdz09</code>
+                <code class="integration-code" id="integrationCode">
+                  V0hldG55blVtTE4yZDdoZjB5dGdJdz09
+                </code>
                 <button
                   class="copy-btn"
                   type="button"
@@ -192,10 +257,15 @@
                 </button>
               </div>
 
-              <p class="copy-feedback" id="copyFeedback" aria-live="polite"></p>
+              <p
+                class="copy-feedback"
+                id="copyFeedback"
+                aria-live="polite"
+              ></p>
             </div>
           </article>
 
+          <!-- Clinic Information card -->
           <article class="dashboard-card">
             <div class="card-icon" aria-hidden="true">
               <i class="fa-solid fa-hospital-user"></i>
@@ -206,7 +276,10 @@
               <ul class="clinic-info">
                 <li><strong>Clinic ID:</strong> 425979</li>
                 <li><strong>Clinic Name:</strong> Berkshire Medical Group</li>
-                <li><strong>Clinic Address:</strong> 121 Chatham Street, Reading, RG1 7JE</li>
+                <li>
+                  <strong>Clinic Address:</strong> 121 Chatham Street, Reading,
+                  RG1 7JE
+                </li>
               </ul>
             </div>
           </article>
@@ -214,18 +287,30 @@
       </div>
     </main>
 
+    <!-- =========================================================
+         9) FOOTER
+         ========================================================= -->
     <footer class="rx-footer">
       <div class="rx-footer-shell">
+        <!-- =========================================================
+             10) FOOTER TOP AREA
+             ========================================================= -->
         <div class="rx-footer-top">
+          <!-- Footer brand -->
           <div class="rx-footer-brand">
             <a href="./index.html" class="rx-footer-logo-link">
-              <img src="./assets/rxconnect.png" alt="RxConnect" class="rx-footer-logo" />
+              <img
+                src="./assets/rxconnect.png"
+                alt="RxConnect"
+                class="rx-footer-logo"
+              />
             </a>
 
             <p class="rx-footer-description">
-              RxConnect is an international private healthcare provider with more than
-              20 years of experience, offering access to comprehensive outpatient and
-              inpatient services, along with a full range of laboratory diagnostics.
+              RxConnect is an international private healthcare provider with
+              more than 20 years of experience, offering access to
+              comprehensive outpatient and inpatient services, along with a full
+              range of laboratory diagnostics.
             </p>
 
             <div class="rx-footer-emergency">
@@ -234,12 +319,19 @@
               </div>
               <div>
                 <span class="rx-footer-emergency-label">Emergency cases</span>
-                <a href="tel:+442071234567" class="rx-footer-emergency-number">+44 20 7123 4567</a>
+                <a
+                  href="tel:+442071234567"
+                  class="rx-footer-emergency-number"
+                >
+                  +44 20 7123 4567
+                </a>
               </div>
             </div>
           </div>
 
+          <!-- Footer links / contact / form -->
           <div class="rx-footer-links">
+            <!-- Navigation column -->
             <div class="rx-footer-column">
               <h4>Navigation</h4>
               <a href="./about-us.html">Who we are</a>
@@ -250,6 +342,7 @@
               <a href="./FAQs.html">FAQs</a>
             </div>
 
+            <!-- Contact column -->
             <div class="rx-footer-column rx-footer-contact">
               <h4>Contact Us</h4>
 
@@ -278,6 +371,7 @@
               </div>
             </div>
 
+            <!-- Message form column -->
             <div class="rx-footer-column rx-footer-form-col">
               <h4>Message us</h4>
 
@@ -302,12 +396,19 @@
                 />
 
                 <button type="submit" class="rx-footer-submit">Submit</button>
-                <p class="footer-form-feedback" id="footerFormFeedback" aria-live="polite"></p>
+                <p
+                  class="footer-form-feedback"
+                  id="footerFormFeedback"
+                  aria-live="polite"
+                ></p>
               </form>
             </div>
           </div>
         </div>
 
+        <!-- =========================================================
+             11) FOOTER BOTTOM AREA
+             ========================================================= -->
         <div class="rx-footer-bottom">
           <p class="rx-footer-copy">© 2026 RxConnect. All rights reserved.</p>
 
@@ -326,8 +427,14 @@
       </div>
     </footer>
 
+    <!-- =========================================================
+         12) PAGE SCRIPT
+         ========================================================= -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        /* =========================================================
+           13) ELEMENT REFERENCES
+           ========================================================= */
         const menuButton = document.getElementById("menu-btn");
         const navMenu = document.getElementById("nav-menu");
         const reportsButton = document.getElementById("reportsBtn");
@@ -339,8 +446,12 @@
         const integrationCode = document.getElementById("integrationCode");
         const copyFeedback = document.getElementById("copyFeedback");
         const footerForm = document.getElementById("footerMessageForm");
-        const footerFormFeedback = document.getElementById("footerFormFeedback");
+        const footerFormFeedback =
+          document.getElementById("footerFormFeedback");
 
+        /* =========================================================
+           14) HELPER FUNCTIONS
+           ========================================================= */
         function setExpandedState(button, state) {
           if (button) {
             button.setAttribute("aria-expanded", String(state));
@@ -355,9 +466,11 @@
 
         function toggleDropdown(container, button) {
           if (!container) return;
+
           const shouldOpen = !container.classList.contains("is-open");
           closeDropdown(reportsWrap, reportsButton);
           closeDropdown(userWrap, userButton);
+
           if (shouldOpen) {
             container.classList.add("is-open");
             setExpandedState(button, true);
@@ -373,24 +486,38 @@
             }
           }
 
-          const possibleKeys = ["rxconnectUser", "user", "currentUser", "authUser"];
+          const possibleKeys = [
+            "rxconnectUser",
+            "user",
+            "currentUser",
+            "authUser",
+          ];
+
           for (const key of possibleKeys) {
             const raw = window.localStorage.getItem(key);
             if (!raw) continue;
+
             try {
               return JSON.parse(raw);
             } catch (error) {
               continue;
             }
           }
+
           return null;
         }
 
         function setUsername() {
           if (!usernameEl) return;
+
           const user = getStoredUser();
           const displayName =
-            user?.username || user?.name || user?.full_name || user?.email || "admin.builtin";
+            user?.username ||
+            user?.name ||
+            user?.full_name ||
+            user?.email ||
+            "admin.builtin";
+
           usernameEl.textContent = displayName;
         }
 
@@ -405,18 +532,26 @@
           tempInput.setAttribute("readonly", "");
           tempInput.style.position = "absolute";
           tempInput.style.left = "-9999px";
+
           document.body.appendChild(tempInput);
           tempInput.select();
           document.execCommand("copy");
           document.body.removeChild(tempInput);
         }
 
+        /* =========================================================
+           15) INITIAL SETUP
+           ========================================================= */
         setUsername();
 
+        /* =========================================================
+           16) MOBILE MENU EVENTS
+           ========================================================= */
         if (menuButton && navMenu) {
           menuButton.addEventListener("click", function () {
             const isOpen = navMenu.classList.toggle("is-open");
             setExpandedState(menuButton, isOpen);
+
             const icon = menuButton.querySelector("i");
             if (icon) {
               icon.classList.toggle("fa-bars", !isOpen);
@@ -430,6 +565,9 @@
           });
         }
 
+        /* =========================================================
+           17) DROPDOWN EVENTS
+           ========================================================= */
         if (reportsButton && reportsWrap) {
           reportsButton.addEventListener("click", function (event) {
             if (window.innerWidth <= 900) {
@@ -448,35 +586,49 @@
           });
         }
 
+        /* =========================================================
+           18) COPY INTEGRATION CODE
+           ========================================================= */
         if (copyButton && integrationCode && copyFeedback) {
           copyButton.addEventListener("click", async function () {
             try {
               await copyText(integrationCode.textContent.trim());
               copyButton.classList.add("is-copied");
               copyFeedback.classList.remove("is-error");
-              copyFeedback.textContent = "Integration code copied successfully.";
+              copyFeedback.textContent =
+                "Integration code copied successfully.";
+
               window.setTimeout(function () {
                 copyButton.classList.remove("is-copied");
                 copyFeedback.textContent = "";
               }, 2200);
             } catch (error) {
               copyFeedback.classList.add("is-error");
-              copyFeedback.textContent = "Copy failed. Please copy the code manually.";
+              copyFeedback.textContent =
+                "Copy failed. Please copy the code manually.";
             }
           });
         }
 
+        /* =========================================================
+           19) FOOTER FORM SUBMIT
+           ========================================================= */
         if (footerForm && footerFormFeedback) {
           footerForm.addEventListener("submit", function (event) {
             event.preventDefault();
-            footerFormFeedback.textContent = "Footer form is ready for backend integration.";
+            footerFormFeedback.textContent =
+              "Footer form is ready for backend integration.";
           });
         }
 
+        /* =========================================================
+           20) GLOBAL DOCUMENT EVENTS
+           ========================================================= */
         document.addEventListener("click", function (event) {
           if (reportsWrap && !reportsWrap.contains(event.target)) {
             closeDropdown(reportsWrap, reportsButton);
           }
+
           if (userWrap && !userWrap.contains(event.target)) {
             closeDropdown(userWrap, userButton);
           }
@@ -486,9 +638,11 @@
           if (event.key === "Escape") {
             closeDropdown(reportsWrap, reportsButton);
             closeDropdown(userWrap, userButton);
+
             if (menuButton && navMenu) {
               navMenu.classList.remove("is-open");
               setExpandedState(menuButton, false);
+
               const icon = menuButton.querySelector("i");
               if (icon) {
                 icon.classList.add("fa-bars");
@@ -498,17 +652,23 @@
           }
         });
 
+        /* =========================================================
+           21) WINDOW RESIZE HANDLER
+           ========================================================= */
         window.addEventListener("resize", function () {
           if (window.innerWidth > 900) {
             if (navMenu) navMenu.classList.remove("is-open");
+
             if (menuButton) {
               setExpandedState(menuButton, false);
+
               const icon = menuButton.querySelector("i");
               if (icon) {
                 icon.classList.add("fa-bars");
                 icon.classList.remove("fa-xmark");
               }
             }
+
             closeDropdown(reportsWrap, reportsButton);
             closeDropdown(userWrap, userButton);
           }
@@ -516,7 +676,16 @@
       });
     </script>
 
-    <script>window.RXCONNECT_API_BASE = "http://localhost:5000";</script>
+    <!-- =========================================================
+         22) API BASE CONFIGURATION
+         ========================================================= -->
+    <script>
+      window.RXCONNECT_API_BASE = "http://localhost:5000";
+    </script>
+
+    <!-- =========================================================
+         23) EXTERNAL SCRIPTS
+         ========================================================= -->
     <script src="./scripts/rxconnect.js"></script>
     <script src="./scripts/create-dispenser-admin.js"></script>
     <script src="./scripts/index.js"></script>
