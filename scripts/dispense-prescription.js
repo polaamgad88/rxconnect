@@ -7,8 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const pharmacyNameEl = document.getElementById("pharmacyName");
   const pharmacyPhoneEl = document.getElementById("pharmacyPhone");
   const pharmacyEmailEl = document.getElementById("pharmacyEmail");
-  const pharmacyPasswordEl = document.getElementById("pharmacyPassword");
-  const pharmacyLicenseNumberEl = document.getElementById("pharmacyLicenseNumber");
   const pharmacyAddressEl = document.getElementById("pharmacyAddress");
   const pharmacyStatusEl = document.getElementById("pharmacyRegistrationStatus");
 
@@ -82,8 +80,6 @@ document.addEventListener("DOMContentLoaded", function () {
       pharmacy_name: (pharmacyNameEl?.value || "").trim(),
       phone: (pharmacyPhoneEl?.value || "").trim(),
       email: (pharmacyEmailEl?.value || "").trim(),
-      password: pharmacyPasswordEl?.value || "",
-      license_number: (pharmacyLicenseNumberEl?.value || "").trim(),
       address: (pharmacyAddressEl?.value || "").trim(),
     };
   }
@@ -92,14 +88,11 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!data.pharmacy_name) {
       return "Pharmacy name is required.";
     }
-    if (!data.license_number) {
-      return "License number is required.";
+    if (!data.phone) {
+      return "Phone number is required.";
     }
-    if (!data.email) {
-      return "Email is required.";
-    }
-    if (!data.password) {
-      return "Password is required.";
+    if (!data.address) {
+      return "Address is required.";
     }
     return null;
   }
@@ -108,11 +101,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (pharmacyNameEl) pharmacyNameEl.value = "";
     if (pharmacyPhoneEl) pharmacyPhoneEl.value = "";
     if (pharmacyEmailEl) pharmacyEmailEl.value = "";
-    if (pharmacyPasswordEl) pharmacyPasswordEl.value = "";
-    if (pharmacyLicenseNumberEl) pharmacyLicenseNumberEl.value = "";
     if (pharmacyAddressEl) pharmacyAddressEl.value = "";
   }
 
+  let respRegister = null;
   async function ensureDispenserSession() {
     let user = RX.getUser();
     if (user && ["dispenser", "chobham"].includes(user.login_type)) {
@@ -128,17 +120,15 @@ document.addEventListener("DOMContentLoaded", function () {
     showPharmacyStatus("Creating pharmacy account...");
 
     try {
-      await RX.api.post(
+      respRegister = await RX.api.post(
         "/dispensers/register",
         {
           pharmacy_name: pharmacyData.pharmacy_name,
-          license_number: pharmacyData.license_number,
           phone: pharmacyData.phone || null,
           email: pharmacyData.email,
           address: pharmacyData.address || null,
           username: pharmacyData.email,
           full_name: pharmacyData.pharmacy_name,
-          password: pharmacyData.password,
         },
         { auth: false }
       );
@@ -156,24 +146,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     showPharmacyStatus("Signing in pharmacy account...");
 
-    const loginResp = await RX.api.post(
-      "/login",
-      {
-        username: pharmacyData.email,
-        password: pharmacyData.password,
-      },
-      { auth: false }
-    );
-
-    RX.setSession(loginResp.access_token, loginResp.user);
     setPharmacyBoxVisibility();
     showPharmacyStatus("Pharmacy account is ready.", false);
     clearPharmacyForm();
-
-    user = loginResp.user;
-    if (!user || !["dispenser", "chobham"].includes(user.login_type)) {
-      throw new Error("Authenticated user is not allowed to dispense.");
-    }
 
     return user;
   }
@@ -360,6 +335,7 @@ document.addEventListener("DOMContentLoaded", function () {
       await ensureDispenserSession();
 
       const resp = await RX.api.post("/dispensations/create", {
+        dispenser_id: respRegister.dispenser_id,
         prescription_id: lookup.prescription_id,
         patient_id: lookup.patient_id,
         prescriber_unique_string: lookup.prescriber_unique_string,
