@@ -1,7 +1,7 @@
 // scripts/dr-form.js
 document.addEventListener("DOMContentLoaded", async function () {
-  // const user = RX.requireAuth(["clinician"]);
-  // if (!user) return;
+  const user = RX.requireAuth(["clinician"]);
+  if (!user) return;
 
   const patientSearchInput = document.querySelector(
     ".cnp-card-patient .cnp-input-icon input",
