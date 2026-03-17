@@ -33,3 +33,5 @@ login
 dr-form
 dashboard
 clinic register
+dispense prescription
+patient history

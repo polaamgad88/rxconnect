@@ -61,296 +61,189 @@ document.addEventListener("DOMContentLoaded", async function () {
   const clinicianPmrSubmit = document.getElementById("clinicianPmrSubmit");
   const clinicianPmrCancel = document.getElementById("clinicianPmrCancel");
   const clinicianPmrList = document.getElementById("clinicianPmrList");
+function initHistoryShell(currentUser) {
+  const menuButton = document.getElementById("menu-btn");
+  const navMenu = document.getElementById("nav-menu");
+  const reportsButton = document.getElementById("reportsBtn");
+  const reportsWrap = document.getElementById("reportsDropdownWrap");
+  const userButton = document.querySelector(".user-trigger");
+  const userWrap = document.getElementById("userDropdownWrap");
+  const usernameEl = document.getElementById("username");
+  const logoutLink = document.getElementById("logoutLink");
+  const footerForm = document.getElementById("footerMessageForm");
+  const footerFeedback = document.getElementById("footerFormFeedback");
 
-  function injectEnhancements() {
-    if (!document.getElementById("patientHistoryEnhancementStyles")) {
-      const style = document.createElement("style");
-      style.id = "patientHistoryEnhancementStyles";
-      style.textContent = `
-        .success-state, .error-state, .loading-state, .empty-state {
-          margin-bottom: 16px;
-          padding: 12px 14px;
-          border-radius: 8px;
-          font-size: 14px;
-        }
-        .success-state {
-          background: #f6ffed;
-          color: #389e0d;
-          border: 1px solid #b7eb8f;
-        }
-        .error-state {
-          background: #fff1f0;
-          color: #cf1322;
-          border: 1px solid #ffa39e;
-        }
-        .loading-state {
-          background: #e6f7ff;
-          color: #096dd9;
-          border: 1px solid #91d5ff;
-        }
-        .empty-state {
-          background: #fafafa;
-          color: #595959;
-          border: 1px solid #d9d9d9;
-        }
-        .muted {
-          color: #777;
-        }
-        .rx-private-grid {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 24px;
-          margin-top: 24px;
-        }
-        .rx-private-card {
-          background: #fff;
-          border-radius: 8px;
-          box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-          padding: 20px;
-        }
-        .rx-private-card h4 {
-          margin-top: 0;
-          margin-bottom: 14px;
-          font-family: "Montserrat", sans-serif;
-        }
-        .rx-private-form input,
-        .rx-private-form select,
-        .rx-private-form textarea {
-          width: 100%;
-          box-sizing: border-box;
-          margin-bottom: 10px;
-          padding: 10px 12px;
-          border: 1px solid #d9d9d9;
-          border-radius: 6px;
-          font-size: 14px;
-          font-family: inherit;
-          background: #fff;
-        }
-        .rx-private-form textarea {
-          min-height: 110px;
-          resize: vertical;
-        }
-        .rx-btn-row {
-          display: flex;
-          gap: 10px;
-          flex-wrap: wrap;
-          margin-top: 14px;
-        }
-        .rx-pill-btn {
-          border: none;
-          border-radius: 999px;
-          padding: 10px 16px;
-          font-size: 13px;
-          font-weight: 600;
-          cursor: pointer;
-          background: #20baf8;
-          color: #fff;
-        }
-        .rx-pill-btn.secondary {
-          background: #fff;
-          color: #096dd9;
-          border: 1px solid #91d5ff;
-        }
-        .rx-pill-btn.warn {
-          background: #fff7e6;
-          color: #ad6800;
-          border: 1px solid #ffd591;
-        }
-        .rx-pill-btn.ghost {
-          background: #fff;
-          color: #595959;
-          border: 1px solid #d9d9d9;
-        }
-        .rx-list {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-          margin-top: 16px;
-        }
-        .rx-list-item {
-          border: 1px solid #eee;
-          border-radius: 8px;
-          padding: 14px;
-          background: #fff;
-        }
-        .rx-list-item .title {
-          font-weight: 700;
-          margin-bottom: 6px;
-          color: #1f2937;
-        }
-        .rx-list-item .body {
-          color: #4b5563;
-          white-space: pre-wrap;
-          line-height: 1.5;
-        }
-        .rx-list-item .meta {
-          color: #777;
-          font-size: 12px;
-          margin-top: 8px;
-        }
-        .rx-list-item .actions {
-          display: flex;
-          gap: 8px;
-          flex-wrap: wrap;
-          margin-top: 12px;
-        }
-        .rx-item-btn {
-          border: 1px solid #d9d9d9;
-          background: #fff;
-          color: #444;
-          border-radius: 999px;
-          padding: 7px 12px;
-          font-size: 12px;
-          font-weight: 600;
-          cursor: pointer;
-        }
-        .rx-item-btn.edit {
-          color: #096dd9;
-          border-color: #91d5ff;
-          background: #f0faff;
-        }
-        .rx-item-btn.delete {
-          color: #cf1322;
-          border-color: #ffa39e;
-          background: #fff1f0;
-        }
-        .rx-empty-box {
-          border: 1px dashed #d9d9d9;
-          border-radius: 8px;
-          padding: 14px;
-          color: #666;
-          text-align: center;
-          background: #fafafa;
-        }
-        .rx-patient-extra {
-          margin-top: 8px;
-          color: #666;
-          font-size: 14px;
-        }
-        .rx-editing-label {
-          display: inline-block;
-          margin-bottom: 10px;
-          padding: 6px 10px;
-          border-radius: 999px;
-          background: #fff7e6;
-          color: #ad6800;
-          border: 1px solid #ffd591;
-          font-size: 12px;
-          font-weight: 700;
-        }
-        @media (max-width: 980px) {
-          .rx-private-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-      `;
-      document.head.appendChild(style);
-    }
-
-    const container = document.querySelector(".history-section .w-container");
-    if (!container) return;
-
- if (!document.getElementById("patientHistoryPrivateArea")) {
-  const block = document.createElement("div");
-  block.id = "patientHistoryPrivateArea";
-  block.innerHTML = `
-    <style>
-      #patientHistoryPrivateArea {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        margin: 32px 0;
-      }
-
-      #patientHistoryPrivateArea .rx-private-grid {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-      }
-
-      #patientHistoryPrivateArea .rx-private-card {
-        width: 100%;
-        max-width: 760px;
-        margin: 0 auto;
-        background: #fff;
-        border-radius: 18px;
-        padding: 24px;
-        box-sizing: border-box;
-      }
-
-      #patientHistoryPrivateArea .rx-private-card h4 {
-        text-align: center;
-        margin-bottom: 18px;
-      }
-
-      #patientHistoryPrivateArea .rx-private-form {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-      }
-
-      #patientHistoryPrivateArea .rx-editing-label {
-        font-size: 14px;
-        font-weight: 600;
-        color: #1f4e8c;
-      }
-
-      #patientHistoryPrivateArea #clinicianNoteInput {
-        width: 100%;
-        min-height: 150px;
-        padding: 14px 16px;
-        border: 1px solid #d8deea;
-        border-radius: 14px;
-        resize: vertical;
-        font-size: 15px;
-        line-height: 1.5;
-        box-sizing: border-box;
-      }
-
-      #patientHistoryPrivateArea .rx-btn-row {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        flex-wrap: wrap;
-      }
-
-      #patientHistoryPrivateArea #clinicianNotesList {
-        margin-top: 18px;
-      }
-    </style>
-
-    <div class="rx-private-grid">
-      <div class="rx-private-card" id="privateNotesWrap">
-        <h4>Private Clinician Notes</h4>
-        <form id="clinicianNoteForm" class="rx-private-form">
-          <div id="clinicianNoteEditingLabel" class="rx-editing-label" style="display:none;">Editing note</div>
-          <textarea id="clinicianNoteInput" placeholder="Write a private note for this patient. Other clinicians cannot see this."></textarea>
-          <div class="rx-btn-row">
-            <button type="submit" id="clinicianNoteSubmit" class="rx-pill-btn">Save note</button>
-            <button type="button" id="clinicianNoteCancel" class="rx-pill-btn ghost" style="display:none;">Cancel edit</button>
-          </div>
-        </form>
-        <div id="clinicianNotesList" class="rx-list"></div>
-      </div>
-    </div>
-  `;
-  container.appendChild(block);
-}
-
-    const patientCardMeta = document.querySelector(
-      ".patient-card .patient-meta",
-    );
-    if (patientCardMeta && !document.getElementById("patientCardActionRow")) {
-      const actions = document.createElement("div");
-      actions.id = "patientCardActionRow";
-      actions.className = "rx-btn-row";
-      actions.innerHTML = `
-        <button type="button" id="savePatientBtn" class="rx-pill-btn secondary">Save patient to my list</button>
-        <button type="button" id="newPrescriptionBtn" class="rx-pill-btn">New prescription</button>
-      `;
-      patientCardMeta.appendChild(actions);
-    }
+  if (usernameEl && currentUser) {
+    usernameEl.textContent =
+      currentUser.full_name ||
+      currentUser.username ||
+      currentUser.email ||
+      "User";
   }
+
+  if (menuButton && navMenu) {
+    menuButton.addEventListener("click", function () {
+      const isOpen = navMenu.classList.toggle("is-open");
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+
+      const icon = menuButton.querySelector("i");
+      if (icon) {
+        icon.classList.toggle("fa-bars", !isOpen);
+        icon.classList.toggle("fa-xmark", isOpen);
+      }
+    });
+  }
+
+  if (reportsButton && reportsWrap) {
+    reportsButton.addEventListener("click", function (e) {
+      e.preventDefault();
+      const isOpen = reportsWrap.classList.toggle("is-open");
+      reportsButton.setAttribute("aria-expanded", String(isOpen));
+    });
+  }
+
+  if (userButton && userWrap) {
+    userButton.addEventListener("click", function (e) {
+      e.preventDefault();
+      const isOpen = userWrap.classList.toggle("is-open");
+      userButton.setAttribute("aria-expanded", String(isOpen));
+    });
+  }
+
+  if (logoutLink) {
+    logoutLink.addEventListener("click", function () {
+      try {
+        if (window.RX && typeof RX.logout === "function") {
+          RX.logout();
+        } else {
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("token");
+          sessionStorage.removeItem("access_token");
+          sessionStorage.removeItem("token");
+        }
+      } catch (_) {}
+    });
+  }
+
+  document.addEventListener("click", function (e) {
+    if (reportsWrap && !reportsWrap.contains(e.target)) {
+      reportsWrap.classList.remove("is-open");
+      if (reportsButton) reportsButton.setAttribute("aria-expanded", "false");
+    }
+
+    if (userWrap && !userWrap.contains(e.target)) {
+      userWrap.classList.remove("is-open");
+      if (userButton) userButton.setAttribute("aria-expanded", "false");
+    }
+
+    if (
+      navMenu &&
+      menuButton &&
+      navMenu.classList.contains("is-open") &&
+      !navMenu.contains(e.target) &&
+      !menuButton.contains(e.target)
+    ) {
+      navMenu.classList.remove("is-open");
+      menuButton.setAttribute("aria-expanded", "false");
+
+      const icon = menuButton.querySelector("i");
+      if (icon) {
+        icon.classList.add("fa-bars");
+        icon.classList.remove("fa-xmark");
+      }
+    }
+  });
+
+  if (footerForm && footerFeedback) {
+    footerForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      footerFeedback.textContent =
+        "Thank you. Your message has been received.";
+    });
+  }
+}
+  function injectEnhancements() {
+  const container = document.querySelector(".history-section .w-container");
+  if (!container) return;
+
+  if (!document.getElementById("patientHistoryPrivateArea")) {
+    const block = document.createElement("section");
+    block.id = "patientHistoryPrivateArea";
+    block.className = "card";
+
+    block.innerHTML = `
+      <div class="rx-private-grid">
+        <div class="rx-private-card" id="privateNotesWrap">
+          <span class="history-card-kicker">Clinician notes</span>
+          <h4>Private Clinician Notes</h4>
+
+          <form id="clinicianNoteForm" class="rx-private-form">
+            <div
+              id="clinicianNoteEditingLabel"
+              class="rx-editing-label"
+              style="display:none;"
+            >
+              Editing note
+            </div>
+
+            <textarea
+              id="clinicianNoteInput"
+              placeholder="Write a private note for this patient. Other clinicians cannot see this."
+            ></textarea>
+
+            <div class="rx-btn-row">
+              <button
+                type="submit"
+                id="clinicianNoteSubmit"
+                class="rx-pill-btn"
+              >
+                Save note
+              </button>
+
+              <button
+                type="button"
+                id="clinicianNoteCancel"
+                class="rx-pill-btn ghost"
+                style="display:none;"
+              >
+                Cancel edit
+              </button>
+            </div>
+          </form>
+
+          <div id="clinicianNotesList" class="rx-list"></div>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(block);
+  }
+
+  const patientCardMeta = document.querySelector(".patient-card .patient-meta");
+  if (patientCardMeta && !document.getElementById("patientCardActionRow")) {
+    const actions = document.createElement("div");
+    actions.id = "patientCardActionRow";
+    actions.className = "rx-btn-row";
+    actions.innerHTML = `
+      <button
+        type="button"
+        id="savePatientBtn"
+        class="rx-pill-btn secondary"
+      >
+        Save patient to my list
+      </button>
+
+      <button
+        type="button"
+        id="newPrescriptionBtn"
+        class="rx-pill-btn"
+      >
+        New prescription
+      </button>
+    `;
+    patientCardMeta.appendChild(actions);
+  }
+}
 
   function escapeHtml(value) {
     return String(value ?? "")
