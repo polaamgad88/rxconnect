@@ -1,139 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>RxConnect | Clinic Registration</title>
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <link href="./styles/index.css" rel="stylesheet" type="text/css" />
-    <link href="./styles/create.css" rel="stylesheet" type="text/css" />
-    <link href="./styles/clinic-register-style.css" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    />
-    <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
-  </head>
-  <body class="clinic-register-page">
-    <header class="clinic-topbar">
-      <div class="clinic-topbar-inner">
-        <a href="./index.html" class="clinic-brand" aria-label="RxConnect home">
-          <img src="./assets/rxconnect.png" alt="RxConnect" />
+<head>
+  <meta charset="utf-8" />
+  <title>RxConnect | Clinic Registration</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta name="theme-color" content="#333333" />
+  <link href="./styles/clinic-register.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet" />
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: [
+          "Open Sans:400,600,700",
+          "Montserrat:400,500,600,700,800,900",
+        ],
+      },
+    });
+  </script>
+  <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
+  <link
+    href="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/589b0ba5dbf0b97f5096c916_pharmacy-symbol-darker.png"
+    rel="apple-touch-icon" />
+</head>
+<body>
+  <div class="navbar-wrapper">
+    <div role="banner" class="navbar w-nav">
+      <div class="navbar-container w-container">
+        <a href="./index.html" class="brand w-nav-brand"><img src="./assets/rxconnect.png" alt="RxConnect logo" /></a>
+        <div class="clinic-nav-actions">
+          <a href="./register.html" class="clinic-nav-link is-primary">Other Registration</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="clinic-register-section">
+    <div class="clinic-register-shell">
+      <div class="clinic-register-intro">
+        <span class="clinic-eyebrow">RxConnect</span>
+        <h1>Register Your Clinic With Us</h1>
+        <p class="clinic-intro-text">
+          Submit your clinic details to request access to the RxConnect network. Management will review your request and follow up with you after submission.
+        </p>
+
+        <div class="clinic-info-list">
+          <div class="clinic-info-item">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Dedicated clinic onboarding flow separated from the standard user registration page.</span>
+          </div>
+          <div class="clinic-info-item">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Clinic requests are submitted for management review before activation.</span>
+          </div>
+          <div class="clinic-info-item">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Your clinic email remains the main contact point for onboarding and account setup.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="clinic-register-card">
+        <div class="clinic-card-header">
+          <div>
+            <h2>Create Clinic Account Request</h2>
+            <p>Complete the required details below and submit your request for approval.</p>
+          </div>
+          <a href="./login.html" class="clinic-back-link">Back to Login</a>
+        </div>
+
+        <form id="clinicRegisterForm" class="clinic-register-form" novalidate>
+          <div class="clinic-form-grid">
+            <div class="clinic-field clinic-field-full">
+              <label for="c_clinic_name">Clinic Name <span>*</span></label>
+              <input id="c_clinic_name" type="text" autocomplete="organization" required />
+            </div>
+
+            <div class="clinic-field">
+              <label for="c_license_number">License Number</label>
+              <input id="c_license_number" type="text" />
+            </div>
+
+            <div class="clinic-field">
+              <label for="c_phone">Phone Number</label>
+              <input id="c_phone" type="tel" autocomplete="tel" />
+            </div>
+
+            <div class="clinic-field clinic-field-full">
+              <label for="c_email">Email Address <span>*</span></label>
+              <input id="c_email" type="email" autocomplete="email" required />
+            </div>
+
+            <div class="clinic-field clinic-field-full">
+              <label for="c_address">Address</label>
+              <input id="c_address" type="text" autocomplete="street-address" />
+            </div>
+
+            <div class="clinic-field clinic-field-full">
+              <label for="c_full_name">Account Name</label>
+              <input id="c_full_name" type="text" placeholder="Defaults to clinic name" />
+            </div>
+
+            <div class="clinic-field clinic-field-full">
+              <label for="c_password">Password <span>*</span></label>
+              <input id="c_password" type="password" autocomplete="new-password" required />
+            </div>
+
+            <div class="clinic-field clinic-field-full">
+              <label for="c_request_notes">Request Notes</label>
+              <textarea id="c_request_notes" rows="4" placeholder="Optional notes for management review"></textarea>
+            </div>
+          </div>
+
+          <div id="c_result" class="clinic-result" aria-live="polite"></div>
+
+          <div class="clinic-form-actions">
+            <button id="c_submit" type="submit" class="clinic-primary-btn">Submit Registration</button>
+            <button id="c_clear" type="button" class="clinic-secondary-btn">Clear</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    <div class="w-container">
+      <div class="emergency-wrapper">
+        <img
+          src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/5822042610a8d4ee31522b7d_24-hours-phone-service.png"
+          width="64" alt="" class="emergency-footer-icon" />
+        <h4 class="white">emergency cases</h4>
+        <a href="tel:+1-600-700-6200" class="w-inline-block">
+          <div class="emergency-number">+44 20 7123 4567</div>
         </a>
-
-        <nav class="clinic-top-actions" aria-label="Primary">
-          <a href="./login.html" class="clinic-top-link">Login</a>
-          <a href="./register.html" class="clinic-top-link clinic-top-link-muted">Other registration</a>
-        </nav>
       </div>
-    </header>
-
-    <main class="clinic-register-main">
-      <section class="clinic-register-shell">
-        <div class="clinic-register-intro">
-          <span class="clinic-eyebrow">RxConnect</span>
-          <h1>Clinic Registration</h1>
-          <p class="clinic-intro-text">
-            Submit your clinic details to create a clinic account request. Management approval is required before the clinic can sign in.
+      <div class="flex-box space-between">
+        <div class="_33-percent-column right-padding">
+          <img src="./assets/rxconnect.png" alt="" class="footer-logo" />
+          <p class="white footer-paragraph">
+            RxConnect is an international private health care provider. We have
+            more than 20 years of experience. Our patients are provided with
+            access to comprehensive outpatient and inpatient services, as well
+            as a full range of laboratory diagnostics.
           </p>
-
-          <div class="clinic-info-list">
-            <div class="clinic-info-item">
-              <i class="fa-solid fa-circle-check"></i>
-              <span>Separate page dedicated to clinic onboarding</span>
+        </div>
+        <div class="_17-percent-column">
+          <div>
+            <div class="footer-header-wrapper">
+              <h4 class="footer-title">Navigation</h4>
+              <div class="footer-line"></div>
             </div>
-            <div class="clinic-info-item">
-              <i class="fa-solid fa-circle-check"></i>
-              <span>Clinic login username defaults to the clinic email</span>
+            <a href="./about-us.html" class="footer-link">Who we are</a>
+            <a href="./dr-form.html" class="footer-link">E-prescription</a>
+            <a href="./prescriptions.html" class="footer-link">My prescription</a>
+            <a href="./doctors.html" class="footer-link">Doctors</a>
+            <a href="./patient-history.html" class="footer-link">Patient history</a>
+            <a href="./FAQs.html" class="footer-link">FAQs</a>
+          </div>
+        </div>
+        <div class="_17-percent-column next">
+          <div>
+            <div class="footer-header-wrapper">
+              <h4 class="footer-title">Departments</h4>
+              <div class="footer-line"></div>
             </div>
-            <div class="clinic-info-item">
-              <i class="fa-solid fa-circle-check"></i>
-              <span>Requests are submitted in pending status for review</span>
+            <div class="w-dyn-list">
+              <div role="list" class="w-dyn-items">
+                <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/accident-and-emergency-ae" class="footer-link">Physiotherapy</a></div>
+                <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/eye-care" class="footer-link">Optical</a></div>
+                <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/traumatology" class="footer-link">Dental</a></div>
+                <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/dental-care" class="footer-link">X-Ray</a></div>
+                <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/cardiology" class="footer-link">Cardiology</a></div>
+                <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/neurology" class="footer-link">Neurology</a></div>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="clinic-register-card">
-          <div class="clinic-card-header">
-            <div>
-              <h2>Create clinic account request</h2>
-              <p>Complete the form below and submit it for approval.</p>
-            </div>
-            <a href="./login.html" class="clinic-back-link">Back to Login</a>
+        <div class="footer-column w-col w-col-3">
+          <div class="footer-header-wrapper">
+            <h4 class="footer-title">Message us</h4>
+            <div class="footer-line"></div>
           </div>
-
-          <form id="clinicRegisterForm" class="clinic-register-form" novalidate>
-            <div class="clinic-form-grid">
-              <div class="clinic-field clinic-field-full">
-                <label for="c_clinic_name">Clinic Name <span>*</span></label>
-                <input id="c_clinic_name" type="text" autocomplete="organization" required />
+          <div>
+            <div class="w-form">
+              <form id="email-form-2" name="email-form-2" method="get">
+                <input class="text-field name full-width w-input" maxlength="256" name="name" placeholder="Enter your name" type="text" id="name" />
+                <input class="text-field email full-width w-input" maxlength="256" name="email" placeholder="Enter your email address" type="email" id="email-3" required="" />
+                <input type="submit" class="button white full-width w-button" value="Submit" />
+              </form>
+              <div class="w-form-done">
+                <div>Thank you! Your submission has been received!</div>
               </div>
-
-              <div class="clinic-field">
-                <label for="c_license_number">License Number</label>
-                <input id="c_license_number" type="text" />
-              </div>
-
-              <div class="clinic-field">
-                <label for="c_phone">Phone Number</label>
-                <input id="c_phone" type="tel" autocomplete="tel" />
-              </div>
-
-              <div class="clinic-field clinic-field-full">
-                <label for="c_email">Email Address <span>*</span></label>
-                <input id="c_email" type="email" autocomplete="email" required />
-              </div>
-
-              <div class="clinic-field clinic-field-full">
-                <label for="c_address">Address</label>
-                <input id="c_address" type="text" autocomplete="street-address" />
-              </div>
-
-
-              <div class="clinic-field clinic-field-full">
-                <label for="c_full_name">Account Name</label>
-                <input id="c_full_name" type="text" placeholder="Defaults to clinic name" />
-              </div>
-
-              <div class="clinic-field clinic-field-full">
-                <label for="c_password">Password <span>*</span></label>
-                <input id="c_password" type="password" autocomplete="new-password" required />
-              </div>
-
-              <div class="clinic-field clinic-field-full">
-                <label for="c_request_notes">Request Notes</label>
-                <textarea id="c_request_notes" rows="4" placeholder="Optional notes for management review"></textarea>
+              <div class="w-form-fail">
+                <div>Oops! Something went wrong while submitting the form</div>
               </div>
             </div>
-
-            <div id="c_result" class="clinic-result" aria-live="polite"></div>
-
-            <div class="clinic-form-actions">
-              <button id="c_submit" type="submit" class="clinic-primary-btn">Submit Registration</button>
-              <button id="c_clear" type="button" class="clinic-secondary-btn">Clear</button>
-            </div>
-          </form>
-        </div>
-      </section>
-    </main>
-
-    <footer class="clinic-register-footer">
-      <div class="clinic-register-footer-inner">
-        <div>
-          <img src="./assets/rxconnect.png" alt="RxConnect" class="clinic-footer-logo" />
-          <p>Secure prescription and clinic onboarding workflow for RxConnect.</p>
-        </div>
-        <div class="clinic-footer-links">
-          <a href="./login.html">Login</a>
-          <a href="./register.html">General Registration</a>
-          <a href="./dispense-prescription.html">Dispense Prescription</a>
+          </div>
         </div>
       </div>
-    </footer>
 
-    <script>window.RXCONNECT_API_BASE = "http://localhost:5000";</script>
-    <script src="./scripts/rxconnect.js"></script>
-    <script src="./scripts/clinic-register.js"></script>
-  </body>
+      <div class="footer-credits">
+        <div class="credits-wrapper">
+          <div class="footer-socials">
+            <a href="#" class="social-icon facebook w-inline-block"></a>
+            <a href="#" class="social-icon twitter w-inline-block"></a>
+            <a href="#" class="social-icon linkedin w-inline-block"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>window.RXCONNECT_API_BASE = "http://localhost:5000";</script>
+  <script src="./scripts/rxconnect.js"></script>
+  <script src="./scripts/clinic-register-register.js"></script>
+</body>
 </html>

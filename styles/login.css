@@ -226,7 +226,8 @@ button {
   display: none;
 }
 
-.register-section {
+.login-section {
+  position: relative;
   min-height: calc(100vh - 320px);
   display: flex;
   align-items: center;
@@ -234,71 +235,76 @@ button {
   padding: 56px 20px 72px;
 }
 
-.register-card {
-  width: min(100%, 620px);
-  padding: 40px 34px 30px;
+.login-section::before,
+.login-section::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+  filter: blur(2px);
+}
+
+.login-section::before {
+  top: 86px;
+  left: max(14px, calc(50% - 470px));
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(176, 115, 43, 0.12) 0%, rgba(176, 115, 43, 0) 72%);
+}
+
+.login-section::after {
+  right: max(20px, calc(50% - 500px));
+  bottom: 72px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(51, 51, 51, 0.08) 0%, rgba(51, 51, 51, 0) 74%);
+}
+
+.login-card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 460px);
+  padding: 42px 34px 30px;
   border: 1px solid rgba(255, 255, 255, 0.84);
   border-radius: 32px;
   background: rgba(255, 255, 255, 0.94);
   box-shadow: var(--shadow-card);
   backdrop-filter: blur(18px);
+  text-align: center;
 }
 
-.register-card h2 {
+.login-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 6px;
+  border-radius: 32px 32px 0 0;
+  /* background: linear-gradient(90deg, var(--primary-3), var(--primary), var(--primary-3)); */
+}
+
+.login-card h2 {
   margin: 0 0 8px;
   color: var(--text);
   font-family: "Montserrat", sans-serif;
   font-size: clamp(30px, 3vw, 36px);
   font-weight: 800;
   line-height: 1.1;
-  text-align: center;
   letter-spacing: -0.02em;
 }
 
-.register-card p {
+.login-card p {
   margin: 0 0 26px;
   color: var(--text-soft);
   font-size: 15px;
   line-height: 1.6;
-  text-align: center;
 }
 
-.register-status {
-  display: none;
-  margin-bottom: 16px;
-  padding: 14px 16px;
-  border: 1px solid transparent;
-  border-radius: 18px;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.register-status.info {
-  color: #6b4a1c;
-  background: rgba(176, 115, 43, 0.1);
-  border-color: rgba(176, 115, 43, 0.22);
-}
-
-.register-status.success {
-  color: #0d6a47;
-  background: rgba(0, 167, 110, 0.1);
-  border-color: rgba(0, 167, 110, 0.22);
-}
-
-.register-status.error {
-  color: #7e4c8b;
-  background: rgba(126, 76, 139, 0.1);
-  border-color: rgba(126, 76, 139, 0.2);
-}
-
-#registerForm {
+#loginForm {
   display: grid;
   gap: 14px;
 }
 
-.register-input,
-.register-select,
-.register-file {
+.login-input {
   width: 100%;
   min-height: 56px;
   padding: 0 18px;
@@ -315,43 +321,20 @@ button {
   outline: none;
 }
 
-.register-file {
-  padding: 14px 16px;
-  min-height: auto;
-}
-
-.register-input::placeholder {
+.login-input::placeholder {
   color: #9b948c;
 }
 
-.register-input:hover,
-.register-select:hover,
-.register-file:hover {
+.login-input:hover {
   border-color: rgba(176, 115, 43, 0.24);
 }
 
-.register-input:focus,
-.register-select:focus,
-.register-file:focus {
+.login-input:focus {
   border-color: rgba(176, 115, 43, 0.52);
   box-shadow: 0 0 0 5px rgba(176, 115, 43, 0.12);
 }
 
-.register-hint {
-  display: block;
-  margin: -4px 4px 4px;
-  color: var(--text-muted);
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-#chobhamFields,
-#prescriberFields {
-  display: grid;
-  gap: 14px;
-}
-
-.register-btn {
+.login-btn {
   width: 100%;
   min-height: 56px;
   margin-top: 4px;
@@ -371,7 +354,7 @@ button {
     filter 0.2s ease;
 }
 
-.register-btn:hover {
+.login-btn:hover {
   transform: translateY(-1px);
   box-shadow:
     0 22px 34px rgba(51, 51, 51, 0.18),
@@ -379,7 +362,7 @@ button {
   filter: brightness(1.02);
 }
 
-.register-btn:disabled {
+.login-btn:disabled {
   opacity: 0.72;
   cursor: not-allowed;
   transform: none;
@@ -388,14 +371,14 @@ button {
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-.register-footer {
+.login-footer {
   margin-top: 20px;
   color: var(--text-soft);
   font-size: 14px;
   text-align: center;
 }
 
-.register-footer a {
+.login-footer a {
   color: var(--primary-3);
   font-weight: 700;
 }
@@ -702,16 +685,16 @@ button {
     display: inline-flex;
   }
 
-  .register-section {
+  .login-section {
     padding: 28px 14px 56px;
   }
 
-  .register-card {
-    padding: 28px 20px 24px;
+  .login-card {
+    padding: 30px 20px 24px;
     border-radius: 26px;
   }
 
-  .register-card h2 {
+  .login-card h2 {
     font-size: 28px;
   }
 
@@ -729,10 +712,6 @@ button {
   }
 
   .footer::before {
-    inset-top: 56px;
-  }
-
-  .footer::before {
     inset: 56px 0 0;
     border-radius: 30px 30px 0 0;
   }
@@ -747,10 +726,8 @@ button {
 }
 
 @media (max-width: 520px) {
-  .register-input,
-  .register-select,
-  .register-file,
-  .register-btn {
+  .login-input,
+  .login-btn {
     min-height: 52px;
     font-size: 14px;
   }

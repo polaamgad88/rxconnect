@@ -1,900 +1,334 @@
 <!DOCTYPE html>
-<html lang="en" data-wf-domain="medicare-template.webflow.io" data-wf-page="57c55b6ef6306d483a15bdc1"
-  data-wf-site="57c55b6ef6306d483a15bdc0" data-wf-status="1">
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Prescriptions | RxConnect</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#333333" />
 
-<head>
-  <meta charset="utf-8" />
-  <title>Prescriptions | RxConnect</title>
-  <meta content="width=device-width, initial-scale=1" name="viewport" />
-  <meta content="Webflow" name="generator" />
+    <link href="./styles/prescriptions.css" rel="stylesheet" type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
-  <link href="./styles/index.css" rel="stylesheet" type="text/css" />
-  <link href="./styles/prescriptions.css" rel="stylesheet" type="text/css" />
-  <link href="https://fonts.googleapis.com" rel="preconnect" />
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <script src="./scripts/prescriptions-rx.js"></script>
+    <script src="./scripts/rxconnect.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
 
-  <script>window.RXCONNECT_API_BASE = "http://localhost:5000";</script>
-  <script src="./scripts/rxconnect.js"></script>
+    <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
+  </head>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-  <script>
-    WebFont.load({
-      google: {
-        families: [
-          "Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic",
-          "Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic",
-          "Source Sans Pro:regular,700",
-        ],
-      },
-    });
-  </script>
-  <script>
-    !(function (o, c) {
-      var n = c.documentElement,
-        t = " w-mod-";
-      n.className += t + "js";
-      ("ontouchstart" in o ||
-        (o.DocumentTouch && c instanceof DocumentTouch)) &&
-        (n.className += t + "touch");
-    })(window, document);
-  </script>
-
-  <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
-  <link
-    href="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/589b0ba5dbf0b97f5096c916_pharmacy-symbol-darker.png"
-    rel="apple-touch-icon" />
-
-  <style>
-    .navbar-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 20px;
-      background-color: #fff;
-      border-bottom: 1px solid #eee;
-    }
-
-    .contact-info-left {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-    }
-
-    .contact-details {
-      display: flex;
-      gap: 15px;
-      font-size: 0.9rem;
-      color: #333;
-    }
-
-    .user-dropdown-container {
-      position: relative;
-      display: inline-block;
-      cursor: pointer;
-      margin-left: 20px;
-    }
-
-    .user-trigger {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 600;
-      color: #767777;
-      white-space: nowrap;
-    }
-
-    .user-dropdown-menu {
-      position: absolute;
-      right: 0;
-      top: 100%;
-      margin-top: 8px;
-      list-style: none;
-      padding: 8px 0;
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      min-width: 180px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      z-index: 9999;
-      display: none;
-    }
-
-    .user-dropdown-menu li a {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      color: #333;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    .user-dropdown-menu li a:hover {
-      background-color: #f5f5f5;
-    }
-
-    .user-dropdown-menu .divider {
-      margin: 4px 0;
-      border-top: 1px solid #eee;
-      pointer-events: none;
-    }
-
-    .user-dropdown-menu.show {
-      display: block;
-    }
-
-    .nav-menu .w-nav-link {
-      padding-top: 6px !important;
-      padding-bottom: 6px !important;
-      padding-left: 12px !important;
-      padding-right: 12px !important;
-    }
-
-    .nav-menu.w-nav-menu {
-      margin-top: 0 !important;
-      margin-bottom: 0 !important;
-      padding-top: 0 !important;
-      padding-bottom: 0 !important;
-    }
-
-    .navbar-container.w-container {
-      padding-top: 4px !important;
-      padding-bottom: 4px !important;
-    }
-
-    .pt-table-card {
-      overflow-x: auto;
-    }
-
-    .pt-empty {
-      display: none;
-      padding: 16px;
-      text-align: center;
-      color: #777;
-    }
-
-    .pt-loading {
-      padding: 16px;
-      text-align: center;
-      color: #555;
-    }
-
-    .pt-status {
-      display: inline-block;
-      padding: 5px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: capitalize;
-    }
-
-    .pt-status-issued,
-    .pt-status-active {
-      background: #e8f7ee;
-      color: #1f7a45;
-    }
-
-    .pt-status-dispensed,
-    .pt-status-fully_dispensed {
-      background: #e8f0ff;
-      color: #1e5eff;
-    }
-
-    .pt-status-cancelled {
-      background: #fff1f0;
-      color: #c62828;
-    }
-
-    .pt-status-expired {
-      background: #f4f4f5;
-      color: #555;
-    }
-
-    .btn-chip {
-      border: 1px solid #d9d9d9;
-      background: #fff;
-      color: #333;
-      border-radius: 999px;
-      padding: 6px 12px;
-      cursor: pointer;
-    }
-
-    .btn-chip:hover {
-      background: #f8f8f8;
-    }
-
-    .rx-modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 99999;
-      padding: 20px;
-    }
-
-    .rx-modal {
-      width: min(980px, 96vw);
-      max-height: 90vh;
-      overflow: auto;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-    }
-
-    .rx-modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 20px;
-      border-bottom: 1px solid #eee;
-    }
-
-    .rx-modal-header h3 {
-      margin: 0;
-      font-size: 20px;
-    }
-
-    .rx-modal-close {
-      border: 0;
-      background: transparent;
-      font-size: 22px;
-      cursor: pointer;
-    }
-
-    .rx-modal-body {
-      padding: 18px 20px 20px;
-    }
-
-    .rx-grid {
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 10px 14px;
-      margin-bottom: 18px;
-    }
-
-    .rx-grid div:nth-child(odd) {
-      color: #666;
-      font-weight: 600;
-    }
-
-    .rx-items-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .rx-items-table th,
-    .rx-items-table td {
-      text-align: left;
-      padding: 10px 8px;
-      border-bottom: 1px solid #eee;
-      vertical-align: top;
-    }
-
-    .pt-search-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    @media screen and (max-width: 991px) {
-      .top-info-bar-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 10px 10px 0px !important;
-      }
-
-      .brand.w-nav-brand {
-        display: block !important;
-        flex: 0 0 auto;
-        margin-left: 0 !important;
-      }
-
-      .brand img {
-        width: 140px !important;
-        height: auto;
-      }
-
-      .info-bar {
-        display: none !important;
-      }
-
-      .custom-menu-btn {
-        display: block;
-        font-size: 28px;
-        cursor: pointer;
-        color: #333;
-        padding: 5px;
-        order: 2;
-      }
-
-      .user-dropdown-container {
-        width: 100%;
-        text-align: center;
-        margin-top: 10px;
-        padding-top: 10px;
-        border-top: none;
-        order: 3;
-      }
-
-      .nav-menu.w-nav-menu {
-        display: none;
-        flex-direction: column;
-        background-color: white;
-        width: 100%;
-        padding: 10px 0;
-        border-top: 1px solid #ddd;
-      }
-
-      .nav-menu.w-nav-menu.active,
-      .nav-menu.w-nav-menu.open {
-        display: flex !important;
-      }
-
-      .nav-link {
-        display: block;
-        padding: 10px 20px;
-        border-bottom: 1px solid #f0f0f0;
-      }
-
-      .pt-table-card {
-        overflow-x: auto;
-        padding: 15px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-      }
-
-      .pt-table {
-        min-width: 700px;
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      .pt-table th,
-      .pt-table td {
-        padding: 12px 10px;
-        text-align: left;
-        white-space: nowrap;
-      }
-
-      .rx-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media screen and (min-width: 992px) {
-      .custom-menu-btn {
-        display: none;
-      }
-
-      .nav-menu.w-nav-menu {
-        display: flex !important;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <div id="navbar-placeholder"></div>
-
-  <div class="navbar-wrapper">
-    <div class="top-info-bar">
-      <div class="top-info-bar-container w-container">
-        <a href="./dashboard.html" class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand">
-          <img src="./assets/rxconnect.png" alt="logo" style="width: 120px; height: auto; margin-bottom: 4px" />
-        </a>
-
-        <div id="menu-btn" class="menu-button w-nav-button">
-          <i class="fa-solid fa-bars" id="menu-icon"></i>
-        </div>
-
-        <div class="info-bar w-clearfix">
-          <div class="info-blocks-wrapper w-clearfix">
-            <div class="top-info-block no-right-border w-clearfix">
-              <div class="top-info-icon"></div>
-              <div class="top-info-content">
-                <a href="tel:+44 20 7123 4567" class="contact-link">+44 20 7123 4567</a>
-                <a href="tel:+44 7712 345678" class="contact-link">+44 7712 345678</a>
-              </div>
-            </div>
-            <div class="top-info-block w-clearfix">
-              <div class="top-info-icon _2"></div>
-              <div class="top-info-content">
-                <a data-ix="popup-modal-show" href="#" class="contact-link">
-                  M5 3AB<br />
-                  Church Road, Salford, Manchester
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="user-dropdown-container">
-          <div class="user-trigger" id="userTrigger">
-            <span id="currentUserName">Hello</span>
-            <i class="fa-solid fa-chevron-down dropdown-icon"></i>
-          </div>
-          <ul class="user-dropdown-menu" id="userDropdownMenu">
-            <li>
-              <a href="./myprofile.html">
-                <i class="fa-solid fa-user"></i> My Profile
+  <body>
+    <header class="site-header">
+      <div class="navbar-wrapper">
+        <nav class="main-navbar" aria-label="Primary navigation">
+          <div class="navbar-shell">
+            <div class="navbar-container">
+              <a href="./dashboard.html" class="navbar-brand" aria-label="RxConnect Home">
+                <img src="./assets/rxconnect.png" alt="RxConnect" />
               </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-              <a href="./login.html" id="logoutLink">
-                <i class="fa-solid fa-right-from-bracket"></i> Logout
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
 
-    <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" data-easing2="ease"
-      role="banner" class="navbar w-nav">
-      <div class="navbar-container w-container">
-        <nav role="navigation" class="nav-menu w-nav-menu">
-          <a href="./prescriptions.html" class="nav-link w-nav-link">Prescriptions</a>
-          <a href="./pending-prescription.html" class="nav-link w-nav-link">Pending Prescriptions</a>
-          <a href="./patients.html" class="nav-link w-nav-link">Patients</a>
-          <a href="./contacts.html" class="nav-link w-nav-link">Contacts</a>
-          <a href="./billing.html" class="nav-link w-nav-link">Billing</a>
+              <button
+                id="menu-btn"
+                class="menu-button"
+                type="button"
+                aria-label="Toggle menu"
+                aria-expanded="false"
+                aria-controls="nav-menu"
+              >
+                <i class="fa-solid fa-bars" aria-hidden="true"></i>
+              </button>
 
-          <div class="dropdown">
-            <button class="nav-link w-nav-link bg-transparent" id="reportsBtn">
-              Reports <i class="fa-solid fa-chevron-down"></i>
-            </button>
-            <div class="dropdown-content" id="reportsDropdown">
-              <a href="./reports.html">Reports</a>
-              <a href="./medicationExport.html">Medication Export</a>
+              <div class="navbar-right" id="nav-menu">
+                <div class="nav-center">
+                  <a href="./prescriptions.html" class="nav-link active">Prescriptions</a>
+                  <a href="./pending-prescription.html" class="nav-link">Pending Prescriptions</a>
+                  <a href="./patients.html" class="nav-link">Patients</a>
+                  <a href="./contacts.html" class="nav-link">Contacts</a>
+                  <a href="./billing.html" class="nav-link">Billing</a>
+
+                  <div class="dropdown" id="reportsDropdownWrap">
+                    <button
+                      class="dropdown-toggle"
+                      id="reportsBtn"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="reportsDropdown"
+                    >
+                      <span>Reports</span>
+                      <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+                    </button>
+
+                    <div class="dropdown-content" id="reportsDropdown">
+                      <a href="./reports.html">Monthly Reports</a>
+                      <a href="./medicationExport.html">Medication Export</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="user-dropdown-container" id="userDropdownWrap">
+                  <button
+                    class="user-trigger"
+                    id="userTrigger"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="userDropdownMenu"
+                  >
+                    <span class="hello-label">Hello,</span>
+                    <span id="username">User</span>
+                    <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+                  </button>
+
+                  <ul class="user-dropdown-menu" id="userDropdownMenu">
+                    <li>
+                      <a href="./myprofile.html">
+                        <i class="fa-solid fa-user" aria-hidden="true"></i>
+                        <span>My Profile</span>
+                      </a>
+                    </li>
+                    <li class="divider" aria-hidden="true"></li>
+                    <li>
+                      <a href="./login.html" id="logoutLink">
+                        <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                        <span>Logout</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </nav>
       </div>
+    </header>
+
+    <main class="prescriptions-section">
+      <div class="prescriptions-shell">
+        <section class="prescriptions-panel">
+          <div class="page-head">
+            <div class="section-heading">
+              <span class="eyebrow">Prescription management</span>
+              <h1>Prescription Tracker</h1>
+              <p>
+                Review prescriptions, filter activity, inspect full details, and send sharing links without changing
+                the underlying workflow.
+              </p>
+            </div>
+
+            <button class="primary-btn" id="addPrescriptionBtn" type="button">
+              <i class="fa-solid fa-plus" aria-hidden="true"></i>
+              <span>Add New Prescription</span>
+            </button>
+          </div>
+
+          <div class="filter-card">
+            <div class="filter-grid">
+              <label class="field">
+                <span>Status</span>
+                <select class="pt-input" id="statusFilter">
+                  <option value="">All Statuses</option>
+                  <option value="active">Active</option>
+                  <option value="issued">Issued</option>
+                  <option value="dispensed">Dispensed</option>
+                  <option value="fully_dispensed">Fully Dispensed</option>
+                  <option value="cancelled">Cancelled</option>
+                  <option value="expired">Expired</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>From</span>
+                <div class="date-input">
+                  <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                  <input type="date" class="pt-input" id="dateFrom" />
+                </div>
+              </label>
+
+              <label class="field">
+                <span>To</span>
+                <div class="date-input">
+                  <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                  <input type="date" class="pt-input" id="dateTo" />
+                </div>
+              </label>
+
+              <label class="field search-field">
+                <span>Search</span>
+                <input
+                  type="text"
+                  class="pt-input"
+                  id="searchInput"
+                  placeholder="Search prescription code, patient, medication, or status"
+                />
+              </label>
+            </div>
+
+            <div class="filter-actions">
+              <button class="primary-btn" id="pt-search-btn" type="button">
+                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                <span>Search</span>
+              </button>
+              <button class="secondary-btn" type="button" id="pt-clear-btn">
+                <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+                <span>Clear</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <div class="table-card-head">
+              <div>
+                <h2>Current prescriptions</h2>
+                <p>Live list of prescriptions loaded from the existing clinician endpoint.</p>
+              </div>
+            </div>
+
+            <div class="pt-loading" id="ptLoading">Loading prescriptions...</div>
+
+            <div class="table-scroll">
+              <table class="pt-table">
+                <thead>
+                  <tr>
+                    <th>Prescription ID</th>
+                    <th>Patient</th>
+                    <th>Medication</th>
+                    <th>Last Updated</th>
+                    <th>Status</th>
+                    <th>Where Dispensed</th>
+                    <th>Send to SP</th>
+                  </tr>
+                </thead>
+                <tbody id="rxTbody"></tbody>
+              </table>
+            </div>
+
+            <div class="pt-empty" id="noRows">No prescriptions found.</div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div class="rx-modal-backdrop" id="rxModalBackdrop">
+      <div class="rx-modal" role="dialog" aria-modal="true" aria-labelledby="rxModalTitle">
+        <div class="rx-modal-header">
+          <h3 id="rxModalTitle">Prescription Details</h3>
+          <button class="rx-modal-close" id="rxModalClose" type="button" aria-label="Close details modal">
+            &times;
+          </button>
+        </div>
+        <div class="rx-modal-body" id="rxModalBody"></div>
+      </div>
     </div>
-  </div>
 
-  <main class="prescription-page">
-    <div class="prescription-wrapper">
-      <div class="pt-header">
-        <h1>Prescription Tracker</h1>
-        <button class="btn-primary" onclick="window.location.href='dr-form.html'">
-          ADD NEW PRESCRIPTION
-        </button>
-      </div>
-
-      <div class="pt-filters">
-        <select class="pt-input" id="statusFilter">
-          <option value="">All Statuses</option>
-          <option value="active">Active</option>
-          <option value="issued">Issued</option>
-          <option value="dispensed">Dispensed</option>
-          <option value="fully_dispensed">Fully Dispensed</option>
-          <option value="cancelled">Cancelled</option>
-          <option value="expired">Expired</option>
-        </select>
-
-        <div class="pt-date-range">
-          <div class="pt-date">
-            <i class="fa-regular fa-calendar"></i>
-            <input type="date" class="pt-input" id="dateFrom" />
-          </div>
-          <span class="pt-to">to</span>
-          <div class="pt-date">
-            <i class="fa-regular fa-calendar"></i>
-            <input type="date" class="pt-input" id="dateTo" />
-          </div>
+    <div class="footer">
+      <div class="w-container">
+        <div class="emergency-wrapper">
+          <img
+            src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/5822042610a8d4ee31522b7d_24-hours-phone-service.png"
+            width="64"
+            alt=""
+            class="emergency-footer-icon"
+          />
+          <h4 class="white">emergency cases</h4>
+          <a href="tel:+1-600-700-6200">
+            <div class="emergency-number">+44 20 7123 4567</div>
+          </a>
         </div>
 
-        <input type="text" class="pt-input pt-search" id="searchInput"
-          placeholder="Search prescription code or patient name" />
-
-        <button class="btn-primary pt-search-btn" id="pt-search-btn">
-          SEARCH
-        </button>
-        <button class="btn-secondary" type="button" id="pt-clear-btn">
-          CLEAR
-        </button>
-      </div>
-
-      <div class="pt-table-card">
-        <div class="pt-loading" id="ptLoading">Loading prescriptions...</div>
-
-        <table class="pt-table">
-          <thead>
-            <tr>
-              <th>PRESCRIPTION ID</th>
-              <th>PATIENT</th>
-              <th>MEDICATION</th>
-              <th>LAST UPDATED</th>
-              <th>STATUS</th>
-              <th>SEND TO SP</th>
-            </tr>
-          </thead>
-          <tbody id="rxTbody"></tbody>
-        </table>
-
-        <div class="pt-empty" id="noRows">No prescriptions found.</div>
-      </div>
-    </div>
-  </main>
-
-  <div class="rx-modal-backdrop" id="rxModalBackdrop">
-    <div class="rx-modal">
-      <div class="rx-modal-header">
-        <h3>Prescription Details</h3>
-        <button class="rx-modal-close" id="rxModalClose" type="button">
-          &times;
-        </button>
-      </div>
-      <div class="rx-modal-body" id="rxModalBody"></div>
-    </div>
-  </div>
-
-  <div class="footer">
-    <div class="w-container">
-      <div class="emergency-wrapper">
-        <img
-          src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/5822042610a8d4ee31522b7d_24-hours-phone-service.png"
-          width="64" alt="" class="emergency-footer-icon" />
-        <h4 class="white">emergency cases</h4>
-        <a href="tel:+1-600-700-6200" class="w-inline-block">
-          <div class="emergency-number">+44 20 7123 4567</div>
-        </a>
-      </div>
-
-      <div class="flex-box space-between">
-        <div class="_33-percent-column right-padding">
-          <img src="./assets/rxconnect.png" alt="" class="footer-logo"
-            style="width: 160px; height: auto; margin-bottom: 2px" />
-          <p class="white footer-paragraph">
-            RxConnect is an international private health care provider. We
-            have more than 20 years of experience. Our patients are provided
-            with access to comprehensive outpatient and inpatient services, as
-            well as a full range of laboratory diagnostics.
-          </p>
-        </div>
-
-        <div class="_17-percent-column">
-          <div>
-            <div class="footer-header-wrapper">
-              <h4 class="footer-title">Navigation</h4>
-              <div class="footer-line"></div>
-            </div>
-            <a href="./about-us.html" class="footer-link">Who we are</a>
-            <a href="./dr-form.html" class="footer-link">E-prescription</a>
-            <a href="./prescriptions.html" class="footer-link">My prescription</a>
-            <a href="./doctors.html" class="footer-link">Doctors</a>
-            <a href="./patient-history.html" class="footer-link">Patient history</a>
-            <a href="./FAQs.html" class="footer-link">FAQs</a>
+        <div class="flex-box space-between">
+          <div class="_33-percent-column right-padding">
+            <img src="./assets/rxconnect.png" alt="" class="footer-logo" />
+            <p class="white footer-paragraph">
+              RxConnect is an international private health care provider. We have more than 20 years of experience.
+              Our patients are provided with access to comprehensive outpatient and inpatient services, as well as a
+              full range of laboratory diagnostics.
+            </p>
           </div>
-        </div>
 
-        <div class="_17-percent-column next">
-          <div>
-            <div class="footer-header-wrapper">
-              <h4 class="footer-title">Departments</h4>
-              <div class="footer-line"></div>
-            </div>
-            <div class="w-dyn-list">
-              <div role="list" class="w-dyn-items">
-                <div role="listitem" class="w-clearfix w-dyn-item">
-                  <a href="/departments/accident-and-emergency-ae" class="footer-link">Physiotherapy</a>
-                </div>
-                <div role="listitem" class="w-clearfix w-dyn-item">
-                  <a href="/departments/eye-care" class="footer-link">Optical</a>
-                </div>
-                <div role="listitem" class="w-clearfix w-dyn-item">
-                  <a href="/departments/traumatology" class="footer-link">Dental</a>
-                </div>
-                <div role="listitem" class="w-clearfix w-dyn-item">
-                  <a href="/departments/dental-care" class="footer-link">X-Ray</a>
-                </div>
-                <div role="listitem" class="w-clearfix w-dyn-item">
-                  <a href="/departments/cardiology" class="footer-link">Cardiology</a>
-                </div>
-                <div role="listitem" class="w-clearfix w-dyn-item">
-                  <a href="/departments/neurology" class="footer-link">Neurology</a>
-                </div>
+          <div class="_17-percent-column">
+            <div>
+              <div class="footer-header-wrapper">
+                <h4 class="footer-title">Navigation</h4>
+                <div class="footer-line"></div>
               </div>
+              <a href="./about-us.html" class="footer-link">Who we are</a>
+              <a href="./dr-form.html" class="footer-link">E-prescription</a>
+              <a href="./prescriptions.html" class="footer-link">My prescription</a>
+              <a href="./doctors.html" class="footer-link">Doctors</a>
+              <a href="./patient-history.html" class="footer-link">Patient history</a>
+              <a href="./FAQs.html" class="footer-link">FAQs</a>
             </div>
           </div>
-        </div>
 
-        <div class="_33-percent-column contact-footer">
-          <div>
-            <div class="footer-header-wrapper">
-              <h4 class="footer-title">Contact Us</h4>
-              <div class="footer-line"></div>
-            </div>
-            <div class="footer-contact-block">
-              <img
-                src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb365745bf29a4636cc96d_marker_white.png"
-                alt="" class="footer-contact-icon" />
-              <div>
-                <a data-ix="popup-modal-show" href="#" class="footer-link contact">M5 3AB Church Road, Salford,
-                  Manchester</a>
+          <div class="_17-percent-column next">
+            <div>
+              <div class="footer-header-wrapper">
+                <h4 class="footer-title">Departments</h4>
+                <div class="footer-line"></div>
               </div>
-            </div>
-            <div class="footer-contact-block">
-              <img
-                src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
-                alt="" class="footer-contact-icon" />
-              <div>
-                <a href="mailto:" class="footer-link contact">info@rxconnect.com</a>
-              </div>
-            </div>
-            <div class="footer-contact-block">
-              <img
-                src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
-                alt="" class="footer-contact-icon" />
-              <div>
-                <a href="tel:+61393455522" class="footer-link">+44 7712 345678</a>
-                <a href="tel:+61393455522" class="footer-link">+44 20 7123 4567</a>
-              </div>
+              <a href="#" class="footer-link">Physiotherapy</a>
+              <a href="#" class="footer-link">Optical</a>
+              <a href="#" class="footer-link">Dental</a>
+              <a href="#" class="footer-link">X-Ray</a>
+              <a href="#" class="footer-link">Cardiology</a>
+              <a href="#" class="footer-link">Neurology</a>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="test-row w-row">
-        <div class="footer-column w-col w-col-3">
-          <div>
-            <div class="footer-header-wrapper">
-              <h4 class="footer-title">Contact Us</h4>
-              <div class="footer-line"></div>
-            </div>
-            <div class="footer-contact-block">
-              <img
-                src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb365745bf29a4636cc96d_marker_white.png"
-                alt="" class="footer-contact-icon" />
-              <div>
-                <div class="footer-link">
-                  267 Collins St Melbourne Victoria 3000
-                </div>
+          <div class="_33-percent-column contact-footer">
+            <div>
+              <div class="footer-header-wrapper">
+                <h4 class="footer-title">Contact Us</h4>
+                <div class="footer-line"></div>
               </div>
-            </div>
-            <div class="footer-contact-block">
-              <img
-                src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
-                alt="" class="footer-contact-icon" />
-              <div>
-                <a href="mailto:" class="footer-link contact">info@medicare.com</a>
-              </div>
-            </div>
-            <div class="footer-contact-block">
-              <img
-                src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
-                alt="" class="footer-contact-icon" />
-              <div>
-                <a href="tel:+61393455522" class="footer-link">03-9345-5522</a>
-                <a href="tel:+61393455522" class="footer-link">03-9345-4422</a>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="footer-column w-col w-col-3">
-          <div>
-            <div class="footer-header-wrapper">
-              <h4 class="footer-title">Navigation</h4>
-              <div class="footer-line"></div>
-            </div>
-            <a href="./about-us.html" class="footer-link">Who we are</a>
-            <a href="./dr-form.html" class="footer-link">E-prescription</a>
-            <a href="./prescriptions.html" class="footer-link">My prescription</a>
-            <a href="./doctors.html" class="footer-link">Doctors</a>
-            <a href="./patient-history.html" class="footer-link">Patient history</a>
-            <a href="./FAQs.html" class="footer-link">FAQs</a>
-          </div>
-        </div>
-
-        <div class="footer-column w-col w-col-3">
-          <div>
-            <div class="footer-header-wrapper">
-              <h4 class="footer-title">Departments</h4>
-              <div class="footer-line"></div>
-            </div>
-            <div class="w-dyn-list">
-              <div role="list" class="w-dyn-items">
-                <div role="listitem" class="w-clearfix w-dyn-item">
-                  <a href="/departments/accident-and-emergency-ae" class="footer-link">Physiotherapy</a>
-                </div>
-                <div role="listitem" class="w-clearfix w-dyn-item">
-                  <a href="/departments/eye-care" class="footer-link">Optical</a>
-                </div>
-                <div role="listitem" class="w-clearfix w-dyn-item">
-                  <a href="/departments/traumatology" class="footer-link">Dental</a>
-                </div>
-                <div role="listitem" class="w-clearfix w-dyn-item">
-                  <a href="/departments/dental-care" class="footer-link">X-Ray</a>
-                </div>
-                <div role="listitem" class="w-clearfix w-dyn-item">
-                  <a href="/departments/cardiology" class="footer-link">Cardiology</a>
-                </div>
-                <div role="listitem" class="w-clearfix w-dyn-item">
-                  <a href="/departments/neurology" class="footer-link">Neurology</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="footer-column w-col w-col-3">
-          <div class="footer-header-wrapper">
-            <h4 class="footer-title">Message us</h4>
-            <div class="footer-line"></div>
-          </div>
-          <div>
-            <div class="w-form">
-              <form id="email-form-2" name="email-form-2" data-name="Email Form 2" method="get"
-                data-wf-page-id="57c55b6ef6306d483a15bdc1" data-wf-element-id="7c121d8a-d022-a32b-02d7-eb05da342546">
-                <input class="text-field name full-width w-input" maxlength="256" name="name" data-name="Name"
-                  placeholder="Enter your name" type="text" id="name" />
-                <input class="text-field email full-width w-input" maxlength="256" name="email" data-name="Email 3"
-                  placeholder="Enter your email address" type="email" id="email-3" required="" />
-                <input type="submit" data-wait="Please wait..." class="button white full-width w-button"
-                  value="Submit" />
-              </form>
-              <div class="w-form-done">
-                <div>Thank you! Your submission has been received!</div>
-              </div>
-              <div class="w-form-fail">
+              <div class="footer-contact-block">
+                <img
+                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb365745bf29a4636cc96d_marker_white.png"
+                  alt=""
+                  class="footer-contact-icon"
+                />
                 <div>
-                  Oops! Something went wrong while submitting the form
+                  <a href="#" class="footer-link contact">M5 3AB Church Road, Salford, Manchester</a>
+                </div>
+              </div>
+
+              <div class="footer-contact-block">
+                <img
+                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
+                  alt=""
+                  class="footer-contact-icon"
+                />
+                <div>
+                  <a href="mailto:info@rxconnect.com" class="footer-link contact">info@rxconnect.com</a>
+                </div>
+              </div>
+
+              <div class="footer-contact-block">
+                <img
+                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
+                  alt=""
+                  class="footer-contact-icon"
+                />
+                <div>
+                  <a href="tel:+447712345678" class="footer-link">+44 7712 345678</a>
+                  <a href="tel:+442071234567" class="footer-link">+44 20 7123 4567</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="footer-credits">
-        <div class="credits-wrapper">
-          <div class="footer-socials">
-            <a href="#" class="social-icon facebook w-inline-block"></a>
-            <a href="#" class="social-icon twitter w-inline-block"></a>
-            <a href="#" class="social-icon linkedin w-inline-block"></a>
+        <div class="footer-credits">
+          <div class="credits-wrapper">
+            <div class="footer-socials">
+              <a href="#" class="social-icon facebook" aria-label="Facebook"></a>
+              <a href="#" class="social-icon twitter" aria-label="Twitter"></a>
+              <a href="#" class="social-icon linkedin" aria-label="LinkedIn"></a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=57c55b6ef6306d483a15bdc0"
-    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const reportsBtn = document.getElementById("reportsBtn");
-      const reportsDropdown = document.getElementById("reportsDropdown");
-      const userTrigger = document.getElementById("userTrigger");
-      const userMenu = document.getElementById("userDropdownMenu");
-      const logoutLink = document.getElementById("logoutLink");
-      const menuButton = document.querySelector(".menu-button");
-      const navMenu = document.querySelector(".w-nav-menu");
-      const icon = menuButton ? menuButton.querySelector("i") : null;
-
-      if (reportsBtn && reportsDropdown) {
-        reportsBtn.addEventListener("click", function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-          reportsDropdown.classList.toggle("show");
-        });
-      }
-
-      if (userTrigger && userMenu) {
-        userTrigger.addEventListener("click", function (e) {
-          e.stopPropagation();
-          userMenu.classList.toggle("show");
-          const iconEl = userTrigger.querySelector(".dropdown-icon");
-          if (iconEl) {
-            iconEl.classList.toggle("fa-chevron-down");
-            iconEl.classList.toggle("fa-chevron-up");
-          }
-        });
-      }
-
-      if (logoutLink) {
-        logoutLink.addEventListener("click", function () {
-          try {
-            if (window.RX && typeof RX.logout === "function") {
-              RX.logout();
-            } else {
-              localStorage.removeItem("access_token");
-              localStorage.removeItem("token");
-              sessionStorage.removeItem("access_token");
-              sessionStorage.removeItem("token");
-            }
-          } catch (_) { }
-        });
-      }
-
-      document.addEventListener("click", function (event) {
-        if (
-          reportsBtn &&
-          reportsDropdown &&
-          !reportsBtn.contains(event.target) &&
-          !reportsDropdown.contains(event.target)
-        ) {
-          reportsDropdown.classList.remove("show");
-        }
-
-        if (
-          userTrigger &&
-          userMenu &&
-          !userTrigger.contains(event.target) &&
-          !userMenu.contains(event.target)
-        ) {
-          userMenu.classList.remove("show");
-          const iconEl = userTrigger.querySelector(".dropdown-icon");
-          if (iconEl && iconEl.classList.contains("fa-chevron-up")) {
-            iconEl.classList.remove("fa-chevron-up");
-            iconEl.classList.add("fa-chevron-down");
-          }
-        }
-      });
-
-      function resetNav() {
-        if (!navMenu || !icon) return;
-        navMenu.style.removeProperty("display");
-        navMenu.style.removeProperty("opacity");
-        navMenu.classList.remove("open");
-        navMenu.classList.remove("active");
-        icon.classList.add("fa-bars");
-        icon.classList.remove("fa-xmark");
-      }
-
-      if (menuButton && navMenu && icon) {
-        resetNav();
-
-        window.addEventListener("pageshow", function (e) {
-          if (e.persisted) resetNav();
-        });
-
-        window.addEventListener("resize", function () {
-          if (window.innerWidth >= 992) resetNav();
-        });
-
-        menuButton.addEventListener("click", function () {
-          const open = navMenu.classList.toggle("open");
-          navMenu.classList.toggle("active", open);
-          icon.classList.toggle("fa-bars", !open);
-          icon.classList.toggle("fa-xmark", open);
-        });
-
-        navMenu.querySelectorAll("a").forEach((link) => {
-          link.addEventListener("click", function () {
-            resetNav();
-          });
-        });
-      }
-
-      try {
-        const currentUser =
-          window.RX && typeof RX.getUser === "function" ? RX.getUser() : null;
-        const nameEl = document.getElementById("currentUserName");
-        if (nameEl && currentUser) {
-          nameEl.textContent =
-            "Hello, " +
-            (currentUser.full_name ||
-              currentUser.username ||
-              currentUser.email ||
-              "User");
-        }
-      } catch (_) { }
-    });
-  </script>
-
-  <script src="./scripts/prescriptions-rx.js"></script>
-  <script src="./scripts/index.js"></script>
-</body>
-
+  </body>
 </html>
