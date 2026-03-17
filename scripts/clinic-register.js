@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
       "c_phone",
       "c_email",
       "c_address",
-      "c_username",
       "c_full_name",
       "c_password",
       "c_request_notes",
@@ -53,7 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const phone = valueOf("c_phone") || null;
     const email = valueOf("c_email");
     const address = valueOf("c_address") || null;
-    const username = valueOf("c_username") || email;
     const full_name = valueOf("c_full_name") || clinic_name;
     const password = byId("c_password")?.value || "";
     const request_notes = valueOf("c_request_notes") || null;
@@ -74,7 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
           phone,
           email,
           address,
-          username,
           full_name,
           password,
           request_notes,
