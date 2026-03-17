@@ -2,29 +2,29 @@
    1) ROOT VARIABLES
    ========================================================= */
 :root {
-  --bg: #f5f7fb;
+  --bg: #f7f6f3;
   --surface: rgba(255, 255, 255, 0.92);
   --surface-solid: #ffffff;
-  --surface-soft: #f8fbff;
+  --surface-soft: #fbfaf7;
 
-  --border: rgba(15, 37, 74, 0.08);
-  --border-strong: rgba(15, 37, 74, 0.12);
+  --border: rgba(51, 51, 51, 0.08);
+  --border-strong: rgba(51, 51, 51, 0.12);
 
-  --text: #0c2247;
-  --text-soft: #62738d;
-  --text-muted: #8291a7;
+  --text: #333333;
+  --text-soft: #5f5a54;
+  --text-muted: #8b847d;
 
-  --primary: #0c2d62;
-  --primary-2: #18427d;
-  --primary-3: #1d90f2;
-  --primary-4: #4fb0ff;
+  --primary: #333333;
+  --primary-2: #4a4540;
+  --primary-3: #b0732b;
+  --primary-4: #c58b46;
 
-  --success: #14a06f;
-  --danger: #d15454;
+  --success: #00a76e;
+  --danger: #b55f5f;
 
-  --shadow-soft: 0 18px 40px rgba(11, 31, 68, 0.08);
-  --shadow-card: 0 26px 60px rgba(11, 31, 68, 0.1);
-  --shadow-hover: 0 30px 70px rgba(11, 31, 68, 0.14);
+  --shadow-soft: 0 18px 40px rgba(51, 51, 51, 0.08);
+  --shadow-card: 0 26px 60px rgba(51, 51, 51, 0.1);
+  --shadow-hover: 0 30px 70px rgba(51, 51, 51, 0.14);
 
   --radius-xl: 34px;
   --radius-lg: 28px;
@@ -50,9 +50,9 @@ body {
   color: var(--text);
   font-family: "Open Sans", sans-serif;
   background:
-    radial-gradient(circle at top left, rgba(79, 176, 255, 0.1), transparent 24%),
-    radial-gradient(circle at top right, rgba(12, 45, 98, 0.05), transparent 28%),
-    linear-gradient(180deg, #f7f9fc 0%, #f3f6fb 100%);
+    radial-gradient(circle at top left, rgba(176, 115, 43, 0.12), transparent 24%),
+    radial-gradient(circle at top right, rgba(51, 51, 51, 0.06), transparent 28%),
+    linear-gradient(180deg, #faf8f5 0%, #f5f2ee 100%);
 }
 
 a {
@@ -111,7 +111,7 @@ button {
   border-radius: 28px;
   border: 1px solid rgba(255, 255, 255, 0.8);
   background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 14px 40px rgba(11, 31, 68, 0.06);
+  box-shadow: 0 14px 40px rgba(51, 51, 51, 0.06);
   backdrop-filter: blur(16px);
 }
 
@@ -145,8 +145,8 @@ button {
   border: 1px solid var(--border);
   border-radius: 16px;
   color: var(--text);
-  background: linear-gradient(180deg, #ffffff, #f6f9fd);
-  box-shadow: 0 8px 22px rgba(11, 31, 68, 0.06);
+  background: linear-gradient(180deg, #ffffff, #f7f4ef);
+  box-shadow: 0 8px 22px rgba(51, 51, 51, 0.06);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
@@ -156,7 +156,7 @@ button {
 .menu-button:hover {
   transform: translateY(-1px);
   color: var(--primary-3);
-  box-shadow: 0 12px 24px rgba(11, 31, 68, 0.1);
+  box-shadow: 0 12px 24px rgba(51, 51, 51, 0.1);
 }
 
 /* =========================================================
@@ -187,7 +187,7 @@ button {
   padding: 0;
   border: 0;
   background: transparent;
-  color: #1a2840;
+  color: #333333;
   font-size: 16px;
   font-weight: 600;
   line-height: 1;
@@ -217,9 +217,9 @@ button {
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.01em;
-  background: linear-gradient(135deg, #081c40, #12386c);
+  background: linear-gradient(135deg, #333333, #4a4540);
   box-shadow:
-    0 14px 24px rgba(11, 31, 68, 0.16),
+    0 14px 24px rgba(51, 51, 51, 0.16),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition:
     transform 0.22s ease,
@@ -232,8 +232,8 @@ button {
   transform: translateY(-1px);
   filter: brightness(1.05);
   box-shadow:
-    0 18px 30px rgba(11, 31, 68, 0.2),
-    0 10px 20px rgba(29, 144, 242, 0.12);
+    0 18px 30px rgba(51, 51, 51, 0.2),
+    0 10px 20px rgba(176, 115, 43, 0.12);
   outline: none;
 }
 
@@ -256,7 +256,7 @@ button {
   border: 1px solid var(--border);
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.97);
-  box-shadow: 0 24px 50px rgba(11, 31, 68, 0.12);
+  box-shadow: 0 24px 50px rgba(51, 51, 51, 0.12);
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
@@ -282,7 +282,7 @@ button {
   gap: 10px;
   padding: 14px 18px;
   text-decoration: none;
-  color: #1b2842;
+  color: #333333;
   font-size: 15px;
   font-weight: 600;
   white-space: nowrap;
@@ -293,7 +293,7 @@ button {
 .user-dropdown-menu a:hover,
 .dropdown-content a:focus-visible,
 .user-dropdown-menu a:focus-visible {
-  background: #f5f9ff;
+  background: #f7f4ef;
   color: var(--primary-3);
   outline: none;
 }
@@ -301,7 +301,7 @@ button {
 .user-dropdown-menu .divider {
   height: 1px;
   margin: 8px 14px;
-  background: rgba(15, 37, 74, 0.08);
+  background: rgba(51, 51, 51, 0.08);
 }
 
 .dropdown:hover .dropdown-content,
@@ -321,7 +321,7 @@ button {
 }
 
 #username {
-  color: #111d32;
+  color: #333333;
   font-weight: 700;
 }
 
@@ -354,7 +354,7 @@ button {
 
 .dashboard-header h1 {
   margin: 0 0 10px;
-  color: #08214a;
+  color: #333333;
   font-family: "Montserrat", sans-serif;
   font-size: clamp(2.2rem, 4vw, 3.2rem);
   line-height: 1.05;
@@ -384,9 +384,9 @@ button {
   overflow: hidden;
   isolation: isolate;
   border-radius: var(--radius-xl);
-  border: 1px solid rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(51, 51, 51, 0.08);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 251, 255, 0.94));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(251, 250, 247, 0.94));
   box-shadow: var(--shadow-card);
   transition:
     transform 0.28s ease,
@@ -417,12 +417,12 @@ button {
   width: 220px;
   height: 220px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(85, 176, 255, 0.18), transparent 68%);
+  background: radial-gradient(circle, rgba(176, 115, 43, 0.16), transparent 68%);
 }
 
 .dashboard-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(29, 144, 242, 0.18);
+  border-color: rgba(176, 115, 43, 0.18);
   box-shadow: var(--shadow-hover);
 }
 
@@ -439,11 +439,11 @@ button {
   border-radius: 18px;
   color: var(--primary-3);
   font-size: 1.3rem;
-  background: linear-gradient(145deg, rgba(230, 241, 253, 0.98), rgba(248, 251, 255, 0.96));
-  border: 1px solid rgba(29, 144, 242, 0.12);
+  background: linear-gradient(145deg, rgba(247, 241, 232, 0.98), rgba(251, 250, 247, 0.96));
+  border: 1px solid rgba(176, 115, 43, 0.16);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    0 12px 22px rgba(17, 77, 143, 0.08);
+    0 12px 22px rgba(176, 115, 43, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -451,7 +451,7 @@ button {
   transform: translateY(-2px) scale(1.03);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    0 16px 30px rgba(17, 77, 143, 0.12);
+    0 16px 30px rgba(176, 115, 43, 0.12);
 }
 
 .card-content {
@@ -465,7 +465,7 @@ button {
 
 .card-content h2 {
   margin: 0 0 10px;
-  color: #0b1f44;
+  color: #333333;
   font-family: "Montserrat", sans-serif;
   font-size: 1.72rem;
   font-weight: 800;
@@ -504,9 +504,9 @@ button {
   color: #ffffff;
   font-size: 0.98rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #0a2247, #123a6d);
+  background: linear-gradient(135deg, #333333, #4a4540);
   box-shadow:
-    0 12px 22px rgba(11, 31, 68, 0.2),
+    0 12px 22px rgba(51, 51, 51, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition:
     transform 0.25s ease,
@@ -524,8 +524,8 @@ button {
   gap: 14px;
   filter: brightness(1.03);
   box-shadow:
-    0 18px 30px rgba(11, 31, 68, 0.24),
-    0 10px 20px rgba(29, 144, 242, 0.12);
+    0 18px 30px rgba(51, 51, 51, 0.24),
+    0 10px 20px rgba(176, 115, 43, 0.12);
 }
 
 .dashboard-card:hover .card-link span {
@@ -549,7 +549,7 @@ button {
 .card-art::after {
   content: "";
   position: absolute;
-  background: rgba(29, 144, 242, 0.72);
+  background: rgba(176, 115, 43, 0.72);
 }
 
 /* Card 1 */
@@ -568,7 +568,7 @@ button {
   width: 46px;
   height: 10px;
   border-radius: 999px;
-  box-shadow: 0 20px 0 0 rgba(29, 144, 242, 0.5);
+  box-shadow: 0 20px 0 0 rgba(176, 115, 43, 0.5);
   transform: rotate(-12deg);
 }
 
@@ -587,7 +587,7 @@ button {
   width: 98px;
   height: 44px;
   border-radius: 50px;
-  box-shadow: -54px -24px 0 -18px rgba(29, 144, 242, 0.52);
+  box-shadow: -54px -24px 0 -18px rgba(176, 115, 43, 0.52);
 }
 
 /* Card 3 */
@@ -624,14 +624,14 @@ button {
   width: 96px;
   height: 44px;
   border-radius: 40px;
-  box-shadow: -56px -26px 0 -18px rgba(29, 144, 242, 0.46);
+  box-shadow: -56px -26px 0 -18px rgba(176, 115, 43, 0.46);
 }
 
 /* Card 5 */
 .dashboard-card:nth-child(5) .card-art::before,
 .dashboard-card:nth-child(5) .card-art::after {
   background: transparent;
-  border: 2px solid rgba(29, 144, 242, 0.54);
+  border: 2px solid rgba(176, 115, 43, 0.54);
   border-radius: 18px;
 }
 
@@ -661,7 +661,7 @@ button {
   width: 96px;
   height: 12px;
   border-radius: 999px;
-  box-shadow: 0 -18px 0 0 rgba(29, 144, 242, 0.36);
+  box-shadow: 0 -18px 0 0 rgba(176, 115, 43, 0.36);
 }
 
 /* =========================================================
@@ -679,9 +679,9 @@ button {
   max-width: 100%;
   padding: 14px 16px;
   border-radius: 18px;
-  border: 1px solid rgba(29, 144, 242, 0.1);
-  background: linear-gradient(145deg, rgba(236, 244, 255, 0.96), rgba(248, 251, 255, 0.96));
-  color: #17345e;
+  border: 1px solid rgba(176, 115, 43, 0.14);
+  background: linear-gradient(145deg, rgba(247, 241, 232, 0.96), rgba(251, 250, 247, 0.96));
+  color: #4a4540;
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.5;
@@ -697,10 +697,10 @@ button {
   justify-content: center;
   border: 0;
   border-radius: 16px;
-  color: #11315c;
-  background: linear-gradient(145deg, #ffffff, #eef4fb);
+  color: #4a4540;
+  background: linear-gradient(145deg, #ffffff, #f7f4ef);
   box-shadow:
-    0 10px 18px rgba(11, 31, 68, 0.08),
+    0 10px 18px rgba(51, 51, 51, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.95);
   transition:
     transform 0.22s ease,
@@ -713,8 +713,8 @@ button {
   transform: translateY(-2px);
   color: var(--primary-3);
   box-shadow:
-    0 14px 24px rgba(11, 31, 68, 0.12),
-    0 0 0 4px rgba(29, 144, 242, 0.08);
+    0 14px 24px rgba(51, 51, 51, 0.12),
+    0 0 0 4px rgba(176, 115, 43, 0.10);
   outline: none;
 }
 
@@ -748,7 +748,7 @@ button {
 }
 
 .clinic-info strong {
-  color: #0b1f44;
+  color: #333333;
   font-weight: 800;
 }
 
@@ -810,9 +810,9 @@ button {
   overflow: hidden;
   border-radius: 34px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: linear-gradient(135deg, rgba(10, 31, 68, 0.98), rgba(17, 51, 92, 0.96));
+  background: linear-gradient(135deg, rgba(51, 51, 51, 0.98), rgba(74, 69, 64, 0.96));
   box-shadow:
-    0 28px 60px rgba(11, 31, 68, 0.18),
+    0 28px 60px rgba(51, 51, 51, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
@@ -823,7 +823,7 @@ button {
   border-radius: inherit;
   pointer-events: none;
   background:
-    radial-gradient(circle at 12% 18%, rgba(77, 180, 255, 0.12), transparent 24%),
+    radial-gradient(circle at 12% 18%, rgba(176, 115, 43, 0.14), transparent 24%),
     radial-gradient(circle at 88% 14%, rgba(255, 255, 255, 0.08), transparent 18%),
     linear-gradient(
       135deg,
@@ -841,7 +841,7 @@ button {
   width: 240px;
   height: 240px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(72, 170, 255, 0.14), transparent 68%);
+  background: radial-gradient(circle, rgba(126, 76, 139, 0.16), transparent 68%);
   pointer-events: none;
 }
 
@@ -893,7 +893,7 @@ button {
 .rx-footer-description {
   max-width: 390px;
   margin: 24px 0 28px;
-  color: rgba(232, 238, 246, 0.88);
+  color: rgba(255, 255, 255, 0.84);
   font-size: 15px;
   line-height: 1.85;
 }
@@ -919,8 +919,8 @@ button {
   align-items: center;
   justify-content: center;
   border-radius: 16px;
-  color: #78c3ff;
-  background: linear-gradient(180deg, rgba(52, 116, 190, 0.48), rgba(36, 84, 140, 0.42));
+  color: #00a76e;
+  background: linear-gradient(180deg, rgba(0, 167, 110, 0.28), rgba(0, 167, 110, 0.18));
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -963,7 +963,7 @@ button {
   width: 46px;
   height: 2px;
   border-radius: 999px;
-  background: linear-gradient(90deg, rgba(102, 196, 255, 0.95), rgba(102, 196, 255, 0));
+  background: linear-gradient(90deg, rgba(176, 115, 43, 0.95), rgba(176, 115, 43, 0));
 }
 
 .rx-footer-column a,
@@ -979,7 +979,7 @@ button {
 .rx-contact-item a:hover,
 .rx-footer-column a:focus-visible,
 .rx-contact-item a:focus-visible {
-  color: #8fd2ff;
+  color: #c58b46;
   outline: none;
 }
 
@@ -1010,7 +1010,7 @@ button {
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  color: #8fd2ff;
+  color: #c58b46;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -1047,9 +1047,9 @@ button {
 
 .rx-footer-input:focus {
   outline: none;
-  border-color: rgba(132, 207, 255, 0.44);
+  border-color: rgba(176, 115, 43, 0.44);
   box-shadow:
-    0 0 0 4px rgba(79, 176, 255, 0.12),
+    0 0 0 4px rgba(176, 115, 43, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
@@ -1060,8 +1060,8 @@ button {
   color: #ffffff;
   font-size: 1rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #0f3161, #123a6d);
-  box-shadow: 0 14px 22px rgba(6, 19, 43, 0.22);
+  background: linear-gradient(135deg, #333333, #4a4540);
+  box-shadow: 0 14px 22px rgba(51, 51, 51, 0.22);
   transition:
     transform 0.22s ease,
     box-shadow 0.22s ease,
@@ -1072,14 +1072,14 @@ button {
 .rx-footer-submit:focus-visible {
   transform: translateY(-1px);
   filter: brightness(1.05);
-  box-shadow: 0 18px 30px rgba(6, 19, 43, 0.26);
+  box-shadow: 0 18px 30px rgba(51, 51, 51, 0.26);
   outline: none;
 }
 
 .footer-form-feedback {
   min-height: 18px;
   margin: 0;
-  color: rgba(143, 210, 255, 0.96);
+  color: rgba(197, 139, 70, 0.96);
   font-size: 0.85rem;
   line-height: 1.5;
 }
@@ -1116,7 +1116,7 @@ button {
   justify-content: center;
   border-radius: 14px;
   text-decoration: none;
-  color: #e6edf6;
+  color: #f5f2ee;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.08);
   transition:
@@ -1128,7 +1128,7 @@ button {
 .rx-social-link:hover,
 .rx-social-link:focus-visible {
   transform: translateY(-2px);
-  color: #8fd2ff;
+  color: #c58b46;
   background: rgba(255, 255, 255, 0.12);
   outline: none;
 }
