@@ -35,3 +35,7 @@ dashboard
 clinic register
 dispense prescription
 patient history
+contact us
+
+FAQs
+Medication export
