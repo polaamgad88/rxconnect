@@ -798,6 +798,7 @@ button {
 /* =========================================================
    15) FOOTER WRAPPER
    ========================================================= */
+
 .rx-footer {
   padding: 18px 24px 28px;
 }
@@ -810,7 +811,7 @@ button {
   overflow: hidden;
   border-radius: 34px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: linear-gradient(135deg, rgba(51, 51, 51, 0.98), rgba(74, 69, 64, 0.96));
+  background: linear-gradient(135deg, rgba(51, 51, 51, 0.98), rgba(0, 0, 0, 0.96));
   box-shadow:
     0 28px 60px rgba(51, 51, 51, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
@@ -823,14 +824,9 @@ button {
   border-radius: inherit;
   pointer-events: none;
   background:
-    radial-gradient(circle at 12% 18%, rgba(176, 115, 43, 0.14), transparent 24%),
+    radial-gradient(circle at 12% 18%, rgba(176, 115, 43, 0.12), transparent 24%),
     radial-gradient(circle at 88% 14%, rgba(255, 255, 255, 0.08), transparent 18%),
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.08),
-      rgba(255, 255, 255, 0.02) 36%,
-      rgba(255, 255, 255, 0.01)
-    );
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02) 36%, rgba(255, 255, 255, 0.01));
 }
 
 .rx-footer-shell::after {
@@ -841,7 +837,7 @@ button {
   width: 240px;
   height: 240px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(126, 76, 139, 0.16), transparent 68%);
+  background: radial-gradient(circle, rgba(176, 115, 43, 0.14), transparent 68%);
   pointer-events: none;
 }
 
@@ -851,9 +847,6 @@ button {
   z-index: 1;
 }
 
-/* =========================================================
-   16) FOOTER TOP / BRAND / LINKS LAYOUT
-   ========================================================= */
 .rx-footer-top {
   display: grid;
   grid-template-columns: minmax(280px, 1.1fr) minmax(0, 2fr);
@@ -861,19 +854,6 @@ button {
   padding-bottom: 28px;
 }
 
-.rx-footer-brand {
-  padding-right: 10px;
-}
-
-.rx-footer-links {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 30px;
-}
-
-/* =========================================================
-   17) FOOTER BRAND AREA
-   ========================================================= */
 .rx-footer-logo-link {
   display: inline-flex;
   align-items: center;
@@ -881,7 +861,6 @@ button {
   width: 154px;
   min-height: 76px;
   padding: 16px 20px;
-  border-radius: 0;
   background: #ffffff;
 }
 
@@ -893,14 +872,11 @@ button {
 .rx-footer-description {
   max-width: 390px;
   margin: 24px 0 28px;
-  color: rgba(255, 255, 255, 0.84);
+  color: rgba(240, 236, 230, 0.88);
   font-size: 15px;
   line-height: 1.85;
 }
 
-/* =========================================================
-   18) FOOTER EMERGENCY BOX
-   ========================================================= */
 .rx-footer-emergency {
   display: inline-flex;
   align-items: center;
@@ -919,8 +895,8 @@ button {
   align-items: center;
   justify-content: center;
   border-radius: 16px;
-  color: #00a76e;
-  background: linear-gradient(180deg, rgba(0, 167, 110, 0.28), rgba(0, 167, 110, 0.18));
+  color: #b0732b;
+  background: linear-gradient(180deg, rgba(176, 115, 43, 0.18), rgba(176, 115, 43, 0.12));
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -941,11 +917,13 @@ button {
   font-weight: 700;
 }
 
-/* =========================================================
-   19) FOOTER COLUMNS / LINKS
-   ========================================================= */
+.rx-footer-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 30px;
+}
+
 .rx-footer-column h4 {
-  position: relative;
   margin: 8px 0 18px;
   padding-bottom: 14px;
   color: #ffffff;
@@ -953,6 +931,7 @@ button {
   font-size: 1.35rem;
   font-weight: 700;
   line-height: 1.2;
+  position: relative;
 }
 
 .rx-footer-column h4::after {
@@ -969,7 +948,7 @@ button {
 .rx-footer-column a,
 .rx-contact-item a {
   text-decoration: none;
-  color: rgba(227, 235, 245, 0.9);
+  color: rgba(240, 236, 230, 0.9);
   font-size: 15px;
   line-height: 1.8;
   transition: color 0.2s ease, opacity 0.2s ease;
@@ -979,7 +958,7 @@ button {
 .rx-contact-item a:hover,
 .rx-footer-column a:focus-visible,
 .rx-contact-item a:focus-visible {
-  color: #c58b46;
+  color: #b0732b;
   outline: none;
 }
 
@@ -989,9 +968,6 @@ button {
   gap: 8px;
 }
 
-/* =========================================================
-   20) FOOTER CONTACT ITEMS
-   ========================================================= */
 .rx-contact-item {
   display: grid;
   grid-template-columns: 40px 1fr;
@@ -1010,7 +986,7 @@ button {
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  color: #c58b46;
+  color: #b0732b;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -1021,9 +997,6 @@ button {
   gap: 2px;
 }
 
-/* =========================================================
-   21) FOOTER FORM
-   ========================================================= */
 .rx-footer-form {
   display: grid;
   gap: 14px;
@@ -1031,8 +1004,8 @@ button {
 }
 
 .rx-footer-input {
-  width: 100%;
   height: 52px;
+  width: 100%;
   padding: 0 18px;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1042,15 +1015,7 @@ button {
 }
 
 .rx-footer-input::placeholder {
-  color: rgba(219, 229, 241, 0.6);
-}
-
-.rx-footer-input:focus {
-  outline: none;
-  border-color: rgba(176, 115, 43, 0.44);
-  box-shadow:
-    0 0 0 4px rgba(176, 115, 43, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  color: rgba(240, 236, 230, 0.6);
 }
 
 .rx-footer-submit {
@@ -1060,33 +1025,27 @@ button {
   color: #ffffff;
   font-size: 1rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #333333, #4a4540);
-  box-shadow: 0 14px 22px rgba(51, 51, 51, 0.22);
-  transition:
-    transform 0.22s ease,
-    box-shadow 0.22s ease,
-    filter 0.22s ease;
+  background: linear-gradient(135deg, #333333, #333333);
+  box-shadow: 0 14px 22px rgba(0, 0, 0, 0.22);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
 }
 
 .rx-footer-submit:hover,
 .rx-footer-submit:focus-visible {
   transform: translateY(-1px);
   filter: brightness(1.05);
-  box-shadow: 0 18px 30px rgba(51, 51, 51, 0.26);
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.26);
   outline: none;
 }
 
 .footer-form-feedback {
   min-height: 18px;
   margin: 0;
-  color: rgba(197, 139, 70, 0.96);
+  color: rgba(176, 115, 43, 0.96);
   font-size: 0.85rem;
   line-height: 1.5;
 }
 
-/* =========================================================
-   22) FOOTER BOTTOM / COPYRIGHT / SOCIALS
-   ========================================================= */
 .rx-footer-bottom {
   display: flex;
   align-items: center;
@@ -1098,7 +1057,7 @@ button {
 
 .rx-footer-copy {
   margin: 0;
-  color: rgba(223, 231, 242, 0.74);
+  color: rgba(240, 236, 230, 0.74);
   font-size: 0.95rem;
 }
 
@@ -1116,83 +1075,18 @@ button {
   justify-content: center;
   border-radius: 14px;
   text-decoration: none;
-  color: #f5f2ee;
+  color: #f0ece6;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  transition:
-    transform 0.22s ease,
-    background 0.22s ease,
-    color 0.22s ease;
+  transition: transform 0.22s ease, background 0.22s ease, color 0.22s ease;
 }
 
 .rx-social-link:hover,
 .rx-social-link:focus-visible {
   transform: translateY(-2px);
-  color: #c58b46;
+  color: #b0732b;
   background: rgba(255, 255, 255, 0.12);
   outline: none;
-}
-
-/* =========================================================
-   23) RESPONSIVE - 1180PX
-   ========================================================= */
-@media (max-width: 1180px) {
-  .dashboard-wrapper {
-    max-width: 100%;
-  }
-
-  .dashboard-grid {
-    gap: 20px;
-  }
-
-  .card-content {
-    max-width: 75%;
-  }
-
-  .rx-footer-top {
-    grid-template-columns: 1fr;
-  }
-
-  .rx-footer-brand {
-    padding-right: 0;
-  }
-}
-
-/* =========================================================
-   24) RESPONSIVE - 1024PX
-   ========================================================= */
-@media (max-width: 1024px) {
-  .site-header,
-  .dashboard-section,
-  .rx-footer {
-    padding-left: 18px;
-    padding-right: 18px;
-  }
-
-  .navbar-container {
-    min-height: 82px;
-    padding: 0 22px;
-  }
-
-  .nav-center {
-    gap: 24px;
-  }
-
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard-card {
-    min-height: 300px;
-  }
-
-  .card-content {
-    max-width: calc(100% - 120px);
-  }
-
-  .rx-footer-links {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 /* =========================================================

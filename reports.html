@@ -23,15 +23,25 @@
     <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
   </head>
   <body>
-    <header class="site-header">
+     <header class="site-header">
       <div class="navbar-wrapper">
         <nav class="main-navbar" aria-label="Primary navigation">
           <div class="navbar-shell">
             <div class="navbar-container">
-              <a href="./index.html" class="navbar-brand" aria-label="RxConnect Home">
+              <!-- =========================================================
+                   4) NAVBAR BRAND
+                   ========================================================= -->
+              <a
+                href="./index.html"
+                class="navbar-brand"
+                aria-label="RxConnect Home"
+              >
                 <img src="./assets/rxconnect.png" alt="RxConnect" />
               </a>
 
+              <!-- =========================================================
+                   5) MOBILE MENU BUTTON
+                   ========================================================= -->
               <button
                 id="menu-btn"
                 class="menu-button"
@@ -43,11 +53,18 @@
                 <i class="fa-solid fa-bars" aria-hidden="true"></i>
               </button>
 
+              <!-- =========================================================
+                   6) NAVIGATION LINKS / USER MENU
+                   ========================================================= -->
               <div class="navbar-right" id="nav-menu">
+                <!-- Main navigation links -->
                 <div class="nav-center">
-                  <a href="./prescriptions.html" class="nav-link">Prescriptions</a>
+                  <a href="./prescriptions.html" class="nav-link"
+                    >Prescriptions</a
+                  >
                   <a href="./contact-us.html" class="nav-link">Contact Us</a>
 
+                  <!-- Reports dropdown -->
                   <div class="dropdown" id="reportsDropdownWrap">
                     <button
                       class="dropdown-toggle"
@@ -57,7 +74,10 @@
                       aria-controls="reportsDropdown"
                     >
                       <span>Reports</span>
-                      <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+                      <i
+                        class="fa-solid fa-chevron-down dropdown-icon"
+                        aria-hidden="true"
+                      ></i>
                     </button>
 
                     <div class="dropdown-content" id="reportsDropdown">
@@ -72,6 +92,7 @@
                   <a href="./register.html" class="join-btn">Join Us</a>
                 </div>
 
+                <!-- User dropdown -->
                 <div class="user-dropdown-container" id="userDropdownWrap">
                   <button
                     class="user-trigger"
@@ -81,7 +102,10 @@
                   >
                     <span class="hello-label">Hello,</span>
                     <span id="username">admin.builtin</span>
-                    <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+                    <i
+                      class="fa-solid fa-chevron-down dropdown-icon"
+                      aria-hidden="true"
+                    ></i>
                   </button>
 
                   <ul class="user-dropdown-menu" id="userDropdownMenu">
@@ -94,13 +118,17 @@
                     <li class="divider" aria-hidden="true"></li>
                     <li>
                       <a href="./login.html">
-                        <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                        <i
+                          class="fa-solid fa-right-from-bracket"
+                          aria-hidden="true"
+                        ></i>
                         <span>Logout</span>
                       </a>
                     </li>
                   </ul>
                 </div>
               </div>
+              <!-- /navbar-right -->
             </div>
           </div>
         </nav>
@@ -192,107 +220,117 @@
       </div>
     </section>
 
-    <div class="footer">
-      <div class="w-container">
-        <div class="emergency-wrapper">
-          <img
-            src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/5822042610a8d4ee31522b7d_24-hours-phone-service.png"
-            width="64"
-            alt=""
-            class="emergency-footer-icon"
-          />
-          <h4 class="white">emergency cases</h4>
-          <a href="tel:+1-600-700-6200">
-            <div class="emergency-number">+44 20 7123 4567</div>
-          </a>
+  <footer class="rx-footer">
+      <div class="rx-footer-shell">
+        <div class="rx-footer-top">
+          <div class="rx-footer-brand">
+            <a href="./dashboard.html" class="rx-footer-logo-link">
+              <img src="./assets/rxconnect.png" alt="RxConnect" class="rx-footer-logo" />
+            </a>
+
+            <p class="rx-footer-description">
+              RxConnect is an international private healthcare provider with more than
+              20 years of experience, offering access to comprehensive outpatient and
+              inpatient services, along with a full range of laboratory diagnostics.
+            </p>
+
+            <div class="rx-footer-emergency">
+              <div class="rx-footer-emergency-icon" aria-hidden="true">
+                <i class="fa-solid fa-phone-volume"></i>
+              </div>
+              <div>
+                <span class="rx-footer-emergency-label">Emergency cases</span>
+                <a href="tel:+442071234567" class="rx-footer-emergency-number">+44 20 7123 4567</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="rx-footer-links">
+            <div class="rx-footer-column">
+              <h4>Navigation</h4>
+              <a href="./about-us.html">Who we are</a>
+              <a href="./dr-form.html">E-prescription</a>
+              <a href="./prescriptions.html">My prescription</a>
+              <a href="./doctors.html">Doctors</a>
+              <a href="./patient-history.html">Patient history</a>
+              <a href="./FAQs.html">FAQs</a>
+            </div>
+
+            <div class="rx-footer-column rx-footer-contact">
+              <h4>Contact Us</h4>
+
+              <div class="rx-contact-item">
+                <span class="rx-contact-icon" aria-hidden="true">
+                  <i class="fa-solid fa-location-dot"></i>
+                </span>
+                <a href="#">M5 3AB Church Road, Salford, Manchester</a>
+              </div>
+
+              <div class="rx-contact-item">
+                <span class="rx-contact-icon" aria-hidden="true">
+                  <i class="fa-solid fa-envelope"></i>
+                </span>
+                <a href="mailto:info@rxconnect.com">info@rxconnect.com</a>
+              </div>
+
+              <div class="rx-contact-item">
+                <span class="rx-contact-icon" aria-hidden="true">
+                  <i class="fa-solid fa-phone"></i>
+                </span>
+                <div class="rx-contact-phones">
+                  <a href="tel:+447712345678">+44 7712 345678</a>
+                  <a href="tel:+442071234567">+44 20 7123 4567</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="rx-footer-column rx-footer-form-col">
+              <h4>Message us</h4>
+
+              <form class="rx-footer-form" id="footerMessageForm">
+                <label class="sr-only" for="footerName">Your name</label>
+                <input
+                  id="footerName"
+                  type="text"
+                  name="name"
+                  placeholder="Enter your name"
+                  class="rx-footer-input"
+                />
+
+                <label class="sr-only" for="footerEmail">Your email</label>
+                <input
+                  id="footerEmail"
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email address"
+                  class="rx-footer-input"
+                  required
+                />
+
+                <button type="submit" class="rx-footer-submit">Submit</button>
+                <p class="footer-form-feedback" id="footerFormFeedback" aria-live="polite"></p>
+              </form>
+            </div>
+          </div>
         </div>
 
-        <div class="flex-box space-between">
-          <div class="_33-percent-column right-padding">
-            <img src="./assets/rxconnect.png" alt="" class="footer-logo" />
-            <p class="white footer-paragraph">
-              RxConnect is an international private health care provider. We have more than 20 years of experience.
-              Our patients are provided with access to comprehensive outpatient and inpatient services, as well as a
-              full range of laboratory diagnostics.
-            </p>
-          </div>
+        <div class="rx-footer-bottom">
+          <p class="rx-footer-copy">© 2026 RxConnect. All rights reserved.</p>
 
-          <div class="_17-percent-column">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Navigation</h4>
-                <div class="footer-line"></div>
-              </div>
-              <a href="./about-us.html" class="footer-link">Who we are</a>
-              <a href="./dr-form.html" class="footer-link">E-prescription</a>
-              <a href="./prescriptions.html" class="footer-link">My prescription</a>
-              <a href="./doctors.html" class="footer-link">Doctors</a>
-              <a href="./patient-history.html" class="footer-link">Patient history</a>
-              <a href="./FAQs.html" class="footer-link">FAQs</a>
-            </div>
-          </div>
-
-          <div class="_17-percent-column next">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Departments</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="w-dyn-list">
-                <div role="list" class="w-dyn-items">
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="#" class="footer-link">Physiotherapy</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="#" class="footer-link">Optical</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="#" class="footer-link">Dental</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="#" class="footer-link">X-Ray</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="#" class="footer-link">Cardiology</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="#" class="footer-link">Neurology</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="_33-percent-column contact-footer">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Contact Us</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb365745bf29a4636cc96d_marker_white.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="#" class="footer-link contact">M5 3AB Church Road, Salford, Manchester</a>
-                </div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="mailto:info@rxconnect.com" class="footer-link contact">info@rxconnect.com</a>
-                </div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="tel:+447712345678" class="footer-link">+44 7712 345678</a>
-                  <a href="tel:+442071234567" class="footer-link">+44 20 7123 4567</a>
-                </div>
-              </div>
-            </div>
+          <div class="rx-footer-socials">
+            <a href="#" class="rx-social-link" aria-label="Facebook">
+              <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+            </a>
+            <a href="#" class="rx-social-link" aria-label="X">
+              <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+            </a>
+            <a href="#" class="rx-social-link" aria-label="LinkedIn">
+              <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+            </a>
           </div>
         </div>
       </div>
-    </div>
+    </footer>
 
     <script>
       (function () {

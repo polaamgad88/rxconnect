@@ -23,3 +23,13 @@ Prescription code must start with "RXC-".  done
 Message/mail will be sent, will contain the Prescription code only. done
 
 Platform's colors palette will be changed to the palette of http://forhims.co.uk/ 
+
+
+
+############ PAGES DONE ######################3
+reports
+register 
+login
+dr-form
+dashboard
+clinic register
