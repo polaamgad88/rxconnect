@@ -1,562 +1,631 @@
 <!DOCTYPE html>
-<!-- This site was created in Webflow. https://webflow.com --><!-- Last Published: Thu Jul 09 2020 09:28:19 GMT+0000 (Coordinated Universal Time) -->
-<html
-  data-wf-domain="medicare-template.webflow.io"
-  data-wf-page="57c55b6ef6306d483a15bdc1"
-  data-wf-site="57c55b6ef6306d483a15bdc0"
-  data-wf-status="1"
->
+<html lang="en">
   <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RxConnect</title>
-  <meta name="generator" content="Webflow" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0c2247" />
+    <title>RxConnect Home</title>
 
-  <!-- CSS -->
-  <link href="./styles/index.css" rel="stylesheet" type="text/css" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Source+Sans+Pro:wght@400;700&display=swap"
-    rel="stylesheet"
-  />
-
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-  />
-
-  <script
-    src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
-    type="text/javascript"
-  ></script>
-
-  <script type="text/javascript">
-    WebFont.load({
-      google: {
-        families: [
-          "Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic",
-          "Montserrat:100,200,300,400,500,600,700,800,900",
-          "Source Sans Pro:400,700",
-        ],
-      },
-    });
-  </script>
-
-  <script type="text/javascript">
-    !(function (o, c) {
-      var n = c.documentElement,
-        t = " w-mod-";
-      (n.className += t + "js"),
-        ("ontouchstart" in o ||
-          (o.DocumentTouch && c instanceof DocumentTouch)) &&
-          (n.className += t + "touch");
-    })(window, document);
-  </script>
-
-  <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
-  <link
-    href="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/589b0ba5dbf0b97f5096c916_pharmacy-symbol-darker.png"
-    rel="apple-touch-icon"
-  />
-  <script>
-  window.addEventListener("pageshow", function (event) {
-    if (event.persisted) {
-      window.location.reload();
-    }
-  });
-</script>
-
-
-  <style>
-    .btn-dispense {
-      background-color: green;
-      color: #fff !important;
-      padding: 12px 24px;
-      border-radius: 10px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      margin: 10px;
-    }
-
-    .btn-dispense:hover {
-      background-color: darkgreen;
-    }
-   .navbar-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; 
-  padding: 10px 20px;
-  gap: 20px;
-}
-
-.brand img {
-  width: 140px;
-  height: auto;
-}
-
-.nav-menu {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-}
-
- .btn-main {
-    background-color: green;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 25px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.3s;
-    white-space: nowrap; 
-    display: inline-block;
-  }
-
-.btn-main:hover {
-  background-color: green;
-  transform: translateY(-2px);
-  text-decoration: none;
-}
-.top-bar-login-btn {
-    display: inline-block;
-    padding: 8px 16px; 
-    border: 2px solid green; 
-    border-radius: 8px; 
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: bold;
-    line-height: 1.2;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out; 
-        color: #ffffff; 
-    background-color: green; 
-}
-
-.top-bar-login-btn:hover {
-    color: green; 
-    background-color: transparent; 
-    border-color: green; 
-    text-decoration: none;
-}
-
-.top-info-block {
-    display: flex;
-    align-items: center; 
-}
-
-.top-info-block .button {
-    margin: 0; 
-}
-@media (max-width: 768px) {
-
-  .navbar-wrapper .top-info-bar-container {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 8px 12px !important;
-  }
-
-  .navbar-wrapper .top-info-bar-container > img {
-    display: block !important;
-    max-width: 120px !important;
-    height: auto !important;
-    margin-bottom: 0 !important;
-  }
-
-  .navbar-wrapper .info-blocks-wrapper .top-info-block:not(:last-child) {
-    display: none !important;
-  }
-
-  .navbar-wrapper .info-bar,
-  .navbar-wrapper .info-blocks-wrapper,
-  .navbar-wrapper .top-info-block:last-child {
-    display: block !important;
-  }
-
-  .navbar-wrapper .top-bar-login-btn {
-    display: inline-block !important;
-    padding: 8px 16px !important;
-    border-radius: 8px !important;
-    background-color: green !important;
-    color: #fff !important;
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    text-decoration: none !important;
-    white-space: nowrap !important;
-  }
-}
-@media (max-width: 768px) {
-    .top-margin {
-        gap: 10px !important; 
-        padding: 10px 0;
-    }
-    
-    .top-margin a.button {
-        padding: 20px 30px !important;        
-        font-size: 24px !important;       
-        margin-bottom: 15px !important;    
-        width: 90%; 
-        text-align: center;
-    }
-}
-  </style>
-</head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/index.css" />
+    <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
+  </head>
 
   <body>
-    <!-- NAVBAR (kept; minor icons retained) -->
-    <div class="navbar-wrapper">
-     <div class="top-info-bar">
-    <div class="top-info-bar-container w-container">
-        <img
-            src="./assets/rxconnect.png"
-            alt="logo"
-            style="width: 120px; height: auto; margin-bottom: 4px"
-        />
-        <div class="info-bar w-clearfix">
-            <div class="info-blocks-wrapper w-clearfix">
-                <div class="top-info-block no-right-border w-clearfix">
-                    <div class="top-info-icon"></div>
-                    <div class="top-info-content">
-                        <a href="tel:+44 20 7123 4567" class="contact-link"
-                            >+44 20 7123 4567</a
-                        ><a href="tel:+44 7712 345678" class="contact-link"
-                            >+44 7712 345678</a
-                        >
-                    </div>
-                </div>
-                <div class="top-info-block w-clearfix">
-                    <div class="top-info-icon _2"></div>
-                    <div class="top-info-content">
-                        <a data-ix="popup-modal-show" href="#" class="contact-link"
-                            >M5 3AB<br />
-                            Church Road, Salford, Manchester</a
-                        >
-                    </div>
-                </div>
-               <div class="top-info-block w-clearfix" style="border-right: none;">
-    <a href="./login.html" class="top-bar-login-btn">Login</a>
-</div>
-                
-                </div>
-        </div>
-    </div>
-</div>
-   
+    <header class="site-header">
+      <div class="navbar-wrapper">
+        <nav class="main-navbar" aria-label="Primary navigation">
+          <div class="navbar-shell">
+            <div class="navbar-container">
+              <a href="./index.html" class="navbar-brand" aria-label="RxConnect Home">
+                <img src="./assets/rxconnect.png" alt="RxConnect" />
+              </a>
 
+              <button
+                id="menu-btn"
+                class="menu-button"
+                type="button"
+                aria-label="Toggle menu"
+                aria-expanded="false"
+                aria-controls="nav-menu"
+              >
+                <i class="fa-solid fa-bars" aria-hidden="true"></i>
+              </button>
 
+              <div class="navbar-right" id="nav-menu">
+                <div class="nav-center">
+                  <a href="./prescriptions.html" class="nav-link">Prescriptions</a>
+                  <a href="./contact-us.html" class="nav-link">Contact Us</a>
+                  <div class="dropdown" id="reportsDropdownWrap">
+                    <button
+                      class="dropdown-toggle"
+                      id="reportsBtn"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="reportsDropdown"
+                    >
+                      <span>Reports</span>
+                      <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+                    </button>
+
+                    <div class="dropdown-content" id="reportsDropdown">
+                      <a href="./reports.html">Reports</a>
+                      <a href="./medicationExport.html">Medication Export</a>
+                                        <a href="./billing.html" class="nav-link">Billing</a>
+
+                    </div>
+                  </div>
+
+                  <a href="./register.html" class="join-btn">Join Us</a>
+                </div>
+
+                <div class="user-dropdown-container" id="userDropdownWrap">
+                  <button
+                    class="user-trigger"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="userDropdownMenu"
+                  >
+                    <span class="hello-label">Hello,</span>
+                    <span id="username">admin.builtin</span>
+                    <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+                  </button>
+
+                  <ul class="user-dropdown-menu" id="userDropdownMenu">
+                    <li>
+                      <a href="./myprofile.html">
+                        <i class="fa-solid fa-user" aria-hidden="true"></i>
+                        <span>My Profile</span>
+                      </a>
+                    </li>
+                    <li class="divider" aria-hidden="true"></li>
+                    <li>
+                      <a href="./login.html">
+                        <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                        <span>Logout</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
       </div>
+    </header>
 
-    <!-- POPUP + Fixed contact (unchanged) -->
-    <div data-ix="popup-modal-initial-appearance" class="popup">
-      <div data-ix="close-popup" class="popup-close"></div>
-      <div class="popup-wrapper">
-        <div class="popup-map-wrapper">
-          <div
-            class="w-widget w-widget-map"
-            data-widget-style="roadmap"
-            data-widget-latlng="-37.816189,144.96513"
-            data-enable-scroll="true"
-            role=""
-            title=""
-            data-enable-touch="true"
-            data-widget-zoom="12"
-            data-widget-tooltip=""
-          ></div>
-        </div>
-        <a
-          href="https://www.google.com/maps/place/267+Collins+St,+Melbourne+VIC+3000,+Australia/@-37.8161888,144.9629408,17z/data=!3m1!4b1!4m5!3m4!1s0x6ad642b448e82a23:0xaf456edbafcdba91!8m2!3d-37.8161888!4d144.9651295"
-          class="popup-link"
-          >View on Google Maps</a
+
+    <section class="rx-hero-beat-section">
+  <div class="rx-hero-shell">
+    <p class="rx-hero-kicker">SMART DISPENSING EXPERIENCE</p>
+
+    <div class="rx-hero-beat-stage">
+      <div class="rx-heart-lines-wrap" aria-hidden="true">
+        <svg
+          class="rx-heart-lines"
+          id="rxHeartLines"
+          viewBox="0 0 1240 260"
+          preserveAspectRatio="none"
         >
+          <path class="rx-beat-path rx-beat-path-1"></path>
+          <path class="rx-beat-path rx-beat-path-2"></path>
+          <path class="rx-beat-path rx-beat-path-3"></path>
+        </svg>
       </div>
-    </div>
-    <div class="fixed-button-wrapper">
-      <!-- <a
-        href="#Appointment"
-        data-ix="show-appointment-form"
-        class="button fixed-contact-button w-inline-block"
-      ></a> -->
-    </div>
 
-    <!-- HERO -->
-    <div
-      data-poster-url="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/587b7346a126883e7feca835_video_preview_h264-poster-00001.jpg"
-      data-video-urls="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/587b7346a126883e7feca835_video_preview_h264-transcode.mp4,https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/587b7346a126883e7feca835_video_preview_h264-transcode.webm"
-      data-autoplay="true"
-      data-loop="true"
-      data-wf-ignore="true"
-      data-ix="show-scroll-navbar"
-      class="hero w-background-video w-background-video-atom"
-    >
-      <video
-        id="bc706280-5c03-b2f5-6bc6-be722ee5f406-video"
-        autoplay=""
-        loop=""
-        style="
-          background-image: url('https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/587b7346a126883e7feca835_video_preview_h264-poster-00001.jpg');
-        "
-        muted=""
-        playsinline=""
-        data-wf-ignore="true"
-        data-object-fit="cover"
-      >
-        <source
-          src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/587b7346a126883e7feca835_video_preview_h264-transcode.mp4"
-          data-wf-ignore="true"
-        />
-        <source
-          src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/587b7346a126883e7feca835_video_preview_h264-transcode.webm"
-          data-wf-ignore="true"
-        />
-      </video>
-      <div class="hero-container w-container">
-        <div data-ix="show-on-load-6" class="hero-content">
-               <div class="top-margin" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-            <a href="./dispense-prescription.html"
-   class="button white w-button"
-   style="background-color:green;
-          color:#fff;
-          border:none;
-          padding: 55px 70px;
-          font-size: 54px;
-          display:inline-block;
-          margin-bottom: 30px;">
-  Dispense Prescription
-</a>
-
-            <!-- <a href="./register.html" class="button white w-button" style="background-color:green; color:#fff; border:none;">
-              JOIN US NOW
-            </a>
-            <a href="./login.html" class="button white w-button" style="background-color:#ffffff; color:#20baf8; border:2px solid #20baf8;">
-              Already a member? Login
-            </a> -->
-          </div>
-          <div class="hero-subheader">e-Prescription & Pharmacy Platform</div>
-          <h1 class="hero-header">
-            Create, track, and dispense prescriptions—fast and securely
-          </h1>
-          <div class="hero-card-paragraph">
-            Doctors compose prescriptions, patients view instructions, and
-            pharmacists dispense with safety checks. Real-time lists, search,
-            and detailed prescription views keep everyone aligned.
-          </div>
-          
-     
-          
-        </div>
-      </div>
+      <h1 class="rx-hero-title">
+        <span>Your</span>
+        <span>health</span>
+        <span>speaks</span>
+      </h1>
     </div>
 
-    <!-- ABOUT -->
-    <div id="About-Us" class="section about-us">
-      <div class="about-us-container w-container">
-        <div class="about-us-card">
-          <div class="title-wrapper less-margin">
-            <h2>About Us</h2>
-            <div class="subtitle">built for doctors, pharmacists & patients</div>
-            <div class="underline"></div>
-          </div>
-          <p>
-            We streamline the prescription lifecycle: from a doctor filling an
-            accurate e-prescription, to a centralized list for audit and search,
-            to a detailed view for pharmacists and patients. Role-based access,
-            audit trails, and validation rules reduce errors and improve safety.
-          </p>
-          <div class="top-margin">
-            <a href="./about-us.html" class="button w-button">read more</a>
-          </div>
-        </div>
-      </div>
+    <p class="rx-hero-subtitle">
+      Safe, elegant, and efficient prescription dispensing built for a modern healthcare workflow.
+    </p>
+
+    <div class="rx-hero-actions">
+      <a href="./dispense-prescription.html" class="rx-hero-primary-btn">
+        Dispense Prescription
+      </a>
     </div>
+  </div>
+</section>
+    <main class="home-page">
+      <div class="home-wrapper">
+        <section class="home-hero" aria-label="Home introduction">
+          <div class="home-hero-grid">
+            <div class="hero-copy">
+              <span class="hero-eyebrow">
+                <i class="fa-solid fa-shield-heart" aria-hidden="true"></i>
+                Trusted e-prescription platform
+              </span>
 
-   
+              <h1>Prescription workflows redesigned in the same dashboard style.</h1>
 
-   
-    <!-- WHY US -->
-    <div class="section tint why-us">
-      <div class="w-container">
-        <div class="w-row">
-          <div class="column-right-padding w-col w-col-8 w-col-stack">
-            <div class="features">
-              <div class="title-wrapper left-align">
-                <h2>Why Choose Us</h2>
-                <div class="subtitle">secure, fast, and reliable</div>
-                <div class="underline no-center"></div>
+              <p>
+                The old homepage was rebuilt with the dashboard visual language: warm neutral colors,
+                Montserrat headings, glass navigation, premium rounded cards, and the same luxury footer.
+                It now feels consistent with the dashboard while still keeping the homepage content focused on
+                dispensing, prescriptions, doctors, patients, and platform updates.
+              </p>
+
+              <div class="hero-cta-row">
+                <a href="./dispense-prescription.html" class="hero-btn">Dispense Prescription</a>
+                <a href="./dr-form.html" class="hero-btn-outline">Create E-Prescription</a>
+                <a href="./login.html" class="hero-btn-outline">Login</a>
               </div>
-              <div class="feature-block">
-                <div class="feature-big-number">01</div>
-                <h4>Safety & Compliance</h4>
+
+              <div class="hero-meta-row">
+                <div class="hero-meta-pill">
+                  <i class="fa-solid fa-file-prescription"></i>
+                  <span>Prescribe faster</span>
+                </div>
+                <div class="hero-meta-pill">
+                  <i class="fa-solid fa-user-shield"></i>
+                  <span>Role-based access</span>
+                </div>
+                <div class="hero-meta-pill">
+                  <i class="fa-solid fa-clock-rotate-left"></i>
+                  <span>Track every status</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="hero-panel">
+              <article class="platform-overview">
+                <span class="label">Platform Overview</span>
+                <h2>Built for clinicians, pharmacies, and patients.</h2>
                 <p>
-                  Structured orders, dispense-as-written controls, and audit logs.
-                  Role-based access and privacy by design.
+                  Create secure prescriptions, review patient history, monitor dispensing, and keep every
+                  user aligned through one consistent workflow.
                 </p>
-              </div>
-              <div class="top-margin">
-                <div class="feature-block">
-                  <div class="feature-big-number">02</div>
-                  <h4>Faster Workflows</h4>
-                  <p>
-                    Keyboard-friendly composer, templates, and quick search
-                    reduce clicks and errors for busy clinicians.
-                  </p>
-                </div>
-              </div>
-              <div class="top-margin">
-                <div class="feature-block">
-                  <div class="feature-big-number">03</div>
-                  <h4>Visibility for All Roles</h4>
-                  <p>
-                    Doctors, pharmacists, and patients see the same source of truth:
-                    lists, statuses, and clear instructions.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="w-col w-col-4 w-col-stack"></div>
-        </div>
-      </div>
-    </div>
 
-    <!-- DOCTORS (kept; retitled subtly by surrounding headings) -->
-    <div class="section">
-      <div class="w-container">
-        <div class="title-wrapper">
-          <h2>Our Clinical Advisors</h2>
-          <div class="subtitle">practitioners guiding best practices</div>
-          <div class="underline"></div>
-        </div>
-        <div>
-          <div class="w-dyn-list">
-            <div role="list" class="flex-box justify-center w-clearfix w-dyn-items w-row">
-    
-              <!-- Doctor 1 -->
-              <div class="doctor-column w-dyn-item w-col w-col-4">
-                <a href="/doctors/john-doe"
-                   class="doctor-card w-inline-block"
-                   data-slug="john-doe"
-                   data-name="Dr. Jack Doe"
-                   data-category="Neurologist"
-                   data-code="DOC-NEU-001"
-                   data-email="jack.doe@rxconnect.com"
-                   data-phone="+44 20 7123 4567"
-                   data-location="Salford, Manchester"
-                   data-avatar="https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944c4e0b064a800fc31f95_slice6.jpg"
-                   data-bio="Board-certified neurologist focused on migraine, epilepsy, and movement disorders.">
-                  <div class="doctor-block">
-                    <div data-ix="blue-overlay-hover-interaction"
-                         style="background-image: url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944c4e0b064a800fc31f95_slice6.jpg');"
-                         class="doctor-avatar">
-                      <div data-ix="blue-overlay-opacity-0" class="blue-overlay doctor-overlay">
-                        <div class="doctor-overlay-icon"></div>
-                        <div class="view-profile">View Profile</div>
-                      </div>
-                    </div>
+                <div class="overview-grid">
+                  <div class="overview-card">
+                    <span>Dispense</span>
+                    <strong>One secure flow</strong>
+                    <p>Issue and dispense prescriptions with validation and status control.</p>
                   </div>
-                  <div class="doctor-detail-wrapper">
-                    <h4 class="doctor-name">Dr. Jack Doe</h4>
-                    <p class="doctor-profession">Neurologist</p>
+                  <div class="overview-card">
+                    <span>Patients</span>
+                    <strong>Central records</strong>
+                    <p>Search, review, and manage patient information from a single place.</p>
                   </div>
+                  <div class="overview-card">
+                    <span>Reports</span>
+                    <strong>Cleaner visibility</strong>
+                    <p>Track prescriptions, billing, and exports in a clearer interface.</p>
+                  </div>
+                  <div class="overview-card">
+                    <span>Support</span>
+                    <strong>Clinic-ready</strong>
+                    <p>Warm professional styling that now matches the rest of the platform.</p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="quick-actions" aria-label="Quick actions">
+          <a href="./dispense-prescription.html" class="action-card">
+            <div class="action-icon" aria-hidden="true">
+              <i class="fa-solid fa-capsules"></i>
+            </div>
+            <h3>Dispense Prescription</h3>
+            <p>Jump directly into the pharmacy workflow and process a prescription securely.</p>
+            <span class="action-link">Open dispensing <i class="fa-solid fa-arrow-right"></i></span>
+          </a>
+
+          <a href="./dr-form.html" class="action-card">
+            <div class="action-icon" aria-hidden="true">
+              <i class="fa-solid fa-file-circle-plus"></i>
+            </div>
+            <h3>Create Prescription</h3>
+            <p>Issue a new electronic prescription through the clinician workflow.</p>
+            <span class="action-link">Start prescribing <i class="fa-solid fa-arrow-right"></i></span>
+          </a>
+
+          <a href="./prescriptions.html" class="action-card">
+            <div class="action-icon" aria-hidden="true">
+              <i class="fa-solid fa-clipboard-list"></i>
+            </div>
+            <h3>Track Prescriptions</h3>
+            <p>Review statuses, history, and live prescription activity from one dashboard.</p>
+            <span class="action-link">View tracker <i class="fa-solid fa-arrow-right"></i></span>
+          </a>
+
+          <a href="./patient-history.html" class="action-card">
+            <div class="action-icon" aria-hidden="true">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <h3>Patient History</h3>
+            <p>Open patient records, notes, and prescription history in a cleaner interface.</p>
+            <span class="action-link">Manage patients <i class="fa-solid fa-arrow-right"></i></span>
+          </a>
+        </section>
+
+        <section class="split-layout" aria-label="About platform">
+          <article class="split-card">
+            <div class="split-copy">
+              <span class="eyebrow">About RxConnect</span>
+              <h2>A homepage that now visually belongs with the dashboard.</h2>
+              <p>
+                Instead of the older blue Webflow appearance, the homepage now uses the same
+                premium design language as the dashboard and the redesigned contact page. The result
+                is cleaner, more cohesive, and easier to extend across the rest of the project.
+              </p>
+
+              <ul class="bullet-list">
+                <li>
+                  <i class="fa-solid fa-check-circle" aria-hidden="true"></i>
+                  <span>Same glass navbar and warm neutral palette as the dashboard.</span>
+                </li>
+                <li>
+                  <i class="fa-solid fa-check-circle" aria-hidden="true"></i>
+                  <span>Same luxury card system, spacing, borders, and hover behavior.</span>
+                </li>
+                <li>
+                  <i class="fa-solid fa-check-circle" aria-hidden="true"></i>
+                  <span>Same premium footer structure for a unified brand look.</span>
+                </li>
+              </ul>
+
+              <a href="./about-us.html" class="text-link">Read more about us <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <div class="visual-stack">
+            <article class="visual-card">
+              <span>Clinicians</span>
+              <strong>Create precise e-prescriptions with less friction.</strong>
+              <p>Cleaner actions and hierarchy make important workflows easier to scan.</p>
+            </article>
+
+            <article class="visual-card">
+              <span>Pharmacies</span>
+              <strong>Dispense with confidence through clearer status-driven flows.</strong>
+              <p>Highlight the actions that matter most without the previous visual clutter.</p>
+            </article>
+
+            <article class="visual-card">
+              <span>Patients</span>
+              <strong>Stay connected to records, prescriptions, and clinic communication.</strong>
+              <p>More consistent structure across pages improves trust and usability.</p>
+            </article>
+          </div>
+        </section>
+
+        <section aria-label="Why choose RxConnect">
+          <div class="section-header">
+            <div class="section-heading-group">
+              <span>Why Choose Us</span>
+              <h2>Secure, reliable, and much more consistent now.</h2>
+              <p>
+                These cards keep the homepage informative while matching the elevated dashboard styling.
+              </p>
+            </div>
+          </div>
+
+          <div class="features-grid">
+            <article class="feature-card">
+              <div class="feature-icon" aria-hidden="true">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <h3>Safety & Compliance</h3>
+              <p>
+                Structured prescription data, audit visibility, and secure access reduce workflow risk.
+              </p>
+              <span class="feature-number">01</span>
+            </article>
+
+            <article class="feature-card">
+              <div class="feature-icon" aria-hidden="true">
+                <i class="fa-solid fa-bolt"></i>
+              </div>
+              <h3>Faster Workflows</h3>
+              <p>
+                Cleaner layouts and stronger hierarchy help clinicians and dispensers move faster.
+              </p>
+              <span class="feature-number">02</span>
+            </article>
+
+            <article class="feature-card">
+              <div class="feature-icon" aria-hidden="true">
+                <i class="fa-solid fa-eye"></i>
+              </div>
+              <h3>Better Visibility</h3>
+              <p>
+                Patients, prescriptions, updates, and shortcuts are now easier to find and understand.
+              </p>
+              <span class="feature-number">03</span>
+            </article>
+          </div>
+        </section>
+
+        <section class="advisors-section" aria-label="Clinical advisors">
+          <div class="section-header">
+            <div class="section-heading-group">
+              <span>Our Clinical Advisors</span>
+              <h2>Practitioners guiding the platform.</h2>
+              <p>
+                The doctors section was restyled into premium cards and still keeps a lightweight profile modal.
+              </p>
+            </div>
+          </div>
+
+          <div class="advisors-grid">
+            <article
+              class="advisor-card"
+              data-slug="jack-doe"
+              data-name="Dr. Jack Doe"
+              data-category="Neurologist"
+              data-code="DOC-NEU-001"
+              data-email="jack.doe@rxconnect.com"
+              data-phone="+44 20 7123 4567"
+              data-location="Salford, Manchester"
+              data-avatar="https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944c4e0b064a800fc31f95_slice6.jpg"
+              data-bio="Board-certified neurologist focused on migraine, epilepsy, and movement disorders.">
+              <div class="advisor-top">
+                <div class="advisor-avatar" style="background-image:url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944c4e0b064a800fc31f95_slice6.jpg');"></div>
+                <div class="advisor-copy">
+                  <span class="role">Neurologist</span>
+                  <h3>Dr. Jack Doe</h3>
+                  <p>Clinical advisor for neurological prescribing workflows.</p>
+                </div>
+              </div>
+              <div class="advisor-meta">
+                <div class="advisor-meta-item"><i class="fa-solid fa-envelope"></i><span>jack.doe@rxconnect.com</span></div>
+                <div class="advisor-meta-item"><i class="fa-solid fa-location-dot"></i><span>Salford, Manchester</span></div>
+              </div>
+            </article>
+
+            <article
+              class="advisor-card"
+              data-slug="william-doe"
+              data-name="Dr. William Doe"
+              data-category="Cardiologist"
+              data-code="DOC-CARD-014"
+              data-email="william.doe@rxconnect.com"
+              data-phone="+44 7712 345678"
+              data-location="Salford, Manchester"
+              data-avatar="https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944a3e8031687f489ab20f_slice1.jpg"
+              data-bio="Interventional cardiologist specializing in coronary artery disease and heart failure.">
+              <div class="advisor-top">
+                <div class="advisor-avatar" style="background-image:url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944a3e8031687f489ab20f_slice1.jpg');"></div>
+                <div class="advisor-copy">
+                  <span class="role">Cardiologist</span>
+                  <h3>Dr. William Doe</h3>
+                  <p>Supports cardiovascular safety and workflow quality.</p>
+                </div>
+              </div>
+              <div class="advisor-meta">
+                <div class="advisor-meta-item"><i class="fa-solid fa-envelope"></i><span>william.doe@rxconnect.com</span></div>
+                <div class="advisor-meta-item"><i class="fa-solid fa-location-dot"></i><span>Salford, Manchester</span></div>
+              </div>
+            </article>
+
+            <article
+              class="advisor-card"
+              data-slug="jessica-doe"
+              data-name="Dr. Jessica Doe"
+              data-category="Dentist"
+              data-code="DOC-DENT-031"
+              data-email="jessica.doe@rxconnect.com"
+              data-phone="+44 20 7123 4567"
+              data-location="Salford, Manchester"
+              data-avatar="https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/589449e0e9bfbc310322a87d_slice7.jpg"
+              data-bio="General dentist with interest in cosmetic and pediatric dentistry.">
+              <div class="advisor-top">
+                <div class="advisor-avatar" style="background-image:url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/589449e0e9bfbc310322a87d_slice7.jpg');"></div>
+                <div class="advisor-copy">
+                  <span class="role">Dentist</span>
+                  <h3>Dr. Jessica Doe</h3>
+                  <p>Helps shape patient-friendly dental and outpatient experiences.</p>
+                </div>
+              </div>
+              <div class="advisor-meta">
+                <div class="advisor-meta-item"><i class="fa-solid fa-envelope"></i><span>jessica.doe@rxconnect.com</span></div>
+                <div class="advisor-meta-item"><i class="fa-solid fa-location-dot"></i><span>Salford, Manchester</span></div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="updates-section" aria-label="Product updates">
+          <div class="section-header">
+            <div class="section-heading-group">
+              <span>Product Updates</span>
+              <h2>Homepage content presented in a cleaner editorial layout.</h2>
+              <p>
+                The updates area keeps the same messaging while adopting the dashboard card system.
+              </p>
+            </div>
+          </div>
+
+          <div class="updates-grid">
+            <article class="update-feature">
+              <div class="update-icon" aria-hidden="true">
+                <i class="fa-solid fa-sparkles"></i>
+              </div>
+              <div class="meta">
+                <span>Releases</span>
+                <span>June 1, 2025</span>
+              </div>
+              <h3>New: JSON export on prescription preview.</h3>
+              <p>
+                Doctors can validate orders before submit, while admins can export the preview for
+                downstream integrations and reporting use cases.
+              </p>
+              <a href="./about-us.html" class="text-link">Read the update <i class="fa-solid fa-arrow-right"></i></a>
+            </article>
+
+            <div class="update-list">
+              <article class="update-item">
+                <div class="meta">
+                  <span>Enhancements</span>
+                  <span>May 20, 2025</span>
+                </div>
+                <h3>Refill tracking improvements.</h3>
+                <p>Prescription lifecycle visibility is clearer for both dispensing and follow-up review.</p>
+              </article>
+
+              <article class="update-item">
+                <div class="meta">
+                  <span>Announcements</span>
+                  <span>May 5, 2025</span>
+                </div>
+                <h3>Patient reminders via SMS and email.</h3>
+                <p>Support patients with timely updates and reduce missed dispensing or appointment steps.</p>
+              </article>
+
+              <article class="update-item">
+                <div class="meta">
+                  <span>Tips</span>
+                  <span>April 18, 2025</span>
+                </div>
+                <h3>Templates for common regimens.</h3>
+                <p>Reduce repeated entry and speed up common prescribing scenarios through reusable patterns.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="cta-banner" aria-label="Call to action">
+          <div class="cta-copy">
+            <h2>Ready to onboard your clinic with the same premium look?</h2>
+            <p>
+              This home page now aligns with the dashboard and contact page. The rest of the pages can be
+              moved into the same design system the same way.
+            </p>
+          </div>
+
+          <div class="cta-actions">
+            <a href="./register.html" class="home-btn">Join Us</a>
+            <a href="./contact-us.html" class="home-btn-outline">Contact Us</a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="rx-footer">
+      <div class="rx-footer-shell">
+        <div class="rx-footer-top">
+          <div class="rx-footer-brand">
+            <a href="./index.html" class="rx-footer-logo-link">
+              <img src="./assets/rxconnect.png" alt="RxConnect" class="rx-footer-logo" />
+            </a>
+
+            <p class="rx-footer-description">
+              RxConnect is an international private healthcare provider with more than 20 years of
+              experience, offering access to comprehensive outpatient and inpatient services,
+              along with a full range of laboratory diagnostics.
+            </p>
+
+            <div class="rx-footer-emergency">
+              <div class="rx-footer-emergency-icon" aria-hidden="true">
+                <i class="fa-solid fa-phone-volume"></i>
+              </div>
+              <div>
+                <span class="rx-footer-emergency-label">Emergency cases</span>
+                <a href="tel:+442071234567" class="rx-footer-emergency-number">+44 20 7123 4567</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="rx-footer-links">
+            <div class="rx-footer-column">
+              <h4>Navigation</h4>
+              <a href="./about-us.html">Who we are</a>
+              <a href="./dr-form.html">E-Prescriptions</a>
+              <a href="./prescriptions.html">My Prescriptions</a>
+              <a href="./patients.html">Patients</a>
+              <a href="./billing.html">Billing</a>
+              <a href="./contact-us.html">Contact Us</a>
+            </div>
+
+            <div class="rx-footer-column rx-footer-contact">
+              <h4>Contact Us</h4>
+
+              <div class="rx-contact-item">
+                <span class="rx-contact-icon" aria-hidden="true">
+                  <i class="fa-solid fa-location-dot"></i>
+                </span>
+                <a href="https://www.google.com/maps/place/Church+Road,+Salford,+Manchester+M5+3AB" target="_blank" rel="noreferrer">
+                  M5 3AB Church Road, Salford, Manchester
                 </a>
               </div>
-    
-              <!-- Doctor 2 -->
-              <div class="doctor-column w-dyn-item w-col w-col-4">
-                <a href="/doctors/william-james"
-                   class="doctor-card w-inline-block"
-                   data-slug="william-james"
-                   data-name="Dr. William Doe"
-                   data-category="Cardiologist"
-                   data-code="DOC-CARD-014"
-                   data-email="william.doe@rxconnect.com"
-                   data-phone="+44 7712 345678"
-                   data-location="Salford, Manchester"
-                   data-avatar="https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944a3e8031687f489ab20f_slice1.jpg"
-                   data-bio="Interventional cardiologist specializing in coronary artery disease and heart failure.">
-                  <div class="doctor-block">
-                    <div data-ix="blue-overlay-hover-interaction"
-                         style="background-image: url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944a3e8031687f489ab20f_slice1.jpg');"
-                         class="doctor-avatar">
-                      <div data-ix="blue-overlay-opacity-0" class="blue-overlay doctor-overlay">
-                        <div class="doctor-overlay-icon"></div>
-                        <div class="view-profile">View Profile</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="doctor-detail-wrapper">
-                    <h4 class="doctor-name">Dr. William Doe</h4>
-                    <p class="doctor-profession">Cardiologist</p>
-                  </div>
-                </a>
+
+              <div class="rx-contact-item">
+                <span class="rx-contact-icon" aria-hidden="true">
+                  <i class="fa-solid fa-envelope"></i>
+                </span>
+                <a href="mailto:info@rxconnect.com">info@rxconnect.com</a>
               </div>
-    
-              <!-- Doctor 3 -->
-              <div class="doctor-column w-dyn-item w-col w-col-4">
-                <a href="/doctors/jessica-smith"
-                   class="doctor-card w-inline-block"
-                   data-slug="jessica-smith"
-                   data-name="Dr. Jessica Doe"
-                   data-category="Dentist"
-                   data-code="DOC-DENT-031"
-                   data-email="jessica.doe@rxconnect.com"
-                   data-phone="+44 20 7123 4567"
-                   data-location="Salford, Manchester"
-                   data-avatar="https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/589449e0e9bfbc310322a87d_slice7.jpg"
-                   data-bio="General dentist with interest in cosmetic and pediatric dentistry.">
-                  <div class="doctor-block">
-                    <div data-ix="blue-overlay-hover-interaction"
-                         style="background-image: url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/589449e0e9bfbc310322a87d_slice7.jpg');"
-                         class="doctor-avatar">
-                      <div data-ix="blue-overlay-opacity-0" class="blue-overlay doctor-overlay">
-                        <div class="doctor-overlay-icon"></div>
-                        <div class="view-profile">View Profile</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="doctor-detail-wrapper">
-                    <h4 class="doctor-name">Dr. Jessica Doe</h4>
-                    <p class="doctor-profession">Dentist</p>
-                  </div>
-                </a>
+
+              <div class="rx-contact-item">
+                <span class="rx-contact-icon" aria-hidden="true">
+                  <i class="fa-solid fa-phone"></i>
+                </span>
+                <div class="rx-contact-phones">
+                  <a href="tel:+447712345678">+44 7712 345678</a>
+                  <a href="tel:+442071234567">+44 20 7123 4567</a>
+                </div>
               </div>
-    
+            </div>
+
+            <div class="rx-footer-column rx-footer-form-col">
+              <h4>Message us</h4>
+
+              <form class="rx-footer-form" id="footerMessageForm">
+                <label class="sr-only" for="footerName">Your name</label>
+                <input id="footerName" type="text" name="name" placeholder="Enter your name" class="rx-footer-input" />
+
+                <label class="sr-only" for="footerEmail">Your email</label>
+                <input
+                  id="footerEmail"
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email address"
+                  class="rx-footer-input"
+                  required
+                />
+
+                <button type="submit" class="rx-footer-submit">Submit</button>
+                <p class="footer-form-feedback" id="footerFormFeedback" aria-live="polite"></p>
+              </form>
             </div>
           </div>
         </div>
-        <div class="div-center">
-          <div class="top-margin less">
-            <a href="./doctors.html" class="button w-button">all advisors</a>
+
+        <div class="rx-footer-bottom">
+          <p class="rx-footer-copy">© 2026 RxConnect. All rights reserved.</p>
+
+          <div class="rx-footer-socials">
+            <a href="#" class="rx-social-link" aria-label="Facebook">
+              <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+            </a>
+            <a href="#" class="rx-social-link" aria-label="X">
+              <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+            </a>
+            <a href="#" class="rx-social-link" aria-label="LinkedIn">
+              <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+            </a>
           </div>
         </div>
       </div>
-    </div>
-    
-    <!-- Lightweight modal (added once) -->
-    <style>
-      .rx-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:9999}
-      .rx-modal-overlay.is-open{display:flex}
-      .rx-modal{width:min(640px,92vw);max-height:86vh;overflow:auto;background:#fff;border-radius:12px;box-shadow:0 24px 60px rgba(0,0,0,.2)}
-      .rx-h{display:flex;gap:14px;align-items:center;padding:16px 18px;border-bottom:1px solid rgba(0,0,0,.06)}
-      .rx-av{width:56px;height:56px;border-radius:50%;background-size:cover;background-position:center;flex:0 0 auto}
-      .rx-t{margin:0;font-weight:700;font-size:18px}
-      .rx-s{margin-top:2px;color:#666;font-size:13px}
-      .rx-b{padding:16px 18px}
-      .rx-meta{display:grid;grid-template-columns:150px 1fr;gap:8px 16px;font-size:14px}
-      .rx-meta dt{color:#666}
-      .rx-meta dd{margin:0;color:#222}
-      .rx-f{display:flex;gap:10px;justify-content:flex-end;padding:12px 18px 18px}
-      .rx-btn{border:0;border-radius:8px;background:#f3f5f7;padding:8px 12px;cursor:pointer}
-      .rx-btn.p{background:#20baf8;color:#fff}
-      @media (prefers-reduced-motion:reduce){.rx-modal{transition:none}}
-    </style>
+    </footer>
+
     <div class="rx-modal-overlay" id="rxDocOverlay" aria-hidden="true" role="dialog" aria-modal="true">
       <div class="rx-modal" role="document" aria-labelledby="rxDocTitle">
         <div class="rx-h">
@@ -567,7 +636,7 @@
           </div>
         </div>
         <div class="rx-b">
-          <p id="rxDocBio" style="margin-top:0;margin-bottom:12px;color:#333"></p>
+          <p id="rxDocBio"></p>
           <dl class="rx-meta">
             <dt>Doctor Code</dt><dd id="rxDocCode"></dd>
             <dt>Category</dt><dd id="rxDocCategory"></dd>
@@ -582,591 +651,7 @@
         </div>
       </div>
     </div>
-    <script>
-      (function(){
-        var o=document.getElementById('rxDocOverlay');
-        var els={
-          av:document.getElementById('rxDocAvatar'),
-          t: document.getElementById('rxDocTitle'),
-          s: document.getElementById('rxDocSub'),
-          bio:document.getElementById('rxDocBio'),
-          code:document.getElementById('rxDocCode'),
-          cat:document.getElementById('rxDocCategory'),
-          mail:document.getElementById('rxDocEmail'),
-          phone:document.getElementById('rxDocPhone'),
-          loc:document.getElementById('rxDocLocation'),
-          link:document.getElementById('rxDocProfile')
-        };
-    
-        function openModal(card){
-          els.av.style.backgroundImage='url("'+(card.dataset.avatar||'')+'")';
-          els.t.textContent=card.dataset.name||'Doctor';
-          els.s.textContent=card.dataset.category||'';
-          els.bio.textContent=card.dataset.bio||'';
-          els.code.textContent=card.dataset.code||'';
-          els.cat.textContent=card.dataset.category||'';
-          els.mail.textContent=card.dataset.email||'';
-          els.phone.textContent=card.dataset.phone||'';
-          els.loc.textContent=card.dataset.location||'';
-          var slug=card.dataset.slug||'';
-          els.link.setAttribute('href','./doctors.html#'+encodeURIComponent(slug));
-          o.classList.add('is-open');
-          o.setAttribute('aria-hidden','false');
-        }
-        function closeModal(){
-          o.classList.remove('is-open');
-          o.setAttribute('aria-hidden','true');
-        }
-    
-        document.addEventListener('click',function(e){
-          var card=e.target.closest('.doctor-card');
-          if(card){
-            e.preventDefault(); // stop navigating to /doctors/...
-            openModal(card);
-            return;
-          }
-          if(e.target.hasAttribute('data-rx-close') || e.target===o){ closeModal(); }
-        },{passive:false});
-    
-        document.addEventListener('keydown',function(e){
-          if(e.key==='Escape'){ closeModal(); }
-        },{passive:true});
-      })();
-    </script>
-    
-    <!-- PRICING -->
-    <!-- <div class="section tint">
-      <div class="w-container">
-        <div class="title-wrapper">
-          <h2>Pricing packages</h2>
-          <div class="subtitle">choose a plan for your clinic or pharmacy</div>
-          <div class="underline"></div>
-        </div>
-        <div data-duration-in="300" data-duration-out="100" data-current="Tab 1" data-easing="ease" class="w-tabs">
-          <div class="tabs-menu w-tab-menu">
-            <a data-w-tab="Tab 1" class="tab-link-left w-inline-block w-tab-link w--current"><div>Monthly</div></a>
-            <a data-w-tab="Tab 2" class="tab-link-right w-inline-block w-tab-link"><div>Annual</div></a>
-          </div>
-          <div class="tabs-content w-tab-content">
-            <div data-w-tab="Tab 1" class="w-tab-pane w--tab-active">
-              <div class="flex-box space-between">
-                <div class="price-column">
-                  <div class="price-table">
-                    <div class="price-table-header"><h3>Basic</h3></div>
-                    <div class="price-block"><div class="big-price">$39</div></div>
-                    <ul role="list" class="price-unordered-list w-list-unstyled">
-                      <li class="price-list-item"><p class="price-feature-text">1 doctor / 1 pharmacy</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">100 e-prescriptions / mo</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">Prescription list & view</p></li>
-                      <li class="price-list-item"><p class="price-feature-text strikeout">SMS reminders</p></li>
-                      <li class="price-list-item"><p class="price-feature-text strikeout">Advanced reports</p></li>
-                    </ul>
-                    <a href="#" class="button price-button w-button">get started</a>
-                  </div>
-                </div>
-                <div class="price-column">
-                  <div class="price-table">
-                    <div class="price-ribbon">most popular</div>
-                    <div class="price-table-header"><h3>Standard</h3></div>
-                    <div class="price-block"><div class="big-price">$59</div></div>
-                    <ul role="list" class="price-unordered-list w-list-unstyled">
-                      <li class="price-list-item"><p class="price-feature-text">Up to 5 users</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">500 e-prescriptions / mo</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">SMS/email reminders</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">Basic analytics</p></li>
-                      <li class="price-list-item"><p class="price-feature-text strikeout">SSO & audit export</p></li>
-                    </ul>
-                    <a href="#" class="button price-button w-button">get started</a>
-                  </div>
-                </div>
-                <div class="price-column">
-                  <div class="price-table">
-                    <div class="price-table-header"><h3>Enterprise</h3></div>
-                    <div class="price-block"><div class="big-price">$89</div></div>
-                    <ul role="list" class="price-unordered-list w-list-unstyled">
-                      <li class="price-list-item"><p class="price-feature-text">Unlimited users</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">Unlimited e-prescriptions</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">Advanced reports & export</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">Priority support</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">SSO & audit integrations</p></li>
-                    </ul>
-                    <a href="#" class="button price-button w-button">get started</a>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <div data-w-tab="Tab 2" class="w-tab-pane">
-              <div class="flex-box space-between">
-                <div class="price-column">
-                  <div class="price-table">
-                    <div class="price-table-header"><h3>Basic</h3></div>
-                    <div class="price-block"><div class="big-price">$29</div></div>
-                    <ul role="list" class="price-unordered-list w-list-unstyled">
-                      <li class="price-list-item"><p class="price-feature-text">1 doctor / 1 pharmacy</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">100 e-prescriptions / mo</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">Prescription list & view</p></li>
-                      <li class="price-list-item"><p class="price-feature-text strikeout">SMS reminders</p></li>
-                      <li class="price-list-item"><p class="price-feature-text strikeout">Advanced reports</p></li>
-                    </ul>
-                    <a href="#" class="button price-button w-button">get started</a>
-                  </div>
-                </div>
-                <div class="price-column">
-                  <div class="price-table">
-                    <div class="price-ribbon">most popular</div>
-                    <div class="price-table-header"><h3>Standard</h3></div>
-                    <div class="price-block"><div class="big-price">$49</div></div>
-                    <ul role="list" class="price-unordered-list w-list-unstyled">
-                      <li class="price-list-item"><p class="price-feature-text">Up to 5 users</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">500 e-prescriptions / mo</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">SMS/email reminders</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">Basic analytics</p></li>
-                      <li class="price-list-item"><p class="price-feature-text strikeout">SSO & audit export</p></li>
-                    </ul>
-                    <a href="#" class="button price-button w-button">get started</a>
-                  </div>
-                </div>
-                <div class="price-column">
-                  <div class="price-table">
-                    <div class="price-table-header"><h3>Enterprise</h3></div>
-                    <div class="price-block"><div class="big-price">$79</div></div>
-                    <ul role="list" class="price-unordered-list w-list-unstyled">
-                      <li class="price-list-item"><p class="price-feature-text">Unlimited users</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">Unlimited e-prescriptions</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">Advanced reports & export</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">Priority support</p></li>
-                      <li class="price-list-item"><p class="price-feature-text">SSO & audit integrations</p></li>
-                    </ul>
-                    <a href="#" class="button price-button w-button">get started</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="div-center">
-          <p>
-            Not sure which plan works best? <a href="./contact-us.html">Contact us</a>.
-          </p>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- NEWS -> UPDATES -->
-    <div class="section">
-      <div class="w-container">
-        <div class="title-wrapper">
-          <h2>Product Updates</h2>
-          <div class="subtitle">latest improvements and release notes</div>
-          <div class="underline"></div>
-        </div>
-        <div class="blog-post-row">
-          <div class="w-row">
-            <div class="news-padding-column w-col w-col-6">
-              <div class="w-dyn-list">
-                <div role="list" class="w-clearfix w-dyn-items w-row">
-                  <div role="listitem" class="dynamic-item w-dyn-item w-col w-col-4">
-                    <div class="post-preview-big">
-                      <a
-                        href="#"
-                        data-ix="blue-overlay-hover-interaction"
-                        style="background-image: url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/5839761364d0592803abab68_bread-534574_1920.jpg');"
-                        class="post-preview-thumbnail w-inline-block">
-                        <div data-ix="blue-overlay-opacity-0" class="blue-overlay">
-                          <img src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fc94a22fbaa7507332908d_plus.png" height="36" alt="" />
-                        </div>
-                      </a>
-                      <div class="post-preview-content less-padding">
-                        <a href="#" class="heading-link w-inline-block">
-                          <h4 class="heading-4-link">New: JSON export on prescription preview</h4>
-                        </a>
-                        <a href="#" class="post-preview-category">Releases</a>
-                        <div class="post-preview-date">June 1, 2025</div>
-                        <p>
-                          Doctors can validate orders before submit, and admins can export the
-                          preview for downstream integrations.
-                        </p>
-                        <a href="#" class="read-more-link">Read More →</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="column-no-padding-on-mobile w-col w-col-6">
-              <div class="w-dyn-list">
-                <div role="list" class="dynamic-list w-dyn-items">
-                  <div role="listitem" class="w-dyn-item">
-                    <div class="post-mini-wrapper w-clearfix">
-                      <a
-                        href="#"
-                        data-ix="blue-overlay-hover-interaction"
-                        style="background-image: url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/5839717045569b016c4a3464_pregnant-1438139_1920.jpg');"
-                        class="post-mini-thumbnail w-inline-block">
-                        <div data-ix="blue-overlay-opacity-0" class="blue-overlay">
-                          <img src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fc94a22fbaa7507332908d_plus.png" height="26" alt="" />
-                        </div>
-                      </a>
-                      <div class="post-mini-content">
-                        <a href="#" class="heading-link w-inline-block">
-                          <h4 class="heading-4-link">Refill tracking improvements</h4>
-                        </a>
-                        <a href="#" class="post-preview-category">Enhancements</a>
-                        <div class="post-preview-date w-hidden-tiny">May 20, 2025</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div role="listitem" class="w-dyn-item">
-                    <div class="post-mini-wrapper w-clearfix">
-                      <a
-                        href="#"
-                        data-ix="blue-overlay-hover-interaction"
-                        style="background-image: url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/583974a345569b016c4a380e_tape-403595_1920.jpg');"
-                        class="post-mini-thumbnail w-inline-block">
-                        <div data-ix="blue-overlay-opacity-0" class="blue-overlay">
-                          <img src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fc94a22fbaa7507332908d_plus.png" height="26" alt="" />
-                        </div>
-                      </a>
-                      <div class="post-mini-content">
-                        <a href="#" class="heading-link w-inline-block">
-                          <h4 class="heading-4-link">Patient reminders via SMS/email</h4>
-                        </a>
-                        <a href="#" class="post-preview-category">Announcements</a>
-                        <div class="post-preview-date w-hidden-tiny">May 5, 2025</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div role="listitem" class="w-dyn-item">
-                    <div class="post-mini-wrapper w-clearfix">
-                      <a
-                        href="#"
-                        data-ix="blue-overlay-hover-interaction"
-                        style="background-image: url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/5839717de11409586f87745f_appetizer-1238615_1920.jpg');"
-                        class="post-mini-thumbnail w-inline-block">
-                        <div data-ix="blue-overlay-opacity-0" class="blue-overlay">
-                          <img src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fc94a22fbaa7507332908d_plus.png" height="26" alt="" />
-                        </div>
-                      </a>
-                      <div class="post-mini-content">
-                        <a href="#" class="heading-link w-inline-block">
-                          <h4 class="heading-4-link">Templates for common regimens</h4>
-                        </a>
-                        <a href="#" class="post-preview-category">Tips</a>
-                        <div class="post-preview-date w-hidden-tiny">April 18, 2025</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="div-center">
-          <a href="./about-us.html" class="button all-news-btn w-button">all updates</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- FOOTER (unchanged) -->
-    <div class="footer">
-      <div class="w-container">
-        <div class="emergency-wrapper">
-          <img
-            src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/5822042610a8d4ee31522b7d_24-hours-phone-service.png"
-            width="64"
-            alt=""
-            class="emergency-footer-icon"
-          />
-          <h4 class="white">emergency cases</h4>
-          <a href="tel:+1-600-700-6200" class="w-inline-block"
-            ><div class="emergency-number">+44 20 7123 4567</div></a
-          >
-        </div>
-        <div class="flex-box space-between">
-          <div class="_33-percent-column right-padding">
-            <img
-              src="./assets/rxconnect.png"
-              alt=""
-              class="footer-logo"
-              style="width: 160px; height: auto; margin-bottom: 2px"
-            />
-            <p class="white footer-paragraph">
-              RxConnect is an international private health care provider. We have
-              more than 20 years of experience. Our patients are provided with
-              access to comprehensive outpatient and inpatient services, as well
-              as a full range of laboratory diagnostics.
-            </p>
-          </div>
-          <div class="_17-percent-column">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Navigation</h4>
-                <div class="footer-line"></div>
-              </div>
-                <a href="./about-us.html" class="footer-link">Who we are</a>
-              <a href="./dr-form.html" class="footer-link">E-prescription</a>
-              <a href="./prescriptions.html" class="footer-link">My prescription</a>
-              <a href="./doctors.html" class="footer-link">Doctors</a>
-              <a href="./patient-history.html" class="footer-link">Patient history</a>
-              <a href="./FAQs.html" class="footer-link">FAQs</a>
-            </div>
-          </div>
-          <div class="_17-percent-column next">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Departments</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="w-dyn-list">
-                <div role="list" class="w-dyn-items">
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/accident-and-emergency-ae" class="footer-link">Physiotherapy</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/eye-care" class="footer-link">Optical</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/traumatology" class="footer-link">Dental</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/dental-care" class="footer-link">X-Ray</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/cardiology" class="footer-link">Cardiology</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/neurology" class="footer-link">Neurology</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="_33-percent-column contact-footer">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Contact Us</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb365745bf29a4636cc96d_marker_white.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a data-ix="popup-modal-show" href="#" class="footer-link contact">M5 3AB Church Road, Salford, Manchester</a>
-                </div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="mailto:" class="footer-link contact">info@rxconnect.com</a>
-                </div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="tel:+61393455522" class="footer-link">+44 7712 345678</a>
-                  <a href="tel:+61393455522" class="footer-link">+44 20 7123 4567</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="test-row w-row">
-          <div class="footer-column w-col w-col-3">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Contact Us</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb365745bf29a4636cc96d_marker_white.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <div class="footer-link"> 267 Collins St Melbourne Victoria 3000 </div>
-                </div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="mailto:" class="footer-link contact">info@medicare.com</a>
-                </div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="tel:+61393455522" class="footer-link">03-9345-5522</a>
-                  <a href="tel:+61393455522" class="footer-link">03-9345-4422</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="footer-column w-col w-col-3">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Navigation</h4>
-                <div class="footer-line"></div>
-              </div>
-               <a href="./about-us.html" class="footer-link">Who we are</a>
-              <a href="./dr-form.html" class="footer-link">E-prescription</a>
-              <a href="./prescriptions.html" class="footer-link">My prescription</a>
-              <a href="./doctors.html" class="footer-link">Doctors</a>
-              <a href="./patient-history.html" class="footer-link">Patient history</a>
-              <a href="./FAQs.html" class="footer-link">FAQs</a>
-            </div>
-          </div>
-
-          <div class="footer-column w-col w-col-3">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Departments</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="w-dyn-list">
-                <div role="list" class="w-dyn-items">
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/accident-and-emergency-ae" class="footer-link">Physiotherapy</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/eye-care" class="footer-link">Optical</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/traumatology" class="footer-link">Dental </a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/dental-care" class="footer-link">X-Ray</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/cardiology" class="footer-link">Cardiology</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/neurology" class="footer-link">Neurology</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="footer-column w-col w-col-3">
-            <div class="footer-header-wrapper">
-              <h4 class="footer-title">Message us</h4>
-              <div class="footer-line"></div>
-            </div>
-            <div>
-              <div class="w-form">
-                <form
-                  id="email-form-2"
-                  name="email-form-2"
-                  data-name="Email Form 2"
-                  method="get"
-                  data-wf-page-id="57c55b6ef6306d483a15bdc1"
-                  data-wf-element-id="7c121d8a-d022-a32b-02d7-eb05da342546"
-                >
-                  <input
-                    class="text-field name full-width w-input"
-                    maxlength="256"
-                    name="name"
-                    data-name="Name"
-                    placeholder="Enter your name"
-                    type="text"
-                    id="name"
-                  /><input
-                    class="text-field email full-width w-input"
-                    maxlength="256"
-                    name="email"
-                    data-name="Email 3"
-                    placeholder="Enter your email address"
-                    type="email"
-                    id="email-3"
-                    required=""
-                  /><input
-                    type="submit"
-                    data-wait="Please wait..."
-                    class="button white full-width w-button"
-                    value="Submit"
-                  />
-                </form>
-                <div class="w-form-done">
-                  <div>Thank you! Your submission has been received!</div>
-                </div>
-                <div class="w-form-fail">
-                  <div> Oops! Something went wrong while submitting the form </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="footer-credits">
-          <div class="credits-wrapper">
-            <div class="footer-socials">
-              <a href="#" class="social-icon facebook w-inline-block"></a>
-              <a href="#" class="social-icon twitter w-inline-block"></a>
-              <a href="#" class="social-icon linkedin w-inline-block"></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- JS -->
-       
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const menuButton = document.querySelector(".menu-button");
-    const navMenu = document.querySelector(".w-nav-menu");
-    const icon = menuButton.querySelector("i");
-
-    menuButton.addEventListener("click", function () {
-      navMenu.classList.toggle("open");
-
-      icon.classList.toggle("fa-bars");
-      icon.classList.toggle("fa-xmark");
-
-      if (navMenu.classList.contains("open")) {
-        navMenu.style.display = "block";
-        setTimeout(() => navMenu.style.opacity = "1", 10);
-      } else {
-        navMenu.style.opacity = "0";
-        setTimeout(() => navMenu.style.display = "none", 400);
-      }
-    });
-
-    const links = navMenu.querySelectorAll("a");
-    links.forEach(link => {
-      link.addEventListener("click", () => {
-        navMenu.classList.remove("open");
-        icon.classList.add("fa-bars");
-        icon.classList.remove("fa-xmark");
-        navMenu.style.opacity = "0";
-        setTimeout(() => navMenu.style.display = "none", 400);
-      });
-    });
-  });
-</script>
-
-  <script src="./scripts/index.js"></script>
-
+    <script src="./scripts/index.js"></script>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-

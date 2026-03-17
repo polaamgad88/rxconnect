@@ -1,124 +1,336 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RxConnect - Approvals</title>
-  <link rel="stylesheet" href="./styles/approvals.css" />
-</head>
-<body>
-  <header class="topbar">
-    <div class="brand">
-      <img
-            src="./assets/rxconnect.png"
-            alt="logo"
-            style="width: 120px; height: auto; margin-bottom: 4px"
-        />
-      <div class="brand-text">
-        <div class="brand-sub">Management Dashboard</div>
-      </div>
-    </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f6f3" />
+    <title>RxConnect - Approvals</title>
 
-    <div class="top-actions">
-      <div class="env">
-      </div>
-      <button id="logoutBtn" class="btn btn-light">Logout</button>
-    </div>
-  </header>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/approvals.css" />
+    <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
+  </head>
 
-  <main class="container">
-    <section class="controls">
-      <div class="tabs">
-        <button class="tab active" data-type="clinic">Clinic Requests</button>
-        <button class="tab" data-type="clinician">Clinician Requests</button>
-        <button class="tab" data-type="all">All Pending</button>
-        <button class="tab" data-type="approved_clinics">Approved Clinics</button>
-        <button class="tab" data-type="approved_clinicians">Approved Clinicians</button>
-      </div>
+  <body>
+    <header class="site-header">
+      <div class="navbar-wrapper">
+        <nav class="main-navbar" aria-label="Primary navigation">
+          <div class="navbar-shell">
+            <div class="navbar-container">
+              <a href="./index.html" class="navbar-brand" aria-label="RxConnect Home">
+                <img src="./assets/rxconnect.png" alt="RxConnect" />
+              </a>
 
-      <div class="filters">
-        <div class="search">
-          <input id="searchInput" type="text" placeholder="Search by request id, name, email, clinic..." />
-          <button id="searchBtn" class="btn btn-primary">Search</button>
-          <button id="clearBtn" class="btn btn-light">Clear</button>
+              <button
+                id="menu-btn"
+                class="menu-button"
+                type="button"
+                aria-label="Toggle menu"
+                aria-expanded="false"
+                aria-controls="nav-menu"
+              >
+                <i class="fa-solid fa-bars" aria-hidden="true"></i>
+              </button>
+
+              <div class="navbar-right" id="nav-menu">
+                <div class="nav-center">
+                  <a href="./prescriptions.html" class="nav-link">Prescriptions</a>
+                  <a href="./contact-us.html" class="nav-link">Contact Us</a>
+
+                  <div class="dropdown" id="reportsDropdownWrap">
+                    <button
+                      class="dropdown-toggle"
+                      id="reportsBtn"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="reportsDropdown"
+                    >
+                      <span>Reports</span>
+                      <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+                    </button>
+
+                    <div class="dropdown-content" id="reportsDropdown">
+                      <a href="./patients.html">My Patients</a>
+                      <a href="./reports.html">Monthly Reports</a>
+                      <a href="./billing.html">Billing</a>
+                      <a href="./medicationExport.html">Medication Export</a>
+                      <a href="./approvals.html" class="is-current">Approvals</a>
+                    </div>
+                  </div>
+
+                  <a href="./register.html" class="join-btn">Join Us</a>
+                </div>
+
+                <div class="user-dropdown-container" id="userDropdownWrap">
+                  <button
+                    class="user-trigger"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="userDropdownMenu"
+                  >
+                    <span class="hello-label">Hello,</span>
+                    <span id="username">admin.builtin</span>
+                    <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+                  </button>
+
+                  <ul class="user-dropdown-menu" id="userDropdownMenu">
+                    <li>
+                      <a href="./myprofile.html">
+                        <i class="fa-solid fa-user" aria-hidden="true"></i>
+                        <span>My Profile</span>
+                      </a>
+                    </li>
+                    <li class="divider" aria-hidden="true"></li>
+                    <li>
+                      <a href="./login.html" id="logoutBtn">
+                        <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                        <span>Logout</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="approvals-page">
+      <section class="approvals-hero">
+        <div class="approvals-shell">
+          <div class="approvals-hero-copy">
+            <span class="eyebrow">Management Console</span>
+            <h1>Approvals Dashboard</h1>
+            <p>
+              Review, approve, and manage clinic and clinician onboarding requests in one premium workspace.
+            </p>
+          </div>
+
+          <div class="hero-highlights" aria-label="Approval workspace highlights">
+            <article class="highlight-card">
+              <div class="highlight-icon"><i class="fa-solid fa-hospital-user"></i></div>
+              <div>
+                <h2>Clinic Requests</h2>
+                <p>Review submitted clinic registrations and supporting request notes.</p>
+              </div>
+            </article>
+            <article class="highlight-card">
+              <div class="highlight-icon"><i class="fa-solid fa-user-doctor"></i></div>
+              <div>
+                <h2>Clinician Requests</h2>
+                <p>Approve clinicians and attach them to the correct clinic when needed.</p>
+              </div>
+            </article>
+            <article class="highlight-card highlight-metric">
+              <div class="metric-label">Current view</div>
+              <div class="metric-value" id="countPill">0 pending</div>
+              <div class="metric-subtext">Updates automatically when filters or status tabs change.</div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="approvals-shell approvals-main-panel">
+        <div class="controls-card">
+          <div class="controls-top">
+            <div class="section-heading">
+              <span>Filters</span>
+              <h2>Approval queue</h2>
+            </div>
+
+            <button id="refreshBtn" class="btn btn-light" type="button">
+              <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+              <span>Refresh</span>
+            </button>
+          </div>
+
+          <div class="tabs" role="tablist" aria-label="Approval categories">
+            <button class="tab active" data-type="clinic" type="button">Clinic Requests</button>
+            <button class="tab" data-type="clinician" type="button">Clinician Requests</button>
+            <button class="tab" data-type="all" type="button">All Pending</button>
+            <button class="tab" data-type="approved_clinics" type="button">Approved Clinics</button>
+            <button class="tab" data-type="approved_clinicians" type="button">Approved Clinicians</button>
+          </div>
+
+          <div class="filters-row">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              <input
+                id="searchInput"
+                type="text"
+                placeholder="Search by request id, name, email, username, clinic, or notes"
+              />
+            </div>
+
+            <div class="filter-actions">
+              <button id="searchBtn" class="btn btn-primary" type="button">Search</button>
+              <button id="clearBtn" class="btn btn-light" type="button">Clear</button>
+            </div>
+          </div>
         </div>
 
-        <div class="right">
-          <span id="countPill" class="pill">0 pending</span>
-          <button id="refreshBtn" class="btn btn-light">Refresh</button>
+        <section class="table-card" aria-label="Approval results table">
+          <div class="table-head">
+            <div class="th">Request</div>
+            <div class="th">Requester</div>
+            <div class="th">Entity</div>
+            <div class="th">Submitted / Reviewed</div>
+            <div class="th">Notes</div>
+            <div class="th">Actions</div>
+          </div>
+
+          <div id="tableBody" class="table-body"></div>
+
+          <div id="emptyState" class="empty hidden">No pending approvals.</div>
+        </section>
+      </section>
+    </main>
+
+    <div id="drawerBackdrop" class="backdrop hidden"></div>
+    <aside id="drawer" class="drawer hidden" aria-hidden="true">
+      <div class="drawer-header">
+        <div>
+          <div id="dTitle" class="drawer-title">Approval request</div>
+          <div id="dSub" class="drawer-sub">Review details and take action</div>
+        </div>
+        <button id="drawerClose" class="icon-btn" type="button" aria-label="Close drawer">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="drawer-content">
+        <div class="drawer-grid kv">
+          <div class="k">Request ID</div><div class="v" id="dId">-</div>
+          <div class="k">Type</div><div class="v" id="dType">-</div>
+          <div class="k">Submitted</div><div class="v" id="dSubmitted">-</div>
+          <div class="k">Requester</div><div class="v" id="dRequester">-</div>
+          <div class="k">Requester Email</div><div class="v" id="dEmail">-</div>
+          <div class="k">Clinic</div><div class="v" id="dClinic">-</div>
+          <div class="k">Clinician License</div><div class="v" id="dClinLic">-</div>
+          <div class="k">Specialty</div><div class="v" id="dSpec">-</div>
+          <div class="k">Requested Clinic</div><div class="v" id="dReqClinic">-</div>
+        </div>
+
+        <div class="block">
+          <div class="block-title">Request Notes</div>
+          <div id="dReqNotes" class="block-body muted">-</div>
+        </div>
+
+        <div class="block">
+          <label class="block-title" for="reviewNotes">Review Notes (optional)</label>
+          <textarea
+            id="reviewNotes"
+            rows="4"
+            class="textarea"
+            placeholder="Add review notes for approval or rejection"
+          ></textarea>
+        </div>
+
+        <div id="clinicOverrideWrap" class="block hidden">
+          <label class="block-title" for="overrideClinicId">Override Clinic ID (optional for clinician)</label>
+          <input id="overrideClinicId" class="input" placeholder="e.g. 12" />
+          <div class="hint">If provided, the clinician will be attached to this clinic on approval.</div>
+        </div>
+
+        <div class="drawer-actions">
+          <button id="approveBtn" class="btn btn-success" type="button">Approve</button>
+          <button id="rejectBtn" class="btn btn-danger" type="button">Reject</button>
         </div>
       </div>
-    </section>
+    </aside>
 
-    <section class="table-card">
-      <div class="table-head">
-        <div class="th">Request</div>
-        <div class="th">Requester</div>
-        <div class="th">Entity</div>
-        <div class="th">Submitted</div>
-        <div class="th">Notes</div>
-        <div class="th">Actions</div>
+    <footer class="rx-footer">
+      <div class="rx-footer-shell">
+        <div class="rx-footer-top">
+          <div class="rx-footer-brand">
+            <a href="./index.html" class="rx-footer-logo-link">
+              <img src="./assets/rxconnect.png" alt="RxConnect" class="rx-footer-logo" />
+            </a>
+
+            <p class="rx-footer-description">
+              RxConnect helps healthcare teams handle dispensing, reporting, patient management,
+              and operational approvals through one connected platform.
+            </p>
+
+            <div class="rx-footer-emergency">
+              <div class="rx-footer-emergency-icon" aria-hidden="true">
+                <i class="fa-solid fa-shield-heart"></i>
+              </div>
+              <div>
+                <span class="rx-footer-emergency-label">Management support</span>
+                <a href="mailto:support@rxconnect.com" class="rx-footer-emergency-number">support@rxconnect.com</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="rx-footer-links">
+            <div class="rx-footer-column">
+              <h4>Navigation</h4>
+              <a href="./index.html">Home</a>
+              <a href="./dashboard.html">Dashboard</a>
+              <a href="./prescriptions.html">Prescriptions</a>
+              <a href="./approvals.html">Approvals</a>
+              <a href="./contact-us.html">Contact Us</a>
+            </div>
+
+            <div class="rx-footer-column rx-footer-contact">
+              <h4>Contact</h4>
+              <div class="rx-footer-contact-item">
+                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                <span>Manchester, United Kingdom</span>
+              </div>
+              <div class="rx-footer-contact-item">
+                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                <a href="tel:+442071234567">+44 20 7123 4567</a>
+              </div>
+              <div class="rx-footer-contact-item">
+                <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                <a href="mailto:hello@rxconnect.com">hello@rxconnect.com</a>
+              </div>
+            </div>
+
+            <div class="rx-footer-column rx-footer-form-col">
+              <h4>Send a message</h4>
+              <form class="rx-footer-form" id="footerMessageForm">
+                <label class="sr-only" for="footerName">Your name</label>
+                <input id="footerName" type="text" name="name" placeholder="Enter your name" class="rx-footer-input" />
+
+                <label class="sr-only" for="footerEmail">Your email</label>
+                <input id="footerEmail" type="email" name="email" placeholder="Enter your email" class="rx-footer-input" />
+
+                <label class="sr-only" for="footerMessage">Message</label>
+                <textarea id="footerMessage" name="message" rows="4" placeholder="How can we help?" class="rx-footer-input rx-footer-textarea"></textarea>
+
+                <button type="submit" class="rx-footer-submit">Send message</button>
+                <p id="footerFormFeedback" class="rx-footer-feedback" aria-live="polite"></p>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="rx-footer-bottom">
+          <p>© 2025 RxConnect. All rights reserved.</p>
+          <div class="rx-footer-socials">
+            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
       </div>
+    </footer>
 
-      <div id="tableBody" class="table-body">
-        <!-- rows injected -->
-      </div>
-
-      <div id="emptyState" class="empty hidden">
-        No pending approvals.
-      </div>
-    </section>
-  </main>
-
-  <!-- Details drawer -->
-  <div id="drawerBackdrop" class="backdrop hidden"></div>
-  <aside id="drawer" class="drawer hidden" aria-hidden="true">
-    <div class="drawer-header">
-      <div>
-        <div id="dTitle" class="drawer-title">Request</div>
-        <div id="dSub" class="drawer-sub">Details</div>
-      </div>
-      <button id="drawerClose" class="icon-btn">✕</button>
-    </div>
-
-    <div class="drawer-content">
-      <div class="kv">
-        <div class="k">Request ID</div><div class="v" id="dId">-</div>
-        <div class="k">Type</div><div class="v" id="dType">-</div>
-        <div class="k">Submitted</div><div class="v" id="dSubmitted">-</div>
-        <div class="k">Requester</div><div class="v" id="dRequester">-</div>
-        <div class="k">Requester Email</div><div class="v" id="dEmail">-</div>
-        <div class="k">Clinic</div><div class="v" id="dClinic">-</div>
-        <div class="k">Clinician License</div><div class="v" id="dClinLic">-</div>
-        <div class="k">Specialty</div><div class="v" id="dSpec">-</div>
-        <div class="k">Requested Clinic</div><div class="v" id="dReqClinic">-</div>
-      </div>
-
-      <div class="block">
-        <div class="block-title">Request Notes</div>
-        <div id="dReqNotes" class="block-body muted">-</div>
-      </div>
-
-      <div class="block">
-        <div class="block-title">Review Notes (optional)</div>
-        <textarea id="reviewNotes" rows="3" class="textarea" placeholder="Add review notes (optional)"></textarea>
-      </div>
-
-      <div id="clinicOverrideWrap" class="block hidden">
-        <div class="block-title">Override Clinic ID (optional for clinician)</div>
-        <input id="overrideClinicId" class="input" placeholder="e.g. 12" />
-        <div class="hint">If provided, clinician will be attached to this clinic on approval.</div>
-      </div>
-
-      <div class="drawer-actions">
-        <button id="approveBtn" class="btn btn-success">Approve</button>
-        <button id="rejectBtn" class="btn btn-danger">Reject</button>
-      </div>
-    </div>
-  </aside>
-
-  <script>window.RXCONNECT_API_BASE = "http://localhost:5000";</script>
-  <script src="./scripts/rxconnect.js"></script>
-  <script src="./scripts/approvals.js"></script>
-</body>
+    <script>window.RXCONNECT_API_BASE = "http://localhost:5000";</script>
+    <script src="./scripts/rxconnect.js"></script>
+    <script src="./scripts/approvals.js"></script>
+  </body>
 </html>
