@@ -1,774 +1,433 @@
 <!DOCTYPE html>
-<!-- This site was created in Webflow. https://webflow.com --><!-- Last Published: Thu Jul 09 2020 09:28:19 GMT+0000 (Coordinated Universal Time) -->
-<html
-  data-wf-domain="medicare-template.webflow.io"
-  data-wf-page="589050fc379867da0710a481"
-  data-wf-site="57c55b6ef6306d483a15bdc0"
-  data-wf-status="1"
->
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>RxConnect</title>
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <meta content="Webflow" name="generator" />
-    <link href="./styles/index.css" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link
-      href="https://fonts.gstatic.com"
-      rel="preconnect"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0c2247" />
+    <title>RxConnect Contact Us</title>
 
-    <script
-      src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
-      type="text/javascript"
-    ></script>
-    <script type="text/javascript">
-      WebFont.load({
-        google: {
-          families: [
-            "Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic",
-            "Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic",
-            "Source Sans Pro:regular,700",
-          ],
-        },
-      });
-    </script>
-    <script type="text/javascript">
-      !(function (o, c) {
-        var n = c.documentElement,
-          t = " w-mod-";
-        (n.className += t + "js"),
-          ("ontouchstart" in o ||
-            (o.DocumentTouch && c instanceof DocumentTouch)) &&
-            (n.className += t + "touch");
-      })(window, document);
-    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="./assets/favicon.png  "
-      rel="shortcut icon"
-      type="image/x-icon"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
     />
     <link
-      href="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/589b0ba5dbf0b97f5096c916_pharmacy-symbol-darker.png"
-      rel="apple-touch-icon"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      rel="stylesheet"
     />
-
+    <link rel="stylesheet" href="./styles/contact-us.css" />
+    <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
   </head>
+
   <body>
-    <div data-ix="popup-modal-initial-appearance" class="popup">
-      <div data-ix="close-popup" class="popup-close"></div>
-      <div class="popup-wrapper">
-        <div class="popup-map-wrapper">
-          <div
-            class="w-widget w-widget-map"
-            data-widget-style="roadmap"
-            data-widget-latlng="-37.816189,144.96513"
-            data-enable-scroll="true"
-            role=""
-            title=""
-            data-enable-touch="true"
-            data-widget-zoom="12"
-            data-widget-tooltip=""
-          ></div>
-        </div>
-        <a
-          href="https://www.google.com/maps/place/267+Collins+St,+Melbourne+VIC+3000,+Australia/@-37.8161888,144.9629408,17z/data=!3m1!4b1!4m5!3m4!1s0x6ad642b448e82a23:0xaf456edbafcdba91!8m2!3d-37.8161888!4d144.9651295"
-          class="popup-link"
-          >View on Google Maps</a
-        >
-      </div>
-    </div>
-    <div data-ix="appointment-height-0px" id="Appointment" class="appointment">
-      <div class="appointment-container w-container">
-        <div class="w-row">
-          <div class="doctor-item w-col w-col-6">
-            <img
-              src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57d85693e349f9f8405584fc_doctorek.jpg"
-              alt=""
-              class="w-hidden-small w-hidden-tiny"
-            />
-          </div>
-          <div class="w-col w-col-6">
-            <div class="appointment-wrapper">
-              <div data-ix="close-modal" class="close-modal"></div>
-              <div>
-                <h3>appointment form</h3>
-                <div class="underline no-center"></div>
-              </div>
-              <div class="top-margin">
-                <div class="form-wrapper">
-                  <div class="w-form">
-                    <form
-                      id="email-form"
-                      name="email-form"
-                      data-name="Email Form"
-                      method="get"
-                      class="w-clearfix"
-                      data-wf-page-id="589050fc379867da0710a481"
-                      data-wf-element-id="1a1c6777-0d79-6cba-ea5a-f1c3bf93a190"
+    <header class="site-header">
+      <div class="navbar-wrapper">
+        <nav class="main-navbar" aria-label="Primary navigation">
+          <div class="navbar-shell">
+            <div class="navbar-container">
+              <a href="./index.html" class="navbar-brand" aria-label="RxConnect Home">
+                <img src="./assets/rxconnect.png" alt="RxConnect" />
+              </a>
+
+              <button
+                id="menu-btn"
+                class="menu-button"
+                type="button"
+                aria-label="Toggle menu"
+                aria-expanded="false"
+                aria-controls="nav-menu"
+              >
+                <i class="fa-solid fa-bars" aria-hidden="true"></i>
+              </button>
+
+              <div class="navbar-right" id="nav-menu">
+                <div class="nav-center">
+
+                  <a href="./prescriptions.html" class="nav-link">Prescriptions</a>
+
+                  <a href="./contact-us.html" class="nav-link is-active">Contact Us</a>
+
+                  <div class="dropdown" id="reportsDropdownWrap">
+                    <button
+                      class="dropdown-toggle"
+                      id="reportsBtn"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="reportsDropdown"
                     >
-                      <input
-                        class="text-field name w-input"
-                        maxlength="256"
-                        name="First-Name-2"
-                        data-name="First Name 2"
-                        placeholder="First Name"
-                        type="text"
-                        id="First-Name-2"
-                      /><input
-                        class="text-field last-name w-input"
-                        maxlength="256"
-                        name="Last-Name-2"
-                        data-name="Last Name 2"
-                        placeholder="Last Name"
-                        type="text"
-                        id="Last-Name-2"
-                      /><input
-                        class="text-field email w-input"
-                        maxlength="256"
-                        name="email-2"
-                        data-name="Email 2"
-                        placeholder="Your Email"
-                        type="email"
-                        id="email-2"
-                        required=""
-                      /><input
-                        class="text-field phone w-input"
-                        maxlength="256"
-                        name="Phone-2"
-                        data-name="Phone 2"
-                        placeholder="Phone Number"
-                        type="text"
-                        id="Phone-2"
-                        required=""
-                      /><input
-                        class="text-field date w-input"
-                        maxlength="256"
-                        name="Date-2"
-                        data-name="Date 2"
-                        placeholder="Date &amp; Time - dd/mm/yyyy at 3PM"
-                        type="text"
-                        id="Date-2"
-                        required=""
-                      /><select
-                        id="Doctor"
-                        name="Doctor"
-                        data-name="Doctor"
-                        required=""
-                        class="text-field w-select"
-                      >
-                        <option value="">Prefered Doctor...</option>
-                        <option value="1">Dr. Jessica Doe</option>
-                        <option value="2">Dr. William Doe</option>
-                        <option value="3">Dr. Jack Doe</option>
-                        <option value="4">Dr. Peter Doe</option>
-                        <option value="5">Dr. Robert Doe</option>
-                        <option value="6">Dr. Arthur Doe</option></select
-                      ><textarea
-                        id="Additional-Infomation-2"
-                        name="Additional-Infomation-2"
-                        placeholder="Additional Information (optional)"
-                        maxlength="5000"
-                        data-name="Additional Infomation 2"
-                        class="text-field textarea w-input"
-                      ></textarea
-                      ><input
-                        type="submit"
-                        data-wait="Please wait..."
-                        class="button full-width w-button"
-                        value="Submit"
-                      />
-                    </form>
-                    <div class="w-form-done">
-                      <div>Thank you! Your submission has been received!</div>
-                    </div>
-                    <div class="w-form-fail">
-                      <div>
-                        Oops! Something went wrong while submitting the form
-                      </div>
+                      <span>Reports</span>
+                      <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+                    </button>
+
+                    <div class="dropdown-content" id="reportsDropdown">
+                      <a href="./reports.html">Reports</a>
+                      <a href="./medicationExport.html">Medication Export</a>
                     </div>
                   </div>
+
+                  <a href="./register.html" class="join-btn">Join Us</a>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- NAVBAR (kept; minor icons retained) -->
-   <div id="navbar-placeholder"></div>
-    <!-- NAVBAR (kept; minor icons retained) -->
-    <div class="navbar-wrapper">
-      <div class="top-info-bar">
-        <div class="top-info-bar-container w-container">
-          <a
-            href="./index.html"
-            class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand"
-            ><img
-              src="./assets/rxconnect.png"
-              alt="logo"
-              style="width: 120px; height: auto; margin-bottom: 4px"
-            /></a>
-          <div class="info-bar w-clearfix">
-            <div class="info-blocks-wrapper w-clearfix">
-              <div class="top-info-block no-right-border w-clearfix">
-                <div class="top-info-icon"></div>
-                <div class="top-info-content">
-                  <a href="tel:+44 20 7123 4567" class="contact-link"
-                    >+44 20 7123 4567</a
-                  ><a href="tel:+44 7712 345678" class="contact-link"
-                    >+44 7712 345678</a
+
+                <div class="user-dropdown-container" id="userDropdownWrap">
+                  <button
+                    class="user-trigger"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="userDropdownMenu"
                   >
-                </div>
-              </div>
-              <div class="top-info-block w-clearfix">
-                <div class="top-info-icon _2"></div>
-                <div class="top-info-content">
-                  <a data-ix="popup-modal-show" href="#" class="contact-link"
-                    >M5 3AB<br />
-                   Church Road, Salford, Manchester</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        data-collapse="medium"
-        data-animation="default"
-        data-duration="400"
-        data-easing="ease"
-        data-easing2="ease"
-        role="banner"
-        class="navbar w-nav"
-      >
-      <div class="navbar-container w-container">
-        <a href="./home.html" class="brand w-hidden-main w-nav-brand"
-          ><img
-            src="./assets/rxconnect.png"
-            alt="logo"
-            style="width: 140px; height: auto;"
-          /></a>
-        <nav role="navigation" class="nav-menu w-nav-menu">
-    <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
-    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
-    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
-    <a href="./pending-prescription.html"  class="nav-link w-nav-link" >Pending Prescriptions</a>
-    <!-- <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a> -->
+                    <span class="hello-label">Hello,</span>
+                    <span id="username">admin.builtin</span>
+                    <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+                  </button>
 
-    <a href="./patients.html" class="nav-link w-nav-link">Patients</a>
-    <!-- <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a> -->
-    <a href="./contacts.html" class="nav-link w-nav-link">Contacts    </a>
-    <a href="./billing.html" class="nav-link w-nav-link">Billing</a>
-    <a class="nav-link w-nav-link" href="./myprofile.html">My Profile </a>
-
-    <div class="dropdown">
-  <button class="nav-link w-nav-link bg-transparent" id="reportsBtn">
-    Reports <i class="fa-solid fa-chevron-down"></i>
-  </button>
-  <div class="dropdown-content" id="reportsDropdown">
-    <a href="./reports.html">Reports</a>
-    <a href="./medicationExport.html">Medication Export</a>
-
-  </div>
-</div>
-
-  </nav>
-<script>
-const reportsBtn = document.getElementById('reportsBtn');
-const reportsDropdown = document.getElementById('reportsDropdown');
-
-// Toggle dropdown on click
-reportsBtn.addEventListener('click', function(e) {
-  e.preventDefault(); // Prevent default link navigation
-  reportsDropdown.classList.toggle('show');
-});
-
-// Close the dropdown if clicked outside
-window.addEventListener('click', function(e) {
-  if (!reportsBtn.contains(e.target) && !reportsDropdown.contains(e.target)) {
-    reportsDropdown.classList.remove('show');
-  }
-});
-</script>
-
-        <div id="menu-btn" class="menu-button w-nav-button">
-          <i class="fa-solid fa-bars" id="menu-icon"></i>
-        </div>
-      </div>
-
-
-
-      </div>
-    </div>
-
-    <!-- Scroll navbar (unchanged visually) -->
-    <!-- <div
-      data-collapse="medium"
-      data-animation="default"
-      data-duration="400"
-      data-ix="display-scroll-navbar"
-      data-easing="ease"
-      data-easing2="ease"
-      role="banner"
-      class="navbar-scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav"
-    >
-      <div class="nav-scroll-container w-container">
-        <div class="menu-button scroll-menu-button w-nav-button">
-          <div class="w-icon-nav-menu"></div>
-        </div>
-          <a
-          href="./index.html"
-          aria-current="page"
-          class="brand scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand w--current"
-          > <img
-              src="./assets/rxconnect.png"
-              alt="logo"
-              style="width: 120px; height: auto; margin-bottom: 4px"
-            /></a>
-        <nav role="navigation" class="nav-menu w-nav-menu">
-   <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
-    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
-    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
-    <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
-    <a href="./patient-history.html" class="nav-link w-nav-link">Patient history</a>
-    <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a>
-
-  </nav>
-      
-      </div>
-    </div> -->
-
-    <div class="fixed-button-wrapper">
-      <a
-        href="#Appointment"
-        data-ix="show-appointment-form"
-        class="button fixed-contact-button w-inline-block"
-      ></a>
-    </div>
-    <div data-ix="show-scroll-navbar" class="page-banner">
-      <div class="page-banner-container w-container">
-        <div class="div-center">
-          <h1 class="page-heading">Contact</h1>
-          <div class="subtitle white">get in touch with us</div>
-          <div class="underline white"></div>
-        </div>
-      </div>
-    </div>
-    <div class="breadcrumbs">
-      <div class="w-container">
-        <div class="breadcrumbs-wrapper">
-          <a href="/" class="breadcrumb">Home</a>
-          <div class="breadcrumb-arrow">&gt;</div>
-          <div class="breadcrumb active">contact</div>
-        </div>
-      </div>
-    </div>
-    <div class="section">
-      <div class="w-container">
-        <div class="contact-us-wrapper">
-          <div class="flex-box justify-start contact-flex">
-            <div class="_50-percent-column">
-              <div class="hours-wrapper">
-                <div class="contact-form-header"><h4>Working Hours</h4></div>
-                <ul role="list" class="working-hours-list w-list-unstyled">
-                  <li class="open-hours-list-item w-clearfix">
-                    <div class="working-day">Monday</div>
-                    <div class="working-day hour">8:00 - 18:00</div>
-                  </li>
-                  <li class="open-hours-list-item w-clearfix">
-                    <div class="working-day">Tuesday</div>
-                    <div class="working-day hour">9:00 - 16:00</div>
-                  </li>
-                  <li class="open-hours-list-item w-clearfix">
-                    <div class="working-day">Wendnesday</div>
-                    <div class="working-day hour">8:00 - 18:00</div>
-                  </li>
-                  <li class="open-hours-list-item w-clearfix">
-                    <div class="working-day">thursday</div>
-                    <div class="working-day hour">8:00 - 18:00</div>
-                  </li>
-                  <li class="open-hours-list-item w-clearfix">
-                    <div class="working-day">Friday</div>
-                    <div class="working-day hour">9:00 - 16:00</div>
-                  </li>
-                  <li class="open-hours-list-item w-clearfix">
-                    <div class="working-day">Saturday</div>
-                    <div class="working-day hour">9:00 - 16:00</div>
-                  </li>
-                  <li class="open-hours-list-item last-item w-clearfix">
-                    <div class="working-day">Sunday</div>
-                    <div class="working-day hour">Closed</div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="_50-percent-column">
-              <div
-                class="contact-map w-widget w-widget-map"
-                data-widget-style="roadmap"
-                data-widget-latlng="-37.816189,144.96513"
-                data-enable-scroll="true"
-                role=""
-                data-disable-touch="1"
-                title=""
-                data-enable-touch="true"
-                data-widget-zoom="12"
-                data-widget-tooltip=""
-              ></div>
-              <div class="contact-us-info-blocks">
-                <div class="contact-info-block">
-                  <img
-                    src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57f7929c5773429640155503_marker.png"
-                    alt=""
-                    class="contact-icon"
-                  />
-                  <div>
-                    <h4 class="contact-header">Address</h4>
-                    <a data-ix="popup-modal-show" href="#" class="contact-link"
-                      >M5 3AB<br />Church Road, Salford, Manchester</a
-                    >
-                  </div>
-                </div>
-                <div class="contact-info-block">
-                  <img
-                    src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb4b43573738392759cb03_phone-receiver.png"
-                    alt=""
-                    class="contact-icon"
-                  />
-                  <div>
-                    <h4 class="contact-header">Phone</h4>
-                    <a data-ix="popup-modal-show" href="#" class="contact-link"
-                      >+44 20 7123 4567</a
-                    ><a data-ix="popup-modal-show" href="#" class="contact-link"
-                      >+44 7712 345678</a
-                    >
-                  </div>
-                </div>
-                <div class="contact-info-block">
-                  <img
-                    src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/588b74175f3cc1f63e65456e_24-hours-phone-service_blue.png"
-                    alt=""
-                    class="contact-icon"
-                  />
-                  <div>
-                    <h4 class="contact-header">Emergency Cases</h4>
-                    <a data-ix="popup-modal-show" href="#" class="contact-link"
-                      >+44 20 7123 4567</a
-                    >
-                  </div>
-                </div>
-                <div class="contact-info-block last">
-                  <img
-                    src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57d3ffd4d7efa08538b9d5e4_email.png"
-                    alt=""
-                    class="contact-icon"
-                  />
-                  <div>
-                    <h4 class="contact-header">Email</h4>
-                    <a
-                      data-ix="popup-modal-show"
-                      href="mailto:info@rxconnect.com"
-                      class="contact-link"
-                      >info@rxconnect.com</a
-                    >
-                  </div>
+                  <ul class="user-dropdown-menu" id="userDropdownMenu">
+                    <li>
+                      <a href="./myprofile.html">
+                        <i class="fa-solid fa-user" aria-hidden="true"></i>
+                        <span>My Profile</span>
+                      </a>
+                    </li>
+                    <li class="divider" aria-hidden="true"></li>
+                    <li>
+                      <a href="./login.html">
+                        <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                        <span>Logout</span>
+                      </a>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </nav>
       </div>
-    </div>
-    <div class="footer">
-      <div class="w-container">
-        <div class="emergency-wrapper">
-          <img
-            src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/5822042610a8d4ee31522b7d_24-hours-phone-service.png"
-            width="64"
-            alt=""
-            class="emergency-footer-icon"
-          />
-          <h4 class="white">emergency cases</h4>
-          <a href="tel:+1-600-700-6200" class="w-inline-block"
-            ><div class="emergency-number">+44 20 7123 4567</div></a
-          >
-        </div>
-        <div class="flex-box space-between">
-          <div class="_33-percent-column right-padding">
-            <img
-              src="./assets/rxconnect.png"
-              alt=""
-              class="footer-logo"
-              style="width: 160px; height: auto; margin-bottom: 2px"
-            />
-            <p class="white footer-paragraph">
-              RxConnect is an international private health care provider. We have
-              more than 20 years of experience. Our patients are provided with
-              access to comprehensive outpatient and inpatient services, as well
-              as a full range of laboratory diagnostics.
+    </header>
+
+    <main class="contact-page">
+      <div class="contact-wrapper">
+        <section class="contact-hero" aria-label="Contact page introduction">
+          <div class="breadcrumbs">
+            <a href="./index.html">Home</a>
+            <span aria-hidden="true">/</span>
+            <span class="is-current">Contact Us</span>
+          </div>
+
+          <div class="contact-hero-grid">
+            <div class="contact-hero-copy">
+              <h1>Contact RxConnect</h1>
+              <p>
+                Speak with our team, book an appointment, or reach out for general support.
+                This page now follows the same luxury dashboard language with the warm neutral
+                palette, Montserrat headings, glass navbar, rounded cards, and premium footer.
+              </p>
+
+              <div class="hero-actions">
+                <a href="#contactFormCard" class="hero-btn">Send a message</a>
+                <a href="#locationCard" class="hero-btn-outline">View location</a>
+              </div>
+            </div>
+
+            <div class="hero-badge-panel">
+              <article class="hero-mini-card">
+                <span>Phone support</span>
+                <strong>+44 20 7123 4567</strong>
+                <p>Talk to our team for appointments, prescriptions, and general enquiries.</p>
+              </article>
+
+              <article class="hero-mini-card">
+                <span>Address</span>
+                <strong>M5 3AB, Church Road, Salford, Manchester</strong>
+                <p>Visit our clinic during working hours for in-person support.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="contact-highlights" aria-label="Quick contact information">
+          <article class="highlight-card">
+            <div class="highlight-icon" aria-hidden="true">
+              <i class="fa-solid fa-phone"></i>
+            </div>
+            <h3>Phone</h3>
+            <p>+44 20 7123 4567<br />+44 7712 345678</p>
+          </article>
+
+          <article class="highlight-card">
+            <div class="highlight-icon" aria-hidden="true">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+            <h3>Email</h3>
+            <p>info@rxconnect.com</p>
+          </article>
+
+          <article class="highlight-card">
+            <div class="highlight-icon" aria-hidden="true">
+              <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <h3>Address</h3>
+            <p>M5 3AB<br />Church Road, Salford, Manchester</p>
+          </article>
+
+          <article class="highlight-card">
+            <div class="highlight-icon" aria-hidden="true">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+            <h3>Emergency Cases</h3>
+            <p>Call us directly for urgent support during service hours.</p>
+          </article>
+        </section>
+
+        <section class="content-grid" aria-label="Contact details and contact form">
+          <div class="left-column">
+            <div class="info-grid">
+              <article class="info-card">
+                <div class="info-icon" aria-hidden="true">
+                  <i class="fa-solid fa-phone-volume"></i>
+                </div>
+                <h3>Call Us</h3>
+                <div class="info-list">
+                  <a href="tel:+442071234567">+44 20 7123 4567</a>
+                  <a href="tel:+447712345678">+44 7712 345678</a>
+                </div>
+              </article>
+
+              <article class="info-card">
+                <div class="info-icon" aria-hidden="true">
+                  <i class="fa-solid fa-paper-plane"></i>
+                </div>
+                <h3>Email Us</h3>
+                <div class="info-list">
+                  <a href="mailto:info@rxconnect.com">info@rxconnect.com</a>
+                  <p>We reply as quickly as possible during business hours.</p>
+                </div>
+              </article>
+
+              <article class="info-card">
+                <div class="info-icon" aria-hidden="true">
+                  <i class="fa-solid fa-truck-medical"></i>
+                </div>
+                <h3>Emergency Line</h3>
+                <div class="info-list">
+                  <a href="tel:+442071234567">+44 20 7123 4567</a>
+                  <p>Use this number for urgent support and emergency cases.</p>
+                </div>
+              </article>
+
+              <article class="info-card">
+                <div class="info-icon" aria-hidden="true">
+                  <i class="fa-solid fa-building"></i>
+                </div>
+                <h3>Visit the Clinic</h3>
+                <div class="info-list">
+                  <p>M5 3AB<br />Church Road, Salford, Manchester</p>
+                </div>
+              </article>
+            </div>
+
+            <article class="hours-card" aria-labelledby="workingHoursTitle">
+              <div class="hours-header">
+                <h2 id="workingHoursTitle">Working Hours</h2>
+                <p>Our team is available throughout the week for appointments and support.</p>
+              </div>
+
+              <ul class="hours-list">
+                <li><span>Monday</span><strong>8:00 - 18:00</strong></li>
+                <li><span>Tuesday</span><strong>9:00 - 16:00</strong></li>
+                <li><span>Wednesday</span><strong>8:00 - 18:00</strong></li>
+                <li><span>Thursday</span><strong>8:00 - 18:00</strong></li>
+                <li><span>Friday</span><strong>9:00 - 16:00</strong></li>
+                <li><span>Saturday</span><strong>9:00 - 16:00</strong></li>
+                <li><span>Sunday</span><strong class="closed">Closed</strong></li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="right-column">
+            <article class="map-card" id="locationCard">
+              <h2>Find Us</h2>
+              <p>
+                Use the map below to open our location and get directions quickly.
+              </p>
+
+              <div class="map-frame">
+                <iframe
+                  title="RxConnect location"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  src="https://maps.google.com/maps?q=M5%203AB%20Church%20Road%2C%20Salford%2C%20Manchester&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                ></iframe>
+              </div>
+
+              <a
+                class="map-link"
+                href="https://www.google.com/maps/place/Church+Road,+Salford,+Manchester+M5+3AB"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                <span>Open in Google Maps</span>
+              </a>
+            </article>
+
+            <article class="form-card" id="contactFormCard">
+              <h2>Book an Appointment</h2>
+              <p>
+                Keep the page functional while aligning it with the dashboard visual style.
+              </p>
+
+              <form class="contact-form" id="contactForm">
+                <div class="form-row">
+                  <div class="input-group">
+                    <label for="firstName">First name</label>
+                    <input id="firstName" name="firstName" type="text" placeholder="First Name" />
+                  </div>
+                  <div class="input-group">
+                    <label for="lastName">Last name</label>
+                    <input id="lastName" name="lastName" type="text" placeholder="Last Name" />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="input-group">
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" placeholder="Your Email" required />
+                  </div>
+                  <div class="input-group">
+                    <label for="phone">Phone</label>
+                    <input id="phone" name="phone" type="text" placeholder="Phone Number" required />
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <label for="date">Date & time</label>
+                  <input id="date" name="date" type="text" placeholder="Date & Time - dd/mm/yyyy at 3PM" required />
+                </div>
+
+             
+
+                <div class="input-group">
+                  <label for="message">Additional information</label>
+                  <textarea id="message" name="message" placeholder="Additional Information (optional)"></textarea>
+                </div>
+
+                <button type="submit" class="form-submit">Submit</button>
+                <p class="form-feedback" id="contactFormFeedback" aria-live="polite"></p>
+              </form>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="rx-footer">
+      <div class="rx-footer-shell">
+        <div class="rx-footer-top">
+          <div class="rx-footer-brand">
+            <a href="./index.html" class="rx-footer-logo-link">
+              <img src="./assets/rxconnect.png" alt="RxConnect" class="rx-footer-logo" />
+            </a>
+
+            <p class="rx-footer-description">
+              RxConnect is an international private healthcare provider with more than 20 years of
+              experience, offering access to comprehensive outpatient and inpatient services,
+              along with a full range of laboratory diagnostics.
             </p>
-          </div>
-          <div class="_17-percent-column">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Navigation</h4>
-                <div class="footer-line"></div>
+
+            <div class="rx-footer-emergency">
+              <div class="rx-footer-emergency-icon" aria-hidden="true">
+                <i class="fa-solid fa-phone-volume"></i>
               </div>
-              <a href="./about-us.html" class="footer-link">About us</a>
-              <a href="./doctors.html" class="footer-link">Our doctors</a>
-              <a href="./services.html" class="footer-link">Services</a>
-              <a href="./FAQs.html" class="footer-link">FAQs</a>
-              <a href="/news" class="footer-link">News</a>
-              <a href="./contact-us.html" class="footer-link">Contact</a>
-            </div>
-          </div>
-          <div class="_17-percent-column next">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Departments</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="w-dyn-list">
-                <div role="list" class="w-dyn-items">
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/accident-and-emergency-ae" class="footer-link">Physiotherapy</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/eye-care" class="footer-link">Optical</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/traumatology" class="footer-link">Dental</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/dental-care" class="footer-link">X-Ray</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/cardiology" class="footer-link">Cardiology</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/neurology" class="footer-link">Neurology</a>
-                  </div>
-                </div>
+              <div>
+                <span class="rx-footer-emergency-label">Emergency cases</span>
+                <a href="tel:+442071234567" class="rx-footer-emergency-number">+44 20 7123 4567</a>
               </div>
             </div>
           </div>
-          <div class="_33-percent-column contact-footer">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Contact Us</h4>
-                <div class="footer-line"></div>
+
+          <div class="rx-footer-links">
+            <div class="rx-footer-column">
+              <h4>Navigation</h4>
+              <a href="./about-us.html">Who we are</a>
+              <a href="./dr-form.html">E-Prescriptions</a>
+              <a href="./prescriptions.html">My Prescriptions</a>
+              <a href="./patients.html">Patients</a>
+              <a href="./billing.html">Billing</a>
+              <a href="./contact-us.html">Contact Us</a>
+            </div>
+
+            <div class="rx-footer-column rx-footer-contact">
+              <h4>Contact Us</h4>
+
+              <div class="rx-contact-item">
+                <span class="rx-contact-icon" aria-hidden="true">
+                  <i class="fa-solid fa-location-dot"></i>
+                </span>
+                <a href="https://www.google.com/maps/place/Church+Road,+Salford,+Manchester+M5+3AB" target="_blank" rel="noreferrer">
+                  M5 3AB Church Road, Salford, Manchester
+                </a>
               </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb365745bf29a4636cc96d_marker_white.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a data-ix="popup-modal-show" href="#" class="footer-link contact">M5 3AB Church Road, Salford, Manchester</a>
+
+              <div class="rx-contact-item">
+                <span class="rx-contact-icon" aria-hidden="true">
+                  <i class="fa-solid fa-envelope"></i>
+                </span>
+                <a href="mailto:info@rxconnect.com">info@rxconnect.com</a>
+              </div>
+
+              <div class="rx-contact-item">
+                <span class="rx-contact-icon" aria-hidden="true">
+                  <i class="fa-solid fa-phone"></i>
+                </span>
+                <div class="rx-contact-phones">
+                  <a href="tel:+447712345678">+44 7712 345678</a>
+                  <a href="tel:+442071234567">+44 20 7123 4567</a>
                 </div>
               </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
-                  alt=""
-                  class="footer-contact-icon"
+            </div>
+
+            <div class="rx-footer-column rx-footer-form-col">
+              <h4>Message us</h4>
+
+              <form class="rx-footer-form" id="footerMessageForm">
+                <label class="sr-only" for="footerName">Your name</label>
+                <input id="footerName" type="text" name="name" placeholder="Enter your name" class="rx-footer-input" />
+
+                <label class="sr-only" for="footerEmail">Your email</label>
+                <input
+                  id="footerEmail"
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email address"
+                  class="rx-footer-input"
+                  required
                 />
-                <div>
-                  <a href="mailto:" class="footer-link contact">info@rxconnect.com</a>
-                </div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="tel:+61393455522" class="footer-link">+44 7712 345678</a>
-                  <a href="tel:+61393455522" class="footer-link">+44 20 7123 4567</a>
-                </div>
-              </div>
+
+                <button type="submit" class="rx-footer-submit">Submit</button>
+                <p class="footer-form-feedback" id="footerFormFeedback" aria-live="polite"></p>
+              </form>
             </div>
           </div>
         </div>
 
-        <div class="test-row w-row">
-          <div class="footer-column w-col w-col-3">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Contact Us</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb365745bf29a4636cc96d_marker_white.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <div class="footer-link"> 267 Collins St Melbourne Victoria 3000 </div>
-                </div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="mailto:" class="footer-link contact">info@medicare.com</a>
-                </div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="tel:+61393455522" class="footer-link">03-9345-5522</a>
-                  <a href="tel:+61393455522" class="footer-link">03-9345-4422</a>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="rx-footer-bottom">
+          <p class="rx-footer-copy">© 2026 RxConnect. All rights reserved.</p>
 
-          <div class="footer-column w-col w-col-3">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Navigation</h4>
-                <div class="footer-line"></div>
-              </div>
-              <a href="./about-us.html" class="footer-link">About us</a>
-              <a href="./doctors.html" class="footer-link">Our doctors</a>
-              <a href="./services.html" class="footer-link">Services</a>
-              <a href="./FAQs.html" class="footer-link">FAQs</a>
-              <a href="/news" class="footer-link">News</a>
-              <a href="./contact-us.html" class="footer-link">Contact us</a>
-            </div>
-          </div>
-
-          <div class="footer-column w-col w-col-3">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Departments</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="w-dyn-list">
-                <div role="list" class="w-dyn-items">
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/accident-and-emergency-ae" class="footer-link">Physiotherapy</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/eye-care" class="footer-link">Optical</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/traumatology" class="footer-link">Dental </a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/dental-care" class="footer-link">X-Ray</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/cardiology" class="footer-link">Cardiology</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/neurology" class="footer-link">Neurology</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="footer-column w-col w-col-3">
-            <div class="footer-header-wrapper">
-              <h4 class="footer-title">Message us</h4>
-              <div class="footer-line"></div>
-            </div>
-            <div>
-              <div class="w-form">
-                <form
-                  id="email-form-2"
-                  name="email-form-2"
-                  data-name="Email Form 2"
-                  method="get"
-                  data-wf-page-id="57c55b6ef6306d483a15bdc1"
-                  data-wf-element-id="7c121d8a-d022-a32b-02d7-eb05da342546"
-                >
-                  <input
-                    class="text-field name full-width w-input"
-                    maxlength="256"
-                    name="name"
-                    data-name="Name"
-                    placeholder="Enter your name"
-                    type="text"
-                    id="name"
-                  /><input
-                    class="text-field email full-width w-input"
-                    maxlength="256"
-                    name="email"
-                    data-name="Email 3"
-                    placeholder="Enter your email address"
-                    type="email"
-                    id="email-3"
-                    required=""
-                  /><input
-                    type="submit"
-                    data-wait="Please wait..."
-                    class="button white full-width w-button"
-                    value="Submit"
-                  />
-                </form>
-                <div class="w-form-done">
-                  <div>Thank you! Your submission has been received!</div>
-                </div>
-                <div class="w-form-fail">
-                  <div> Oops! Something went wrong while submitting the form </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="footer-credits">
-          <div class="credits-wrapper">
-            <div class="footer-socials">
-              <a href="#" class="social-icon facebook w-inline-block"></a>
-              <a href="#" class="social-icon twitter w-inline-block"></a>
-              <a href="#" class="social-icon linkedin w-inline-block"></a>
-            </div>
+          <div class="rx-footer-socials">
+            <a href="#" class="rx-social-link" aria-label="Facebook">
+              <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+            </a>
+            <a href="#" class="rx-social-link" aria-label="X">
+              <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+            </a>
+            <a href="#" class="rx-social-link" aria-label="LinkedIn">
+              <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+            </a>
           </div>
         </div>
       </div>
-    </div>
-    <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const menuButton = document.querySelector(".menu-button");
-    const navMenu = document.querySelector(".w-nav-menu");
-    const icon = menuButton.querySelector("i");
+    </footer>
 
-    menuButton.addEventListener("click", function () {
-      navMenu.classList.toggle("open");
-
-      icon.classList.toggle("fa-bars");
-      icon.classList.toggle("fa-xmark");
-
-      if (navMenu.classList.contains("open")) {
-        navMenu.style.display = "block";
-        setTimeout(() => navMenu.style.opacity = "1", 10);
-      } else {
-        navMenu.style.opacity = "0";
-        setTimeout(() => navMenu.style.display = "none", 400);
-      }
-    });
-
-    const links = navMenu.querySelectorAll("a");
-    links.forEach(link => {
-      link.addEventListener("click", () => {
-        navMenu.classList.remove("open");
-        icon.classList.add("fa-bars");
-        icon.classList.remove("fa-xmark");
-        navMenu.style.opacity = "0";
-        setTimeout(() => navMenu.style.display = "none", 400);
-      });
-    });
-  });
-</script>
-    <script
-      src="./scripts/contact-us.js"
-      type="text/javascript"
-    ></script>
+    <script src="./scripts/contact-us-dashboard.js"></script>
   </body>
 </html>

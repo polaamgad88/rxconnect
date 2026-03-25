@@ -1,7 +1,13 @@
+
 // scripts/dr-form.js
 document.addEventListener("DOMContentLoaded", async function () {
   // const user = RX.requireAuth(["clinician"]);
   // if (!user) return;
+
+  const user =
+    (window.RX && typeof RX.getUser === "function" && RX.getUser()) || {};
+  const isClinician =
+    String(user?.login_type || "").toLowerCase() === "clinician";
 
   const patientSearchInput = document.querySelector(
     ".cnp-card-patient .cnp-input-icon input",
@@ -21,6 +27,32 @@ document.addEventListener("DOMContentLoaded", async function () {
     ".cnp-card-actions .cnp-actions-right .cnp-btn-dropdown",
   );
 
+  const historyPatientNameEl = document.getElementById("historyPatientName");
+  const historyPatientMrnEl = document.getElementById("historyPatientMrn");
+  const historyPatientDobEl = document.getElementById("historyPatientDob");
+  const historyPatientAvatarEl = document.getElementById("historyPatientAvatar");
+  const historyPatientExtraEl = document.getElementById("historyPatientExtra");
+
+  const fromDateEl = document.getElementById("fromDate");
+  const toDateEl = document.getElementById("toDate");
+  const statusFilterEl = document.getElementById("statusFilter");
+  const filtersForm = document.getElementById("filtersForm");
+  const resetFiltersBtn = document.getElementById("resetFilters");
+
+  const historyStateEl = document.getElementById("historyState");
+  const historyTableBody = document.querySelector("#rxTable tbody");
+  const rxModalBackdrop = document.getElementById("rxModalBackdrop");
+  const rxModalClose = document.getElementById("rxModalClose");
+
+  const m_rxId = document.getElementById("m_rxId");
+  const m_date = document.getElementById("m_date");
+  const m_status = document.getElementById("m_status");
+  const m_diagnosis = document.getElementById("m_diagnosis");
+  const m_code = document.getElementById("m_code");
+  const m_unique = document.getElementById("m_unique");
+  const m_notes = document.getElementById("m_notes");
+  const m_itemsBody = document.querySelector("#m_items tbody");
+
   let savedPatients = [];
   let allPatients = [];
   let savedPatientIds = new Set();
@@ -28,6 +60,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   let medIndexLoaded = false;
   const medNameToId = new Map();
+
+  let historyPrescriptions = [];
+  let historyChart = null;
+  let activeHistoryPatientId = null;
+  let historyLoadSeq = 0;
 
   injectUiEnhancements();
 
@@ -130,6 +167,377 @@ document.addEventListener("DOMContentLoaded", async function () {
     return String(patient?.notes || "").replace(/^Address:\s*/i, "");
   }
 
+  function fmtDate(value) {
+    if (!value) return "-";
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return String(value);
+    return d.toLocaleDateString();
+  }
+
+  function fmtDateTime(value) {
+    if (!value) return "-";
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return String(value);
+    return d.toLocaleString();
+  }
+
+  function initials(first, last) {
+    const a = (first || "").trim().charAt(0);
+    const b = (last || "").trim().charAt(0);
+    return (a + b || "--").toUpperCase();
+  }
+
+  function badgeClass(status) {
+    const s = String(status || "").toLowerCase();
+    if (["fully_dispensed", "dispensed"].includes(s)) return "status-dispensed";
+    if (["expired", "cancelled"].includes(s)) return "status-expired";
+    return "status-issued";
+  }
+
+  function getHistoryPointColor(status) {
+    const s = String(status || "").toLowerCase();
+    if (["fully_dispensed", "dispensed"].includes(s)) return "#3d9d6c";
+    if (["expired", "cancelled"].includes(s)) return "#b13f3f";
+    return "#b0732b";
+  }
+
+  function normalizeFilterStatus(value) {
+    const v = String(value || "")
+      .toLowerCase()
+      .trim();
+    if (!v) return null;
+    if (v === "dispensed") return ["dispensed", "fully_dispensed"];
+    if (v === "issued") return ["issued", "active", "partially_dispensed"];
+    return [v];
+  }
+
+  function getReferenceDate(rx) {
+    return rx.issue_date || rx.created_at || rx.last_dispensed_at || null;
+  }
+
+  function setHistoryState(type, text) {
+    if (!historyStateEl) return;
+    historyStateEl.innerHTML = `<div class="cnp-history-${type}">${escapeHtml(text)}</div>`;
+  }
+
+  function clearHistoryState() {
+    if (!historyStateEl) return;
+    historyStateEl.innerHTML = "";
+  }
+
+  function resetHistoryTable(message) {
+    if (!historyTableBody) return;
+    historyTableBody.innerHTML = `
+      <tr>
+        <td colspan="6" class="cnp-history-table-empty">${escapeHtml(message)}</td>
+      </tr>
+    `;
+  }
+
+  function destroyHistoryChart() {
+    if (historyChart) {
+      historyChart.destroy();
+      historyChart = null;
+    }
+  }
+
+  function renderHistoryChart(list) {
+    const canvas = document.getElementById("timelineChart");
+    if (!canvas) return;
+
+    destroyHistoryChart();
+
+    if (!window.Chart) {
+      return;
+    }
+
+    const sorted = [...list].sort(function (a, b) {
+      const da = new Date(getReferenceDate(a) || 0).getTime();
+      const db = new Date(getReferenceDate(b) || 0).getTime();
+      return da - db;
+    });
+
+    historyChart = new Chart(canvas, {
+      type: "line",
+      data: {
+        labels: sorted.map(function (rx) {
+          return fmtDate(getReferenceDate(rx));
+        }),
+        datasets: [
+          {
+            label: "Prescriptions",
+            data: sorted.map(function (_, index) {
+              return index + 1;
+            }),
+            borderColor: "#b0732b",
+            backgroundColor: "rgba(176, 115, 43, 0.12)",
+            pointBackgroundColor: sorted.map(function (rx) {
+              return getHistoryPointColor(rx.status);
+            }),
+            pointBorderColor: sorted.map(function (rx) {
+              return getHistoryPointColor(rx.status);
+            }),
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            fill: false,
+            tension: 0.2,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        onClick: async function (_, elements) {
+          if (!elements.length) return;
+          const index = elements[0].index;
+          const rx = sorted[index];
+          if (rx) await openHistoryPrescriptionModal(rx.prescription_id);
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+        scales: {
+          y: {
+            ticks: {
+              precision: 0,
+              stepSize: 1,
+            },
+          },
+        },
+      },
+    });
+  }
+
+  function renderHistoryPatientCard(patient) {
+    if (historyPatientNameEl) {
+      historyPatientNameEl.textContent = patient
+        ? `${patient.first_name || ""} ${patient.last_name || ""}`.trim() ||
+          "Unknown Patient"
+        : "No patient selected";
+    }
+
+    if (historyPatientMrnEl) {
+      historyPatientMrnEl.textContent = patient?.patient_id || "--";
+    }
+
+    if (historyPatientDobEl) {
+      historyPatientDobEl.textContent = patient?.date_of_birth || "--";
+    }
+
+    if (historyPatientAvatarEl) {
+      historyPatientAvatarEl.textContent = patient
+        ? initials(patient.first_name, patient.last_name)
+        : "--";
+    }
+
+    if (historyPatientExtraEl) {
+      historyPatientExtraEl.innerHTML = patient
+        ? `
+            Email: ${escapeHtml(patient.email || "-")} •
+            Phone: ${escapeHtml(patient.phone || "-")} •
+            Gender: ${escapeHtml(patient.gender || "-")} •
+            NHS/National ID: ${escapeHtml(patient.national_id || "-")}
+          `
+        : `
+            Select a patient above to load previous prescriptions, filters, and prescription details.
+          `;
+    }
+  }
+
+  function applyHistoryFilters(list) {
+    const from = fromDateEl?.value || "";
+    const to = toDateEl?.value || "";
+    const fromD = from ? new Date(from + "T00:00:00") : null;
+    const toD = to ? new Date(to + "T23:59:59") : null;
+    const allowedStatuses = normalizeFilterStatus(statusFilterEl?.value);
+
+    return list.filter(function (rx) {
+      const status = String(rx.status || "").toLowerCase();
+
+      let statusOk = true;
+      if (allowedStatuses) {
+        statusOk = allowedStatuses.includes(status);
+      }
+
+      let dateOk = true;
+      const ref = getReferenceDate(rx);
+      if (ref && (fromD || toD)) {
+        const d = new Date(ref);
+        if (!Number.isNaN(d.getTime())) {
+          if (fromD && d < fromD) dateOk = false;
+          if (toD && d > toD) dateOk = false;
+        }
+      }
+
+      return statusOk && dateOk;
+    });
+  }
+
+  function renderHistoryTable(list) {
+    if (!historyTableBody) return;
+
+    if (!list.length) {
+      resetHistoryTable("No prescriptions found for this patient.");
+      return;
+    }
+
+    historyTableBody.innerHTML = "";
+
+    list.forEach(function (rx) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${escapeHtml(rx.prescription_number || rx.code || rx.prescription_id || "-")}</td>
+        <td>${escapeHtml(fmtDate(rx.issue_date || rx.created_at))}</td>
+        <td>
+          <span class="cnp-history-status-badge ${badgeClass(rx.status)}">
+            ${escapeHtml(rx.status || "-")}
+          </span>
+        </td>
+        <td>${escapeHtml(rx.diagnosis || "-")}</td>
+        <td>${escapeHtml(fmtDateTime(rx.last_dispensed_at))}</td>
+        <td>${escapeHtml(rx.pharmacy_name || "-")}</td>
+      `;
+      tr.addEventListener("click", async function () {
+        await openHistoryPrescriptionModal(rx.prescription_id);
+      });
+      historyTableBody.appendChild(tr);
+    });
+  }
+  function rerenderHistory() {
+    const filtered = applyHistoryFilters(historyPrescriptions);
+    renderHistoryTable(filtered);
+    renderHistoryChart(filtered);
+
+    clearHistoryState();
+
+    if (!activeHistoryPatientId) {
+      setHistoryState("empty", "Select a patient to load history on this page.");
+      return;
+    }
+
+    if (!historyPrescriptions.length) {
+      setHistoryState(
+        "empty",
+        "This patient has no prescriptions yet for this prescriber.",
+      );
+      return;
+    }
+
+    if (!filtered.length) {
+      setHistoryState("empty", "No prescriptions match the selected filters.");
+    }
+  }
+
+  function resetHistoryUi(message) {
+    activeHistoryPatientId = null;
+    historyPrescriptions = [];
+    renderHistoryPatientCard(null);
+    destroyHistoryChart();
+    resetHistoryTable(message || "Select a patient to load history on this page.");
+    setHistoryState("empty", message || "Select a patient to load history on this page.");
+  }
+
+  async function openHistoryPrescriptionModal(prescriptionId) {
+    try {
+      const resp = await RX.api.get(`/prescriptions/${prescriptionId}`);
+      const rx = resp.prescription || {};
+      const items = Array.isArray(resp.items) ? resp.items : [];
+
+      if (m_rxId) m_rxId.textContent = rx.prescription_id || "-";
+      if (m_date) m_date.textContent = fmtDateTime(rx.issue_date || rx.created_at);
+      if (m_status) {
+        m_status.innerHTML = `
+          <span class="cnp-history-status-badge ${badgeClass(rx.status)}">
+            ${escapeHtml(rx.status || "-")}
+          </span>
+        `;
+      }
+      if (m_diagnosis) m_diagnosis.textContent = rx.diagnosis || "-";
+      if (m_code) m_code.textContent = rx.prescription_number || "-";
+      if (m_unique) m_unique.textContent = rx.prescriber_unique_string || "-";
+      if (m_notes) m_notes.textContent = rx.notes || "";
+
+      if (m_itemsBody) {
+        m_itemsBody.innerHTML = "";
+        if (!items.length) {
+          m_itemsBody.innerHTML = `
+            <tr>
+              <td colspan="7" class="cnp-history-table-empty">No prescription items found.</td>
+            </tr>
+          `;
+        } else {
+          items.forEach(function (item) {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${escapeHtml(item.medication_name || `Medication #${item.medication_id || "-"}`)}</td>
+              <td>${escapeHtml(item.strength || "-")}</td>
+              <td>${escapeHtml(item.dosage_form || "-")}</td>
+              <td>${escapeHtml(item.dosage_instructions || "-")}</td>
+              <td>${escapeHtml(item.quantity_prescribed ?? "-")}</td>
+              <td>${escapeHtml(item.quantity_dispensed_total ?? "-")}</td>
+              <td>${escapeHtml(item.item_status || "-")}</td>
+            `;
+            m_itemsBody.appendChild(tr);
+          });
+        }
+      }
+
+      if (rxModalBackdrop) {
+        rxModalBackdrop.classList.add("open");
+        rxModalBackdrop.setAttribute("aria-hidden", "false");
+      }
+    } catch (error) {
+      alert(error.message || "Failed to load prescription details");
+    }
+  }
+
+  function closeHistoryPrescriptionModal() {
+    if (!rxModalBackdrop) return;
+    rxModalBackdrop.classList.remove("open");
+    rxModalBackdrop.setAttribute("aria-hidden", "true");
+  }
+
+  async function loadSelectedPatientHistory(patientId) {
+    const id = Number(patientId);
+    if (!Number.isFinite(id) || id <= 0) {
+      resetHistoryUi();
+      return;
+    }
+
+    activeHistoryPatientId = id;
+    const requestId = ++historyLoadSeq;
+
+    clearHistoryState();
+    renderHistoryPatientCard(selectedPatient);
+    setHistoryState("loading", "Loading patient history...");
+    resetHistoryTable("Loading prescription history...");
+
+    try {
+      let resp = { prescriptions: [] };
+
+      if (isClinician) {
+        resp = await RX.api.get(`/clinicians/me/patients/${id}/prescriptions`);
+      }
+
+      if (requestId !== historyLoadSeq) return;
+
+      historyPrescriptions = Array.isArray(resp.prescriptions)
+        ? resp.prescriptions
+        : [];
+
+      renderHistoryPatientCard(selectedPatient);
+      rerenderHistory();
+    } catch (error) {
+      if (requestId !== historyLoadSeq) return;
+      historyPrescriptions = [];
+      destroyHistoryChart();
+      resetHistoryTable("Failed to load patient history.");
+      setHistoryState("error", error.message || "Failed to load patient history.");
+    }
+  }
+
   function renderPatientSummary(patient) {
     if (!patientSummary) return;
 
@@ -138,6 +546,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         <p class="cnp-patient-name">No patient selected</p>
         <p class="rx-muted">Search, save, or create a patient before issuing a prescription.</p>
       `;
+      renderHistoryPatientCard(null);
       syncPatientStateUi();
       return;
     }
@@ -156,6 +565,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       <p><strong>Email:</strong> ${escapeHtml(patient.email || "-")}</p>
       <p><strong>NHS Number:</strong> ${escapeHtml(patient.national_id || "-")}</p>
     `;
+    renderHistoryPatientCard(patient);
     syncPatientStateUi();
   }
 
@@ -286,7 +696,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     renderPatientSummary(patient);
+    rememberPatientForHistory();
     hideDropdown();
+
+    loadSelectedPatientHistory(patient.patient_id).catch(function (error) {
+      console.error(error);
+      setHistoryState("error", error.message || "Failed to load patient history.");
+    });
   }
 
   function buildPatientMeta(patient) {
@@ -377,7 +793,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       syncPatientStateUi();
     }
   }
-
 function openModal() {
   if (!modal) return;
   modal.style.display = "flex";
@@ -742,6 +1157,42 @@ function closeModal() {
     return menu;
   }
 
+  resetHistoryUi("Select a patient to load history on this page.");
+
+  if (filtersForm) {
+    filtersForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      rerenderHistory();
+    });
+  }
+
+  if (resetFiltersBtn) {
+    resetFiltersBtn.addEventListener("click", function () {
+      if (fromDateEl) fromDateEl.value = "";
+      if (toDateEl) toDateEl.value = "";
+      if (statusFilterEl) statusFilterEl.value = "";
+      rerenderHistory();
+    });
+  }
+
+  if (rxModalClose) {
+    rxModalClose.addEventListener("click", closeHistoryPrescriptionModal);
+  }
+
+  if (rxModalBackdrop) {
+    rxModalBackdrop.addEventListener("click", function (event) {
+      if (event.target === rxModalBackdrop) {
+        closeHistoryPrescriptionModal();
+      }
+    });
+  }
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeHistoryPrescriptionModal();
+    }
+  });
+
   if (patientSearchInput) {
     patientSearchInput.addEventListener("input", function () {
       showDropdown(filterPatients(patientSearchInput.value));
@@ -801,7 +1252,6 @@ function closeModal() {
       const notes = notesParts.length
         ? `Address: ${notesParts.join(", ")}`
         : null;
-
       try {
         const resp = await RX.api.post("/patients/create", {
           first_name,

@@ -1,7 +1,7 @@
 // scripts/patient-history.js
 document.addEventListener("DOMContentLoaded", async function () {
-  const user = RX.requireAuth(["clinician", "clinic", "dispenser", "chobham"]);
-  if (!user) return;
+  // const user = RX.requireAuth(["clinician", "clinic", "dispenser", "chobham"]);
+  // if (!user) return;
 
   const isClinician = user.login_type === "clinician";
 

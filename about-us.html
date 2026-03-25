@@ -1,1118 +1,622 @@
 <!DOCTYPE html>
 <html lang="en">
- <head>
+  <head>
     <meta charset="utf-8" />
-    <title>Prescriptions | Medicare</title>
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <meta content="Webflow" name="generator" />
-    <link href="./styles/index.css" rel="stylesheet" type="text/css" />
-    <link href="./styles/prescriptions.css" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0c2247" />
+    <title>RxConnect | About Us</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.gstatic.com"
-      rel="preconnect"
-      crossorigin="anonymous"
-    />
-    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap"
       rel="stylesheet"
+    />
+    <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      rel="stylesheet"
     />
-
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-    <script>
-      WebFont.load({
-        google: {
-          families: [
-            "Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic",
-            "Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic",
-            "Source Sans Pro:regular,700",
-          ],
-        },
-      });
-    </script>
-    <script>
-      !(function (o, c) {
-        var n = c.documentElement,
-          t = " w-mod-";
-        n.className += t + "js";
-        ("ontouchstart" in o ||
-          (o.DocumentTouch && c instanceof DocumentTouch)) &&
-          (n.className += t + "touch");
-      })(window, document);
-    </script>
-    <link
-      href="./assets/favicon.png  "
-      rel="shortcut icon"
-      type="image/x-icon"
-    />
-    <link
-      href="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/589b0ba5dbf0b97f5096c916_pharmacy-symbol-darker.png"
-      rel="apple-touch-icon"
-    />
-    <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.menu-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #00aaff;
-  border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 1001;
-}
-
-.menu-btn img {
-  width: 28px;
-  height: 28px;
-}
-
-.mobile-menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 0;
-  background: #fff;
-  overflow: hidden;
-  transition: height 0.4s ease;
-  z-index: 1000;
-}
-
-.mobile-menu.open {
-  height: 60vh;
-}
-
-.mobile-menu ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  height: 100%;
-}
-
-.mobile-menu a {
-  text-decoration: none;
-  color: #0b214a;
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.close-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: #00aaff;
-  color: white;
-  border: none;
-  font-size: 24px;
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.user-dropdown-container {
-    position: relative; 
-    cursor: pointer;
-    margin-left: 20px;
-}
-
-.user-trigger {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-weight: 600;
-    color: #767777; 
-        white-space: nowrap; 
-}
-
-.user-dropdown-menu {
-    list-style: none;
-    padding: 10px 0;
-    margin: 0;
-    position: absolute;
-    top: 100%; 
-    right: 0;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    min-width: 150px;
-    z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-
-    display: none; 
-}
-
-.user-dropdown-menu li a {
-    text-decoration: none;
-    color: #333;
-    padding: 8px 15px;
-    display: block;
-}
-
-.user-dropdown-menu li a:hover {
-    background-color: #f5f5f5;
-}
-
-.user-dropdown-menu li .fa-solid {
-    margin-right: 8px;
-}
-
-.divider {
-    border-top: 1px solid #eee;
-    margin: 5px 0;
-}
-.user-dropdown-container {
-  position: relative;
-  display: inline-block;
-}
-
-.user-trigger {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.user-dropdown-menu {
-  position: absolute;
-  right: 0;            
-  top: 100%;          
-  margin-top: 8px;
-  list-style: none;
-  padding: 8px 0;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  min-width: 180px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  z-index: 9999;         
-  display: none;        
-}
-
-.user-dropdown-menu li a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  color: #333;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.user-dropdown-menu li a:hover {
-  background-color: #f5f5f5;
-}
-
-.user-dropdown-menu .divider {
-  margin: 4px 0;
-  border-top: 1px solid #eee;
-  pointer-events: none;
-}
-.user-dropdown-menu.show {
-  display: block;
-}
-.nav-menu .w-nav-link {
-  padding-top: 6px !important;
-  padding-bottom: 6px !important;
-  padding-left: 12px !important;
-  padding-right: 12px !important;
-}
-
-.nav-menu.w-nav-menu {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-.navbar-container.w-container {
-  padding-top: 4px !important;
-  padding-bottom: 4px !important;
-}
-@media screen and (max-width: 991px) {
-    
-    .top-info-bar-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between; 
-      align-items: center;
-      padding: 10px 15px;
-      position: relative;
-    }
-
-    .brand.w-nav-brand {
-      display: block !important;
-      flex: 0 0 auto;
-    }
-    .brand img {
-        width: 100px !important;
-    }
-
-    .info-bar {
-      display: none !important;
-    }
-
-    .custom-menu-btn {
-      display: block;
-      font-size: 26px;
-      cursor: pointer;
-      color: #333;
-      padding: 5px;
-      order: 2; 
-    }
-
-    .user-dropdown-container {
-      width: 100%;
-      text-align: center;
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid #eee;
-      order: 3; 
-    }
-
-    .nav-menu.w-nav-menu {
-        display: none; 
-        flex-direction: column;
-        background-color: white;
-        width: 100%;
-        padding: 10px 0;
-        border-top: 1px solid #ddd;
-    }
-
-    .nav-menu.w-nav-menu.active {
-        display: flex !important;
-    }
-
-    .nav-link {
-        display: block;
-        padding: 10px 20px;
-        border-bottom: 1px solid #f0f0f0;
-    }
-  }
-
-  @media screen and (min-width: 992px) {
-    .custom-menu-btn {
-      display: none;
-    }
-    .nav-menu.w-nav-menu {
-        display: flex !important; 
-    }
-  }
-    </style>
-    <style>
-  @media screen and (max-width: 991px) {
-    
-    .top-info-bar-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 10px 10px 0px !important; 
-    }
-
-    .brand.w-nav-brand {
-      display: block !important;
-      flex: 0 0 auto;
-      margin-left: 0 !important; 
-    }
-    
-    .brand img {
-        width: 140px !important; 
-        height: auto;
-    }
-
-    .info-bar { display: none !important; }
-
-    .custom-menu-btn {
-      display: block;
-      font-size: 28px; 
-      cursor: pointer;
-      color: #333;
-      padding: 5px;
-      order: 2;
-    }
-
-    .user-dropdown-container {
-      width: 100%;
-      text-align: center;
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid #eee;
-      order: 3;
-    }
-
-    .nav-menu.w-nav-menu {
-        display: none;
-        flex-direction: column;
-        background-color: white;
-        width: 100%;
-        padding: 10px 0;
-        border-top: 1px solid #ddd;
-    }
-
-    .nav-menu.w-nav-menu.active {
-        display: flex !important;
-    }
-  }
-
-  /* Desktop Styles (No change) */
-  @media screen and (min-width: 992px) {
-    .custom-menu-btn { display: none; }
-    .nav-menu.w-nav-menu { display: flex !important; }
-  }
-  @media screen and (max-width: 991px) {
-    
-    .user-dropdown-container {
-      width: 100%;
-      text-align: center;
-      margin-top: 10px;
-      padding-top: 10px;
-      
-      border-top: none; 
-      
-      order: 3;
-    }
-    
-}
-  </style>
+    <link rel="stylesheet" href="./styles/about-us.css" />
+    <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
   </head>
 
   <body>
+    <header class="site-header">
+      <div class="navbar-wrapper">
+        <nav class="main-navbar" aria-label="Primary navigation">
+          <div class="navbar-shell">
+            <div class="navbar-container">
+              <a href="./index.html" class="navbar-brand" aria-label="RxConnect Home">
+                <img src="./assets/rxconnect.png" alt="RxConnect" />
+              </a>
 
-     <div id="navbar-placeholder"></div>
-    <!-- NAVBAR (kept; minor icons retained) -->
-     <div class="navbar-wrapper">
-      <div class="top-info-bar">
-        <div class="top-info-bar-container w-container">
-          <a
-            href="./dashboard.html"
-            class="brand w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand"
-            ><img
-              src="./assets/rxconnect.png"
-              alt="logo"
-              style="width: 120px; height: auto; margin-bottom: 4px"
-            /></a>
-             <div id="menu-btn" class="menu-button w-nav-button">
-          <i class="fa-solid fa-bars" id="menu-icon"></i>
-        </div>
-          <div class="info-bar w-clearfix">
-            <div class="info-blocks-wrapper w-clearfix">
-              <div class="top-info-block no-right-border w-clearfix">
-                <div class="top-info-icon"></div>
-                <div class="top-info-content">
-                  <a href="tel:+44 20 7123 4567" class="contact-link"
-                    >+44 20 7123 4567</a
-                  ><a href="tel:+44 7712 345678" class="contact-link"
-                    >+44 7712 345678</a
-                  >
+              <button
+                id="menu-btn"
+                class="menu-button"
+                type="button"
+                aria-label="Toggle menu"
+                aria-expanded="false"
+                aria-controls="nav-menu"
+              >
+                <i class="fa-solid fa-bars" aria-hidden="true"></i>
+              </button>
+
+              <div class="navbar-right" id="nav-menu">
+                <div class="nav-center">
+                  <a href="./prescriptions.html" class="nav-link">Prescriptions</a>
+                  <a href="./contact-us.html" class="nav-link">Contact Us</a>
+
+                  <div class="dropdown" id="reportsDropdownWrap">
+                    <button
+                      class="dropdown-toggle"
+                      id="reportsBtn"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="reportsDropdown"
+                    >
+                      <span>Reports</span>
+                      <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+                    </button>
+
+                    <div class="dropdown-content" id="reportsDropdown">
+                      <a href="./patients.html">My Patients</a>
+                      <a href="./reports.html">Monthly Reports</a>
+                      <a href="./billing.html">Billing</a>
+                      <a href="./medicationExport.html">Medication Export</a>
+                      <a href="./approvals.html">Approvals</a>
+                    </div>
+                  </div>
+
+                  <a href="./register.html" class="join-btn">Join Us</a>
                 </div>
-              </div>
-              <div class="top-info-block w-clearfix">
-                <div class="top-info-icon _2"></div>
-                <div class="top-info-content">
-                  <a data-ix="popup-modal-show" href="#" class="contact-link"
-                    >M5 3AB<br />
-                   Church Road, Salford, Manchester</a
+
+                <div class="user-dropdown-container" id="userDropdownWrap">
+                  <button
+                    class="user-trigger"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="userDropdownMenu"
                   >
+                    <span class="hello-label">Hello,</span>
+                    <span id="username">Guest</span>
+                    <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+                  </button>
+
+                  <ul class="user-dropdown-menu" id="userDropdownMenu">
+                    <li>
+                      <a href="./myprofile.html">
+                        <i class="fa-solid fa-user" aria-hidden="true"></i>
+                        <span>My Profile</span>
+                      </a>
+                    </li>
+                    <li class="divider" aria-hidden="true"></li>
+                    <li>
+                      <a href="./login.html">
+                        <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                        <span>Logout</span>
+                      </a>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
           </div>
-          <div class="user-dropdown-container">
-            <div class="user-trigger">
-    <span id="username"></span>
+        </nav>
+      </div>
+    </header>
+
+    <main class="about-page">
+      <section class="hero-section">
+        <div class="hero-shell">
+          <div class="hero-copy">
+            <p class="page-eyebrow">About RxConnect</p>
+            <h1>One platform connecting doctors, clinics, and pharmacies through smarter e-prescribing.</h1>
+            <p class="hero-lead">
+              RxConnect simplifies the full prescription journey. Doctors can choose a patient,
+              review history and PMR, issue e-prescriptions faster, and track outcomes in one
+              place. Clinics gain better control and visibility, while pharmacies get a simpler,
+              safer dispensing workflow.
+            </p>
+
+            <div class="hero-highlights">
+              <span class="hero-pill"><i class="fa-solid fa-user-doctor"></i> Built for doctors</span>
+              <span class="hero-pill"><i class="fa-solid fa-hospital"></i> Structured for clinics</span>
+              <span class="hero-pill"><i class="fa-solid fa-pills"></i> Easy for pharmacies</span>
+            </div>
+
+            <div class="hero-actions">
+              <a href="./register.html" class="primary-cta">Join Us</a>
+              <a href="./contact-us.html" class="secondary-cta">Talk to our team</a>
+            </div>
+          </div>
+
+          <aside class="hero-panel" aria-label="RxConnect overview card">
+            <div class="hero-panel-top">
+              <span class="hero-panel-tag">Connected workflow</span>
+              <h2>From patient selection to dispensing</h2>
+              <p>
+                A modern e-prescription experience that keeps prescribing, history review,
+                reporting, and dispensing aligned.
+              </p>
+            </div>
+
+            <div class="hero-metrics">
+              <article class="metric-card">
+                <span class="metric-icon"><i class="fa-solid fa-notes-medical"></i></span>
+                <strong>Faster prescribing</strong>
+                <p>Issue prescriptions after reviewing patient history in the same workflow.</p>
+              </article>
+
+              <article class="metric-card">
+                <span class="metric-icon"><i class="fa-solid fa-chart-line"></i></span>
+                <strong>Better visibility</strong>
+                <p>Track patient records, prescription activity, and dispensing outcomes clearly.</p>
+              </article>
+
+              <article class="metric-card">
+                <span class="metric-icon"><i class="fa-solid fa-coins"></i></span>
+                <strong>Prescriber benefit</strong>
+                <p>When prescriptions are dispensed through Chobham Pharmacy, the doctor can benefit from the platform model.</p>
+              </article>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="story-section">
+        <div class="section-heading centered">
+          <p class="section-eyebrow">Why RxConnect</p>
+          <h2>Designed to make daily healthcare work more productive</h2>
+          <p>
+            RxConnect is not only a prescription form. It is a connected workspace where doctors,
+            clinics, and pharmacies can move faster with less manual follow-up and better operational clarity.
+          </p>
+        </div>
+
+        <div class="story-grid">
+          <article class="story-card accent-card">
+            <h3>For doctors</h3>
+            <p>
+              Doctors can search and select the patient, review the patient’s history and PMR,
+              prescribe medicines, and issue the prescription from the same environment. This reduces
+              switching between pages and helps clinicians work with more confidence and speed.
+            </p>
+            <ul>
+              <li>View patient details and prescribing context in one place</li>
+              <li>Write prescriptions with less back-and-forth and better continuity</li>
+              <li>Benefit when prescriptions are dispensed through Chobham Pharmacy</li>
+            </ul>
+          </article>
+
+          <article class="story-card">
+            <h3>For clinics</h3>
+            <p>
+              Clinics gain a cleaner onboarding and administration model. Each clinic can join with the
+              correct licensing information, create an admin user, and manage doctors working under that clinic.
+            </p>
+            <ul>
+              <li>Structured clinic setup and approval flow</li>
+              <li>Doctor management under one clinic context</li>
+              <li>Improved operational control for prescription activity</li>
+            </ul>
+          </article>
+
+          <article class="story-card">
+            <h3>For pharmacies</h3>
+            <p>
+              Pharmacies can dispense prescriptions through a clear digital flow using the prescription
+              code and patient date of birth. This makes dispensing easier, reduces confusion, and supports
+              a faster handoff from doctor to patient to pharmacy.
+            </p>
+            <ul>
+              <li>Simple code-based lookup for dispensing</li>
+              <li>Less friction during prescription collection</li>
+              <li>Clearer connection with the prescribing workflow</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="workflow-section">
+        <div class="section-heading">
+          <p class="section-eyebrow">Platform workflow</p>
+          <h2>How the experience works in practice</h2>
+          <p>
+            RxConnect supports the full prescription path, from the first patient selection to the final dispensing step.
+          </p>
+        </div>
+
+        <div class="timeline-grid">
+          <article class="timeline-step">
+            <span class="step-number">01</span>
+            <h3>Select the patient</h3>
+            <p>The doctor chooses the patient from a managed list or creates a new patient profile when needed.</p>
+          </article>
+
+          <article class="timeline-step">
+            <span class="step-number">02</span>
+            <h3>Review history and PMR</h3>
+            <p>Patient details, previous prescription records, and history data can be reviewed before prescribing.</p>
+          </article>
+
+          <article class="timeline-step">
+            <span class="step-number">03</span>
+            <h3>Create the e-prescription</h3>
+            <p>The doctor adds medicines, dosage instructions, notes, and issues the prescription through the same workflow.</p>
+          </article>
+
+          <article class="timeline-step">
+            <span class="step-number">04</span>
+            <h3>Dispense smoothly</h3>
+            <p>The pharmacy uses the code-based flow for easier dispensing, while the platform keeps the process visible.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="benefits-section">
+        <div class="section-heading centered">
+          <p class="section-eyebrow">Operational value</p>
+          <h2>Built to reduce friction across the prescribing chain</h2>
+        </div>
+
+        <div class="benefit-grid">
+          <article class="benefit-card">
+            <span class="benefit-icon"><i class="fa-solid fa-clock"></i></span>
+            <h3>More productive doctor workflow</h3>
+            <p>
+              Doctors can move from patient selection to prescribing with better context and fewer repeated steps.
+            </p>
+          </article>
+
+          <article class="benefit-card">
+            <span class="benefit-icon"><i class="fa-solid fa-shield-heart"></i></span>
+            <h3>Better continuity of care</h3>
+            <p>
+              Reviewing history and prescription records in the same workspace supports safer, more informed decisions.
+            </p>
+          </article>
+
+          <article class="benefit-card">
+            <span class="benefit-icon"><i class="fa-solid fa-building-user"></i></span>
+            <h3>Clinic-level administration</h3>
+            <p>
+              Clinics can operate through an approval-based structure with clearer administration of doctors and activity.
+            </p>
+          </article>
+
+          <article class="benefit-card">
+            <span class="benefit-icon"><i class="fa-solid fa-prescription-bottle-medical"></i></span>
+            <h3>Easy dispensing handoff</h3>
+            <p>
+              Pharmacies receive a simpler lookup and dispensing experience that fits the digital prescription journey.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="join-section">
+        <div class="join-shell">
+          <div class="section-heading">
+            <p class="section-eyebrow">Join RxConnect</p>
+            <h2>Simple onboarding for clinics and doctors</h2>
+            <p>
+              We keep onboarding structured so the platform remains professional, compliant, and easy to manage.
+            </p>
+          </div>
+
+          <div class="join-grid">
+            <article class="join-card">
+              <div class="join-card-icon"><i class="fa-solid fa-hospital"></i></div>
+              <h3>Clinic registration</h3>
+              <p>
+                To join as a clinic, we need core clinic information so the account can be reviewed and approved properly.
+              </p>
+              <ul>
+                <li>Clinic license</li>
+                <li>Clinic name and primary details</li>
+                <li>Admin user for the clinic account</li>
+                <li>Approval before activation</li>
+              </ul>
+            </article>
+
+            <article class="join-card">
+              <div class="join-card-icon"><i class="fa-solid fa-user-doctor"></i></div>
+              <h3>Doctor registration</h3>
+              <p>
+                To join as a doctor, we need the professional information required for validation and secure access.
+              </p>
+              <ul>
+                <li>GMC number</li>
+                <li>Doctor name and contact details</li>
+                <li>Associated clinic details when applicable</li>
+                <li>Approval before prescribing access</li>
+              </ul>
+            </article>
+
+            <article class="join-card gold-card">
+              <div class="join-card-icon"><i class="fa-solid fa-handshake-angle"></i></div>
+              <h3>Why join now</h3>
+              <p>
+                Join a platform focused on connecting prescribing, clinic operations, and pharmacy dispensing in one cleaner journey.
+              </p>
+              <ul>
+                <li>Modern e-prescription workflow</li>
+                <li>Patient history visibility</li>
+                <li>Simpler dispensing with Chobham Pharmacy integration</li>
+                <li>Stronger day-to-day productivity</li>
+              </ul>
+              <a href="./register.html" class="join-card-cta">Join Us</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="final-cta-section">
+        <div class="final-cta-card">
+          <div>
+            <p class="section-eyebrow">Start with RxConnect</p>
+            <h2>Smarter e-prescribing for modern healthcare teams</h2>
+            <p>
+              Whether you are a doctor, clinic, or pharmacy, RxConnect helps simplify the prescription lifecycle and create a more connected care experience.
+            </p>
+          </div>
+          <div class="final-cta-actions">
+            <a href="./register.html" class="primary-cta">Join Us</a>
+            <a href="./contact-us.html" class="secondary-cta">Contact Us</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rx-footer">
+      <div class="rx-footer-shell">
+        <div class="rx-footer-top">
+          <div class="rx-footer-brand">
+            <a href="./dashboard.html" class="rx-footer-logo-link">
+              <img src="./assets/rxconnect.png" alt="RxConnect" class="rx-footer-logo" />
+            </a>
+
+            <p class="rx-footer-description">
+              RxConnect is a connected e-prescription platform that helps doctors, clinics,
+              and pharmacies work together through a more productive, modern, and trackable workflow.
+            </p>
+
+            <div class="rx-footer-emergency">
+              <div class="rx-footer-emergency-icon" aria-hidden="true">
+                <i class="fa-solid fa-phone-volume"></i>
+              </div>
+              <div>
+                <span class="rx-footer-emergency-label">Emergency cases</span>
+                <a href="tel:+442071234567" class="rx-footer-emergency-number">+44 20 7123 4567</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="rx-footer-links">
+            <div class="rx-footer-column">
+              <h4>Navigation</h4>
+              <a href="./about-us.html">Who we are</a>
+              <a href="./dr-form.html">E-prescription</a>
+              <a href="./prescriptions.html">My prescription</a>
+              <a href="./doctors.html">Doctors</a>
+              <a href="./patient-history.html">Patient history</a>
+              <a href="./FAQs.html">FAQs</a>
+            </div>
+
+            <div class="rx-footer-column rx-footer-contact">
+              <h4>Contact Us</h4>
+
+              <div class="rx-contact-item">
+                <span class="rx-contact-icon" aria-hidden="true">
+                  <i class="fa-solid fa-location-dot"></i>
+                </span>
+                <a href="#">M5 3AB Church Road, Salford, Manchester</a>
+              </div>
+
+              <div class="rx-contact-item">
+                <span class="rx-contact-icon" aria-hidden="true">
+                  <i class="fa-solid fa-envelope"></i>
+                </span>
+                <a href="mailto:info@rxconnect.com">info@rxconnect.com</a>
+              </div>
+
+              <div class="rx-contact-item">
+                <span class="rx-contact-icon" aria-hidden="true">
+                  <i class="fa-solid fa-phone"></i>
+                </span>
+                <div class="rx-contact-phones">
+                  <a href="tel:+447712345678">+44 7712 345678</a>
+                  <a href="tel:+442071234567">+44 20 7123 4567</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="rx-footer-column rx-footer-form-col">
+              <h4>Message us</h4>
+
+              <form class="rx-footer-form" id="footerMessageForm">
+                <label class="sr-only" for="footerName">Your name</label>
+                <input
+                  id="footerName"
+                  type="text"
+                  name="name"
+                  placeholder="Enter your name"
+                  class="rx-footer-input"
+                />
+
+                <label class="sr-only" for="footerEmail">Your email</label>
+                <input
+                  id="footerEmail"
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email address"
+                  class="rx-footer-input"
+                  required
+                />
+
+                <button type="submit" class="rx-footer-submit">Submit</button>
+                <p class="footer-form-feedback" id="footerFormFeedback" aria-live="polite"></p>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="rx-footer-bottom">
+          <p class="rx-footer-copy">© 2026 RxConnect. All rights reserved.</p>
+
+          <div class="rx-footer-socials">
+            <a href="#" class="rx-social-link" aria-label="Facebook">
+              <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+            </a>
+            <a href="#" class="rx-social-link" aria-label="X">
+              <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+            </a>
+            <a href="#" class="rx-social-link" aria-label="LinkedIn">
+              <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
 
     <script>
-        const name = window.name;
-        document.getElementById("username").textContent = `Hello, ${name}`;
-    </script>
-    <i class="fa-solid fa-chevron-down dropdown-icon"></i>
-</div>
-            <ul class="user-dropdown-menu">
-                <li><a href="./myprofile.html"><i class="fa-solid fa-user"></i> My Profile</a></li>
-                <li class="divider"></li>
-                <li><a href="./login.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-            </ul>
-        </div>
-        </div>
-        
-      </div>
-      
-      <div
-        data-collapse="medium"
-        data-animation="default"
-        data-duration="400"
-        data-easing="ease"
-        data-easing2="ease"
-        role="banner"
-        class="navbar w-nav"
-      >
-      <div class="navbar-container w-container">
-       
-        <nav role="navigation" class="nav-menu w-nav-menu">
-    <!-- <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a> -->
-    <!-- <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a> -->
-    <a href="./prescriptions.html" class="nav-link w-nav-link">Prescriptions</a>
-    <a href="./pending-prescription.html"  class="nav-link w-nav-link" >Pending Prescriptions</a>
-    <!-- <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a> -->
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuButton = document.getElementById("menu-btn");
+        const navMenu = document.getElementById("nav-menu");
+        const reportsButton = document.getElementById("reportsBtn");
+        const reportsWrap = document.getElementById("reportsDropdownWrap");
+        const userButton = document.querySelector(".user-trigger");
+        const userWrap = document.getElementById("userDropdownWrap");
+        const usernameEl = document.getElementById("username");
+        const footerForm = document.getElementById("footerMessageForm");
+        const footerFormFeedback = document.getElementById("footerFormFeedback");
 
-    <a href="./patients.html" class="nav-link w-nav-link">Patients</a>
-    <!-- <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a> -->
-    <a href="./contacts.html" class="nav-link w-nav-link">Contacts    </a>
-    <a href="./billing.html" class="nav-link w-nav-link">Billing</a>
-    <!-- <a class="nav-link w-nav-link" href="./myprofile.html">My Profile </a> -->
-
-    <div class="dropdown">
-  <button class="nav-link w-nav-link bg-transparent" id="reportsBtn">
-    Reports <i class="fa-solid fa-chevron-down"></i>
-  </button>
-  <div class="dropdown-content" id="reportsDropdown">
-    <a href="./reports.html">Reports</a>
-    <a href="./medicationExport.html">Medication Export</a>
-
-  </div>
-</div>
-
-  </nav>
-  
-<script>
-const reportsBtn = document.getElementById('reportsBtn');
-const reportsDropdown = document.getElementById('reportsDropdown');
-
-// Toggle dropdown on click
-reportsBtn.addEventListener('click', function(e) {
-  e.preventDefault(); // Prevent default link navigation
-  reportsDropdown.classList.toggle('show');
-});
-
-// Close the dropdown if clicked outside
-window.addEventListener('click', function(e) {
-  if (!reportsBtn.contains(e.target) && !reportsDropdown.contains(e.target)) {
-    reportsDropdown.classList.remove('show');
-  }
-});
-document.addEventListener('DOMContentLoaded', function() {
-    const userTrigger = document.querySelector('.user-trigger');
-    const userMenu = document.querySelector('.user-dropdown-menu');
-
-    userTrigger.addEventListener('click', function() {
-        const isHidden = userMenu.style.display === 'none' || userMenu.style.display === '';
-        userMenu.style.display = isHidden ? 'block' : 'none';
-        
-        const icon = userTrigger.querySelector('.dropdown-icon');
-        icon.classList.toggle('fa-chevron-down');
-        icon.classList.toggle('fa-chevron-up');
-    });
-
-    document.addEventListener('click', function(event) {
-        if (!userTrigger.contains(event.target) && !userMenu.contains(event.target)) {
-            userMenu.style.display = 'none';
-            const icon = userTrigger.querySelector('.dropdown-icon');
-            if (icon && icon.classList.contains('fa-chevron-up')) {
-                 icon.classList.remove('fa-chevron-up');
-                 icon.classList.add('fa-chevron-down');
-            }
+        function setExpandedState(button, state) {
+          if (button) button.setAttribute("aria-expanded", String(state));
         }
-    });
-});
-document.addEventListener('DOMContentLoaded', function() {
-    const userTrigger = document.querySelector('.user-trigger');
-    const userMenu = document.querySelector('.user-dropdown-menu');
 
-    userTrigger.addEventListener('click', function(e) {
-        e.stopPropagation(); 
-        userMenu.classList.toggle('show');
-        
-        const icon = userTrigger.querySelector('.dropdown-icon');
-        icon.classList.toggle('fa-chevron-down');
-        icon.classList.toggle('fa-chevron-up');
-    });
-
-    document.addEventListener('click', function(event) {
-        if (!userTrigger.contains(event.target) && !userMenu.contains(event.target)) {
-            userMenu.classList.remove('show');
-            const icon = userTrigger.querySelector('.dropdown-icon');
-            if (icon && icon.classList.contains('fa-chevron-up')) {
-                 icon.classList.remove('fa-chevron-up');
-                 icon.classList.add('fa-chevron-down');
-            }
+        function closeDropdown(container, button) {
+          if (!container) return;
+          container.classList.remove("is-open");
+          setExpandedState(button, false);
         }
-    });
-});
-document.addEventListener('DOMContentLoaded', function() {
-    const userTrigger = document.querySelector('.user-trigger');
-    const userMenu = document.querySelector('.user-dropdown-menu');
 
-    userTrigger.addEventListener('click', function(e) {
-        e.stopPropagation(); 
-        userMenu.classList.toggle('show');
-        
-        const icon = userTrigger.querySelector('.dropdown-icon');
-        icon.classList.toggle('fa-chevron-down');
-        icon.classList.toggle('fa-chevron-up');
-    });
-
-    document.addEventListener('click', function(event) {
-        if (!userTrigger.contains(event.target) && !userMenu.contains(event.target)) {
-            userMenu.classList.remove('show');
-            const icon = userTrigger.querySelector('.dropdown-icon');
-            if (icon && icon.classList.contains('fa-chevron-up')) {
-                 icon.classList.remove('fa-chevron-up');
-                 icon.classList.add('fa-chevron-down');
-            }
+        function toggleDropdown(container, button) {
+          if (!container) return;
+          const shouldOpen = !container.classList.contains("is-open");
+          closeDropdown(reportsWrap, reportsButton);
+          closeDropdown(userWrap, userButton);
+          if (shouldOpen) {
+            container.classList.add("is-open");
+            setExpandedState(button, true);
+          }
         }
-    });
-});
-document.addEventListener('DOMContentLoaded', function() {
-    const userTrigger = document.querySelector('.user-trigger');
-    const userMenu = document.querySelector('.user-dropdown-menu');
 
-    userTrigger.addEventListener('click', function(e) {
-        e.stopPropagation(); 
-        userMenu.classList.toggle('show');
-        
-        const icon = userTrigger.querySelector('.dropdown-icon');
-        icon.classList.toggle('fa-chevron-down');
-        icon.classList.toggle('fa-chevron-up');
-    });
-
-    document.addEventListener('click', function(event) {
-        if (!userTrigger.contains(event.target) && !userMenu.contains(event.target)) {
-            userMenu.classList.remove('show');
-            const icon = userTrigger.querySelector('.dropdown-icon');
-            if (icon && icon.classList.contains('fa-chevron-up')) {
-                 icon.classList.remove('fa-chevron-up');
-                 icon.classList.add('fa-chevron-down');
+        function getStoredUser() {
+          try {
+            if (window.RX && typeof window.RX.getUser === "function") {
+              return window.RX.getUser() || null;
             }
+          } catch (error) {}
+
+          try {
+            const raw = localStorage.getItem("rxconnect_user");
+            return raw ? JSON.parse(raw) : null;
+          } catch (error) {
+            return null;
+          }
         }
-    });
-});
 
-</script>
+        function setUsername() {
+          if (!usernameEl) return;
+          const user = getStoredUser();
+          const displayName =
+            user?.username || user?.name || user?.full_name || user?.email || "Guest";
+          usernameEl.textContent = displayName;
+        }
 
-       
-      </div>
+        setUsername();
 
+        if (menuButton && navMenu) {
+          menuButton.addEventListener("click", function () {
+            const isOpen = navMenu.classList.toggle("is-open");
+            setExpandedState(menuButton, isOpen);
+            const icon = menuButton.querySelector("i");
+            if (icon) {
+              icon.classList.toggle("fa-bars", !isOpen);
+              icon.classList.toggle("fa-xmark", isOpen);
+            }
+            if (!isOpen) {
+              closeDropdown(reportsWrap, reportsButton);
+              closeDropdown(userWrap, userButton);
+            }
+          });
+        }
 
+        if (reportsButton && reportsWrap) {
+          reportsButton.addEventListener("click", function (event) {
+            if (window.innerWidth <= 900) {
+              event.preventDefault();
+              toggleDropdown(reportsWrap, reportsButton);
+            }
+          });
+        }
 
-      </div>
-    </div>
-   
-    <!-- Scroll navbar (unchanged visually) -->
-    <!-- <div
-      data-collapse="medium"
-      data-animation="default"
-      data-duration="400"
-      data-ix="display-scroll-navbar"
-      data-easing="ease"
-      data-easing2="ease"
-      role="banner"
-      class="navbar-scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav"
-    >
-      <div class="nav-scroll-container w-container">
-        <div class="menu-button scroll-menu-button w-nav-button">
-          <div class="w-icon-nav-menu"></div>
-        </div>
-          <a
-          href="./index.html"
-          aria-current="page"
-          class="brand scroll w-hidden-medium w-hidden-small w-hidden-tiny w-nav-brand w--current"
-          > <img
-              src="./assets/rxconnect.png"
-              alt="logo"
-              style="width: 120px; height: auto; margin-bottom: 4px"
-            /></a>
-        <nav role="navigation" class="nav-menu w-nav-menu">
-   <a href="./about-us.html" aria-current="page" class="nav-link w-nav-link w--current">Who we are</a>
-    <a href="./dr-form.html" class="nav-link w-nav-link">E-Prescriptions</a>
-    <a href="./prescriptions.html" class="nav-link w-nav-link">My Prescriptions</a>
-    <a href="./doctors.html" class="nav-link w-nav-link">Doctors</a>
-    <a href="./patient-history.html" class="nav-link w-nav-link">Patient history</a>
-    <a href="./FAQs.html" class="nav-link w-nav-link">FAQs</a>
+        if (userButton && userWrap) {
+          userButton.addEventListener("click", function (event) {
+            if (window.innerWidth <= 900) {
+              event.preventDefault();
+              toggleDropdown(userWrap, userButton);
+            }
+          });
+        }
 
-  </nav>
-      
-      </div>
-    </div> -->
-    <!-- HEADER -->
-    <div class="page-banner">
-      <div class="page-banner-container w-container">
-        <div class="page-header-content">
-          <h1 class="page-heading">About Us</h1>
-          <div class="subtitle white">
-            Connecting doctors, pharmacies, and patients for smarter healthcare
-          </div>
-          <div class="underline white"></div>
-        </div>
-      </div>
-    </div>
+        if (footerForm && footerFormFeedback) {
+          footerForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            footerFormFeedback.textContent = "Footer form is ready for backend integration.";
+          });
+        }
 
-    <!-- ABOUT SECTION -->
-    <div class="section">
-      <div class="w-container">
-        <div class="white-card">
-          <div class="w-row">
-            <div class="w-col w-col-6">
-              <img
-                src="./assets/rxconnect.png"
-                alt="Connected healthcare illustration"
-                class="about-image"
-              />
-              <div class="top-margin less"><h4>About Our Platform</h4></div>
-              <p>
-                <strong>Medicare Digital</strong> is a healthcare platform built
-                to create a seamless link between <strong>doctors, patients, and
-                pharmacies</strong>. We replace traditional paperwork with
-                digital precision — helping every party communicate, share, and
-                act instantly.
-              </p>
-              <p>
-                From electronic prescriptions to instant pharmacy updates and
-                appointment reminders, Medicare reduces delays, prevents
-                mistakes, and ensures patients get their treatment faster.
-              </p>
-            </div>
-            <div class="more-left-padding w-col w-col-6">
-              <h4>Our Purpose</h4>
-              <p>
-                We exist to <strong>save time and protect lives</strong>. Modern
-                healthcare needs more than just medicine — it needs
-                connectivity. Medicare bridges that gap by integrating doctors,
-                pharmacies, and patients into one secure digital network.
-              </p>
+        document.addEventListener("click", function (event) {
+          if (reportsWrap && !reportsWrap.contains(event.target)) {
+            closeDropdown(reportsWrap, reportsButton);
+          }
+          if (userWrap && !userWrap.contains(event.target)) {
+            closeDropdown(userWrap, userButton);
+          }
+        });
 
-              <h4 class="top-margin">How It Works</h4>
-              <ul>
-                <li>
-                  <strong>Doctors</strong> issue digital prescriptions through
-                  their secure dashboards.
-                </li>
-                <li>
-                  <strong>Pharmacies</strong> receive verified prescriptions in
-                  real time, preparing medication without errors.
-                </li>
-                <li>
-                  <strong>Patients</strong> get notified instantly when their
-                  prescription is ready and can track all previous treatments.
-                </li>
-              </ul>
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape") {
+            closeDropdown(reportsWrap, reportsButton);
+            closeDropdown(userWrap, userButton);
+            if (menuButton && navMenu) {
+              navMenu.classList.remove("is-open");
+              setExpandedState(menuButton, false);
+              const icon = menuButton.querySelector("i");
+              if (icon) {
+                icon.classList.add("fa-bars");
+                icon.classList.remove("fa-xmark");
+              }
+            }
+          }
+        });
 
-              <h4 class="top-margin">Our Impact</h4>
-              <p>
-                Every day, thousands of prescriptions are misplaced or delayed
-                due to outdated manual processes. By going digital, Medicare
-                helps doctors focus on care, pharmacies on accuracy, and
-                patients on recovery.
-              </p>
-
-              <div class="top-margin less">
-                <div class="align-right">
-                  
-                  <div class="ceo">CEO of Medicare Digital</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TECHNOLOGY ADVANTAGE -->
-    <div class="section tint">
-      <div class="w-container">
-        <div class="title-wrapper">
-          <h2>Our Technology Advantage</h2>
-          <div class="subtitle">
-            Secure, fast, and designed for the next generation of care
-          </div>
-          <div class="underline"></div>
-        </div>
-
-        <div class="w-row">
-          <div class="w-col w-col-4">
-            <h4>Cloud-Based Security</h4>
-            <p>
-              All patient data and prescriptions are encrypted and stored under
-              healthcare-grade security, ensuring privacy and compliance.
-            </p>
-          </div>
-          <div class="w-col w-col-4">
-            <h4>Instant Digital Prescriptions</h4>
-            <p>
-              Doctors can issue prescriptions in seconds; pharmacies receive
-              them immediately, reducing waiting time and eliminating lost
-              paper forms.
-            </p>
-          </div>
-          <div class="w-col w-col-4">
-            <h4>Smart Collaboration</h4>
-            <p>
-              The system synchronizes updates across all parties — when a
-              patient books, a doctor approves, or a pharmacy fulfills, everyone
-              sees it instantly.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- WHY CHOOSE US -->
-    <div class="section why-us">
-      <div class="w-container">
-        <div class="w-row">
-          <div class="column-right-padding w-col w-col-8 w-col-stack">
-            <div class="features">
-              <div class="title-wrapper left-align">
-                <h2>Why Choose Us</h2>
-                <div class="subtitle">
-                  Built by professionals, trusted by patients
-                </div>
-                <div class="underline no-center"></div>
-              </div>
-              <div class="feature-block">
-                <div class="feature-big-number">01</div>
-                <h4>Unified Healthcare Platform</h4>
-                <p>
-                  Medicare connects all parties — from clinic to pharmacy —
-                  ensuring no prescription or update is ever lost.
-                </p>
-              </div>
-              <div class="top-margin">
-                <div class="feature-block">
-                  <div class="feature-big-number">02</div>
-                  <h4>Faster Patient Service</h4>
-                  <p>
-                    Every second saved in processing means faster recovery for
-                    the patient. We minimize delays and maximize care.
-                  </p>
-                </div>
-              </div>
-              <div class="top-margin">
-                <div class="feature-block">
-                  <div class="feature-big-number">03</div>
-                  <h4>Trusted by Professionals</h4>
-                  <p>
-                    Developed alongside certified doctors and pharmacists,
-                    Medicare ensures every step meets medical standards.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="w-col w-col-4 w-col-stack"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- FOOTER -->
-   <div class="footer">
-      <div class="w-container">
-        <div class="emergency-wrapper">
-          <img
-            src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/5822042610a8d4ee31522b7d_24-hours-phone-service.png"
-            width="64"
-            alt=""
-            class="emergency-footer-icon"
-          />
-          <h4 class="white">emergency cases</h4>
-          <a href="tel:+1-600-700-6200" class="w-inline-block"
-            ><div class="emergency-number">+44 20 7123 4567</div></a
-          >
-        </div>
-        <div class="flex-box space-between">
-          <div class="_33-percent-column right-padding">
-            <img
-              src="./assets/rxconnect.png"
-              alt=""
-              class="footer-logo"
-              style="width: 160px; height: auto; margin-bottom: 2px"
-            />
-            <p class="white footer-paragraph">
-              RxConnect is an international private health care provider. We have
-              more than 20 years of experience. Our patients are provided with
-              access to comprehensive outpatient and inpatient services, as well
-              as a full range of laboratory diagnostics.
-            </p>
-          </div>
-          <div class="_17-percent-column">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Navigation</h4>
-                <div class="footer-line"></div>
-              </div>
-                <a href="./about-us.html" class="footer-link">Who we are</a>
-              <a href="./dr-form.html" class="footer-link">E-prescription</a>
-              <a href="./prescriptions.html" class="footer-link">My prescription</a>
-              <a href="./doctors.html" class="footer-link">Doctors</a>
-              <a href="./patient-history.html" class="footer-link">Patient history</a>
-              <a href="./FAQs.html" class="footer-link">FAQs</a>
-            </div>
-          </div>
-          <div class="_17-percent-column next">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Departments</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="w-dyn-list">
-                <div role="list" class="w-dyn-items">
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/accident-and-emergency-ae" class="footer-link">Physiotherapy</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/eye-care" class="footer-link">Optical</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/traumatology" class="footer-link">Dental</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/dental-care" class="footer-link">X-Ray</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/cardiology" class="footer-link">Cardiology</a>
-                  </div>
-                  <div role="listitem" class="w-clearfix w-dyn-item">
-                    <a href="/departments/neurology" class="footer-link">Neurology</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="_33-percent-column contact-footer">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Contact Us</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb365745bf29a4636cc96d_marker_white.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a data-ix="popup-modal-show" href="#" class="footer-link contact">M5 3AB Church Road, Salford, Manchester</a>
-                </div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="mailto:" class="footer-link contact">info@rxconnect.com</a>
-                </div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="tel:+61393455522" class="footer-link">+44 7712 345678</a>
-                  <a href="tel:+61393455522" class="footer-link">+44 20 7123 4567</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="test-row w-row">
-          <div class="footer-column w-col w-col-3">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Contact Us</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb365745bf29a4636cc96d_marker_white.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <div class="footer-link"> 267 Collins St Melbourne Victoria 3000 </div>
-                </div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb375654bcd3af63a1e75b_emai_whitel.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="mailto:" class="footer-link contact">info@medicare.com</a>
-                </div>
-              </div>
-              <div class="footer-contact-block">
-                <img
-                  src="https://cdn.prod.website-files.com/57c55b6ef6306d483a15bdc0/57fb417d8ae3efd95b4c1313_phone-receiver.png"
-                  alt=""
-                  class="footer-contact-icon"
-                />
-                <div>
-                  <a href="tel:+61393455522" class="footer-link">03-9345-5522</a>
-                  <a href="tel:+61393455522" class="footer-link">03-9345-4422</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="footer-column w-col w-col-3">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Navigation</h4>
-                <div class="footer-line"></div>
-              </div>
-               <a href="./about-us.html" class="footer-link">Who we are</a>
-              <a href="./dr-form.html" class="footer-link">E-prescription</a>
-              <a href="./prescriptions.html" class="footer-link">My prescription</a>
-              <a href="./doctors.html" class="footer-link">Doctors</a>
-              <a href="./patient-history.html" class="footer-link">Patient history</a>
-              <a href="./FAQs.html" class="footer-link">FAQs</a>
-            </div>
-          </div>
-
-          <div class="footer-column w-col w-col-3">
-            <div>
-              <div class="footer-header-wrapper">
-                <h4 class="footer-title">Departments</h4>
-                <div class="footer-line"></div>
-              </div>
-              <div class="w-dyn-list">
-                <div role="list" class="w-dyn-items">
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/accident-and-emergency-ae" class="footer-link">Physiotherapy</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/eye-care" class="footer-link">Optical</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/traumatology" class="footer-link">Dental </a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/dental-care" class="footer-link">X-Ray</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/cardiology" class="footer-link">Cardiology</a></div>
-                  <div role="listitem" class="w-clearfix w-dyn-item"><a href="/departments/neurology" class="footer-link">Neurology</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="footer-column w-col w-col-3">
-            <div class="footer-header-wrapper">
-              <h4 class="footer-title">Message us</h4>
-              <div class="footer-line"></div>
-            </div>
-            <div>
-              <div class="w-form">
-                <form
-                  id="email-form-2"
-                  name="email-form-2"
-                  data-name="Email Form 2"
-                  method="get"
-                  data-wf-page-id="57c55b6ef6306d483a15bdc1"
-                  data-wf-element-id="7c121d8a-d022-a32b-02d7-eb05da342546"
-                >
-                  <input
-                    class="text-field name full-width w-input"
-                    maxlength="256"
-                    name="name"
-                    data-name="Name"
-                    placeholder="Enter your name"
-                    type="text"
-                    id="name"
-                  /><input
-                    class="text-field email full-width w-input"
-                    maxlength="256"
-                    name="email"
-                    data-name="Email 3"
-                    placeholder="Enter your email address"
-                    type="email"
-                    id="email-3"
-                    required=""
-                  /><input
-                    type="submit"
-                    data-wait="Please wait..."
-                    class="button white full-width w-button"
-                    value="Submit"
-                  />
-                </form>
-                <div class="w-form-done">
-                  <div>Thank you! Your submission has been received!</div>
-                </div>
-                <div class="w-form-fail">
-                  <div> Oops! Something went wrong while submitting the form </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="footer-credits">
-          <div class="credits-wrapper">
-            <div class="footer-socials">
-              <a href="#" class="social-icon facebook w-inline-block"></a>
-              <a href="#" class="social-icon twitter w-inline-block"></a>
-              <a href="#" class="social-icon linkedin w-inline-block"></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-     <!-- JS -->
-     <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const menuButton = document.querySelector(".menu-button");
-    const navMenu = document.querySelector(".w-nav-menu");
-    const icon = menuButton.querySelector("i");
-
-    menuButton.addEventListener("click", function () {
-      navMenu.classList.toggle("open");
-
-      icon.classList.toggle("fa-bars");
-      icon.classList.toggle("fa-xmark");
-
-      if (navMenu.classList.contains("open")) {
-        navMenu.style.display = "block";
-        setTimeout(() => navMenu.style.opacity = "1", 10);
-      } else {
-        navMenu.style.opacity = "0";
-        setTimeout(() => navMenu.style.display = "none", 400);
-      }
-    });
-
-    const links = navMenu.querySelectorAll("a");
-    links.forEach(link => {
-      link.addEventListener("click", () => {
-        navMenu.classList.remove("open");
-        icon.classList.add("fa-bars");
-        icon.classList.remove("fa-xmark");
-        navMenu.style.opacity = "0";
-        setTimeout(() => navMenu.style.display = "none", 400);
+        window.addEventListener("resize", function () {
+          if (window.innerWidth > 900 && navMenu) {
+            navMenu.classList.remove("is-open");
+            setExpandedState(menuButton, false);
+            const icon = menuButton?.querySelector("i");
+            if (icon) {
+              icon.classList.add("fa-bars");
+              icon.classList.remove("fa-xmark");
+            }
+            closeDropdown(reportsWrap, reportsButton);
+            closeDropdown(userWrap, userButton);
+          }
+        });
       });
-    });
-  });
-</script>
-
-  <script src="./scripts/index.js"></script>
-     <script
-      src="./scripts/about-us.js"
-      type="text/javascript"
-    ></script>
+    </script>
   </body>
 </html>
-
-
-
-
-
