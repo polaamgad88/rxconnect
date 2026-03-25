@@ -407,6 +407,150 @@
           </section>
         </div>
 
+        <section class="cnp-history-section" id="cnpHistorySection">
+          <header class="cnp-history-header">
+            <div>
+              <p class="page-eyebrow">Patient PMR &amp; History</p>
+              <h2>Selected Patient History</h2>
+              <p class="page-subtitle cnp-history-subtitle">
+                Review the patient profile, filter previous prescriptions, and open
+                full prescription details without leaving the prescription form.
+              </p>
+            </div>
+          </header>
+
+          <div class="cnp-history-shell">
+            <div class="cnp-history-top-grid">
+              <section class="cnp-history-card cnp-history-patient-card">
+                <div class="cnp-history-avatar" id="historyPatientAvatar">--</div>
+
+                <div class="cnp-history-patient-meta">
+                  <span class="cnp-history-card-kicker">Patient profile</span>
+                  <h3 id="historyPatientName">No patient selected</h3>
+                  <div class="cnp-history-meta-line">
+                    ID: <span id="historyPatientMrn">--</span>
+                    <span class="cnp-history-meta-separator">•</span>
+                    DOB: <span id="historyPatientDob">--</span>
+                  </div>
+                  <div class="cnp-history-patient-extra" id="historyPatientExtra">
+                    Select a patient above to load previous prescriptions, filters, and prescription details.
+                  </div>
+                </div>
+              </section>
+
+              <section class="cnp-history-card cnp-history-filter-card">
+                <div class="cnp-history-card-head">
+                  <div>
+                    <span class="cnp-history-card-kicker">Filters</span>
+                    <h4>Refine history view</h4>
+                    <p class="cnp-history-card-support">
+                      Filter prescriptions by date range and status.
+                    </p>
+                  </div>
+                </div>
+
+                <form class="cnp-history-filters" id="filtersForm">
+                  <label class="cnp-history-field">
+                    <span>From date</span>
+                    <input type="date" id="fromDate" />
+                  </label>
+
+                  <label class="cnp-history-field">
+                    <span>To date</span>
+                    <input type="date" id="toDate" />
+                  </label>
+
+                  <label class="cnp-history-field cnp-history-field-full">
+                    <span>Status</span>
+                    <select id="statusFilter">
+                      <option value="">All Statuses</option>
+                      <option value="active">Active</option>
+                      <option value="issued">Issued</option>
+                      <option value="partially_dispensed">Partially Dispensed</option>
+                      <option value="fully_dispensed">Fully Dispensed</option>
+                      <option value="dispensed">Dispensed</option>
+                      <option value="expired">Expired</option>
+                      <option value="cancelled">Cancelled</option>
+                    </select>
+                  </label>
+
+                  <div class="cnp-history-filter-actions">
+                    <button type="submit" class="cnp-history-filter-btn">
+                      Apply Filters
+                    </button>
+                    <button type="button" id="resetFilters" class="cnp-history-reset-btn">
+                      Reset
+                    </button>
+                  </div>
+                </form>
+              </section>
+            </div>
+
+            <div id="historyState"></div>
+
+            <section class="cnp-history-card cnp-history-timeline-card">
+              <div class="cnp-history-card-head">
+                <div>
+                  <span class="cnp-history-card-kicker">Timeline</span>
+                  <h4>Prescription timeline</h4>
+                  <p class="cnp-history-card-support">
+                    Click any point in the chart to open the full prescription details.
+                  </p>
+                </div>
+              </div>
+
+              <div class="cnp-history-timeline-wrap">
+                <canvas
+                  id="timelineChart"
+                  height="110"
+                  aria-label="Prescription timeline chart"
+                  role="img"
+                ></canvas>
+              </div>
+
+              <div class="cnp-history-legend">
+                <span><span class="cnp-history-dot cnp-history-dot-issued"></span>Active / Issued</span>
+                <span><span class="cnp-history-dot cnp-history-dot-dispensed"></span>Dispensed</span>
+                <span><span class="cnp-history-dot cnp-history-dot-expired"></span>Expired / Cancelled</span>
+              </div>
+            </section>
+
+            <section class="cnp-history-card cnp-history-table-card">
+              <div class="cnp-history-card-head">
+                <div>
+                  <span class="cnp-history-card-kicker">Records</span>
+                  <h4>Prescriptions</h4>
+                  <p class="cnp-history-card-support">
+                    Click a row to view full prescription details, medication items, and status.
+                  </p>
+                </div>
+              </div>
+
+              <div class="cnp-history-table-wrap">
+                <table class="cnp-history-table" id="rxTable">
+                  <thead>
+                    <tr>
+                      <th>Rx ID</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                      <th>Diagnosis</th>
+                      <th>Last Dispensed</th>
+                      <th>Pharmacy</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td colspan="6" class="cnp-history-table-empty">
+                        Select a patient to load history on this page.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </section>
+
         <div class="cnp-card cnp-card-actions">
           <div class="cnp-actions-inner">
             <div class="cnp-strip-copy">
@@ -467,6 +611,56 @@
         </section>
       </div>
     </main>
+
+    <div class="cnp-history-modal-backdrop" id="rxModalBackdrop" aria-hidden="true">
+      <div
+        class="cnp-history-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="rxModalTitle"
+      >
+        <div class="cnp-history-modal-header">
+          <div>
+            <span class="cnp-history-card-kicker">Prescription</span>
+            <h4 id="rxModalTitle">Prescription Details</h4>
+          </div>
+
+          <button class="cnp-history-modal-close" aria-label="Close" id="rxModalClose">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <div class="cnp-history-modal-body">
+          <div class="cnp-history-rx-meta">
+            <div><strong>Rx ID:</strong> <span id="m_rxId">—</span></div>
+            <div><strong>Date:</strong> <span id="m_date">—</span></div>
+            <div><strong>Status:</strong> <span id="m_status">—</span></div>
+            <div><strong>Diagnosis:</strong> <span id="m_diagnosis">—</span></div>
+            <div><strong>Code:</strong> <span id="m_code">—</span></div>
+            <div><strong>Unique String:</strong> <span id="m_unique">—</span></div>
+          </div>
+
+          <div class="cnp-history-modal-note" id="m_notes"></div>
+
+          <div class="cnp-history-table-wrap">
+            <table class="cnp-history-items-table" id="m_items">
+              <thead>
+                <tr>
+                  <th>Medication</th>
+                  <th>Strength</th>
+                  <th>Form</th>
+                  <th>Directions</th>
+                  <th>Qty</th>
+                  <th>Dispensed</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <footer class="rx-footer">
       <div class="rx-footer-shell">
@@ -581,7 +775,6 @@
     </footer>
 
     <script>
- 
       document.addEventListener("DOMContentLoaded", function () {
         const menuButton = document.getElementById("menu-btn");
         const navMenu = document.getElementById("nav-menu");
@@ -597,25 +790,26 @@
         const addPatientLink = document.querySelector(".js-add-patient-link");
 
         function openPatientModal() {
-  if (!addPatientModal) return;
-  addPatientModal.style.display = "flex";
-  addPatientModal.setAttribute("aria-hidden", "false");
-  document.body.classList.add("modal-open");
-}
+          if (!addPatientModal) return;
+          addPatientModal.style.display = "flex";
+          addPatientModal.setAttribute("aria-hidden", "false");
+          document.body.classList.add("modal-open");
+        }
 
-function closePatientModal() {
-  if (!addPatientModal) return;
-  addPatientModal.style.display = "none";
-  addPatientModal.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("modal-open");
-}
+        function closePatientModal() {
+          if (!addPatientModal) return;
+          addPatientModal.style.display = "none";
+          addPatientModal.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("modal-open");
+        }
 
-function syncModalState() {
-  if (!addPatientModal) return;
-  const isOpen = window.getComputedStyle(addPatientModal).display !== "none";
-  document.body.classList.toggle("modal-open", isOpen);
-  addPatientModal.setAttribute("aria-hidden", String(!isOpen));
-
+        function syncModalState() {
+          if (!addPatientModal) return;
+          const isOpen =
+            window.getComputedStyle(addPatientModal).display !== "none";
+          document.body.classList.toggle("modal-open", isOpen);
+          addPatientModal.setAttribute("aria-hidden", String(!isOpen));
+        }
 
         function setExpandedState(button, state) {
           if (button) button.setAttribute("aria-expanded", String(state));
@@ -653,40 +847,49 @@ function syncModalState() {
           if (!usernameEl) return;
           const user = getStoredUser();
           const displayName =
-            user?.username || user?.name || user?.full_name || user?.email || "admin.builtin";
+            user?.username ||
+            user?.name ||
+            user?.full_name ||
+            user?.email ||
+            "admin.builtin";
           usernameEl.textContent = displayName;
         }
 
         setUsername();
-if (addPatientLink) {
-  addPatientLink.addEventListener("click", function (event) {
-    event.preventDefault();
-    event.stopPropagation();
-    openPatientModal();
-  });
-}
-     if (addPatientModal) {
-  syncModalState();
 
-  const modalObserver = new MutationObserver(syncModalState);
-  modalObserver.observe(addPatientModal, {
-    attributes: true,
-    attributeFilter: ["style", "class", "aria-hidden"],
-  });
+        if (addPatientLink) {
+          addPatientLink.addEventListener("click", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            openPatientModal();
+          });
+        }
 
-  addPatientModal.addEventListener("click", function (event) {
-    if (event.target === addPatientModal || event.target.closest("[data-close-modal]")) {
-      closePatientModal();
-    }
-  });
-}
+        if (addPatientModal) {
+          syncModalState();
 
-if (addPatientClose) {
-  addPatientClose.addEventListener("click", function (event) {
-    event.preventDefault();
-    closePatientModal();
-  });
-}
+          const modalObserver = new MutationObserver(syncModalState);
+          modalObserver.observe(addPatientModal, {
+            attributes: true,
+            attributeFilter: ["style", "class", "aria-hidden"],
+          });
+
+          addPatientModal.addEventListener("click", function (event) {
+            if (
+              event.target === addPatientModal ||
+              event.target.closest("[data-close-modal]")
+            ) {
+              closePatientModal();
+            }
+          });
+        }
+
+        if (addPatientClose) {
+          addPatientClose.addEventListener("click", function (event) {
+            event.preventDefault();
+            closePatientModal();
+          });
+        }
 
         if (menuButton && navMenu) {
           menuButton.addEventListener("click", function () {
@@ -725,7 +928,8 @@ if (addPatientClose) {
         if (footerForm && footerFormFeedback) {
           footerForm.addEventListener("submit", function (event) {
             event.preventDefault();
-            footerFormFeedback.textContent = "Footer form is ready for backend integration.";
+            footerFormFeedback.textContent =
+              "Footer form is ready for backend integration.";
           });
         }
 
@@ -742,9 +946,14 @@ if (addPatientClose) {
           if (event.key === "Escape") {
             closeDropdown(reportsWrap, reportsButton);
             closeDropdown(userWrap, userButton);
-         if (addPatientModal && window.getComputedStyle(addPatientModal).display !== "none") {
-  closePatientModal();
-}
+
+            if (
+              addPatientModal &&
+              window.getComputedStyle(addPatientModal).display !== "none"
+            ) {
+              closePatientModal();
+            }
+
             if (menuButton && navMenu) {
               navMenu.classList.remove("is-open");
               setExpandedState(menuButton, false);
@@ -772,6 +981,7 @@ if (addPatientClose) {
             closeDropdown(userWrap, userButton);
           }
         });
+      });
     </script>
 
     <script>
@@ -779,6 +989,7 @@ if (addPatientClose) {
       window.RXCONNECT_PUBLIC_URL = "https://RxConnect.co.uk";
     </script>
     <script src="./scripts/rxconnect.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="./scripts/dr-form.js"></script>
   </body>
 </html>
