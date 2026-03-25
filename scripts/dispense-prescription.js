@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector(".form-card form");
+  const form =
+    document.getElementById("dispenseLookupForm") ||
+    document.querySelector(".dispense-form") ||
+    document.querySelector("form");
+
   const codeEl = document.getElementById("prescription-id");
   const dobEl = document.getElementById("dob");
 
@@ -16,12 +20,13 @@ document.addEventListener("DOMContentLoaded", function () {
   if (!resultBox) {
     resultBox = document.createElement("div");
     resultBox.id = "rxResult";
-    resultBox.style.marginTop = "18px";
+    resultBox.className = "dispense-result";
     form.parentElement.appendChild(resultBox);
   }
 
   let lastLookup = null;
   let isSubmittingDispense = false;
+  let respRegister = null;
 
   function normalizeValue(value) {
     return String(value || "").trim().toUpperCase();
@@ -37,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
-      .replace(/\"/g, "&quot;")
+      .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
   }
 
@@ -48,9 +53,9 @@ document.addEventListener("DOMContentLoaded", function () {
         background:${isError ? "#fff1f0" : "#fff"};
         color:#222;
         border:1px solid ${isError ? "#ffccc7" : "#eee"};
-        border-radius:10px;
-        padding:14px;
-        box-shadow:0 6px 18px rgba(0,0,0,.08);
+        border-radius:16px;
+        padding:14px 16px;
+        box-shadow:0 10px 30px rgba(12, 34, 71, .08);
         text-align:left;
       ">
         ${escapeHtml(message)}
@@ -65,8 +70,18 @@ document.addEventListener("DOMContentLoaded", function () {
     pharmacyStatusEl.textContent = message || "";
   }
 
+  function getCurrentUser() {
+    try {
+      return typeof RX !== "undefined" && typeof RX.getUser === "function"
+        ? RX.getUser()
+        : null;
+    } catch {
+      return null;
+    }
+  }
+
   function setPharmacyBoxVisibility() {
-    const user = RX.getUser();
+    const user = getCurrentUser();
     const canAlreadyDispense =
       user && ["dispenser", "chobham"].includes(user.login_type);
 
@@ -85,15 +100,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function validatePharmacyFormData(data) {
-    if (!data.pharmacy_name) {
-      return "Pharmacy name is required.";
-    }
-    if (!data.phone) {
-      return "Phone number is required.";
-    }
-    if (!data.address) {
-      return "Address is required.";
-    }
+    if (!data.pharmacy_name) return "Pharmacy name is required.";
+    if (!data.phone) return "Phone number is required.";
+    if (!data.address) return "Address is required.";
     return null;
   }
 
@@ -104,9 +113,19 @@ document.addEventListener("DOMContentLoaded", function () {
     if (pharmacyAddressEl) pharmacyAddressEl.value = "";
   }
 
-  let respRegister = null;
+  function getDispenserId() {
+    const user = getCurrentUser();
+    return (
+      user?.dispenser_id ||
+      user?.id ||
+      respRegister?.dispenser_id ||
+      respRegister?.id ||
+      null
+    );
+  }
+
   async function ensureDispenserSession() {
-    let user = RX.getUser();
+    let user = getCurrentUser();
     if (user && ["dispenser", "chobham"].includes(user.login_type)) {
       return user;
     }
@@ -146,42 +165,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
     showPharmacyStatus("Signing in pharmacy account...");
 
+    user = getCurrentUser();
     setPharmacyBoxVisibility();
     showPharmacyStatus("Pharmacy account is ready.", false);
     clearPharmacyForm();
 
-    return user;
+    return user || respRegister || null;
   }
 
   function buildRow(it, index) {
     const prescribed = asNumber(it.quantity_prescribed, 0);
     const dispensed = asNumber(it.quantity_dispensed_total, 0);
+    const remaining = Math.max(prescribed - dispensed, 0);
 
     const infoParts = [];
     if (it.item_status) infoParts.push(`Status: ${it.item_status}`);
     if (it.dosage_instructions) infoParts.push(`Dose: ${it.dosage_instructions}`);
+    infoParts.push(`Prescribed: ${prescribed}`);
+    infoParts.push(`Dispensed: ${dispensed}`);
+    infoParts.push(`Remaining: ${remaining}`);
 
     return `
       <tr>
-        <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">${index + 1}</td>
-        <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">
+        <td style="padding:10px 8px;border-bottom:1px solid #eee;color:#222;">${index + 1}</td>
+        <td style="padding:10px 8px;border-bottom:1px solid #eee;color:#222;">
           ${escapeHtml(it.medication_name || it.medication_id || "")}
         </td>
-        <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">
+        <td style="padding:10px 8px;border-bottom:1px solid #eee;color:#222;">
           ${escapeHtml(it.schedule || "")}
         </td>
-        <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">${prescribed}</td>
-        <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">${dispensed}</td>
-        <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">
+        <td style="padding:10px 8px;border-bottom:1px solid #eee;color:#222;">
           ${escapeHtml(infoParts.join(" | "))}
         </td>
-        <td style="padding:8px;border-bottom:1px solid #eee;color:#222;">
+        <td style="padding:10px 8px;border-bottom:1px solid #eee;color:#222;">
           <button
             type="button"
-            class="rx-select"
+            class="rx-select cnp-btn-secondary"
             data-pi="${escapeHtml(it.prescription_item_id)}"
             data-mid="${escapeHtml(it.medication_id)}"
-            style="padding:4px 10px;"
+            style="min-width:110px;"
           >
             Include
           </button>
@@ -197,7 +219,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const rows = items.map((it, i) => buildRow(it, i)).join("");
 
     const header = `
-      <div style="background:#fff;color:#222;border-radius:10px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.08);text-align:left;">
+      <div style="
+        background:#fff;
+        color:#222;
+        border-radius:16px;
+        padding:16px;
+        box-shadow:0 10px 30px rgba(12, 34, 71, .08);
+        text-align:left;
+      ">
         <div><strong>Prescription code:</strong> ${escapeHtml(displayCode)}</div>
         <div><strong>Status:</strong> ${escapeHtml(data.status || "-")}</div>
         <div><strong>Issue date:</strong> ${escapeHtml(data.issue_date || "-")}</div>
@@ -206,23 +235,29 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
 
     const table = `
-      <div style="margin-top:12px;background:#fff;color:#222;border-radius:10px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.08);overflow:auto;">
+      <div style="
+        margin-top:12px;
+        background:#fff;
+        color:#222;
+        border-radius:16px;
+        padding:16px;
+        box-shadow:0 10px 30px rgba(12, 34, 71, .08);
+        overflow:auto;
+      ">
         <table style="width:100%;border-collapse:collapse;color:#222;">
           <thead>
             <tr>
-              <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;color:#222;">#</th>
-              <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;color:#222;">Medication</th>
-              <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;color:#222;">Schedule</th>
-              <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;color:#222;">Prescribed</th>
-              <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;color:#222;">Dispensed</th>
-              <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;color:#222;">Info</th>
-              <th style="text-align:left;padding:8px;border-bottom:1px solid #eee;color:#222;">Dispense</th>
+              <th style="text-align:left;padding:10px 8px;border-bottom:1px solid #eee;color:#222;">#</th>
+              <th style="text-align:left;padding:10px 8px;border-bottom:1px solid #eee;color:#222;">Medication</th>
+              <th style="text-align:left;padding:10px 8px;border-bottom:1px solid #eee;color:#222;">Schedule</th>
+              <th style="text-align:left;padding:10px 8px;border-bottom:1px solid #eee;color:#222;">Details</th>
+              <th style="text-align:left;padding:10px 8px;border-bottom:1px solid #eee;color:#222;">Action</th>
             </tr>
           </thead>
           <tbody>
             ${
               rows ||
-              `<tr><td colspan="7" style="padding:12px;color:#222;">No items found for this prescription.</td></tr>`
+              `<tr><td colspan="5" style="padding:12px;color:#222;">No items found for this prescription.</td></tr>`
             }
           </tbody>
         </table>
@@ -230,9 +265,16 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
 
     const btn = items.length
-      ? `<button id="doDispense" type="button" class="button full-width w-button" style="margin-top:12px;background:green;">
-           Dispense
-         </button>`
+      ? `
+        <button
+          id="doDispense"
+          type="button"
+          class="dispense-search-btn button full-width w-button"
+          style="margin-top:12px;"
+        >
+          Dispense
+        </button>
+      `
       : `<div style="margin-top:10px;color:#444;">This prescription has no items to dispense.</div>`;
 
     resultBox.innerHTML = header + table + btn;
@@ -246,9 +288,9 @@ document.addEventListener("DOMContentLoaded", function () {
       throw new Error("Prescription code and DOB are required");
     }
 
-    const user = RX.getUser();
+    const user = getCurrentUser();
     const canPortalLookup =
-      user && (user.login_type === "dispenser" || user.login_type === "chobham");
+      user && ["dispenser", "chobham"].includes(user.login_type);
 
     const payload = {
       code: enteredCode,
@@ -285,24 +327,29 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   resultBox.addEventListener("click", function (e) {
-    if (!e.target.classList.contains("rx-select")) return;
+    const btn = e.target.closest(".rx-select");
+    if (!btn || !resultBox.contains(btn)) return;
 
-    const btn = e.target;
     btn.classList.toggle("selected");
 
     if (btn.classList.contains("selected")) {
       btn.style.background = "#2e7d32";
+      btn.style.borderColor = "#2e7d32";
       btn.style.color = "#fff";
       btn.textContent = "Included";
     } else {
       btn.style.background = "";
+      btn.style.borderColor = "";
       btn.style.color = "";
       btn.textContent = "Include";
     }
   });
 
   resultBox.addEventListener("click", async function (e) {
-    if (e.target.id !== "doDispense" || isSubmittingDispense) return;
+    const dispenseBtn = e.target.closest("#doDispense");
+    if (!dispenseBtn || !resultBox.contains(dispenseBtn) || isSubmittingDispense) {
+      return;
+    }
 
     isSubmittingDispense = true;
     showPharmacyStatus("");
@@ -334,8 +381,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
       await ensureDispenserSession();
 
+      const dispenserId = getDispenserId();
+      if (!dispenserId) {
+        throw new Error("Could not determine dispenser account for this dispensation.");
+      }
+
       const resp = await RX.api.post("/dispensations/create", {
-        dispenser_id: respRegister.dispenser_id,
+        dispenser_id: dispenserId,
         prescription_id: lookup.prescription_id,
         patient_id: lookup.patient_id,
         prescriber_unique_string: lookup.prescriber_unique_string,
@@ -350,6 +402,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (err) {
       console.error(err);
       showMessage(err.message || "Dispense failed", true);
+      showPharmacyStatus(err.message || "Dispense failed", true);
     } finally {
       isSubmittingDispense = false;
     }
