@@ -112,98 +112,118 @@
             <p class="page-eyebrow">Reports Workspace</p>
             <h1>Medication Export</h1>
             <p class="hero-lead">
-              Request a clean monthly export for medication activity through the same premium
-              reporting experience used across RxConnect.
+              Search medicines in a cleaner layout with one clear row per medicine and the
+              strength shown at the end of the row.
             </p>
           </div>
 
           <div class="hero-highlights" aria-label="Medication export highlights">
             <article class="highlight-card">
-              <div class="highlight-icon"><i class="fa-solid fa-calendar-days"></i></div>
+              <div class="highlight-icon"><i class="fa-solid fa-capsules"></i></div>
               <div>
-                <h2>Monthly selection</h2>
-                <p>Choose the reporting month and year in a simple export request form.</p>
+                <h2>Clean medicine list</h2>
+                <p>Each result now shows a single medicine row with a clearer reading flow.</p>
               </div>
             </article>
 
             <article class="highlight-card">
-              <div class="highlight-icon"><i class="fa-solid fa-file-arrow-down"></i></div>
+              <div class="highlight-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
               <div>
-                <h2>Clear reporting output</h2>
-                <p>Use exports to support internal review, finance, stock, or operational analysis.</p>
+                <h2>Smarter search</h2>
+                <p>Duplicate rows are removed and the search experience is more reliable.</p>
               </div>
             </article>
-
-        
           </div>
         </div>
       </section>
 
       <section class="page-shell export-section">
         <div class="export-layout">
-<article class="export-card export-form-card">
-  <div class="section-heading">
-    <span>NHS Data Integration</span>
-    <h2>Search UK Medicines</h2>
-    <p>Enter a medication name to get official dosage and usage instructions from the NHS.</p>
-  </div>
-
-  <div class="export-row">
-    <label for="medSearch" class="export-label">Medication Name</label>
-    <div style="display: flex; gap: 10px;">
-      <input id="medSearch" type="text" class="export-input" placeholder="e.g. Amoxicillin, Paracetamol..." />
-      <button id="searchBtn" class="btn-primary" style="min-width: 120px;">SEARCH</button>
-    </div>
-  </div>
-
-  <div id="medication-results" style="margin-top: 30px;"></div>
-
-            <!-- <div class="export-row">
-              <label for="exportMonth" class="export-label">Month / Year</label>
-              <input
-                id="exportMonth"
-                type="month"
-                class="export-input month-input"
-                aria-describedby="exportMonthHelp"
-              />
-              <p id="exportMonthHelp" class="export-help">
-                Use the month selector to request a medication export for that reporting period.
+          <article class="export-card export-form-card">
+            <div class="section-heading">
+              <span>Medicine Search</span>
+              <h2>Find medicines faster</h2>
+              <p>
+                Search by medicine name. Results are cleaned, deduplicated, and displayed in a
+                simple list.
               </p>
-            </div> -->
-<!-- 
-            <div class="export-footer-row">
-              <button type="button" class="btn-primary export-btn">REQUEST EXPORT</button>
-            </div> -->
+            </div>
+
+            <div class="medicine-toolbar">
+              <label for="medSearch" class="export-label">Medication Name</label>
+              <div class="medicine-search-row">
+                <div class="medicine-search-input-wrap">
+                  <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                  <input
+                    id="medSearch"
+                    type="text"
+                    class="export-input medicine-search-input"
+                    placeholder="e.g. Amoxicillin, Paracetamol..."
+                    autocomplete="off"
+                  />
+                </div>
+                <button id="searchBtn" class="btn-primary medicine-search-btn" type="button">
+                  Search
+                </button>
+              </div>
+              <p class="export-help">
+                Results show the medicine name on the left and the strength on the right.
+              </p>
+            </div>
+
+            <div class="medicine-results-card">
+              <div class="medicine-results-head">
+                <div>
+                  <h3>Medicine List</h3>
+                  <p id="resultsSummary">Start by searching for a medicine.</p>
+                </div>
+              </div>
+
+              <div
+                id="medication-results"
+                class="medicine-results"
+                aria-live="polite"
+                aria-busy="false"
+              ></div>
+
+              <div id="pagination-controls" class="pagination-controls is-hidden">
+                <button id="prevBtn" class="join-btn pagination-btn pagination-btn--muted" type="button">
+                  Previous
+                </button>
+                <span id="pageIndicator" class="pagination-indicator">Page 1</span>
+                <button id="nextBtn" class="join-btn pagination-btn" type="button">Next</button>
+              </div>
+            </div>
           </article>
 
           <aside class="export-card export-info-card" aria-label="Medication export guidance">
             <div class="info-card-top">
               <span class="info-badge">Quick guide</span>
-              <h3>What this export is useful for</h3>
+              <h3>What was improved</h3>
             </div>
 
             <ul class="info-list">
               <li>
                 <i class="fa-solid fa-check"></i>
-                <span>Monthly medication review and internal reporting</span>
+                <span>Cleaner list rows without repeated medicine cards</span>
               </li>
               <li>
                 <i class="fa-solid fa-check"></i>
-                <span>Operational visibility across prescribing activity</span>
+                <span>Strength is fixed at the end of each row for faster reading</span>
               </li>
               <li>
                 <i class="fa-solid fa-check"></i>
-                <span>Faster handoff to finance, stock, or pharmacy reporting workflows</span>
+                <span>Better empty, loading, and no-results states</span>
               </li>
               <li>
                 <i class="fa-solid fa-check"></i>
-                <span>Consistent export request experience inside the RxConnect reports area</span>
+                <span>Search input and pagination behave more consistently</span>
               </li>
             </ul>
 
             <div class="info-note">
               <strong>Tip:</strong>
-              keep exports aligned to one reporting month at a time for cleaner review and easier reconciliation.
+              use short medicine names first, then refine the search if you need a narrower list.
             </div>
           </aside>
         </div>
@@ -381,15 +401,6 @@
             [user?.first_name, user?.last_name].filter(Boolean).join(" ") ||
             "Guest";
           usernameEl.textContent = displayName;
-        }
-
-        function closeAllMenus() {
-          closeDropdown(reportsWrap, reportsButton);
-          closeDropdown(userWrap, userButton);
-          if (menuButton && navMenu && window.innerWidth <= 1080) {
-            navMenu.classList.remove("is-open");
-            setExpandedState(menuButton, false);
-          }
         }
 
         if (menuButton && navMenu) {
