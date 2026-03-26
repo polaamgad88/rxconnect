@@ -1,196 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0c2247" />
-    <title>RxConnect | Create Prescription</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./styles/dr-form.css" />
-    <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
-  </head>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0c2247" />
+  <title>RxConnect | Create Prescription</title>
 
-  <body>
-    <header class="site-header">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap"
+    rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles/dr-form.css" />
+  <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
+</head>
+
+<body>
+  <header class="site-header">
     <div class="navbar-wrapper">
-        <nav class="main-navbar" aria-label="Primary navigation">
-          <div class="navbar-shell">
-            <div class="navbar-container">
-              <!-- =========================================================
+      <nav class="main-navbar" aria-label="Primary navigation">
+        <div class="navbar-shell">
+          <div class="navbar-container">
+            <!-- =========================================================
                    4) NAVBAR BRAND
                    ========================================================= -->
-              <a
-                href="./index.html"
-                class="navbar-brand"
-                aria-label="RxConnect Home"
-              >
-                <img src="./assets/rxconnect.png" alt="RxConnect" />
-              </a>
+            <a href="./index.html" class="navbar-brand" aria-label="RxConnect Home">
+              <img src="./assets/rxconnect.png" alt="RxConnect" />
+            </a>
 
-              <!-- =========================================================
+            <!-- =========================================================
                    5) MOBILE MENU BUTTON
                    ========================================================= -->
-              <button
-                id="menu-btn"
-                class="menu-button"
-                type="button"
-                aria-label="Toggle menu"
-                aria-expanded="false"
-                aria-controls="nav-menu"
-              >
-                <i class="fa-solid fa-bars" aria-hidden="true"></i>
-              </button>
+            <button id="menu-btn" class="menu-button" type="button" aria-label="Toggle menu" aria-expanded="false"
+              aria-controls="nav-menu">
+              <i class="fa-solid fa-bars" aria-hidden="true"></i>
+            </button>
 
-              <!-- =========================================================
+            <!-- =========================================================
                    6) NAVIGATION LINKS / USER MENU
                    ========================================================= -->
-              <div class="navbar-right" id="nav-menu">
-                <!-- Main navigation links -->
-                <div class="nav-center">
-                  <a href="./prescriptions.html" class="nav-link"
-                    >Prescriptions</a
-                  >
-                  <a href="./contact-us.html" class="nav-link">Contact Us</a>
+            <div class="navbar-right" id="nav-menu">
+              <!-- Main navigation links -->
+              <div class="nav-center">
+                <a href="./prescriptions.html" class="nav-link">Prescriptions</a>
+                <a href="./contact-us.html" class="nav-link">Contact Us</a>
 
-                  <!-- Reports dropdown -->
-                  <div class="dropdown" id="reportsDropdownWrap">
-                    <button
-                      class="dropdown-toggle"
-                      id="reportsBtn"
-                      type="button"
-                      aria-expanded="false"
-                      aria-controls="reportsDropdown"
-                    >
-                      <span>Reports</span>
-                      <i
-                        class="fa-solid fa-chevron-down dropdown-icon"
-                        aria-hidden="true"
-                      ></i>
-                    </button>
-
-                    <div class="dropdown-content" id="reportsDropdown">
-                      <a href="./patients.html">My Patients</a>
-                      <a href="./reports.html">Monthly Reports</a>
-                      <a href="./billing.html">Billing</a>
-                      <a href="./medicationExport.html">Medication Export</a>
-                      <a href="./approvals.html">Approvals</a>
-                    </div>
-                  </div>
-
-                  <a href="./register.html" class="join-btn">Join Us</a>
-                </div>
-
-                <!-- User dropdown -->
-                <div class="user-dropdown-container" id="userDropdownWrap">
-                  <button
-                    class="user-trigger"
-                    type="button"
-                    aria-expanded="false"
-                    aria-controls="userDropdownMenu"
-                  >
-                    <span class="hello-label">Hello,</span>
-                    <span id="username">admin.builtin</span>
-                    <i
-                      class="fa-solid fa-chevron-down dropdown-icon"
-                      aria-hidden="true"
-                    ></i>
+                <!-- Reports dropdown -->
+                <div class="dropdown" id="reportsDropdownWrap">
+                  <button class="dropdown-toggle" id="reportsBtn" type="button" aria-expanded="false"
+                    aria-controls="reportsDropdown">
+                    <span>Reports</span>
+                    <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
                   </button>
 
-                  <ul class="user-dropdown-menu" id="userDropdownMenu">
-                    <li>
-                      <a href="./myprofile.html">
-                        <i class="fa-solid fa-user" aria-hidden="true"></i>
-                        <span>My Profile</span>
-                      </a>
-                    </li>
-                    <li class="divider" aria-hidden="true"></li>
-                    <li>
-                      <a href="./login.html">
-                        <i
-                          class="fa-solid fa-right-from-bracket"
-                          aria-hidden="true"
-                        ></i>
-                        <span>Logout</span>
-                      </a>
-                    </li>
-                  </ul>
+                  <div class="dropdown-content" id="reportsDropdown">
+                    <a href="./patients.html">My Patients</a>
+                    <a href="./reports.html">Monthly Reports</a>
+                    <a href="./billing.html">Billing</a>
+                    <a href="./medicationExport.html">Medication Export</a>
+                    <a href="./approvals.html">Approvals</a>
+                  </div>
                 </div>
-              </div>
-              <!-- /navbar-right -->
-            </div>
-          </div>
-        </nav>
-      </div>
-    </header>
 
-    <main class="cnp-page">
-      <div class="cnp-wrapper">
-        <header class="page-intro">
-          <div>
-            <p class="page-eyebrow">Prescription Workspace</p>
-            <h1>Create New Prescription</h1>
-            <p class="page-subtitle">
-              Choose a patient, write the prescription clearly, and issue it             </p>
-          </div>
-
-          <button
-            class="cnp-btn-secondary"
-            type="button"
-            onclick="window.location.href='./prescriptions.html'"
-          >
-            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-            <span>Back to Prescriptions Tracker</span>
-          </button>
-        </header>
-
-        <div class="cnp-row cnp-main-row">
-          <section class="cnp-card cnp-card-patient">
-            <header class="cnp-card-header">
-              <div>
-                <span class="cnp-card-kicker">Patient</span>
-                <h2>Patient lookup</h2>
-                <p class="cnp-card-support">
-                  Search by patient name, phone, or email.
-                </p>
-              </div>
-              <a href="#" class="cnp-link-small js-add-patient-link">
-                <i class="fa-solid fa-user-plus" aria-hidden="true"></i>
-                <span>Add</span>
-              </a>
-            </header>
-
-            <div class="cnp-card-body">
-              <div class="cnp-input-icon">
-                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                <input type="text" class="cnp-input" placeholder="Search by patient name, NHS number, phone or email" />
+                <a href="./register.html" class="join-btn">Join Us</a>
               </div>
 
-              <div class="cnp-patient-summary">
-                <div class="cnp-empty-state-icon" aria-hidden="true">
-                  <i class="fa-solid fa-user-large"></i>
-                </div>
-                <p class="cnp-patient-name">No patient selected</p>
-                <p class="cnp-muted">Search for an existing patient or add a new one to begin prescribing.</p>
+              <!-- User dropdown -->
+              <div class="user-dropdown-container" id="userDropdownWrap">
+                <button class="user-trigger" type="button" aria-expanded="false" aria-controls="userDropdownMenu">
+                  <span class="hello-label">Hello,</span>
+                  <span id="username"></span>
+                  <script>
+                    const name = window.name;
+                    document.getElementById("username").textContent = `Hello, ${name}`;
+                  </script>
+                  <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+                </button>
+
+                <ul class="user-dropdown-menu" id="userDropdownMenu">
+                  <li>
+                    <a href="./myprofile.html">
+                      <i class="fa-solid fa-user" aria-hidden="true"></i>
+                      <span>My Profile</span>
+                    </a>
+                  </li>
+                  <li class="divider" aria-hidden="true"></li>
+                  <li>
+                    <a href="./login.html">
+                      <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                      <span>Logout</span>
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
+            <!-- /navbar-right -->
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
 
-            <div class="cnp-add-patient-modal" id="cnp-add-patient-modal" aria-hidden="true">
-              <div class="cnp-ap-dialog" role="dialog" aria-modal="true" aria-labelledby="cnpAddPatientTitle">
+  <main class="cnp-page">
+    <div class="cnp-wrapper">
+      <header class="page-intro">
+        <div>
+          <p class="page-eyebrow">Prescription Workspace</p>
+          <h1>Create New Prescription</h1>
+          <p class="page-subtitle">
+            Choose a patient, write the prescription clearly, and issue it </p>
+        </div>
+
+        <button class="cnp-btn-secondary" type="button" onclick="window.location.href='./prescriptions.html'">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+          <span>Back to Prescriptions Tracker</span>
+        </button>
+      </header>
+
+      <div class="cnp-row cnp-main-row">
+        <section class="cnp-card cnp-card-patient">
+          <header class="cnp-card-header">
+            <div>
+              <span class="cnp-card-kicker">Patient</span>
+              <h2>Patient lookup</h2>
+              <p class="cnp-card-support">
+                Search by patient name, phone, or email.
+              </p>
+            </div>
+            <a href="#" class="cnp-link-small js-add-patient-link">
+              <i class="fa-solid fa-user-plus" aria-hidden="true"></i>
+              <span>Add</span>
+            </a>
+          </header>
+
+          <div class="cnp-card-body">
+            <div class="cnp-input-icon">
+              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              <input type="text" class="cnp-input" placeholder="Search by patient name, NHS number, phone or email" />
+            </div>
+
+            <div class="cnp-patient-summary">
+              <div class="cnp-empty-state-icon" aria-hidden="true">
+                <i class="fa-solid fa-user-large"></i>
+              </div>
+              <p class="cnp-patient-name">No patient selected</p>
+              <p class="cnp-muted">Search for an existing patient or add a new one to begin prescribing.</p>
+            </div>
+          </div>
+
+          <div class="cnp-add-patient-modal" id="cnp-add-patient-modal" aria-hidden="true">
+            <div class="cnp-ap-dialog" role="dialog" aria-modal="true" aria-labelledby="cnpAddPatientTitle">
               <div class="cnp-ap-header">
                 <div>
                   <span class="cnp-card-kicker">Patient details</span>
                   <h2 id="cnpAddPatientTitle">Add New Patient</h2>
-                  <p class="cnp-card-support">Fill in the patient details once, then the patient will be selected automatically.</p>
+                  <p class="cnp-card-support">Fill in the patient details once, then the patient will be selected
+                    automatically.</p>
                 </div>
                 <button type="button" class="cnp-ap-close" id="cnp-add-patient-close" aria-label="Close">
                   <i class="fa-solid fa-xmark"></i>
@@ -221,15 +188,6 @@
                   <input type="text" class="cnp-input" />
                 </div>
 
-                <div class="cnp-ap-field">
-                  <label>Email</label>
-                  <input type="email" class="cnp-input" />
-                </div>
-                <div class="cnp-ap-field">
-                  <label>NHS Number</label>
-                  <input type="text" class="cnp-input" placeholder="e.g. 123 456 7891" />
-                </div>
-
                 <div class="cnp-ap-field cnp-ap-dob full-width">
                   <label>Date of Birth</label>
                   <div class="cnp-ap-dob-row">
@@ -242,539 +200,504 @@
                 </div>
 
                 <div class="cnp-ap-field">
-                  <label>Address Line 1</label>
-                  <input type="text" class="cnp-input" />
-                </div>
-                <div class="cnp-ap-field">
-                  <label>Address Line 2</label>
-                  <input type="text" class="cnp-input" />
+                  <label>Email</label>
+                  <input type="email" class="cnp-input" />
                 </div>
 
                 <div class="cnp-ap-field">
-                  <label>Town/City</label>
-                  <input type="text" class="cnp-input" />
-                </div>
-                <div class="cnp-ap-field">
-                  <label>Postcode</label>
+                  <label>Address Line </label>
                   <input type="text" class="cnp-input" />
                 </div>
 
-                <div class="cnp-ap-field full-width">
+
+
+                <!-- <div class="cnp-ap-field full-width">
                   <label>Country</label>
                   <select class="cnp-input">
                     <option>United Kingdom</option>
                     <option>—</option>
                   </select>
-                </div>
+                </div> -->
               </div>
 
               <div class="cnp-ap-footer">
                 <button type="button" class="cnp-btn-primary cnp-ap-submit">Create &amp; Select Patient</button>
               </div>
-              </div>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <section class="cnp-card cnp-card-meds">
-            <header class="cnp-card-header">
-              <div>
-                <span class="cnp-card-kicker">Medicines</span>
-                <h2>Prescription items</h2>
-                <p class="cnp-card-support">
-                  Keep medicine name, dosage instruction, and quantity easy to review.
-                </p>
-              </div>
-            </header>
-
-            <div class="cnp-card-body cnp-card-body-meds">
-              <div class="med-table-wrapper">
-                <table class="cnp-meds-table">
-                  <caption class="sr-only">Prescription items table</caption>
-                  <colgroup>
-                    <col class="med-col-icon" />
-                    <col class="med-col-description" />
-                    <col class="med-col-dosage" />
-                    <col class="med-col-qty" />
-                  </colgroup>
-                  <thead>
-                    <tr>
-                      <th class="med-icon-header"></th>
-                      <th>Medicine</th>
-                      <th>Dosage instruction</th>
-                      <th>Quantity</th>
-                    </tr>
-                  </thead>
-                  <tbody id="meds-body">
-                    <tr class="med-row">
-                      <td class="med-icon-cell">
-                        <button type="button" class="med-remove-btn" aria-label="Remove medicine row">
-                          <span class="circle-minus"></span>
-                        </button>
-                      </td>
-                      <td>
-                        <div class="med-field">
-                          <input
-                            type="text"
-                            class="med-input med-input-medicine-search"
-                            placeholder="Medicine name"
-                          />
-                        </div>
-                      </td>
-                      <td>
-                        <div class="med-field">
-                          <input type="text" class="med-input" placeholder="Dosage Instruction" />
-                        </div>
-                      </td>
-                      <td>
-                        <div class="med-field">
-                          <input type="text" class="med-input med-input-qty" placeholder="Qty" />
-                        </div>
-                      </td>
-                    </tr>
-
-                    <tr class="med-row">
-                      <td class="med-icon-cell">
-                        <button type="button" class="med-remove-btn" aria-label="Remove medicine row">
-                          <span class="circle-minus"></span>
-                        </button>
-                      </td>
-                      <td>
-                        <div class="med-field">
-                          <input
-                            type="text"
-                            class="med-input med-input-medicine-search"
-                            placeholder="Medicine name"
-                          />
-                        </div>
-                      </td>
-                      <td>
-                        <div class="med-field">
-                          <input type="text" class="med-input" placeholder="Dosage Instruction" />
-                        </div>
-                      </td>
-                      <td>
-                        <div class="med-field">
-                          <input type="text" class="med-input med-input-qty" placeholder="Qty" />
-                        </div>
-                      </td>
-                    </tr>
-
-                    <tr class="med-row">
-                      <td class="med-icon-cell">
-                        <button type="button" class="med-remove-btn" aria-label="Remove medicine row">
-                          <span class="circle-minus"></span>
-                        </button>
-                      </td>
-                      <td>
-                        <div class="med-field">
-                          <input
-                            type="text"
-                            class="med-input med-input-medicine-search"
-                            placeholder="Medicine name"
-                          />
-                        </div>
-                      </td>
-                      <td>
-                        <div class="med-field">
-                          <input type="text" class="med-input" placeholder="Dosage Instruction" />
-                        </div>
-                      </td>
-                      <td>
-                        <div class="med-field">
-                          <input type="text" class="med-input med-input-qty" placeholder="Qty" />
-                        </div>
-                      </td>
-                    </tr>
-
-                    <tr id="add-med-row">
-                      <td class="med-icon-cell">
-                        <i class="fa-regular fa-square-plus med-add-icon" aria-hidden="true"></i>
-                      </td>
-                      <td colspan="3">
-                        <a href="#" id="add-med-btn" class="cnp-link-small">Add new</a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <div class="cnp-notes-block">
-                <label for="prescription-notes">Prescription notes</label>
-                <p class="cnp-field-help">Optional clinical notes for this prescription.</p>
-                <textarea id="prescription-notes" class="cnp-textarea" rows="5" placeholder="Add any extra instructions or notes"></textarea>
-              </div>
-            </div>
-          </section>
-        </div>
-
-        <section class="cnp-history-section" id="cnpHistorySection">
-          <header class="cnp-history-header">
+        <section class="cnp-card cnp-card-meds">
+          <header class="cnp-card-header">
             <div>
-              <p class="page-eyebrow">Patient PMR &amp; History</p>
-              <h2>Selected Patient History</h2>
-              <p class="page-subtitle cnp-history-subtitle">
-                Review the patient profile, filter previous prescriptions, and open
-                full prescription details without leaving the prescription form.
+              <span class="cnp-card-kicker">Medicines</span>
+              <h2>Prescription items</h2>
+              <p class="cnp-card-support">
+                Keep medicine name, dosage instruction, and quantity easy to review.
               </p>
             </div>
           </header>
 
-          <div class="cnp-history-shell">
-            <div class="cnp-history-top-grid">
-              <section class="cnp-history-card cnp-history-patient-card">
-                <div class="cnp-history-avatar" id="historyPatientAvatar">--</div>
+          <div class="cnp-card-body cnp-card-body-meds">
+            <div class="med-table-wrapper">
+              <table class="cnp-meds-table">
+                <caption class="sr-only">Prescription items table</caption>
+                <colgroup>
+                  <col class="med-col-icon" />
+                  <col class="med-col-description" />
+                  <col class="med-col-dosage" />
+                  <col class="med-col-qty" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th class="med-icon-header"></th>
+                    <th>Medicine</th>
+                    <th>Dosage instruction</th>
+                    <th>Quantity</th>
+                  </tr>
+                </thead>
+                <tbody id="meds-body">
+                  <tr class="med-row">
+                    <td class="med-icon-cell">
+                      <button type="button" class="med-remove-btn" aria-label="Remove medicine row">
+                        <span class="circle-minus"></span>
+                      </button>
+                    </td>
+                    <td>
+                      <div class="med-field">
+                        <input type="text" class="med-input med-input-medicine-search" placeholder="Medicine name" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="med-field">
+                        <input type="text" class="med-input" placeholder="Dosage Instruction" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="med-field">
+                        <input type="text" class="med-input med-input-qty" placeholder="Qty" />
+                      </div>
+                    </td>
+                  </tr>
 
-                <div class="cnp-history-patient-meta">
-                  <span class="cnp-history-card-kicker">Patient profile</span>
-                  <h3 id="historyPatientName">No patient selected</h3>
-                  <div class="cnp-history-meta-line">
-                    ID: <span id="historyPatientMrn">--</span>
-                    <span class="cnp-history-meta-separator">•</span>
-                    DOB: <span id="historyPatientDob">--</span>
-                  </div>
-                  <div class="cnp-history-patient-extra" id="historyPatientExtra">
-                    Select a patient above to load previous prescriptions, filters, and prescription details.
-                  </div>
-                </div>
-              </section>
+                  <tr class="med-row">
+                    <td class="med-icon-cell">
+                      <button type="button" class="med-remove-btn" aria-label="Remove medicine row">
+                        <span class="circle-minus"></span>
+                      </button>
+                    </td>
+                    <td>
+                      <div class="med-field">
+                        <input type="text" class="med-input med-input-medicine-search" placeholder="Medicine name" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="med-field">
+                        <input type="text" class="med-input" placeholder="Dosage Instruction" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="med-field">
+                        <input type="text" class="med-input med-input-qty" placeholder="Qty" />
+                      </div>
+                    </td>
+                  </tr>
 
-              <section class="cnp-history-card cnp-history-filter-card">
-                <div class="cnp-history-card-head">
-                  <div>
-                    <span class="cnp-history-card-kicker">Filters</span>
-                    <h4>Refine history view</h4>
-                    <p class="cnp-history-card-support">
-                      Filter prescriptions by date range and status.
-                    </p>
-                  </div>
-                </div>
+                  <tr class="med-row">
+                    <td class="med-icon-cell">
+                      <button type="button" class="med-remove-btn" aria-label="Remove medicine row">
+                        <span class="circle-minus"></span>
+                      </button>
+                    </td>
+                    <td>
+                      <div class="med-field">
+                        <input type="text" class="med-input med-input-medicine-search" placeholder="Medicine name" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="med-field">
+                        <input type="text" class="med-input" placeholder="Dosage Instruction" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="med-field">
+                        <input type="text" class="med-input med-input-qty" placeholder="Qty" />
+                      </div>
+                    </td>
+                  </tr>
 
-                <form class="cnp-history-filters" id="filtersForm">
-                  <label class="cnp-history-field">
-                    <span>From date</span>
-                    <input type="date" id="fromDate" />
-                  </label>
-
-                  <label class="cnp-history-field">
-                    <span>To date</span>
-                    <input type="date" id="toDate" />
-                  </label>
-
-                  <label class="cnp-history-field cnp-history-field-full">
-                    <span>Status</span>
-                    <select id="statusFilter">
-                      <option value="">All Statuses</option>
-                      <option value="active">Active</option>
-                      <option value="issued">Issued</option>
-                      <option value="partially_dispensed">Partially Dispensed</option>
-                      <option value="fully_dispensed">Fully Dispensed</option>
-                      <option value="dispensed">Dispensed</option>
-                      <option value="expired">Expired</option>
-                      <option value="cancelled">Cancelled</option>
-                    </select>
-                  </label>
-
-                  <div class="cnp-history-filter-actions">
-                    <button type="submit" class="cnp-history-filter-btn">
-                      Apply Filters
-                    </button>
-                    <button type="button" id="resetFilters" class="cnp-history-reset-btn">
-                      Reset
-                    </button>
-                  </div>
-                </form>
-              </section>
+                  <tr id="add-med-row">
+                    <td class="med-icon-cell">
+                      <i class="fa-regular fa-square-plus med-add-icon" aria-hidden="true"></i>
+                    </td>
+                    <td colspan="3">
+                      <a href="#" id="add-med-btn" class="cnp-link-small">Add new</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
-            <div id="historyState"></div>
-
-            <section class="cnp-history-card cnp-history-timeline-card">
-              <div class="cnp-history-card-head">
-                <div>
-                  <span class="cnp-history-card-kicker">Timeline</span>
-                  <h4>Prescription timeline</h4>
-                  <p class="cnp-history-card-support">
-                    Click any point in the chart to open the full prescription details.
-                  </p>
-                </div>
-              </div>
-
-              <div class="cnp-history-timeline-wrap">
-                <canvas
-                  id="timelineChart"
-                  height="110"
-                  aria-label="Prescription timeline chart"
-                  role="img"
-                ></canvas>
-              </div>
-
-              <div class="cnp-history-legend">
-                <span><span class="cnp-history-dot cnp-history-dot-issued"></span>Active / Issued</span>
-                <span><span class="cnp-history-dot cnp-history-dot-dispensed"></span>Dispensed</span>
-                <span><span class="cnp-history-dot cnp-history-dot-expired"></span>Expired / Cancelled</span>
-              </div>
-            </section>
-
-            <section class="cnp-history-card cnp-history-table-card">
-              <div class="cnp-history-card-head">
-                <div>
-                  <span class="cnp-history-card-kicker">Records</span>
-                  <h4>Prescriptions</h4>
-                  <p class="cnp-history-card-support">
-                    Click a row to view full prescription details, medication items, and status.
-                  </p>
-                </div>
-              </div>
-
-              <div class="cnp-history-table-wrap">
-                <table class="cnp-history-table" id="rxTable">
-                  <thead>
-                    <tr>
-                      <th>Rx ID</th>
-                      <th>Date</th>
-                      <th>Status</th>
-                      <th>Diagnosis</th>
-                      <th>Last Dispensed</th>
-                      <th>Pharmacy</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td colspan="6" class="cnp-history-table-empty">
-                        Select a patient to load history on this page.
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </section>
-          </div>
-        </section>
-
-        <div class="cnp-card cnp-card-actions">
-          <div class="cnp-actions-inner">
-            <div class="cnp-strip-copy">
-              Review the prescription, then choose whether to save only, email the patient, or send directly to Chobham.
-            </div>
-
-            <div class="cnp-actions-right">
-              <button class="cnp-btn-disabled" type="button" disabled>Save as Draft</button>
-              <button class="cnp-btn-primary" type="button">Save / Issue Prescription</button>
-              <button class="cnp-btn-dropdown" type="button" aria-label="More issue options">
-                <i class="fa-solid fa-caret-down"></i>
-              </button>
+            <div class="cnp-notes-block">
+              <label for="prescription-notes">Prescription notes</label>
+              <p class="cnp-field-help">Optional clinical notes for this prescription.</p>
+              <textarea id="prescription-notes" class="cnp-textarea" rows="5"
+                placeholder="Add any extra instructions or notes"></textarea>
             </div>
           </div>
-        </div>
-
-        <div class="cnp-row cnp-details-row">
-          <section class="cnp-card cnp-card-details">
-            <div class="detail-icon" aria-hidden="true">
-              <i class="fa-solid fa-id-card"></i>
-            </div>
-            <h3>Your Details</h3>
-            <p>Abdulmoez Laklouk</p>
-            <p>Pharmacist Independent Prescriber</p>
-            <p>Registration Number: 2082759</p>
-            <p>Registration Body: GPHC</p>
-          </section>
-
-          <section class="cnp-card cnp-card-details">
-            <div class="detail-icon" aria-hidden="true">
-              <i class="fa-solid fa-hospital"></i>
-            </div>
-            <h3>Prescription On Behalf Of</h3>
-            <p>Berkshire Medical Group</p>
-            <p>121 Chatham Street</p>
-            <p>Reading – RG1 7JE</p>
-            <p>Phone: +441189505121</p>
-            <p>Email: info@berkshiremedicalgroup.co.uk</p>
-          </section>
-        </div>
-
-        <section class="cnp-card cnp-card-info">
-          <div class="detail-icon" aria-hidden="true">
-            <i class="fa-solid fa-circle-info"></i>
-          </div>
-          <h3>Issuing guidance</h3>
-          <ul>
-            <li>
-              When a prescription is marked for collection, the patient will be sent a
-              prescription ID via email that can be presented at any pharmacy.
-            </li>
-            <li>
-              A delivery prescription will be sent securely to Signature Pharmacy. The
-              pharmacy will contact the patient with a link for payment and preferred
-              delivery option selection.
-            </li>
-          </ul>
         </section>
       </div>
-    </main>
-
-    <div class="cnp-history-modal-backdrop" id="rxModalBackdrop" aria-hidden="true">
-      <div
-        class="cnp-history-modal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="rxModalTitle"
-      >
-        <div class="cnp-history-modal-header">
-          <div>
-            <span class="cnp-history-card-kicker">Prescription</span>
-            <h4 id="rxModalTitle">Prescription Details</h4>
+      <div class="cnp-card cnp-card-actions">
+        <div class="cnp-actions-inner">
+          <div class="cnp-strip-copy">
+            Review the prescription, then choose whether to save only, email the patient, or send directly to Chobham.
           </div>
 
-          <button class="cnp-history-modal-close" aria-label="Close" id="rxModalClose">
-            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-          </button>
+          <div class="cnp-actions-right">
+            <button class="cnp-btn-disabled" type="button" disabled>Save as Draft</button>
+            <button class="cnp-btn-primary" type="button">Save / Issue Prescription</button>
+            <button class="cnp-btn-dropdown" type="button" aria-label="More issue options">
+              <i class="fa-solid fa-caret-down"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <section class="cnp-history-section" id="cnpHistorySection">
+        <header class="cnp-history-header">
+          <div>
+            <p class="page-eyebrow">Patient PMR &amp; History</p>
+            <h2>Selected Patient History</h2>
+            <p class="page-subtitle cnp-history-subtitle">
+              Review the patient profile, filter previous prescriptions, and open
+              full prescription details without leaving the prescription form.
+            </p>
+          </div>
+        </header>
+
+        <div class="cnp-history-shell">
+          <div class="cnp-history-top-grid">
+            <section class="cnp-history-card cnp-history-patient-card">
+              <div class="cnp-history-avatar" id="historyPatientAvatar">--</div>
+
+              <div class="cnp-history-patient-meta">
+                <span class="cnp-history-card-kicker">Patient profile</span>
+                <h3 id="historyPatientName">No patient selected</h3>
+                <div class="cnp-history-meta-line">
+                  ID: <span id="historyPatientMrn">--</span>
+                  <span class="cnp-history-meta-separator">•</span>
+                  DOB: <span id="historyPatientDob">--</span>
+                </div>
+                <div class="cnp-history-patient-extra" id="historyPatientExtra">
+                  Select a patient above to load previous prescriptions, filters, and prescription details.
+                </div>
+              </div>
+            </section>
+
+            <section class="cnp-history-card cnp-history-filter-card">
+              <div class="cnp-history-card-head">
+                <div>
+                  <span class="cnp-history-card-kicker">Filters</span>
+                  <h4>Refine history view</h4>
+                  <p class="cnp-history-card-support">
+                    Filter prescriptions by date range and status.
+                  </p>
+                </div>
+              </div>
+
+              <form class="cnp-history-filters" id="filtersForm">
+                <label class="cnp-history-field">
+                  <span>From date</span>
+                  <input type="date" id="fromDate" />
+                </label>
+
+                <label class="cnp-history-field">
+                  <span>To date</span>
+                  <input type="date" id="toDate" />
+                </label>
+
+                <label class="cnp-history-field cnp-history-field-full">
+                  <span>Status</span>
+                  <select id="statusFilter">
+                    <option value="">All Statuses</option>
+                    <option value="active">Active</option>
+                    <option value="issued">Issued</option>
+                    <option value="partially_dispensed">Partially Dispensed</option>
+                    <option value="fully_dispensed">Fully Dispensed</option>
+                    <option value="dispensed">Dispensed</option>
+                    <option value="expired">Expired</option>
+                    <option value="cancelled">Cancelled</option>
+                  </select>
+                </label>
+
+                <div class="cnp-history-filter-actions">
+                  <button type="submit" class="cnp-history-filter-btn">
+                    Apply Filters
+                  </button>
+                  <button type="button" id="resetFilters" class="cnp-history-reset-btn">
+                    Reset
+                  </button>
+                </div>
+              </form>
+            </section>
+          </div>
+
+          <div id="historyState"></div>
+
+          <section class="cnp-history-card cnp-history-timeline-card">
+            <div class="cnp-history-card-head">
+              <div>
+                <span class="cnp-history-card-kicker">Timeline</span>
+                <h4>Prescription timeline</h4>
+                <p class="cnp-history-card-support">
+                  Click any point in the chart to open the full prescription details.
+                </p>
+              </div>
+            </div>
+
+            <div class="cnp-history-timeline-wrap">
+              <canvas id="timelineChart" height="110" aria-label="Prescription timeline chart" role="img"></canvas>
+            </div>
+
+            <div class="cnp-history-legend">
+              <span><span class="cnp-history-dot cnp-history-dot-issued"></span>Active / Issued</span>
+              <span><span class="cnp-history-dot cnp-history-dot-dispensed"></span>Dispensed</span>
+              <span><span class="cnp-history-dot cnp-history-dot-expired"></span>Expired / Cancelled</span>
+            </div>
+          </section>
+
+          <section class="cnp-history-card cnp-history-table-card">
+            <div class="cnp-history-card-head">
+              <div>
+                <span class="cnp-history-card-kicker">Records</span>
+                <h4>Prescriptions</h4>
+                <p class="cnp-history-card-support">
+                  Click a row to view full prescription details, medication items, and status.
+                </p>
+              </div>
+            </div>
+
+            <div class="cnp-history-table-wrap">
+              <table class="cnp-history-table" id="rxTable">
+                <thead>
+                  <tr>
+                    <th>Rx ID</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Diagnosis</th>
+                    <th>Last Dispensed</th>
+                    <th>Pharmacy</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="6" class="cnp-history-table-empty">
+                      Select a patient to load history on this page.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+
+
+      <div class="cnp-row cnp-details-row">
+        <section class="cnp-card cnp-card-details">
+          <div class="detail-icon" aria-hidden="true">
+            <i class="fa-solid fa-id-card"></i>
+          </div>
+          <h3>Your Details</h3>
+          <p id="usernameDetails"></p>
+          <script>
+            const nameDetails = window.name;
+            document.getElementById("usernameDetails").textContent = `${nameDetails}`;
+          </script>
+          <p>Pharmacist Independent Prescriber</p>
+          <p>Registration Number: 2082759</p>
+          <p>Registration Body: GPHC</p>
+        </section>
+
+        <section class="cnp-card cnp-card-details">
+          <div class="detail-icon" aria-hidden="true">
+            <i class="fa-solid fa-hospital"></i>
+          </div>
+          <h3>Prescription On Behalf Of</h3>
+          <p>Berkshire Medical Group</p>
+          <p>121 Chatham Street</p>
+          <p>Reading – RG1 7JE</p>
+          <p>Phone: +441189505121</p>
+          <p>Email: info@berkshiremedicalgroup.co.uk</p>
+        </section>
+      </div>
+
+      <section class="cnp-card cnp-card-info">
+        <div class="detail-icon" aria-hidden="true">
+          <i class="fa-solid fa-circle-info"></i>
+        </div>
+        <h3>Issuing guidance</h3>
+        <ul>
+          <li>
+            When a prescription is marked for collection, the patient will be sent a
+            prescription ID via email that can be presented at any pharmacy.
+          </li>
+          <li>
+            A delivery prescription will be sent securely to Signature Pharmacy. The
+            pharmacy will contact the patient with a link for payment and preferred
+            delivery option selection.
+          </li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <div class="cnp-history-modal-backdrop" id="rxModalBackdrop" aria-hidden="true">
+    <div class="cnp-history-modal" role="dialog" aria-modal="true" aria-labelledby="rxModalTitle">
+      <div class="cnp-history-modal-header">
+        <div>
+          <span class="cnp-history-card-kicker">Prescription</span>
+          <h4 id="rxModalTitle">Prescription Details</h4>
         </div>
 
-        <div class="cnp-history-modal-body">
-          <div class="cnp-history-rx-meta">
-            <div><strong>Rx ID:</strong> <span id="m_rxId">—</span></div>
-            <div><strong>Date:</strong> <span id="m_date">—</span></div>
-            <div><strong>Status:</strong> <span id="m_status">—</span></div>
-            <div><strong>Diagnosis:</strong> <span id="m_diagnosis">—</span></div>
-            <div><strong>Code:</strong> <span id="m_code">—</span></div>
-            <div><strong>Unique String:</strong> <span id="m_unique">—</span></div>
-          </div>
+        <button class="cnp-history-modal-close" aria-label="Close" id="rxModalClose">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
 
-          <div class="cnp-history-modal-note" id="m_notes"></div>
+      <div class="cnp-history-modal-body">
+        <div class="cnp-history-rx-meta">
+          <div><strong>Rx ID:</strong> <span id="m_rxId">—</span></div>
+          <div><strong>Date:</strong> <span id="m_date">—</span></div>
+          <div><strong>Status:</strong> <span id="m_status">—</span></div>
+          <div><strong>Diagnosis:</strong> <span id="m_diagnosis">—</span></div>
+          <div><strong>Code:</strong> <span id="m_code">—</span></div>
+          <div><strong>Unique String:</strong> <span id="m_unique">—</span></div>
+        </div>
 
-          <div class="cnp-history-table-wrap">
-            <table class="cnp-history-items-table" id="m_items">
-              <thead>
-                <tr>
-                  <th>Medication</th>
-                  <th>Strength</th>
-                  <th>Form</th>
-                  <th>Directions</th>
-                  <th>Qty</th>
-                  <th>Dispensed</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
+        <div class="cnp-history-modal-note" id="m_notes"></div>
+
+        <div class="cnp-history-table-wrap">
+          <table class="cnp-history-items-table" id="m_items">
+            <thead>
+              <tr>
+                <th>Medication</th>
+                <th>Strength</th>
+                <th>Form</th>
+                <th>Directions</th>
+                <th>Qty</th>
+                <th>Dispensed</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
       </div>
     </div>
+  </div>
 
-    <footer class="rx-footer">
-      <div class="rx-footer-shell">
-        <div class="rx-footer-top">
-          <div class="rx-footer-brand">
-            <a href="./dashboard.html" class="rx-footer-logo-link">
-              <img src="./assets/rxconnect.png" alt="RxConnect" class="rx-footer-logo" />
-            </a>
+  <footer class="rx-footer">
+    <div class="rx-footer-shell">
+      <div class="rx-footer-top">
+        <div class="rx-footer-brand">
+          <a href="./dashboard.html" class="rx-footer-logo-link">
+            <img src="./assets/rxconnect.png" alt="RxConnect" class="rx-footer-logo" />
+          </a>
 
-            <p class="rx-footer-description">
-              RxConnect is an international private healthcare provider with more than
-              20 years of experience, offering access to comprehensive outpatient and
-              inpatient services, along with a full range of laboratory diagnostics.
-            </p>
+          <p class="rx-footer-description">
+            RxConnect is an international private healthcare provider with more than
+            20 years of experience, offering access to comprehensive outpatient and
+            inpatient services, along with a full range of laboratory diagnostics.
+          </p>
 
-            <div class="rx-footer-emergency">
-              <div class="rx-footer-emergency-icon" aria-hidden="true">
-                <i class="fa-solid fa-phone-volume"></i>
-              </div>
-              <div>
-                <span class="rx-footer-emergency-label">Emergency cases</span>
-                <a href="tel:+442071234567" class="rx-footer-emergency-number">+44 20 7123 4567</a>
-              </div>
+          <div class="rx-footer-emergency">
+            <div class="rx-footer-emergency-icon" aria-hidden="true">
+              <i class="fa-solid fa-phone-volume"></i>
             </div>
-          </div>
-
-          <div class="rx-footer-links">
-            <div class="rx-footer-column">
-              <h4>Navigation</h4>
-              <a href="./about-us.html">Who we are</a>
-              <a href="./dr-form.html">E-prescription</a>
-              <a href="./prescriptions.html">My prescription</a>
-              <a href="./doctors.html">Doctors</a>
-              <a href="./patient-history.html">Patient history</a>
-              <a href="./FAQs.html">FAQs</a>
-            </div>
-
-            <div class="rx-footer-column rx-footer-contact">
-              <h4>Contact Us</h4>
-
-              <div class="rx-contact-item">
-                <span class="rx-contact-icon" aria-hidden="true">
-                  <i class="fa-solid fa-location-dot"></i>
-                </span>
-                <a href="#">M5 3AB Church Road, Salford, Manchester</a>
-              </div>
-
-              <div class="rx-contact-item">
-                <span class="rx-contact-icon" aria-hidden="true">
-                  <i class="fa-solid fa-envelope"></i>
-                </span>
-                <a href="mailto:info@rxconnect.com">info@rxconnect.com</a>
-              </div>
-
-              <div class="rx-contact-item">
-                <span class="rx-contact-icon" aria-hidden="true">
-                  <i class="fa-solid fa-phone"></i>
-                </span>
-                <div class="rx-contact-phones">
-                  <a href="tel:+447712345678">+44 7712 345678</a>
-                  <a href="tel:+442071234567">+44 20 7123 4567</a>
-                </div>
-              </div>
-            </div>
-
-            <div class="rx-footer-column rx-footer-form-col">
-              <h4>Message us</h4>
-
-              <form class="rx-footer-form" id="footerMessageForm">
-                <label class="sr-only" for="footerName">Your name</label>
-                <input
-                  id="footerName"
-                  type="text"
-                  name="name"
-                  placeholder="Enter your name"
-                  class="rx-footer-input"
-                />
-
-                <label class="sr-only" for="footerEmail">Your email</label>
-                <input
-                  id="footerEmail"
-                  type="email"
-                  name="email"
-                  placeholder="Enter your email address"
-                  class="rx-footer-input"
-                  required
-                />
-
-                <button type="submit" class="rx-footer-submit">Submit</button>
-                <p class="footer-form-feedback" id="footerFormFeedback" aria-live="polite"></p>
-              </form>
+            <div>
+              <span class="rx-footer-emergency-label">Emergency cases</span>
+              <a href="tel:+442071234567" class="rx-footer-emergency-number">+44 20 7123 4567</a>
             </div>
           </div>
         </div>
 
-        <div class="rx-footer-bottom">
-          <p class="rx-footer-copy">© 2026 RxConnect. All rights reserved.</p>
+        <div class="rx-footer-links">
+          <div class="rx-footer-column">
+            <h4>Navigation</h4>
+            <a href="./about-us.html">Who we are</a>
+            <a href="./dr-form.html">E-prescription</a>
+            <a href="./prescriptions.html">My prescription</a>
+            <a href="./doctors.html">Doctors</a>
+            <a href="./patient-history.html">Patient history</a>
+            <a href="./FAQs.html">FAQs</a>
+          </div>
 
-          <div class="rx-footer-socials">
-            <a href="#" class="rx-social-link" aria-label="Facebook">
-              <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
-            </a>
-            <a href="#" class="rx-social-link" aria-label="X">
-              <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
-            </a>
-            <a href="#" class="rx-social-link" aria-label="LinkedIn">
-              <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-            </a>
+          <div class="rx-footer-column rx-footer-contact">
+            <h4>Contact Us</h4>
+
+            <div class="rx-contact-item">
+              <span class="rx-contact-icon" aria-hidden="true">
+                <i class="fa-solid fa-location-dot"></i>
+              </span>
+              <a href="#">M5 3AB Church Road, Salford, Manchester</a>
+            </div>
+
+            <div class="rx-contact-item">
+              <span class="rx-contact-icon" aria-hidden="true">
+                <i class="fa-solid fa-envelope"></i>
+              </span>
+              <a href="mailto:info@rxconnect.com">info@rxconnect.com</a>
+            </div>
+
+            <div class="rx-contact-item">
+              <span class="rx-contact-icon" aria-hidden="true">
+                <i class="fa-solid fa-phone"></i>
+              </span>
+              <div class="rx-contact-phones">
+                <a href="tel:+447712345678">+44 7712 345678</a>
+                <a href="tel:+442071234567">+44 20 7123 4567</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="rx-footer-column rx-footer-form-col">
+            <h4>Message us</h4>
+
+            <form class="rx-footer-form" id="footerMessageForm">
+              <label class="sr-only" for="footerName">Your name</label>
+              <input id="footerName" type="text" name="name" placeholder="Enter your name" class="rx-footer-input" />
+
+              <label class="sr-only" for="footerEmail">Your email</label>
+              <input id="footerEmail" type="email" name="email" placeholder="Enter your email address"
+                class="rx-footer-input" required />
+
+              <button type="submit" class="rx-footer-submit">Submit</button>
+              <p class="footer-form-feedback" id="footerFormFeedback" aria-live="polite"></p>
+            </form>
           </div>
         </div>
       </div>
-    </footer>
 
-    <!-- <script>
+      <div class="rx-footer-bottom">
+        <p class="rx-footer-copy">© 2026 RxConnect. All rights reserved.</p>
+
+        <div class="rx-footer-socials">
+          <a href="#" class="rx-social-link" aria-label="Facebook">
+            <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+          </a>
+          <a href="#" class="rx-social-link" aria-label="X">
+            <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+          </a>
+          <a href="#" class="rx-social-link" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- <script>
       document.addEventListener("DOMContentLoaded", function () {
         const menuButton = document.getElementById("menu-btn");
         const navMenu = document.getElementById("nav-menu");
@@ -984,12 +907,13 @@
       });
     </script> -->
 
-    <script>
-      window.RXCONNECT_API_BASE = "http://localhost:5000";
-      window.RXCONNECT_PUBLIC_URL = "https://RxConnect.co.uk";
-    </script>
-    <script src="./scripts/rxconnect.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="./scripts/dr-form.js"></script>
-  </body>
+  <script>
+    window.RXCONNECT_API_BASE = "http://localhost:5000";
+    window.RXCONNECT_PUBLIC_URL = "https://RxConnect.co.uk";
+  </script>
+  <script src="./scripts/rxconnect.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./scripts/dr-form.js"></script>
+</body>
+
 </html>
