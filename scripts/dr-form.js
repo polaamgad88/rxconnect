@@ -68,6 +68,44 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   injectUiEnhancements();
 
+  (function () {
+  const stack = document.createElement("div");
+  stack.className = "rx-toast-stack";
+  document.body.appendChild(stack);
+
+  const icons  = { success: "✓", error: "✕", warn: "!", info: "i" };
+  const labels = { success: "Success", error: "Error", warn: "Warning", info: "Info" };
+
+  function showToast(type, title, msg) {
+    const t = document.createElement("div");
+    t.className = `rx-toast rx-toast--${type}`;
+    t.innerHTML = `
+      <div class="rx-toast-icon">${icons[type]}</div>
+      <div class="rx-toast-body">
+        <p class="rx-toast-title">${title || labels[type]}</p>
+        ${msg ? `<p class="rx-toast-msg">${msg}</p>` : ""}
+      </div>
+      <button class="rx-toast-close" aria-label="Dismiss">×</button>
+      <div class="rx-toast-bar"></div>
+    `;
+    stack.appendChild(t);
+    requestAnimationFrame(() => { t.offsetHeight; t.classList.add("rx-toast--in"); });
+    function dismiss() {
+      t.classList.add("rx-toast--out");
+      setTimeout(() => t.remove(), 340);
+    }
+    t.querySelector(".rx-toast-close").addEventListener("click", dismiss);
+    setTimeout(dismiss, 4200);
+  }
+
+  window.RxToast = {
+    success: (title, msg) => showToast("success", title, msg),
+    error:   (title, msg) => showToast("error",   title, msg),
+    warn:    (title, msg) => showToast("warn",     title, msg),
+    info:    (title, msg) => showToast("info",     title, msg),
+  };
+})();
+
   function injectUiEnhancements() {
     if (!document.getElementById("rxDrFormEnhancements")) {
       const style = document.createElement("style");
@@ -489,7 +527,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         rxModalBackdrop.setAttribute("aria-hidden", "false");
       }
     } catch (error) {
-      alert(error.message || "Failed to load prescription details");
+      RxToast.error("Failed", error.message || "Failed to load prescription.");
     }
   }
 
@@ -595,9 +633,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       saveBtn.addEventListener("click", async function () {
         try {
           await savePatientForCurrentClinician(selectedPatient.patient_id);
-          alert("Patient saved to your clinician list.");
+          RxToast.success("Patient saved to your clinician list.");
         } catch (error) {
-          alert(error.message || "Failed to save patient.");
+          RxToast.error("Failed to save patient.", error.message || "Failed to save patient.");
         }
       });
     }
@@ -891,11 +929,13 @@ function closeModal() {
         });
 
       const dosageInput =
+        tr.querySelector("input.med-input-dosage") ||
+        tr.querySelector("select.med-input-dosage-select") ||
         inputs.find(function (el) {
           if (el === nameInput || el === qtyInput) return false;
           const ph = String(el.getAttribute("placeholder") || "").toLowerCase();
           return ph.includes("dosage");
-        }) || tr.querySelector("input.med-input-dosage");
+        });
 
       const name = (nameInput?.value || "").trim();
       const qty = Number((qtyInput?.value || "").trim() || 0);
@@ -982,7 +1022,7 @@ function closeModal() {
 
   async function createPrescriptionAndMaybeSend(sendMode) {
     if (!selectedPatient) {
-      alert("Select a patient first.");
+      RxToast.info("Select a patient first.");
       return;
     }
 
@@ -990,7 +1030,7 @@ function closeModal() {
 
     const rawItems = collectItemsFromTable();
     if (!rawItems.length) {
-      alert("Add at least one medicine row (name + quantity).");
+      RxToast.info("Add at least one medicine row (name + quantity).");
       return;
     }
 
@@ -1000,7 +1040,7 @@ function closeModal() {
         item.medication_name,
       );
       if (!medicationId) {
-        alert(`Could not resolve medication id for: ${item.medication_name}`);
+        RxToast.error(`Could not resolve medication id for: ${item.medication_name}`);
         return;
       }
 
@@ -1040,7 +1080,7 @@ function closeModal() {
         created.code || created.prescription_number || "(code not returned)";
       const msg = buildPatientMessage(code);
 
-      alert(
+      RxToast.info(
         pmrSaved
           ? `Prescription saved.\n\nCode: ${code}`
           : `Prescription saved.\n\nCode: ${code}\n\nWarning: the prescription note was not copied into the private PMR.`,
@@ -1048,7 +1088,7 @@ function closeModal() {
 
       if (sendMode === "patient") {
         if (!selectedPatient.email) {
-          alert("Patient has no email. Copy this message manually:\n\n" + msg);
+          RxToast.warn("Patient has no email. Copy this message manually:", msg);
         } else {
           await sendMail({
             toEmail: selectedPatient.email,
@@ -1056,7 +1096,7 @@ function closeModal() {
             sender: "RxConnect",
             number: selectedPatient.phone || "",
           });
-          alert("Email sent to patient.\n\n" + msg);
+          RxToast.info("Email sent to patient.", msg);
         }
       }
 
@@ -1071,7 +1111,7 @@ function closeModal() {
         }
 
         if (!chobhamEmail) {
-          alert("No Chobham email provided. Code is:\n\n" + code);
+          RxToast.info("No Chobham email provided. Code is:", code);
         } else {
           await sendMail({
             toEmail: chobhamEmail,
@@ -1079,7 +1119,7 @@ function closeModal() {
             sender: "RxConnect",
             number: selectedPatient.phone || "",
           });
-          alert("Sent to Chobham Pharmacy.\n\nCode: " + code);
+          RxToast.info("Sent to Chobham Pharmacy.", `Code: ${code}`);
         }
       }
 
@@ -1087,7 +1127,7 @@ function closeModal() {
       window.location.href = `./prescriptions.html`;
     } catch (error) {
       console.error(error);
-      alert(error.message || "Failed to create prescription");
+      RxToast.error("Failed to create prescription.", error.message || "Failed to create prescription");
     }
   }
 
@@ -1233,22 +1273,19 @@ function closeModal() {
       const date_of_birth = buildDob(dd, mm, yy);
 
       const addr1 = (inputs[8]?.value || "").trim();
-      const addr2 = (inputs[9]?.value || "").trim();
       const city = (inputs[10]?.value || "").trim();
-      const postcode = (inputs[11]?.value || "").trim();
-      const country = selects[1]?.value || "";
+      // const country = selects[1]?.value || "";
 
       if (!first_name || !last_name || !date_of_birth) {
-        alert("First name, last name, and date of birth are required.");
+        RxToast.error("First name, last name, and date of birth are required.");
         return;
       }
 
       const notesParts = [];
       if (addr1) notesParts.push(addr1);
-      if (addr2) notesParts.push(addr2);
+      // if (addr2) notesParts.push(addr2);
       if (city) notesParts.push(city);
-      if (postcode) notesParts.push(postcode);
-      if (country) notesParts.push(country);
+      // if (country) notesParts.push(country);
       const notes = notesParts.length
         ? `Address: ${notesParts.join(", ")}`
         : null;
@@ -1277,9 +1314,9 @@ function closeModal() {
         }
 
         closeModal();
-        alert("Patient created and saved to your clinician list.");
+        RxToast.success("Patient created and saved to your clinician list.");
       } catch (error) {
-        alert(error.message || "Failed to create patient");
+        RxToast.error("Failed to create patient.", error.message || "Failed to create patient");
       }
     });
   }
@@ -1320,114 +1357,446 @@ function closeModal() {
     });
   }
 
-let medicationsCache = [];
+  let medicationsCache = [];
+const medicationSearchCache = new Map();
+let medicationSearchAbortController = null;
+
+function normalizeMedicationText(value) {
+  return String(value || "")
+    .trim()
+    .replace(/\s+/g, " ");
+}
+
+function escapeMedicationSearchToken(value) {
+  return normalizeMedicationText(value)
+    .replace(/[\:+\-!(){}\[\]^"~*?:\/]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function buildMedicationSearchPattern(query) {
+  const clean = escapeMedicationSearchToken(query);
+  if (!clean) return "";
+  return `*${clean.split(" ").filter(Boolean).join("*")}*`;
+}
+
+function extractMedicationStrength(product) {
+  const ingredients = Array.isArray(product?.active_ingredients)
+    ? product.active_ingredients
+    : [];
+
+  const parts = ingredients
+    .map(function (ingredient) {
+      return normalizeMedicationText(ingredient?.strength);
+    })
+    .filter(Boolean);
+
+  return parts.join(" + ");
+}
+
+function buildMedicationDosageLabel(product) {
+  const strength = extractMedicationStrength(product);
+  const dosageForm = normalizeMedicationText(product?.dosage_form);
+  const route = normalizeMedicationText(product?.route);
+
+  return [strength, dosageForm, route].filter(Boolean).join(" · ");
+}
+
+function dedupeMedicationGroups(results) {
+  const byName = new Map();
+
+  (results || []).forEach(function (application) {
+    (application.products || []).forEach(function (product) {
+      const medicationName = normalizeMedicationText(product?.brand_name);
+      if (!medicationName) return;
+
+      const key = medicationName.toLowerCase();
+      const dosageLabel = buildMedicationDosageLabel(product);
+      const strength = extractMedicationStrength(product);
+      const dosageForm = normalizeMedicationText(product?.dosage_form);
+      const route = normalizeMedicationText(product?.route);
+
+      if (!byName.has(key)) {
+        byName.set(key, {
+          medication_name: medicationName,
+          dosage_options: [],
+          strength_preview: strength,
+          dosage_form_preview: dosageForm,
+          route_preview: route,
+        });
+      }
+
+      const entry = byName.get(key);
+      if (
+        dosageLabel &&
+        !entry.dosage_options.some(function (option) {
+          return option.value === dosageLabel;
+        })
+      ) {
+        entry.dosage_options.push({
+          value: dosageLabel,
+          strength: strength,
+          dosage_form: dosageForm,
+          route: route,
+        });
+      }
+
+      if (!entry.strength_preview && strength) entry.strength_preview = strength;
+      if (!entry.dosage_form_preview && dosageForm) {
+        entry.dosage_form_preview = dosageForm;
+      }
+      if (!entry.route_preview && route) entry.route_preview = route;
+    });
+  });
+
+  return Array.from(byName.values()).sort(function (a, b) {
+    return a.medication_name.localeCompare(b.medication_name);
+  });
+}
+
+function rankMedicationMatches(list, query) {
+  const q = normalizeMedicationText(query).toLowerCase();
+  const startsWithMatches = [];
+  const containsMatches = [];
+
+  list.forEach(function (medication) {
+    const name = String(medication.medication_name || "").toLowerCase();
+    if (!name.includes(q)) return;
+
+    if (name.startsWith(q)) {
+      startsWithMatches.push(medication);
+    } else {
+      containsMatches.push(medication);
+    }
+  });
+
+  return startsWithMatches.concat(containsMatches);
+}
+
+async function searchMedicationsFromApi(query) {
+  const normalizedQuery = normalizeMedicationText(query);
+  if (!normalizedQuery) return [];
+
+  const cacheKey = normalizedQuery.toLowerCase();
+  if (medicationSearchCache.has(cacheKey)) {
+    return medicationSearchCache.get(cacheKey);
+  }
+
+  if (medicationSearchAbortController) {
+    medicationSearchAbortController.abort();
+  }
+
+  medicationSearchAbortController = new AbortController();
+
+  const pattern = buildMedicationSearchPattern(normalizedQuery);
+  const url =
+    "https://api.fda.gov/drug/drugsfda.json?search=" +
+    encodeURIComponent(`products.brand_name:${pattern}`) +
+    "&limit=100";
+
+  const response = await fetch(url, {
+    signal: medicationSearchAbortController.signal,
+  });
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      medicationSearchCache.set(cacheKey, []);
+      return [];
+    }
+    throw new Error(`openFDA request failed with status ${response.status}`);
+  }
+
+  const data = await response.json();
+  const grouped = dedupeMedicationGroups(data.results || []);
+  const ranked = rankMedicationMatches(grouped, normalizedQuery);
+
+  medicationsCache = ranked;
+  medicationSearchCache.set(cacheKey, ranked);
+  return ranked;
+}
 
 async function loadMedicationsForSearch() {
-  try {
-    const resp = await RX.api.get("/medications");
-    medicationsCache = resp.medications || resp.meds || [];
-  } catch (err) {
-    console.error("Failed to load medications", err);
+  medicationsCache = [];
+}
+
+function getMedicationRow(input) {
+  return input.closest("tr");
+}
+
+function getDosageFieldWrap(row) {
+  return (
+    row?.querySelector(".med-dosage-field") ||
+    row?.children?.[2]?.querySelector(".med-field") ||
+    null
+  );
+}
+
+function createDosageInput(value, readOnly) {
+  const input = document.createElement("input");
+  input.type = "text";
+  input.className = `med-input med-input-dosage${readOnly ? " is-readonly" : ""}`;
+  input.placeholder = "Dosage";
+  input.value = value || "";
+  input.readOnly = !!readOnly;
+  if (readOnly) {
+    input.setAttribute("aria-readonly", "true");
+  }
+  return input;
+}
+
+function createDosageSelect(options) {
+  const select = document.createElement("select");
+  select.className = "med-input med-input-dosage med-input-dosage-select";
+
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "Select dosage";
+  select.appendChild(placeholder);
+
+  options.forEach(function (option) {
+    const opt = document.createElement("option");
+    opt.value = option.value;
+    opt.textContent = option.value;
+    select.appendChild(opt);
+  });
+
+  return select;
+}
+
+function renderDosageField(row, medication) {
+  const wrap = getDosageFieldWrap(row);
+  if (!wrap) return;
+
+  wrap.classList.add("med-dosage-field");
+  wrap.innerHTML = "";
+
+  const dosageOptions = Array.isArray(medication?.dosage_options)
+    ? medication.dosage_options.filter(function (option) {
+        return option && option.value;
+      })
+    : [];
+  wrap.dataset.mode = "empty";
+
+  if (!dosageOptions.length) {
+    wrap.appendChild(createDosageInput("", false));
+    return;
+  }
+
+  if (dosageOptions.length === 1) {
+    wrap.dataset.mode = "readonly";
+    wrap.appendChild(createDosageInput(dosageOptions[0].value, true));
+    return;
+  }
+  wrap.dataset.mode = "select";
+  wrap.appendChild(createDosageSelect(dosageOptions));
+}
+
+function getMedicationMetaText(medication) {
+  if (medication.dosage_options.length <= 1) {
+    return (
+      medication.dosage_options[0]?.value ||
+      [
+        medication.strength_preview,
+        medication.dosage_form_preview,
+        medication.route_preview,
+      ]
+        .filter(Boolean)
+        .join(" · ")
+    );
   }
 }
 
-function attachMedicationAutocomplete(input) {
+function openMedicationDropdown(dropdown) {
+  dropdown.style.display = "block";
+  dropdown.classList.add("is-open");
+}
 
+function closeMedicationDropdown(dropdown) {
+  dropdown.style.display = "none";
+  dropdown.classList.remove("is-open");
+}
+
+function clearMedicationSelection(row) {
+  if (!row) return;
+
+  const medicineInput = row.querySelector(".med-input-medicine-search");
+  if (medicineInput) {
+    delete medicineInput.dataset.selectedMedication;
+  }
+
+  renderDosageField(row, { dosage_options: [] });
+}
+
+function applyMedicationSelection(input, medication) {
+  const row = getMedicationRow(input);
+  if (!row || !medication) return;
+
+  input.value = medication.medication_name || "";
+  input.dataset.selectedMedication = medication.medication_name || "";
+  renderDosageField(row, medication);
+}
+
+async function syncTypedMedicineToDosage(input) {
+  const typedName = normalizeMedicationText(input.value);
+  const row = getMedicationRow(input);
+
+  if (!typedName) {
+    clearMedicationSelection(row);
+    return;
+  }
+
+  let match = medicationsCache.find(function (medication) {
+    return medication.medication_name.toLowerCase() === typedName.toLowerCase();
+  });
+
+  if (!match) {
+        try {
+      const list = await searchMedicationsFromApi(typedName);
+      match = list.find(function (medication) {
+        return medication.medication_name.toLowerCase() === typedName.toLowerCase();
+      });
+    } catch (error) {
+      console.error("Failed to sync dosage from typed medicine", error);
+      return;
+    }
+  }
+
+  if (match) {
+    applyMedicationSelection(input, match);
+  }
+}
+
+function renderMedicationDropdown(dropdown, input, matches) {
+  dropdown.innerHTML = "";
+
+  if (!matches.length) {
+    const empty = document.createElement("div");
+    empty.className = "rx-med-dd-empty";
+    empty.innerHTML = `
+      <span class="rx-med-dd-empty-title">No medicines found</span>
+      <span class="rx-med-dd-empty-copy">Try a different name or keep typing.</span>
+    `;
+    dropdown.appendChild(empty);
+    openMedicationDropdown(dropdown);
+    return;
+  }
+
+  matches.slice(0, 12).forEach(function (medication) {
+    const dosageCount = medication.dosage_options.length;
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = `rx-med-dd-item ${dosageCount > 1 ? "is-multiple" : "is-single"}`;
+
+    const badgeText =
+      dosageCount > 1 ? `${dosageCount} dosage choices` : "1 dosage";
+
+    item.innerHTML = `
+      <div class="rx-med-dd-item-name">${medication.medication_name}</div>
+    `;
+
+    item.addEventListener("click", function () {
+      applyMedicationSelection(input, medication);
+      closeMedicationDropdown(dropdown);
+    });
+
+    dropdown.appendChild(item);
+  });
+
+  openMedicationDropdown(dropdown);
+}
+
+function attachMedicationAutocomplete(input) {
   const dropdown = document.createElement("div");
   dropdown.className = "rx-med-dd";
 
-  dropdown.style.position = "absolute";
-  dropdown.style.left = "0";
-  dropdown.style.right = "0";
-  dropdown.style.top = "42px";
-  dropdown.style.background = "#fff";
-  dropdown.style.border = "1px solid #e5e7eb";
-  dropdown.style.borderRadius = "6px";
-  dropdown.style.boxShadow = "0 10px 20px rgba(0,0,0,.08)";
-  dropdown.style.maxHeight = "220px";
-  dropdown.style.overflowY = "auto";
-  dropdown.style.zIndex = "9999";
-  dropdown.style.display = "none";
+  // dropdown.style.position = "relative";
+  // dropdown.style.left = "0";
+  // dropdown.style.right = "0";
+  // dropdown.style.top = "42px";
+  // dropdown.style.background = "#fff";
+  // dropdown.style.border = "1px solid #e5e7eb";
+  // dropdown.style.borderRadius = "6px";
+  // dropdown.style.boxShadow = "0 10px 20px rgba(0,0,0,.08)";
+  // dropdown.style.maxHeight = "220px";
+  // dropdown.style.overflowY = "auto";
+  // dropdown.style.zIndex = "9999";
+  // dropdown.style.display = "none";
 
   input.parentElement.style.position = "relative";
   input.parentElement.appendChild(dropdown);
 
+  let typingTimer = null;
+
   input.addEventListener("input", function () {
+    const row = getMedicationRow(input);
+    const currentValue = normalizeMedicationText(input.value);
 
-    const q = input.value.toLowerCase().trim();
-
-    if (!q) {
-      dropdown.style.display = "none";
+    if (!currentValue) {
+      closeMedicationDropdown(dropdown);
+      clearMedicationSelection(row);
       return;
     }
 
-    const matches = medicationsCache
-      .filter(m =>
-        (m.medication_name || "")
-          .toLowerCase()
-          .startsWith(q)
-      )
-      .slice(0, 10);
-
-    dropdown.innerHTML = "";
-
-    matches.forEach(function (med) {
-
-      const item = document.createElement("div");
-
-      item.textContent = med.medication_name;
-
-      item.style.padding = "8px 10px";
-      item.style.cursor = "pointer";
-      item.style.borderBottom = "1px solid #f1f1f1";
-
-      item.addEventListener("click", function () {
-
-        input.value = med.medication_name;
-        input.dataset.medicationId = med.medication_id;
-
-        dropdown.style.display = "none";
-
-      });
-
-      dropdown.appendChild(item);
-
-    });
-
-    dropdown.style.display = matches.length ? "block" : "none";
-
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(async function () {
+      try {
+        const matches = await searchMedicationsFromApi(currentValue);
+        renderMedicationDropdown(dropdown, input, matches);
+      } catch (error) {
+        if (error.name === "AbortError") return;
+        console.error("Medication search failed", error);
+        closeMedicationDropdown(dropdown);
+      }
+    }, 250);
   });
 
-  document.addEventListener("click", function (e) {
+  input.addEventListener("blur", function () {
+    setTimeout(function () {
+      syncTypedMedicineToDosage(input);
+    }, 150);
+  });
 
-    if (!input.contains(e.target) && !dropdown.contains(e.target)) {
-      dropdown.style.display = "none";
+  input.addEventListener("focus", async function () {
+    const currentValue = normalizeMedicationText(input.value);
+    if (!currentValue) return;
+
+    try {
+      const matches = await searchMedicationsFromApi(currentValue);
+      renderMedicationDropdown(dropdown, input, matches);
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        console.error("Medication search failed", error);
+      }
     }
-
   });
 
+  document.addEventListener("click", function (event) {
+    if (!input.contains(event.target) && !dropdown.contains(event.target)) {
+      closeMedicationDropdown(dropdown);
+    }
+  });
 }
-function initMedicationInputs() {
 
+function initMedicationInputs() {
   const inputs = document.querySelectorAll(".med-input-medicine-search");
 
   inputs.forEach(function (input) {
-
     if (!input.dataset.autocompleteAttached) {
       attachMedicationAutocomplete(input);
       input.dataset.autocompleteAttached = "1";
     }
 
+    syncTypedMedicineToDosage(input);
   });
-
 }
+
 try {
-    await loadMedicationsForSearch();
-    initMedicationInputs();
-    initMedicineRowActions();
-  } catch (error) {
-    console.error(error);
-  }
+  await loadMedicationsForSearch();
+  initMedicationInputs();
+  initMedicineRowActions();
+} catch (error) {
+  console.error(error);
+}
 function attachRemoveHandler(row) {
   const removeBtn = row.querySelector(".med-remove-btn");
   if (!removeBtn) return;
@@ -1456,12 +1825,12 @@ function createMedicineRow() {
         />
       </div>
     </td>
-    <td>
-      <div class="med-field">
+    <td class="med-dosage-cell">
+      <div class="med-field med-dosage-field">
         <input
           type="text"
-          class="med-input"
-          placeholder="Dosage Instruction"
+          class="med-input med-input-dosage"
+          placeholder="Dosage"
         />
       </div>
     </td>
