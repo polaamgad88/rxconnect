@@ -78,7 +78,11 @@
                     aria-controls="userDropdownMenu"
                   >
                     <span class="hello-label">Hello,</span>
-                    <span id="username">Guest</span>
+                    <span id="username"></span>
+                    <script>
+                      const name = window.name;
+                      document.getElementById("username").textContent = `Hello, ${name}`;
+                    </script>
                     <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
                   </button>
 
