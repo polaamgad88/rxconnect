@@ -454,7 +454,7 @@ button {
   background: radial-gradient(circle, rgba(176, 115, 43, 0.16), transparent 68%);
 }
 
-.cnp-card > * {
+.cnp-card>* {
   position: relative;
   z-index: 1;
 }
@@ -959,7 +959,7 @@ button {
   line-height: 1.85;
 }
 
-.cnp-card-details p + p {
+.cnp-card-details p+p {
   margin-top: 4px;
 }
 
@@ -968,7 +968,7 @@ button {
   padding-left: 20px;
 }
 
-.cnp-card-info li + li {
+.cnp-card-info li+li {
   margin-top: 12px;
 }
 
@@ -1152,7 +1152,7 @@ button {
   align-items: start;
 }
 
-.rx-contact-item + .rx-contact-item {
+.rx-contact-item+.rx-contact-item {
   margin-top: 14px;
 }
 
@@ -1282,6 +1282,7 @@ button {
 }
 
 @media (max-width: 1024px) {
+
   .site-header,
   .cnp-page,
   .rx-footer {
@@ -1414,6 +1415,7 @@ button {
 }
 
 @media (max-width: 760px) {
+
   .cnp-card,
   .rx-footer-shell {
     border-radius: 28px;
@@ -1700,7 +1702,7 @@ body {
   overflow-y: auto;
   border-radius: 30px;
   border: 1px solid rgba(51, 51, 51, 0.08);
-  background: linear-gradient(180deg, rgba(255,255,255,0.99), rgba(252,250,247,0.97));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(252, 250, 247, 0.97));
   box-shadow: 0 36px 80px rgba(51, 51, 51, 0.22);
   padding: 26px 26px 24px;
 }
@@ -2002,7 +2004,7 @@ body {
   opacity: 0.9;
 }
 
-.cnp-history-card > * {
+.cnp-history-card>* {
   position: relative;
   z-index: 1;
 }
@@ -2458,6 +2460,7 @@ body {
 }
 
 @media (max-width: 900px) {
+
   .cnp-history-filters,
   .cnp-history-rx-meta {
     grid-template-columns: 1fr;
@@ -2465,6 +2468,7 @@ body {
 }
 
 @media (max-width: 760px) {
+
   .cnp-history-card,
   .cnp-history-modal {
     border-radius: 28px;
@@ -2504,5 +2508,370 @@ body {
 
   .cnp-history-modal-backdrop {
     padding: 14px;
+  }
+}
+
+.rx-toast-stack {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  pointer-events: none;
+}
+
+.rx-toast {
+  pointer-events: all;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.84);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 18px 40px rgba(51, 51, 51, 0.13);
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  transform: translateX(120%);
+  opacity: 0;
+  transition: transform 0.32s cubic-bezier(.22, .68, 0, 1.2), opacity 0.28s ease;
+}
+
+.rx-toast.rx-toast--in {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.rx-toast.rx-toast--out {
+  transform: translateX(120%);
+  opacity: 0;
+}
+
+.rx-toast-icon {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+.rx-toast--success .rx-toast-icon {
+  background: rgba(0, 167, 110, 0.12);
+  color: #007a50;
+}
+
+.rx-toast--error .rx-toast-icon {
+  background: rgba(181, 95, 95, 0.12);
+  color: #9e3a3a;
+}
+
+.rx-toast--warn .rx-toast-icon {
+  background: rgba(176, 115, 43, 0.13);
+  color: #8a5718;
+}
+
+.rx-toast--info .rx-toast-icon {
+  background: rgba(51, 51, 51, 0.07);
+  color: #333;
+}
+
+.rx-toast-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.rx-toast-title {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  margin: 0 0 2px;
+}
+
+.rx-toast--success .rx-toast-title {
+  color: #005c3c;
+}
+
+.rx-toast--error .rx-toast-title {
+  color: #7a2a2a;
+}
+
+.rx-toast--warn .rx-toast-title {
+  color: #7a4a10;
+}
+
+.rx-toast--info .rx-toast-title {
+  color: #333;
+}
+
+.rx-toast-msg {
+  margin: 0;
+  color: #5f5a54;
+  font-size: 13px;
+}
+
+.rx-toast-close {
+  flex: 0 0 auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #9b948c;
+  padding: 0;
+  line-height: 1;
+}
+
+.rx-toast-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  border-radius: 0 0 20px 20px;
+  width: 100%;
+  transform-origin: left;
+  animation: rx-shrink 4s linear forwards;
+}
+
+.rx-toast--success .rx-toast-bar {
+  background: #00a76e;
+}
+
+.rx-toast--error .rx-toast-bar {
+  background: #b55f5f;
+}
+
+.rx-toast--warn .rx-toast-bar {
+  background: #b0732b;
+}
+
+.rx-toast--info .rx-toast-bar {
+  background: #333;
+}
+
+@keyframes rx-shrink {
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* ===== Medicine search dropdown + dosage field styling ===== */
+.rx-med-dd {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 10px);
+  z-index: 80;
+  display: none;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid rgba(51, 51, 51, 0.08);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(252, 250, 247, 0.97));
+  box-shadow:
+    0 26px 56px rgba(51, 51, 51, 0.16),
+    0 8px 20px rgba(176, 115, 43, 0.09);
+  backdrop-filter: blur(14px);
+}
+
+.rx-med-dd.is-open {
+  display: block;
+}
+
+.rx-med-dd::-webkit-scrollbar {
+  width: 10px;
+}
+
+.rx-med-dd::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.rx-med-dd::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(176, 115, 43, 0.3);
+  background-clip: padding-box;
+}
+
+.rx-med-dd-empty {
+  padding: 18px 16px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(250, 248, 244, 0.96), rgba(255, 255, 255, 0.96));
+  text-align: center;
+}
+
+.rx-med-dd-empty-title {
+  display: block;
+  margin-bottom: 4px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #333333;
+}
+
+.rx-med-dd-empty-copy {
+  display: block;
+  color: var(--text-soft);
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.rx-med-dd-item {
+  display: block;
+  width: 100%;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.rx-med-dd-item + .rx-med-dd-item {
+  margin-top: 6px;
+}
+
+.rx-med-dd-item:hover,
+.rx-med-dd-item:focus-visible {
+  outline: none;
+  transform: translateY(-1px);
+  background: linear-gradient(180deg, rgba(176, 115, 43, 0.1), rgba(176, 115, 43, 0.05));
+  box-shadow: inset 0 0 0 1px rgba(176, 115, 43, 0.14);
+}
+
+.rx-med-dd-item-name {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #333333;
+  line-height: 1.4;
+}
+
+.rx-med-dd-item-meta-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.rx-med-dd-item-meta {
+  flex: 1;
+  min-width: 0;
+  color: var(--text-soft);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.rx-med-dd-item-badge {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(176, 115, 43, 0.16);
+  background: rgba(176, 115, 43, 0.1);
+  color: var(--primary-3);
+  font-size: 0.74rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.rx-med-dd-item.is-multiple .rx-med-dd-item-badge {
+  border-color: rgba(51, 51, 51, 0.1);
+  background: rgba(51, 51, 51, 0.06);
+  color: #333333;
+}
+
+.med-dosage-field {
+  position: relative;
+}
+
+.med-input-dosage,
+.med-input-dosage-select {
+  min-height: 50px;
+}
+
+.med-input-dosage.is-readonly {
+  color: #7a5626;
+  font-weight: 700;
+  border-bottom-color: rgba(176, 115, 43, 0.3);
+  background:
+    linear-gradient(180deg, rgba(250, 248, 244, 0.94), rgba(255, 255, 255, 0));
+  box-shadow: inset 0 -1px 0 rgba(176, 115, 43, 0.12);
+}
+
+.med-input-dosage-select {
+  appearance: none;
+  padding-right: 42px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23b0732b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px 16px;
+}
+
+.med-input-dosage-select option {
+  color: #333333;
+  background: #ffffff;
+}
+
+.med-dosage-field[data-mode="select"]::after {
+  position: absolute;
+  right: 34px;
+  top: -14px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid rgba(176, 115, 43, 0.14);
+  color: var(--primary-3);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 760px) {
+  .rx-med-dd {
+    max-height: 260px;
+    padding: 8px;
+    border-radius: 20px;
+  }
+
+  .rx-med-dd-item {
+    padding: 12px 14px;
+    border-radius: 16px;
+  }
+
+  .rx-med-dd-item-meta-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .med-dosage-field[data-mode="select"]::after {
+    position: static;
+    display: inline-flex;
+    margin-bottom: 8px;
   }
 }
