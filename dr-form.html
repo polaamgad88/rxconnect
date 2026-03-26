@@ -662,6 +662,59 @@
       </div>
     </div>
 
+
+    <div class="rx-ui-modal" id="rxUiModal" aria-hidden="true">
+      <div
+        class="rx-ui-modal-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="rxUiModalTitle"
+        aria-describedby="rxUiModalMessage"
+      >
+        <button
+          type="button"
+          class="rx-ui-modal-close"
+          id="rxUiModalClose"
+          aria-label="Close dialog"
+        >
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+
+        <div class="rx-ui-modal-icon-wrap">
+          <div class="rx-ui-modal-icon is-warning" id="rxUiModalIcon">
+            <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+          </div>
+        </div>
+
+        <p class="rx-ui-modal-kicker" id="rxUiModalKicker">Warning</p>
+        <h3 id="rxUiModalTitle">Warning</h3>
+        <p class="rx-ui-modal-message" id="rxUiModalMessage"></p>
+
+        <div class="rx-ui-modal-input-wrap" id="rxUiModalInputWrap" hidden>
+          <label class="rx-ui-modal-input-label" for="rxUiModalInput" id="rxUiModalInputLabel">
+            Input
+          </label>
+          <input
+            type="text"
+            class="rx-ui-modal-input"
+            id="rxUiModalInput"
+            autocomplete="off"
+          />
+          <p class="rx-ui-modal-input-error" id="rxUiModalInputError"></p>
+        </div>
+
+        <div class="rx-ui-modal-actions">
+          <button type="button" class="rx-ui-modal-btn rx-ui-modal-btn-secondary" id="rxUiModalCancel">
+            Cancel
+          </button>
+          <button type="button" class="rx-ui-modal-btn rx-ui-modal-btn-primary" id="rxUiModalConfirm">
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+
+
     <footer class="rx-footer">
       <div class="rx-footer-shell">
         <div class="rx-footer-top">
