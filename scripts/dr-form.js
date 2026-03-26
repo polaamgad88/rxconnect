@@ -53,20 +53,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   const m_notes = document.getElementById("m_notes");
   const m_itemsBody = document.querySelector("#m_items tbody");
 
-  const uiModal = document.getElementById("rxUiModal");
-const uiModalDialog = document.querySelector("#rxUiModal .rx-ui-modal-dialog");
-const uiModalIcon = document.getElementById("rxUiModalIcon");
-const uiModalKicker = document.getElementById("rxUiModalKicker");
-const uiModalTitle = document.getElementById("rxUiModalTitle");
-const uiModalMessage = document.getElementById("rxUiModalMessage");
-const uiModalInputWrap = document.getElementById("rxUiModalInputWrap");
-const uiModalInputLabel = document.getElementById("rxUiModalInputLabel");
-const uiModalInput = document.getElementById("rxUiModalInput");
-const uiModalInputError = document.getElementById("rxUiModalInputError");
-const uiModalConfirm = document.getElementById("rxUiModalConfirm");
-const uiModalCancel = document.getElementById("rxUiModalCancel");
-const uiModalClose = document.getElementById("rxUiModalClose");
-
   let savedPatients = [];
   let allPatients = [];
   let savedPatientIds = new Set();
@@ -80,276 +66,9 @@ const uiModalClose = document.getElementById("rxUiModalClose");
   let activeHistoryPatientId = null;
   let historyLoadSeq = 0;
 
-injectUiEnhancements();
-setupUiModalEvents();
+  injectUiEnhancements();
+
   function injectUiEnhancements() {
-    let uiModalResolve = null;
-let uiModalState = {
-  inputEnabled: false,
-  hideCancel: true,
-};
-
-function getUiModalMeta(type) {
-  if (type === "success") {
-    return {
-      kicker: "Success",
-      iconClass: "is-success",
-      icon: "fa-solid fa-circle-check",
-    };
-  }
-
-  if (type === "danger" || type === "error") {
-    return {
-      kicker: "Warning",
-      iconClass: "is-danger",
-      icon: "fa-solid fa-triangle-exclamation",
-    };
-  }
-
-  if (type === "info" || type === "input") {
-    return {
-      kicker: "Notice",
-      iconClass: "is-info",
-      icon: "fa-solid fa-circle-info",
-    };
-  }
-
-  return {
-    kicker: "Warning",
-    iconClass: "is-warning",
-    icon: "fa-solid fa-circle-exclamation",
-  };
-}
-
-function resetUiModalInputError() {
-  if (uiModalInputError) uiModalInputError.textContent = "";
-}
-
-function openUiModal(options = {}) {
-  if (!uiModal) {
-    const fallbackText = options.message || options.title || "Notice";
-    return Promise.resolve({
-      confirmed: true,
-      value: options.input?.value || "",
-      cancelled: false,
-      fallback: fallbackText,
-    });
-  }
-
-  const {
-    type = "warning",
-    title = "Warning",
-    message = "",
-    confirmText = "OK",
-    cancelText = "Cancel",
-    showCancel = false,
-    closeOnOverlay = true,
-    closeOnEscape = true,
-    input = null,
-    validate = null,
-  } = options;
-
-  const meta = getUiModalMeta(type);
-
-  uiModalState = {
-    inputEnabled: Boolean(input),
-    hideCancel: !showCancel,
-    closeOnOverlay,
-    closeOnEscape,
-    validate,
-  };
-
-  if (uiModalKicker) uiModalKicker.textContent = options.kicker || meta.kicker;
-  if (uiModalTitle) uiModalTitle.textContent = title;
-  if (uiModalMessage) uiModalMessage.textContent = message;
-
-  if (uiModalIcon) {
-    uiModalIcon.className = `rx-ui-modal-icon ${meta.iconClass}`;
-    uiModalIcon.innerHTML = `<i class="${meta.icon}" aria-hidden="true"></i>`;
-  }
-
-  if (uiModalConfirm) uiModalConfirm.textContent = confirmText;
-  if (uiModalCancel) {
-    uiModalCancel.textContent = cancelText;
-    uiModalCancel.hidden = !showCancel;
-  }
-
-  resetUiModalInputError();
-
-  if (input && uiModalInputWrap && uiModalInputLabel && uiModalInput) {
-    uiModalInputWrap.hidden = false;
-    uiModalInputLabel.textContent = input.label || "Value";
-    uiModalInput.type = input.type || "text";
-    uiModalInput.placeholder = input.placeholder || "";
-    uiModalInput.value = input.value || "";
-    uiModalInput.autocomplete = input.autocomplete || "off";
-  } else if (uiModalInputWrap) {
-    uiModalInputWrap.hidden = true;
-    if (uiModalInput) {
-      uiModalInput.value = "";
-      uiModalInput.placeholder = "";
-    }
-  }
-
-  uiModal.classList.add("open");
-  uiModal.setAttribute("aria-hidden", "false");
-  document.body.classList.add("rx-ui-modal-open");
-
-  return new Promise(function (resolve) {
-    uiModalResolve = resolve;
-    window.setTimeout(function () {
-      if (input && uiModalInput) {
-        uiModalInput.focus();
-        uiModalInput.select();
-      } else if (uiModalConfirm) {
-        uiModalConfirm.focus();
-      }
-    }, 20);
-  });
-}
-
-function closeUiModal(result = {}) {
-  if (!uiModal) return;
-
-  uiModal.classList.remove("open");
-  uiModal.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("rx-ui-modal-open");
-
-  resetUiModalInputError();
-
-  if (uiModalInputWrap) uiModalInputWrap.hidden = true;
-  if (uiModalInput) {
-    uiModalInput.value = "";
-    uiModalInput.placeholder = "";
-  }
-
-  const resolver = uiModalResolve;
-  uiModalResolve = null;
-
-  if (resolver) {
-    resolver({
-      confirmed: Boolean(result.confirmed),
-      cancelled: Boolean(result.cancelled),
-      value: result.value || "",
-    });
-  }
-}
-
-async function showUiAlert(message, title = "Warning", type = "warning") {
-  const result = await openUiModal({
-    type,
-    title,
-    message,
-    confirmText: "OK",
-    showCancel: false,
-  });
-
-  return result;
-}
-
-async function askUiInput(options = {}) {
-  const result = await openUiModal({
-    type: options.type || "input",
-    title: options.title || "Input",
-    message: options.message || "",
-    confirmText: options.confirmText || "Save",
-    cancelText: options.cancelText || "Cancel",
-    showCancel: true,
-    input: {
-      label: options.label || "Value",
-      type: options.inputType || "text",
-      placeholder: options.placeholder || "",
-      value: options.value || "",
-      autocomplete: options.autocomplete || "off",
-    },
-    validate: options.validate || null,
-  });
-
-  return result;
-}
-
-function setupUiModalEvents() {
-  if (!uiModal || uiModal.dataset.bound === "1") return;
-  uiModal.dataset.bound = "1";
-
-  if (uiModalConfirm) {
-    uiModalConfirm.addEventListener("click", function () {
-      if (!uiModalState.inputEnabled) {
-        closeUiModal({ confirmed: true });
-        return;
-      }
-
-      const value = uiModalInput ? uiModalInput.value.trim() : "";
-      if (typeof uiModalState.validate === "function") {
-        const validationMessage = uiModalState.validate(value);
-        if (validationMessage) {
-          if (uiModalInputError) uiModalInputError.textContent = validationMessage;
-          if (uiModalInput) uiModalInput.focus();
-          return;
-        }
-      }
-
-      closeUiModal({
-        confirmed: true,
-        value,
-      });
-    });
-  }
-
-  if (uiModalCancel) {
-    uiModalCancel.addEventListener("click", function () {
-      closeUiModal({
-        confirmed: false,
-        cancelled: true,
-        value: uiModalInput ? uiModalInput.value.trim() : "",
-      });
-    });
-  }
-
-  if (uiModalClose) {
-    uiModalClose.addEventListener("click", function () {
-      closeUiModal({
-        confirmed: false,
-        cancelled: true,
-        value: uiModalInput ? uiModalInput.value.trim() : "",
-      });
-    });
-  }
-
-  uiModal.addEventListener("click", function (event) {
-    if (event.target === uiModal && uiModalState.closeOnOverlay) {
-      closeUiModal({
-        confirmed: false,
-        cancelled: true,
-        value: uiModalInput ? uiModalInput.value.trim() : "",
-      });
-    }
-  });
-
-  document.addEventListener("keydown", function (event) {
-    if (
-      event.key === "Escape" &&
-      uiModal.classList.contains("open") &&
-      uiModalState.closeOnEscape
-    ) {
-      closeUiModal({
-        confirmed: false,
-        cancelled: true,
-        value: uiModalInput ? uiModalInput.value.trim() : "",
-      });
-    }
-
-    if (
-      event.key === "Enter" &&
-      uiModal.classList.contains("open") &&
-      uiModalState.inputEnabled &&
-      document.activeElement === uiModalInput
-    ) {
-      event.preventDefault();
-      if (uiModalConfirm) uiModalConfirm.click();
-    }
-  });
-}
     if (!document.getElementById("rxDrFormEnhancements")) {
       const style = document.createElement("style");
       style.id = "rxDrFormEnhancements";
@@ -770,11 +489,8 @@ function setupUiModalEvents() {
         rxModalBackdrop.setAttribute("aria-hidden", "false");
       }
     } catch (error) {
-await showUiAlert(
-  error.message || "Failed to load prescription details",
-  "Prescription Details",
-  "danger",
-);    }
+      alert(error.message || "Failed to load prescription details");
+    }
   }
 
   function closeHistoryPrescriptionModal() {
@@ -879,16 +595,10 @@ await showUiAlert(
       saveBtn.addEventListener("click", async function () {
         try {
           await savePatientForCurrentClinician(selectedPatient.patient_id);
-await showUiAlert(
-  "Patient saved to your clinician list.",
-  "Patient Saved",
-  "success",
-);        } catch (error) {
-await showUiAlert(
-  error.message || "Failed to save patient.",
-  "Save Failed",
-  "danger",
-);        }
+          alert("Patient saved to your clinician list.");
+        } catch (error) {
+          alert(error.message || "Failed to save patient.");
+        }
       });
     }
   }
@@ -1272,7 +982,7 @@ function closeModal() {
 
   async function createPrescriptionAndMaybeSend(sendMode) {
     if (!selectedPatient) {
-      await showUiAlert("Select a patient first.", "Patient Required", "warning");
+      alert("Select a patient first.");
       return;
     }
 
@@ -1280,11 +990,7 @@ function closeModal() {
 
     const rawItems = collectItemsFromTable();
     if (!rawItems.length) {
-      await showUiAlert(
-  "Add at least one medicine row with a medicine name and quantity.",
-  "Prescription Items",
-  "warning",
-);
+      alert("Add at least one medicine row (name + quantity).");
       return;
     }
 
@@ -1294,11 +1000,8 @@ function closeModal() {
         item.medication_name,
       );
       if (!medicationId) {
-await showUiAlert(
-  `Could not resolve medication id for: ${item.medication_name}`,
-  "Medication Lookup",
-  "danger",
-);        return;
+        alert(`Could not resolve medication id for: ${item.medication_name}`);
+        return;
       }
 
       items.push({
@@ -1337,21 +1040,15 @@ await showUiAlert(
         created.code || created.prescription_number || "(code not returned)";
       const msg = buildPatientMessage(code);
 
-await showUiAlert(
-  pmrSaved
-    ? `Prescription saved.\n\nCode: ${code}`
-    : `Prescription saved.\n\nCode: ${code}\n\nWarning: the prescription note was not copied into the private PMR.`,
-  pmrSaved ? "Prescription Saved" : "Prescription Saved with Warning",
-  pmrSaved ? "success" : "warning",
-);
+      alert(
+        pmrSaved
+          ? `Prescription saved.\n\nCode: ${code}`
+          : `Prescription saved.\n\nCode: ${code}\n\nWarning: the prescription note was not copied into the private PMR.`,
+      );
 
       if (sendMode === "patient") {
         if (!selectedPatient.email) {
-await showUiAlert(
-  "Patient has no email. Copy this message manually:\n\n" + msg,
-  "Patient Email Missing",
-  "info",
-);
+          alert("Patient has no email. Copy this message manually:\n\n" + msg);
         } else {
           await sendMail({
             toEmail: selectedPatient.email,
@@ -1359,50 +1056,30 @@ await showUiAlert(
             sender: "RxConnect",
             number: selectedPatient.phone || "",
           });
-          await showUiAlert(
-  "Email sent to patient.\n\n" + msg,
-  "Email Sent",
-  "success",
-);
+          alert("Email sent to patient.\n\n" + msg);
         }
       }
 
       if (sendMode === "chobham") {
         let chobhamEmail = localStorage.getItem("RX_CHOBHAM_EMAIL") || "";
         if (!chobhamEmail) {
-        const emailPrompt = await askUiInput({
-  title: "Chobham Pharmacy Email",
-  message: "Enter Chobham Pharmacy email. It will be saved for next time.",
-  label: "Pharmacy email",
-  inputType: "email",
-  placeholder: "pharmacy@example.com",
-  value: "",
-  confirmText: "Save Email",
-});
-
-chobhamEmail = emailPrompt.confirmed ? emailPrompt.value : "";
-if (chobhamEmail) {
-  localStorage.setItem("RX_CHOBHAM_EMAIL", chobhamEmail);
-}
+          chobhamEmail =
+            prompt("Enter Chobham Pharmacy email (saved for next time):") || "";
+          if (chobhamEmail) {
+            localStorage.setItem("RX_CHOBHAM_EMAIL", chobhamEmail);
+          }
         }
 
         if (!chobhamEmail) {
-          await showUiAlert(
-  "No Chobham email provided. Code is:\n\n" + code,
-  "Email Not Provided",
-  "warning",
-);x
+          alert("No Chobham email provided. Code is:\n\n" + code);
         } else {
           await sendMail({
             toEmail: chobhamEmail,
             content: `New prescription issued.\nCode: ${code}\nPatient DOB: ${selectedPatient.date_of_birth || ""}`,
             sender: "RxConnect",
             number: selectedPatient.phone || "",
-          });await showUiAlert(
-  "Sent to Chobham Pharmacy.\n\nCode: " + code,
-  "Sent to Chobham",
-  "success",
-);
+          });
+          alert("Sent to Chobham Pharmacy.\n\nCode: " + code);
         }
       }
 
@@ -1410,11 +1087,7 @@ if (chobhamEmail) {
       window.location.href = `./prescriptions.html`;
     } catch (error) {
       console.error(error);
-      await showUiAlert(
-  error.message || "Failed to create prescription",
-  "Prescription Failed",
-  "danger",
-);
+      alert(error.message || "Failed to create prescription");
     }
   }
 
@@ -1566,11 +1239,8 @@ if (chobhamEmail) {
       const country = selects[1]?.value || "";
 
       if (!first_name || !last_name || !date_of_birth) {
-await showUiAlert(
-  "First name, last name, and date of birth are required.",
-  "Patient Details Required",
-  "warning",
-);        return;
+        alert("First name, last name, and date of birth are required.");
+        return;
       }
 
       const notesParts = [];
@@ -1607,16 +1277,10 @@ await showUiAlert(
         }
 
         closeModal();
-await showUiAlert(
-  "Patient created and saved to your clinician list.",
-  "Patient Created",
-  "success",
-);      } catch (error) {
-await showUiAlert(
-  error.message || "Failed to create patient",
-  "Patient Creation Failed",
-  "danger",
-);      }
+        alert("Patient created and saved to your clinician list.");
+      } catch (error) {
+        alert(error.message || "Failed to create patient");
+      }
     });
   }
 
