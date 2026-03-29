@@ -601,7 +601,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       <p><strong>Address:</strong> ${escapeHtml(addr || "-")}</p>
       <p><strong>Contact:</strong> ${escapeHtml(patient.phone || "-")}</p>
       <p><strong>Email:</strong> ${escapeHtml(patient.email || "-")}</p>
-      <p><strong>NHS Number:</strong> ${escapeHtml(patient.national_id || "-")}</p>
     `;
     renderHistoryPatientCard(patient);
     syncPatientStateUi();
@@ -1264,16 +1263,16 @@ function closeModal() {
       const last_name = (inputs[1]?.value || "").trim();
       const gender = selects[0]?.value || null;
       const phone = (inputs[2]?.value || "").trim();
-      const email = (inputs[3]?.value || "").trim();
-      const national_id = (inputs[4]?.value || "").trim();
-
-      const dd = (inputs[5]?.value || "").trim();
-      const mm = (inputs[6]?.value || "").trim();
-      const yy = (inputs[7]?.value || "").trim();
+      //const national_id = (inputs[4]?.value || "").trim();
+      
+      const dd = (inputs[3]?.value || "").trim();
+      const mm = (inputs[4]?.value || "").trim();
+      const yy = (inputs[5]?.value || "").trim();
       const date_of_birth = buildDob(dd, mm, yy);
+      const email = (inputs[6]?.value || "").trim();
 
-      const addr1 = (inputs[8]?.value || "").trim();
-      const city = (inputs[10]?.value || "").trim();
+      const addr1 = (inputs[7]?.value || "").trim();
+      //const city = (inputs[10]?.value || "").trim();
       // const country = selects[1]?.value || "";
 
       if (!first_name || !last_name || !date_of_birth) {
@@ -1284,7 +1283,7 @@ function closeModal() {
       const notesParts = [];
       if (addr1) notesParts.push(addr1);
       // if (addr2) notesParts.push(addr2);
-      if (city) notesParts.push(city);
+      // if (city) notesParts.push(city);
       // if (country) notesParts.push(country);
       const notes = notesParts.length
         ? `Address: ${notesParts.join(", ")}`
@@ -1297,7 +1296,6 @@ function closeModal() {
           gender: gender ? gender.toLowerCase() : null,
           phone,
           email,
-          national_id,
           notes,
         });
 
