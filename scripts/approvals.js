@@ -1,6 +1,64 @@
 document.addEventListener("DOMContentLoaded", async function () {
   const MOBILE_BREAKPOINT = 980;
 
+  (function initToastSystem() {
+    const stack = document.createElement("div");
+    stack.className = "rx-toast-stack";
+    document.body.appendChild(stack);
+
+    const icons = { success: "✓", error: "✕", warn: "!", info: "i" };
+    const labels = { success: "Success", error: "Error", warn: "Warning", info: "Info" };
+
+    function showToast(type, title, msg) {
+      const toast = document.createElement("div");
+      toast.className = `rx-toast rx-toast--${type}`;
+      toast.innerHTML = `
+        <div class="rx-toast-icon">${icons[type] || icons.info}</div>
+        <div class="rx-toast-body">
+          <p class="rx-toast-title">${esc(title || labels[type] || labels.info)}</p>
+          ${msg ? `<p class="rx-toast-msg">${esc(msg)}</p>` : ""}
+        </div>
+        <button class="rx-toast-close" aria-label="Dismiss">×</button>
+        <div class="rx-toast-bar"></div>
+      `;
+      stack.appendChild(toast);
+      requestAnimationFrame(function () {
+        toast.offsetHeight;
+        toast.classList.add("rx-toast--in");
+      });
+      function dismiss() {
+        toast.classList.add("rx-toast--out");
+        setTimeout(function () {
+          toast.remove();
+        }, 340);
+      }
+      const closeBtn = toast.querySelector(".rx-toast-close");
+      if (closeBtn) closeBtn.addEventListener("click", dismiss);
+      setTimeout(dismiss, 4200);
+    }
+
+    window.RxToast = {
+      success: function (title, msg) { showToast("success", title, msg); },
+      error: function (title, msg) { showToast("error", title, msg); },
+      warn: function (title, msg) { showToast("warn", title, msg); },
+      info: function (title, msg) { showToast("info", title, msg); },
+    };
+  })();
+
+  function notify(type, title, msg) {
+    if (window.RxToast && typeof window.RxToast[type] === "function") {
+      window.RxToast[type](title, msg);
+      return;
+    }
+    if (msg) {
+      alert(`${title}
+
+      ${msg}`);
+    } else {
+      alert(title);
+    }
+  }
+
   // Frontend access guard (management only)
   const user = RX.getUser();
   if (!RX.getToken() || !user) {
@@ -8,8 +66,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     return;
   }
   if (user.login_type !== "managment" || !user.is_admin) {
-    alert("Management Admin only.");
-    window.location.href = "./login.html";
+    notify("warn", "Management Admin only.");
+    setTimeout(function () {
+      window.location.href = "./login.html";
+    }, 900);
     return;
   }
 
@@ -27,6 +87,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Core page UI
   const tabs = Array.from(document.querySelectorAll(".tab"));
+  const clinicsDemoPanel = document.getElementById("clinicsDemoPanel");
+  const approvalsLivePanel = document.getElementById("approvalsLivePanel");
+  const approvalFiltersRow = document.getElementById("approvalFiltersRow");
+  const demoBackBtn = document.getElementById("demoBackBtn");
   const searchInput = document.getElementById("searchInput");
   const searchBtn = document.getElementById("searchBtn");
   const clearBtn = document.getElementById("clearBtn");
@@ -61,6 +125,27 @@ document.addEventListener("DOMContentLoaded", async function () {
   let currentView = "pending"; // pending | approved
   let rows = [];
   let activeRow = null;
+  let currentMode = "live"; // live | demo
+
+  function setPanelMode(mode) {
+    currentMode = mode === "demo" ? "demo" : "live";
+    const isDemo = currentMode === "demo";
+
+    if (approvalsLivePanel) approvalsLivePanel.classList.toggle("hidden", isDemo);
+    if (approvalFiltersRow) approvalFiltersRow.classList.toggle("hidden", isDemo);
+    if (clinicsDemoPanel) clinicsDemoPanel.classList.toggle("hidden", !isDemo);
+
+    if (isDemo) {
+      closeDrawer();
+      if (countPill) countPill.textContent = "Static demo";
+    }
+  }
+  function activateTabElement(targetTab) {
+    tabs.forEach(function (tab) {
+      tab.classList.remove("active");
+    });
+    if (targetTab) targetTab.classList.add("active");
+  }
 
   function isMobileView() {
     return window.innerWidth <= MOBILE_BREAKPOINT;
@@ -286,6 +371,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   async function loadPending() {
+    setPanelMode("live");
     currentView = "pending";
     const typeParam = currentType === "all" ? "" : `?type=${encodeURIComponent(currentType)}`;
     const resp = await RX.api.get(`/approvals/pending${typeParam}`);
@@ -294,6 +380,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   async function loadApproved() {
+    setPanelMode("live");
     currentView = "approved";
     const typeParam = currentType === "all" ? "" : `?type=${encodeURIComponent(currentType)}`;
     const resp = await RX.api.get(`/approvals/approved${typeParam}`);
@@ -302,6 +389,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   async function load() {
+    if (currentType === "clinics_demo") {
+      setPanelMode("demo");
+      return;
+    }
     if (currentView === "approved") {
       await loadApproved();
     } else {
@@ -447,10 +538,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     try {
       await doApprove(activeRow.approval_request_id);
+      notify("success", "Request approved.");
       closeDrawer();
       await load();
     } catch (e) {
-      alert(e.message || "Approve failed");
+      notify("error", "Approve failed", e.message || "Approve failed");
     }
   });
 
@@ -460,10 +552,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     try {
       await doReject(activeRow.approval_request_id);
+      notify("success", "Request rejected.");
       closeDrawer();
       await load();
     } catch (e) {
-      alert(e.message || "Reject failed");
+      notify("error", "Reject failed", e.message || "Reject failed");
     }
   });
 
@@ -474,6 +567,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         t.classList.add("active");
 
         const tabType = t.dataset.type;
+
+        if (tabType === "clinics_demo") {
+          currentType = "clinics_demo";
+          setPanelMode("demo");
+          return;
+        }
+
 
         if (tabType === "approved_clinics") {
           currentType = "clinic";
@@ -493,10 +593,26 @@ document.addEventListener("DOMContentLoaded", async function () {
         currentView = "pending";
         await loadPending();
       } catch (e) {
-        alert(e.message || "Failed to load tab");
+        notify("error", "Failed to load tab", e.message || "Failed to load tab");
       }
     });
   });
+
+  if (demoBackBtn) {
+    demoBackBtn.addEventListener("click", async function () {
+      const defaultTab = tabs.find(function (tab) {
+        return tab.dataset.type === "clinic";
+      });
+      if (defaultTab) activateTabElement(defaultTab);
+      currentType = "clinic";
+      currentView = "pending";
+      try {
+        await loadPending();
+      } catch (e) {
+        notify("error", "Failed to return to live approvals", e.message || "Failed to return to live approvals");
+      }
+    });
+  }
 
   searchBtn.addEventListener("click", function () {
     render(applySearch(rows));
@@ -515,7 +631,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     try {
       await load();
     } catch (e) {
-      alert(e.message || "Refresh failed");
+      notify("error", "Refresh failed", e.message || "Refresh failed");
     }
   });
 
@@ -559,6 +675,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   try {
     await loadPending();
   } catch (e) {
-    alert(e.message || "Failed to load approvals");
+    notify("error", "Failed to load approvals", e.message || "Failed to load approvals");
   }
 });

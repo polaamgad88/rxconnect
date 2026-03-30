@@ -160,10 +160,10 @@
             <button class="tab" data-type="all" type="button">All Pending</button>
             <button class="tab" data-type="approved_clinics" type="button">Approved Clinics</button>
             <button class="tab" data-type="approved_clinicians" type="button">Approved Clinicians</button>
-            <a href="#clinicsDemoPanel" class="demo-tab" role="button" aria-label="Open clinics demo tab">
+            <button class="tab tab-clinics" data-type="clinics_demo" type="button" aria-label="Open clinics demo tab">
               <i class="fa-solid fa-building-user" aria-hidden="true"></i>
               <span>Clinics</span>
-            </a>
+            </button>
           </div>
 
           <div id="approvalFiltersRow" class="filters-row">
@@ -198,17 +198,17 @@
           <div id="emptyState" class="empty hidden">No pending approvals.</div>
         </section>
 
-        <section id="clinicsDemoPanel" class="table-card clinics-demo-card" aria-label="Clinics testing demo">
+        <section id="clinicsDemoPanel" class="table-card clinics-demo-card hidden" aria-label="Clinics testing demo">
           <div class="demo-panel-head">
             <div>
               <span class="demo-pill">Testing Demo</span>
               <h3>Clinics Directory</h3>
               <p>Static preview only. This section is not linked to backend or JavaScript actions.</p>
             </div>
-            <a href="#approvalsLivePanel" class="btn btn-light demo-back-btn">
+            <button id="demoBackBtn" class="btn btn-light demo-back-btn" type="button">
               <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
               <span>Back to live approvals</span>
-            </a>
+            </button>
           </div>
 
           <div class="clinic-demo-list">
