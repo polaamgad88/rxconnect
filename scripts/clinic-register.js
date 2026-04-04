@@ -16,12 +16,18 @@ document.addEventListener("DOMContentLoaded", function () {
     resultBox.style.display = message ? "block" : "none";
   }
 
+  function notify(type, title, message) {
+    if (window.RxToast && typeof window.RxToast[type] === "function") {
+      window.RxToast[type](title, message);
+      return;
+    }
+    setResult(message || title, type === "error" ? "error" : "success");
+  }
+
   function setSubmitting(isSubmitting) {
     if (!submitBtn) return;
     submitBtn.disabled = isSubmitting;
-    submitBtn.textContent = isSubmitting
-      ? "Submitting..."
-      : "Submit Registration";
+    submitBtn.textContent = isSubmitting ? "Submitting..." : "Submit Registration";
   }
 
   function clearForm() {
@@ -57,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const request_notes = valueOf("c_request_notes") || null;
 
     if (!clinic_name || !email || !password) {
-      setResult("Clinic name, email, and password are required.", "error");
+      notify("error", "Missing fields", "Clinic name, email, and password are required.");
       return;
     }
 
@@ -79,6 +85,12 @@ document.addEventListener("DOMContentLoaded", function () {
         { auth: false }
       );
 
+      notify(
+        "success",
+        "Registration submitted",
+        `Clinic registration submitted. Approval request #${resp.approval_request_id}. Redirecting to login...`
+      );
+
       setResult(
         `Registration submitted for approval.<br>
          clinic_id: <strong>${resp.clinic_id}</strong><br>
@@ -94,6 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 1600);
     } catch (err) {
       const msg = err?.data?.message || err?.message || "Registration failed";
+      notify("error", "Registration failed", msg);
       setResult(msg, "error");
     } finally {
       setSubmitting(false);

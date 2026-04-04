@@ -109,15 +109,15 @@
       <section class="approvals-hero">
         <div class="approvals-shell">
           <div class="approvals-hero-copy">
-            <span class="eyebrow">Management Console</span>
-            <h1>Approvals Dashboard</h1>
-            <p>
+            <span class="eyebrow" id="heroEyebrow">Approvals Workspace</span>
+            <h1 id="heroTitle">Approvals Dashboard</h1>
+            <p id="heroSubtitle">
               Review, approve, and manage clinic and clinician onboarding requests in one premium workspace.
             </p>
           </div>
 
           <div class="hero-highlights" aria-label="Approval workspace highlights">
-            <article class="highlight-card">
+            <article class="highlight-card" id="clinicHighlightCard">
               <div class="highlight-icon"><i class="fa-solid fa-hospital-user"></i></div>
               <div>
                 <h2>Clinic Requests</h2>
@@ -155,15 +155,11 @@
           </div>
 
           <div class="tabs" role="tablist" aria-label="Approval categories">
-            <button class="tab active" data-type="clinic" type="button">Clinic Requests</button>
-            <button class="tab" data-type="clinician" type="button">Clinician Requests</button>
-            <button class="tab" data-type="all" type="button">All Pending</button>
-            <button class="tab" data-type="approved_clinics" type="button">Approved Clinics</button>
-            <button class="tab" data-type="approved_clinicians" type="button">Approved Clinicians</button>
-            <button class="tab tab-clinics" data-type="clinics_demo" type="button" aria-label="Open clinics demo tab">
-              <i class="fa-solid fa-building-user" aria-hidden="true"></i>
-              <span>Clinics</span>
-            </button>
+            <button class="tab active" data-type="clinic" type="button" id="tabClinicRequests">Clinic Requests</button>
+            <button class="tab" data-type="clinician" type="button" id="tabClinicianRequests">Clinician Requests</button>
+            <button class="tab" data-type="all" type="button" id="tabAllPending">All Pending</button>
+            <button class="tab" data-type="approved_clinics" type="button" id="tabApprovedClinics">Approved Clinics</button>
+            <button class="tab" data-type="approved_clinicians" type="button" id="tabApprovedClinicians">Approved Clinicians</button>
           </div>
 
           <div id="approvalFiltersRow" class="filters-row">
@@ -196,256 +192,6 @@
           <div id="tableBody" class="table-body"></div>
 
           <div id="emptyState" class="empty hidden">No pending approvals.</div>
-        </section>
-
-        <section id="clinicsDemoPanel" class="table-card clinics-demo-card hidden" aria-label="Clinics testing demo">
-          <div class="demo-panel-head">
-            <div>
-              <span class="demo-pill">Testing Demo</span>
-              <h3>Clinics Directory</h3>
-              <p>Static preview only. This section is not linked to backend or JavaScript actions.</p>
-            </div>
-            <button id="demoBackBtn" class="btn btn-light demo-back-btn" type="button">
-              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-              <span>Back to live approvals</span>
-            </button>
-          </div>
-
-          <div class="clinic-demo-list">
-            <details class="clinic-demo-item" open>
-              <summary class="clinic-demo-summary">
-                <div class="clinic-demo-main">
-                  <div class="clinic-demo-icon"><i class="fa-solid fa-hospital"></i></div>
-                  <div>
-                    <div class="clinic-demo-name">North Care Medical Centre</div>
-                    <div class="clinic-demo-meta">Clinic ID: CL-1007 · London · 4 doctors · Active</div>
-                  </div>
-                </div>
-                <div class="clinic-demo-summary-right">
-                  <!-- <span class="clinic-demo-badge">Primary Care</span> -->
-                  <span class="clinic-demo-expand">Show doctors</span>
-                </div>
-              </summary>
-
-              <div class="clinic-demo-body">
-                <div class="clinic-demo-body-head">
-                  <div>Options</div>
-                  <div>Doctor</div>
-                  <div>Administration Flag</div>
-                </div>
-
-                <div class="clinic-doctor-row">
-                  <details class="doctor-menu">
-                    <summary class="doctor-menu-trigger" aria-label="Doctor actions">
-                      <i class="fa-solid fa-ellipsis"></i>
-                    </summary>
-                    <div class="doctor-menu-list">
-                      <button type="button">Make it admin</button>
-                      <button type="button">Transfer to another clinic</button>
-                      <button type="button">Deactivate this doctor</button>
-                    </div>
-                  </details>
-                  <div class="doctor-profile">
-                    <div class="doctor-name">Dr. Sara Al-Harthi</div>
-                    <div class="doctor-sub">Consultant Family Medicine · GMC 7782314</div>
-                  </div>
-                  <span class="admin-flag is-admin">Clinic Admin</span>
-                </div>
-
-                <div class="clinic-doctor-row">
-                  <details class="doctor-menu">
-                    <summary class="doctor-menu-trigger" aria-label="Doctor actions">
-                      <i class="fa-solid fa-ellipsis"></i>
-                    </summary>
-                    <div class="doctor-menu-list">
-                      <button type="button">Make it admin</button>
-                      <button type="button">Transfer to another clinic</button>
-                      <button type="button">Deactivate this doctor</button>
-                    </div>
-                  </details>
-                  <div class="doctor-profile">
-                    <div class="doctor-name">Dr. Omar Bennett</div>
-                    <div class="doctor-sub">General Practitioner · GMC 6659021</div>
-                  </div>
-                  <span class="admin-flag">Standard Doctor</span>
-                </div>
-
-                <div class="clinic-doctor-row">
-                  <details class="doctor-menu">
-                    <summary class="doctor-menu-trigger" aria-label="Doctor actions">
-                      <i class="fa-solid fa-ellipsis"></i>
-                    </summary>
-                    <div class="doctor-menu-list">
-                      <button type="button">Make it admin</button>
-                      <button type="button">Transfer to another clinic</button>
-                      <button type="button">Deactivate this doctor</button>
-                    </div>
-                  </details>
-                  <div class="doctor-profile">
-                    <div class="doctor-name">Dr. Lina Forrest</div>
-                    <div class="doctor-sub">Urgent Care Physician · GMC 7731109</div>
-                  </div>
-                  <span class="admin-flag">Standard Doctor</span>
-                </div>
-
-                <div class="clinic-doctor-row">
-                  <details class="doctor-menu">
-                    <summary class="doctor-menu-trigger" aria-label="Doctor actions">
-                      <i class="fa-solid fa-ellipsis"></i>
-                    </summary>
-                    <div class="doctor-menu-list">
-                      <button type="button">Make it admin</button>
-                      <button type="button">Transfer to another clinic</button>
-                      <button type="button">Deactivate this doctor</button>
-                    </div>
-                  </details>
-                  <div class="doctor-profile">
-                    <div class="doctor-name">Dr. Hadi Kamal</div>
-                    <div class="doctor-sub">Internal Medicine · GMC 7901145</div>
-                  </div>
-                  <span class="admin-flag">Standard Doctor</span>
-                </div>
-              </div>
-            </details>
-
-            <details class="clinic-demo-item">
-              <summary class="clinic-demo-summary">
-                <div class="clinic-demo-main">
-                  <div class="clinic-demo-icon"><i class="fa-solid fa-house-medical"></i></div>
-                  <div>
-                    <div class="clinic-demo-name">Chobham Family Clinic</div>
-                    <div class="clinic-demo-meta">Clinic ID: CL-1014 · Surrey · 3 doctors · Active</div>
-                  </div>
-                </div>
-                <div class="clinic-demo-summary-right">
-                  <!-- <span class="clinic-demo-badge">Community Care</span> -->
-                  <span class="clinic-demo-expand">Show doctors</span>
-                </div>
-              </summary>
-
-              <div class="clinic-demo-body">
-                <div class="clinic-demo-body-head">
-                  <div>Options</div>
-                  <div>Doctor</div>
-                  <div>Administration Flag</div>
-                </div>
-
-                <div class="clinic-doctor-row">
-                  <details class="doctor-menu">
-                    <summary class="doctor-menu-trigger" aria-label="Doctor actions">
-                      <i class="fa-solid fa-ellipsis"></i>
-                    </summary>
-                    <div class="doctor-menu-list">
-                      <button type="button">Make it admin</button>
-                      <button type="button">Transfer to another clinic</button>
-                      <button type="button">Deactivate this doctor</button>
-                    </div>
-                  </details>
-                  <div class="doctor-profile">
-                    <div class="doctor-name">Dr. Maya Collins</div>
-                    <div class="doctor-sub">Clinic Lead · GMC 6612008</div>
-                  </div>
-                  <span class="admin-flag is-admin">Clinic Admin</span>
-                </div>
-
-                <div class="clinic-doctor-row">
-                  <details class="doctor-menu">
-                    <summary class="doctor-menu-trigger" aria-label="Doctor actions">
-                      <i class="fa-solid fa-ellipsis"></i>
-                    </summary>
-                    <div class="doctor-menu-list">
-                      <button type="button">Make it admin</button>
-                      <button type="button">Transfer to another clinic</button>
-                      <button type="button">Deactivate this doctor</button>
-                    </div>
-                  </details>
-                  <div class="doctor-profile">
-                    <div class="doctor-name">Dr. Ibrahim Nasser</div>
-                    <div class="doctor-sub">General Practitioner · GMC 7810435</div>
-                  </div>
-                  <span class="admin-flag">Standard Doctor</span>
-                </div>
-
-                <div class="clinic-doctor-row">
-                  <details class="doctor-menu">
-                    <summary class="doctor-menu-trigger" aria-label="Doctor actions">
-                      <i class="fa-solid fa-ellipsis"></i>
-                    </summary>
-                    <div class="doctor-menu-list">
-                      <button type="button">Make it admin</button>
-                      <button type="button">Transfer to another clinic</button>
-                      <button type="button">Deactivate this doctor</button>
-                    </div>
-                  </details>
-                  <div class="doctor-profile">
-                    <div class="doctor-name">Dr. Emma Rowe</div>
-                    <div class="doctor-sub">Women's Health · GMC 7044290</div>
-                  </div>
-                  <span class="admin-flag">Standard Doctor</span>
-                </div>
-              </div>
-            </details>
-
-            <details class="clinic-demo-item">
-              <summary class="clinic-demo-summary">
-                <div class="clinic-demo-main">
-                  <div class="clinic-demo-icon"><i class="fa-solid fa-user-doctor"></i></div>
-                  <div>
-                    <div class="clinic-demo-name">Riverside Specialist Practice</div>
-                    <div class="clinic-demo-meta">Clinic ID: CL-1022 · Manchester · 2 doctors · Active</div>
-                  </div>
-                </div>
-                <div class="clinic-demo-summary-right">
-                  <!-- <span class="clinic-demo-badge">Specialist Care</span> -->
-                  <span class="clinic-demo-expand">Show doctors</span>
-                </div>
-              </summary>
-
-              <div class="clinic-demo-body">
-                <div class="clinic-demo-body-head">
-                  <div>Options</div>
-                  <div>Doctor</div>
-                  <div>Administration Flag</div>
-                </div>
-
-                <div class="clinic-doctor-row">
-                  <details class="doctor-menu">
-                    <summary class="doctor-menu-trigger" aria-label="Doctor actions">
-                      <i class="fa-solid fa-ellipsis"></i>
-                    </summary>
-                    <div class="doctor-menu-list">
-                      <button type="button">Make it admin</button>
-                      <button type="button">Transfer to another clinic</button>
-                      <button type="button">Deactivate this doctor</button>
-                    </div>
-                  </details>
-                  <div class="doctor-profile">
-                    <div class="doctor-name">Dr. Yasmin Carter</div>
-                    <div class="doctor-sub">Cardiology · GMC 7431188</div>
-                  </div>
-                  <span class="admin-flag is-admin">Clinic Admin</span>
-                </div>
-
-                <div class="clinic-doctor-row">
-                  <details class="doctor-menu">
-                    <summary class="doctor-menu-trigger" aria-label="Doctor actions">
-                      <i class="fa-solid fa-ellipsis"></i>
-                    </summary>
-                    <div class="doctor-menu-list">
-                      <button type="button">Make it admin</button>
-                      <button type="button">Transfer to another clinic</button>
-                      <button type="button">Deactivate this doctor</button>
-                    </div>
-                  </details>
-                  <div class="doctor-profile">
-                    <div class="doctor-name">Dr. Reece Hammond</div>
-                    <div class="doctor-sub">Endocrinology · GMC 7920046</div>
-                  </div>
-                  <span class="admin-flag">Standard Doctor</span>
-                </div>
-              </div>
-            </details>
-          </div>
         </section>
       </section>
     </main>
@@ -491,7 +237,7 @@
         </div>
 
         <div id="clinicOverrideWrap" class="block hidden">
-          <label class="block-title" for="overrideClinicId">Override Clinic ID (optional for clinician)</label>
+          <label class="block-title" for="overrideClinicId">Override Clinic ID (optional for manager only)</label>
           <input id="overrideClinicId" class="input" placeholder="e.g. 12" />
           <div class="hint">If provided, the clinician will be attached to this clinic on approval.</div>
         </div>
@@ -503,20 +249,12 @@
       </div>
     </aside>
 
-  <footer class="rx-footer">
+    <footer class="rx-footer">
       <div class="rx-footer-shell">
-        <!-- =========================================================
-             10) FOOTER TOP AREA
-             ========================================================= -->
         <div class="rx-footer-top">
-          <!-- Footer brand -->
           <div class="rx-footer-brand">
             <a href="./index.html" class="rx-footer-logo-link">
-              <img
-                src="./assets/rxconnect.png"
-                alt="RxConnect"
-                class="rx-footer-logo"
-              />
+              <img src="./assets/rxconnect.png" alt="RxConnect" class="rx-footer-logo" />
             </a>
 
             <p class="rx-footer-description">
@@ -532,19 +270,12 @@
               </div>
               <div>
                 <span class="rx-footer-emergency-label">Emergency cases</span>
-                <a
-                  href="tel:+442071234567"
-                  class="rx-footer-emergency-number"
-                >
-                  +44 20 7123 4567
-                </a>
+                <a href="tel:+442071234567" class="rx-footer-emergency-number">+44 20 7123 4567</a>
               </div>
             </div>
           </div>
 
-          <!-- Footer links / contact / form -->
           <div class="rx-footer-links">
-            <!-- Navigation column -->
             <div class="rx-footer-column">
               <h4>Navigation</h4>
               <a href="./about-us.html">Who we are</a>
@@ -555,7 +286,6 @@
               <a href="./FAQs.html">FAQs</a>
             </div>
 
-            <!-- Contact column -->
             <div class="rx-footer-column rx-footer-contact">
               <h4>Contact Us</h4>
 
@@ -584,44 +314,23 @@
               </div>
             </div>
 
-            <!-- Message form column -->
             <div class="rx-footer-column rx-footer-form-col">
               <h4>Message us</h4>
 
               <form class="rx-footer-form" id="footerMessageForm">
                 <label class="sr-only" for="footerName">Your name</label>
-                <input
-                  id="footerName"
-                  type="text"
-                  name="name"
-                  placeholder="Enter your name"
-                  class="rx-footer-input"
-                />
+                <input id="footerName" type="text" name="name" placeholder="Enter your name" class="rx-footer-input" />
 
                 <label class="sr-only" for="footerEmail">Your email</label>
-                <input
-                  id="footerEmail"
-                  type="email"
-                  name="email"
-                  placeholder="Enter your email address"
-                  class="rx-footer-input"
-                  required
-                />
+                <input id="footerEmail" type="email" name="email" placeholder="Enter your email address" class="rx-footer-input" required />
 
                 <button type="submit" class="rx-footer-submit">Submit</button>
-                <p
-                  class="footer-form-feedback"
-                  id="footerFormFeedback"
-                  aria-live="polite"
-                ></p>
+                <p class="footer-form-feedback" id="footerFormFeedback" aria-live="polite"></p>
               </form>
             </div>
           </div>
         </div>
 
-        <!-- =========================================================
-             11) FOOTER BOTTOM AREA
-             ========================================================= -->
         <div class="rx-footer-bottom">
           <p class="rx-footer-copy">© 2026 RxConnect. All rights reserved.</p>
 
@@ -639,8 +348,10 @@
         </div>
       </div>
     </footer>
+
     <script>window.RXCONNECT_API_BASE = "http://localhost:5000";</script>
     <script src="./scripts/rxconnect.js"></script>
+    <script src="./scripts/rx-toast.js"></script>
     <script src="./scripts/approvals.js"></script>
   </body>
 </html>

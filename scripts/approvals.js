@@ -1,49 +1,6 @@
+// ./scripts/approvals.js
 document.addEventListener("DOMContentLoaded", async function () {
   const MOBILE_BREAKPOINT = 980;
-
-  (function initToastSystem() {
-    const stack = document.createElement("div");
-    stack.className = "rx-toast-stack";
-    document.body.appendChild(stack);
-
-    const icons = { success: "✓", error: "✕", warn: "!", info: "i" };
-    const labels = { success: "Success", error: "Error", warn: "Warning", info: "Info" };
-
-    function showToast(type, title, msg) {
-      const toast = document.createElement("div");
-      toast.className = `rx-toast rx-toast--${type}`;
-      toast.innerHTML = `
-        <div class="rx-toast-icon">${icons[type] || icons.info}</div>
-        <div class="rx-toast-body">
-          <p class="rx-toast-title">${esc(title || labels[type] || labels.info)}</p>
-          ${msg ? `<p class="rx-toast-msg">${esc(msg)}</p>` : ""}
-        </div>
-        <button class="rx-toast-close" aria-label="Dismiss">×</button>
-        <div class="rx-toast-bar"></div>
-      `;
-      stack.appendChild(toast);
-      requestAnimationFrame(function () {
-        toast.offsetHeight;
-        toast.classList.add("rx-toast--in");
-      });
-      function dismiss() {
-        toast.classList.add("rx-toast--out");
-        setTimeout(function () {
-          toast.remove();
-        }, 340);
-      }
-      const closeBtn = toast.querySelector(".rx-toast-close");
-      if (closeBtn) closeBtn.addEventListener("click", dismiss);
-      setTimeout(dismiss, 4200);
-    }
-
-    window.RxToast = {
-      success: function (title, msg) { showToast("success", title, msg); },
-      error: function (title, msg) { showToast("error", title, msg); },
-      warn: function (title, msg) { showToast("warn", title, msg); },
-      info: function (title, msg) { showToast("info", title, msg); },
-    };
-  })();
 
   function notify(type, title, msg) {
     if (window.RxToast && typeof window.RxToast[type] === "function") {
@@ -51,100 +8,28 @@ document.addEventListener("DOMContentLoaded", async function () {
       return;
     }
     if (msg) {
-      alert(`${title}
-
-      ${msg}`);
+      alert(`${title}\n\n${msg}`);
     } else {
       alert(title);
     }
   }
 
-  // Frontend access guard (management only)
-  const user = RX.getUser();
-  if (!RX.getToken() || !user) {
-    window.location.href = "./login.html";
-    return;
-  }
-  if (user.login_type !== "managment" || !user.is_admin) {
-    notify("warn", "Management Admin only.");
-    setTimeout(function () {
-      window.location.href = "./login.html";
-    }, 900);
-    return;
+  function esc(s) {
+    return String(s ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
   }
 
-  // Navbar / footer UI
-  const menuButton = document.getElementById("menu-btn");
-  const navMenu = document.getElementById("nav-menu");
-  const reportsButton = document.getElementById("reportsBtn");
-  const reportsWrap = document.getElementById("reportsDropdownWrap");
-  const userButton = document.querySelector(".user-trigger");
-  const userWrap = document.getElementById("userDropdownWrap");
-  const usernameEl = document.getElementById("username");
-  const footerForm = document.getElementById("footerMessageForm");
-  const footerFeedback = document.getElementById("footerFormFeedback");
-  const logoutLink = document.getElementById("logoutBtn");
-
-  // Core page UI
-  const tabs = Array.from(document.querySelectorAll(".tab"));
-  const clinicsDemoPanel = document.getElementById("clinicsDemoPanel");
-  const approvalsLivePanel = document.getElementById("approvalsLivePanel");
-  const approvalFiltersRow = document.getElementById("approvalFiltersRow");
-  const demoBackBtn = document.getElementById("demoBackBtn");
-  const searchInput = document.getElementById("searchInput");
-  const searchBtn = document.getElementById("searchBtn");
-  const clearBtn = document.getElementById("clearBtn");
-  const refreshBtn = document.getElementById("refreshBtn");
-  const countPill = document.getElementById("countPill");
-  const tableBody = document.getElementById("tableBody");
-  const emptyState = document.getElementById("emptyState");
-
-  // Drawer elements
-  const drawerBackdrop = document.getElementById("drawerBackdrop");
-  const drawer = document.getElementById("drawer");
-  const drawerClose = document.getElementById("drawerClose");
-  const dTitle = document.getElementById("dTitle");
-  const dSub = document.getElementById("dSub");
-  const dId = document.getElementById("dId");
-  const dType = document.getElementById("dType");
-  const dSubmitted = document.getElementById("dSubmitted");
-  const dRequester = document.getElementById("dRequester");
-  const dEmail = document.getElementById("dEmail");
-  const dClinic = document.getElementById("dClinic");
-  const dClinLic = document.getElementById("dClinLic");
-  const dSpec = document.getElementById("dSpec");
-  const dReqClinic = document.getElementById("dReqClinic");
-  const dReqNotes = document.getElementById("dReqNotes");
-  const reviewNotes = document.getElementById("reviewNotes");
-  const clinicOverrideWrap = document.getElementById("clinicOverrideWrap");
-  const overrideClinicId = document.getElementById("overrideClinicId");
-  const approveBtn = document.getElementById("approveBtn");
-  const rejectBtn = document.getElementById("rejectBtn");
-
-  let currentType = "clinic"; // clinic | clinician | all
-  let currentView = "pending"; // pending | approved
-  let rows = [];
-  let activeRow = null;
-  let currentMode = "live"; // live | demo
-
-  function setPanelMode(mode) {
-    currentMode = mode === "demo" ? "demo" : "live";
-    const isDemo = currentMode === "demo";
-
-    if (approvalsLivePanel) approvalsLivePanel.classList.toggle("hidden", isDemo);
-    if (approvalFiltersRow) approvalFiltersRow.classList.toggle("hidden", isDemo);
-    if (clinicsDemoPanel) clinicsDemoPanel.classList.toggle("hidden", !isDemo);
-
-    if (isDemo) {
-      closeDrawer();
-      if (countPill) countPill.textContent = "Static demo";
-    }
+  function fmtDate(value) {
+    if (!value) return "-";
+    const d = new Date(value);
+    return Number.isNaN(d.getTime()) ? String(value) : d.toLocaleString();
   }
-  function activateTabElement(targetTab) {
-    tabs.forEach(function (tab) {
-      tab.classList.remove("active");
-    });
-    if (targetTab) targetTab.classList.add("active");
+
+  function badge(type) {
+    const cls = type === "clinician" ? "clinician" : "clinic";
+    return `<span class="badge ${cls}">${type.toUpperCase()}</span>`;
   }
 
   function isMobileView() {
@@ -155,9 +40,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (button) button.setAttribute("aria-expanded", String(Boolean(state)));
   }
 
-  function setMenuIcon(isOpen) {
-    if (!menuButton) return;
-    const icon = menuButton.querySelector("i");
+  function setMenuIcon(button, isOpen) {
+    if (!button) return;
+    const icon = button.querySelector("i");
     if (!icon) return;
     icon.classList.toggle("fa-bars", !isOpen);
     icon.classList.toggle("fa-xmark", isOpen);
@@ -185,19 +70,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  function closeAllDropdowns() {
-    closeWrap(reportsWrap, reportsButton);
-    closeWrap(userWrap, userButton);
-  }
-
-  function closeMobileMenu() {
-    if (!navMenu) return;
-    navMenu.classList.remove("is-open");
-    setExpandedState(menuButton, false);
-    setMenuIcon(false);
-    closeAllDropdowns();
-  }
-
   function getStoredUser() {
     if (window.RX && typeof window.RX.getUser === "function") {
       try {
@@ -209,51 +81,180 @@ document.addEventListener("DOMContentLoaded", async function () {
     return null;
   }
 
-  function setUsername() {
-    if (!usernameEl) return;
-    const currentUser = getStoredUser();
-    const displayName =
-      (currentUser &&
-        (currentUser.username || currentUser.name || currentUser.full_name || currentUser.email)) ||
-      "admin.builtin";
-    usernameEl.textContent = displayName;
-  }
-
   function clearSession() {
     if (window.RX && typeof window.RX.clearSession === "function") {
       RX.clearSession();
     }
   }
 
-  function fmtDate(value) {
-    if (!value) return "-";
-    const d = new Date(value);
-    return Number.isNaN(d.getTime()) ? String(value) : d.toLocaleString();
+  // ------------------------------------------------------------
+  // ACCESS GUARD
+  // ------------------------------------------------------------
+  const storedUser = getStoredUser();
+  const hasToken = !!(window.RX && typeof window.RX.getToken === "function" && RX.getToken());
+
+  if (!hasToken || !storedUser) {
+    window.location.href = "./login.html";
+    return;
   }
 
-  function badge(type) {
-    const cls = type === "clinician" ? "clinician" : "clinic";
-    return `<span class="badge ${cls}">${type.toUpperCase()}</span>`;
+  const isManagementAdmin =
+    storedUser.login_type === "managment" && Number(storedUser.is_admin || 0) === 1;
+
+  const isClinicAdmin =
+    storedUser.login_type === "clinic" && Number(storedUser.is_admin || 0) === 1;
+
+  if (!isManagementAdmin && !isClinicAdmin) {
+    notify("warn", "Access denied", "This page is available only for management admin or clinic admin.");
+    setTimeout(function () {
+      window.location.href = "./login.html";
+    }, 900);
+    return;
   }
 
-  function esc(s) {
-    return String(s ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+  const roleMode = isManagementAdmin ? "management" : "clinic_admin";
+
+  // ------------------------------------------------------------
+  // NAV / COMMON UI
+  // ------------------------------------------------------------
+  const menuButton = document.getElementById("menu-btn");
+  const navMenu = document.getElementById("nav-menu");
+  const reportsButton = document.getElementById("reportsBtn");
+  const reportsWrap = document.getElementById("reportsDropdownWrap");
+  const userButton = document.querySelector(".user-trigger");
+  const userWrap = document.getElementById("userDropdownWrap");
+  const usernameEl = document.getElementById("username");
+  const footerForm = document.getElementById("footerMessageForm");
+  const footerFeedback = document.getElementById("footerFormFeedback");
+  const logoutLink = document.getElementById("logoutBtn");
+
+  function setUsername() {
+    if (!usernameEl) return;
+    const displayName =
+      storedUser.username || storedUser.name || storedUser.full_name || storedUser.email || "user";
+    usernameEl.textContent = displayName;
+  }
+
+  function closeAllDropdowns() {
+    closeWrap(reportsWrap, reportsButton);
+    closeWrap(userWrap, userButton);
+  }
+
+  function closeMobileMenu() {
+    if (!navMenu) return;
+    navMenu.classList.remove("is-open");
+    setExpandedState(menuButton, false);
+    setMenuIcon(menuButton, false);
+    closeAllDropdowns();
+  }
+
+  // ------------------------------------------------------------
+  // PAGE UI
+  // ------------------------------------------------------------
+  const heroEyebrow = document.getElementById("heroEyebrow");
+  const heroTitle = document.getElementById("heroTitle");
+  const heroSubtitle = document.getElementById("heroSubtitle");
+  const clinicHighlightCard = document.getElementById("clinicHighlightCard");
+
+  const tabClinicRequests = document.getElementById("tabClinicRequests");
+  const tabClinicianRequests = document.getElementById("tabClinicianRequests");
+  const tabAllPending = document.getElementById("tabAllPending");
+  const tabApprovedClinics = document.getElementById("tabApprovedClinics");
+  const tabApprovedClinicians = document.getElementById("tabApprovedClinicians");
+  const tabs = Array.from(document.querySelectorAll(".tab"));
+
+  const approvalFiltersRow = document.getElementById("approvalFiltersRow");
+  const searchInput = document.getElementById("searchInput");
+  const searchBtn = document.getElementById("searchBtn");
+  const clearBtn = document.getElementById("clearBtn");
+  const refreshBtn = document.getElementById("refreshBtn");
+  const countPill = document.getElementById("countPill");
+  const tableBody = document.getElementById("tableBody");
+  const emptyState = document.getElementById("emptyState");
+
+  // Drawer
+  const drawerBackdrop = document.getElementById("drawerBackdrop");
+  const drawer = document.getElementById("drawer");
+  const drawerClose = document.getElementById("drawerClose");
+  const dTitle = document.getElementById("dTitle");
+  const dSub = document.getElementById("dSub");
+  const dId = document.getElementById("dId");
+  const dType = document.getElementById("dType");
+  const dSubmitted = document.getElementById("dSubmitted");
+  const dRequester = document.getElementById("dRequester");
+  const dEmail = document.getElementById("dEmail");
+  const dClinic = document.getElementById("dClinic");
+  const dClinLic = document.getElementById("dClinLic");
+  const dSpec = document.getElementById("dSpec");
+  const dReqClinic = document.getElementById("dReqClinic");
+  const dReqNotes = document.getElementById("dReqNotes");
+  const reviewNotes = document.getElementById("reviewNotes");
+  const clinicOverrideWrap = document.getElementById("clinicOverrideWrap");
+  const overrideClinicId = document.getElementById("overrideClinicId");
+  const approveBtn = document.getElementById("approveBtn");
+  const rejectBtn = document.getElementById("rejectBtn");
+
+  let currentType = roleMode === "clinic_admin" ? "clinician" : "clinic";
+  let currentView = "pending"; // pending | approved
+  let rows = [];
+  let activeRow = null;
+
+  function setRoleLayout() {
+    if (roleMode === "clinic_admin") {
+      if (heroEyebrow) heroEyebrow.textContent = "Clinic Admin Console";
+      if (heroTitle) heroTitle.textContent = "Clinic Doctor Approvals";
+      if (heroSubtitle) {
+        heroSubtitle.textContent =
+          "Review doctors who selected your clinic during registration, then approve or reject them from one place.";
+      }
+      if (clinicHighlightCard) clinicHighlightCard.classList.add("hidden");
+
+      if (tabClinicRequests) tabClinicRequests.classList.add("hidden");
+      if (tabAllPending) tabAllPending.classList.add("hidden");
+      if (tabApprovedClinics) tabApprovedClinics.classList.add("hidden");
+
+      tabs.forEach(function (tab) {
+        tab.classList.remove("active");
+      });
+      if (tabClinicianRequests) tabClinicianRequests.classList.add("active");
+    } else {
+      if (heroEyebrow) heroEyebrow.textContent = "Management Console";
+      if (heroTitle) heroTitle.textContent = "Approvals Dashboard";
+      if (heroSubtitle) {
+        heroSubtitle.textContent =
+          "Review, approve, and manage clinic and clinician onboarding requests in one premium workspace.";
+      }
+    }
+  }
+
+  function activateTabElement(targetTab) {
+    tabs.forEach(function (tab) {
+      tab.classList.remove("active");
+    });
+    if (targetTab) targetTab.classList.add("active");
   }
 
   function setCount(n) {
+    if (!countPill) return;
     countPill.textContent = `${n} ${currentView}`;
   }
 
   function setEmptyText() {
+    if (!emptyState) return;
+    if (roleMode === "clinic_admin") {
+      emptyState.textContent =
+        currentView === "approved"
+          ? "No approved clinic doctor requests."
+          : "No pending doctor requests for your clinic.";
+      return;
+    }
+
     emptyState.textContent =
       currentView === "approved" ? "No approved requests." : "No pending approvals.";
   }
 
   function applySearch(list) {
-    const q = (searchInput.value || "").trim().toLowerCase();
+    const q = (searchInput?.value || "").trim().toLowerCase();
     if (!q) return list;
 
     return list.filter((r) => {
@@ -269,6 +270,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         r.clinic_license_number,
         r.status,
         r.review_notes,
+        r.request_notes,
       ]
         .map((v) => String(v ?? "").toLowerCase())
         .join(" ");
@@ -299,9 +301,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           ? `<div class="cell-title">${esc(r.clinic_name || "Clinic")}</div>
              <div class="cell-sub">License: ${esc(r.clinic_license_number || "-")}</div>`
           : `<div class="cell-title">${esc(r.requester_full_name || "Clinician")}</div>
-             <div class="cell-sub">License: ${esc(
-               r.clinician_license_number || r.requester_username || "-"
-             )}</div>`;
+             <div class="cell-sub">License: ${esc(r.clinician_license_number || "-")}</div>`;
 
       const clinicLine =
         r.request_type === "clinician"
@@ -315,13 +315,16 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       const notesPreview = esc(notesSource.slice(0, 60)) + (notesSource.length > 60 ? "…" : "");
 
-      const actionsHtml =
-        currentView === "pending"
-          ? `
+      const canActOnRow =
+        currentView === "pending" &&
+        (roleMode === "management" || (roleMode === "clinic_admin" && r.request_type === "clinician"));
+
+      const actionsHtml = canActOnRow
+        ? `
             <button class="small-btn approve" data-approve="${r.approval_request_id}">Approve</button>
             <button class="small-btn reject" data-reject="${r.approval_request_id}">Reject</button>
           `
-          : `
+        : `
             <button class="small-btn" data-open="${r.approval_request_id}">View</button>
           `;
 
@@ -337,7 +340,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       el.innerHTML = `
         <div>
           ${badge(r.request_type)}
-          <div class="cell-sub">#${r.approval_request_id}</div>
+          <div class="cell-sub">#${esc(r.approval_request_id)}</div>
           <div class="cell-sub">${esc(r.status || r.requester_approval_status || "")}</div>
         </div>
 
@@ -371,28 +374,30 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   async function loadPending() {
-    setPanelMode("live");
-    currentView = "pending";
-    const typeParam = currentType === "all" ? "" : `?type=${encodeURIComponent(currentType)}`;
-    const resp = await RX.api.get(`/approvals/pending${typeParam}`);
+    let path = "/approvals/pending";
+    if (currentType && currentType !== "all") {
+      path += `?type=${encodeURIComponent(currentType)}`;
+    }
+
+    const resp = await RX.api.get(path);
     rows = Array.isArray(resp.pending) ? resp.pending : [];
+    currentView = "pending";
     render(applySearch(rows));
   }
 
   async function loadApproved() {
-    setPanelMode("live");
-    currentView = "approved";
-    const typeParam = currentType === "all" ? "" : `?type=${encodeURIComponent(currentType)}`;
-    const resp = await RX.api.get(`/approvals/approved${typeParam}`);
+    let path = "/approvals/approved";
+    if (currentType && currentType !== "all") {
+      path += `?type=${encodeURIComponent(currentType)}`;
+    }
+
+    const resp = await RX.api.get(path);
     rows = Array.isArray(resp.approved) ? resp.approved : [];
+    currentView = "approved";
     render(applySearch(rows));
   }
 
   async function load() {
-    if (currentType === "clinics_demo") {
-      setPanelMode("demo");
-      return;
-    }
     if (currentView === "approved") {
       await loadApproved();
     } else {
@@ -442,11 +447,14 @@ document.addEventListener("DOMContentLoaded", async function () {
       reviewNotes.disabled = true;
       clinicOverrideWrap.classList.add("hidden");
     } else {
-      approveBtn.classList.remove("hidden");
-      rejectBtn.classList.remove("hidden");
-      reviewNotes.disabled = false;
+      const canAct =
+        roleMode === "management" || (roleMode === "clinic_admin" && row.request_type === "clinician");
 
-      if (row.request_type === "clinician") {
+      approveBtn.classList.toggle("hidden", !canAct);
+      rejectBtn.classList.toggle("hidden", !canAct);
+      reviewNotes.disabled = !canAct;
+
+      if (roleMode === "management" && row.request_type === "clinician") {
         clinicOverrideWrap.classList.remove("hidden");
       } else {
         clinicOverrideWrap.classList.add("hidden");
@@ -470,27 +478,34 @@ document.addEventListener("DOMContentLoaded", async function () {
   async function doApprove(id) {
     const payload = { review_notes: reviewNotes.value.trim() || null };
 
-    if (activeRow?.request_type === "clinician") {
+    if (
+      roleMode === "management" &&
+      activeRow?.request_type === "clinician"
+    ) {
       const cid = overrideClinicId.value.trim();
       if (cid) payload.clinic_id = Number(cid);
     }
 
-    await RX.api.post(`/approvals/${id}/approve`, payload);
+    return RX.api.post(`/approvals/${id}/approve`, payload);
   }
 
   async function doReject(id) {
     const payload = { review_notes: reviewNotes.value.trim() || null };
-    await RX.api.post(`/approvals/${id}/reject`, payload);
+    return RX.api.post(`/approvals/${id}/reject`, payload);
   }
 
+  // ------------------------------------------------------------
+  // EVENTS
+  // ------------------------------------------------------------
   setUsername();
+  setRoleLayout();
 
   if (menuButton && navMenu) {
     menuButton.addEventListener("click", function () {
       const willOpen = !navMenu.classList.contains("is-open");
       navMenu.classList.toggle("is-open", willOpen);
       setExpandedState(menuButton, willOpen);
-      setMenuIcon(willOpen);
+      setMenuIcon(menuButton, willOpen);
       if (!willOpen) closeAllDropdowns();
     });
   }
@@ -529,51 +544,64 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-  drawerClose.addEventListener("click", closeDrawer);
-  drawerBackdrop.addEventListener("click", closeDrawer);
+  drawerClose?.addEventListener("click", closeDrawer);
+  drawerBackdrop?.addEventListener("click", closeDrawer);
 
-  approveBtn.addEventListener("click", async function () {
+  approveBtn?.addEventListener("click", async function () {
     if (!activeRow) return;
+
+    if (roleMode === "clinic_admin" && activeRow.request_type !== "clinician") {
+      notify("warn", "Not allowed", "Clinic admin can approve only clinician requests.");
+      return;
+    }
+
     if (!confirm("Approve this request?")) return;
 
     try {
       await doApprove(activeRow.approval_request_id);
-      notify("success", "Request approved.");
+      notify("success", "Approved", "Request approved successfully.");
       closeDrawer();
       await load();
     } catch (e) {
-      notify("error", "Approve failed", e.message || "Approve failed");
+      notify("error", "Approve failed", e?.data?.message || e.message || "Approve failed");
     }
   });
 
-  rejectBtn.addEventListener("click", async function () {
+  rejectBtn?.addEventListener("click", async function () {
     if (!activeRow) return;
+
+    if (roleMode === "clinic_admin" && activeRow.request_type !== "clinician") {
+      notify("warn", "Not allowed", "Clinic admin can reject only clinician requests.");
+      return;
+    }
+
     if (!confirm("Reject this request?")) return;
 
     try {
       await doReject(activeRow.approval_request_id);
-      notify("success", "Request rejected.");
+      notify("success", "Rejected", "Request rejected successfully.");
       closeDrawer();
       await load();
     } catch (e) {
-      notify("error", "Reject failed", e.message || "Reject failed");
+      notify("error", "Reject failed", e?.data?.message || e.message || "Reject failed");
     }
   });
 
   tabs.forEach(function (t) {
     t.addEventListener("click", async function () {
-      try {
-        tabs.forEach((x) => x.classList.remove("active"));
-        t.classList.add("active");
+      if (t.classList.contains("hidden")) return;
 
+      try {
         const tabType = t.dataset.type;
 
-        if (tabType === "clinics_demo") {
-          currentType = "clinics_demo";
-          setPanelMode("demo");
-          return;
+        // clinic admin restrictions
+        if (roleMode === "clinic_admin") {
+          if (tabType === "clinic" || tabType === "all" || tabType === "approved_clinics") {
+            return;
+          }
         }
 
+        activateTabElement(t);
 
         if (tabType === "approved_clinics") {
           currentType = "clinic";
@@ -593,45 +621,29 @@ document.addEventListener("DOMContentLoaded", async function () {
         currentView = "pending";
         await loadPending();
       } catch (e) {
-        notify("error", "Failed to load tab", e.message || "Failed to load tab");
+        notify("error", "Failed to load tab", e?.data?.message || e.message || "Failed to load tab");
       }
     });
   });
 
-  if (demoBackBtn) {
-    demoBackBtn.addEventListener("click", async function () {
-      const defaultTab = tabs.find(function (tab) {
-        return tab.dataset.type === "clinic";
-      });
-      if (defaultTab) activateTabElement(defaultTab);
-      currentType = "clinic";
-      currentView = "pending";
-      try {
-        await loadPending();
-      } catch (e) {
-        notify("error", "Failed to return to live approvals", e.message || "Failed to return to live approvals");
-      }
-    });
-  }
-
-  searchBtn.addEventListener("click", function () {
+  searchBtn?.addEventListener("click", function () {
     render(applySearch(rows));
   });
 
-  searchInput.addEventListener("input", function () {
+  searchInput?.addEventListener("input", function () {
     render(applySearch(rows));
   });
 
-  clearBtn.addEventListener("click", function () {
-    searchInput.value = "";
+  clearBtn?.addEventListener("click", function () {
+    if (searchInput) searchInput.value = "";
     render(rows);
   });
 
-  refreshBtn.addEventListener("click", async function () {
+  refreshBtn?.addEventListener("click", async function () {
     try {
       await load();
     } catch (e) {
-      notify("error", "Refresh failed", e.message || "Refresh failed");
+      notify("error", "Refresh failed", e?.data?.message || e.message || "Refresh failed");
     }
   });
 
@@ -672,9 +684,20 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   });
 
+  // ------------------------------------------------------------
+  // INITIAL LOAD
+  // ------------------------------------------------------------
   try {
-    await loadPending();
+    if (roleMode === "clinic_admin") {
+      currentType = "clinician";
+      currentView = "pending";
+      await loadPending();
+    } else {
+      currentType = "clinic";
+      currentView = "pending";
+      await loadPending();
+    }
   } catch (e) {
-    notify("error", "Failed to load approvals", e.message || "Failed to load approvals");
+    notify("error", "Failed to load approvals", e?.data?.message || e.message || "Failed to load approvals");
   }
 });
