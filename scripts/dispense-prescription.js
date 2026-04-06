@@ -234,8 +234,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 30);
   }
 
-  function closeModal() {
-    if (isSubmittingDispense) return;
+  function closeModal(force = false) {
+    if (isSubmittingDispense && !force) return;
     modalEl.hidden = true;
     modalEl.setAttribute("aria-hidden", "true");
     document.body.classList.remove("dispense-modal-open");
@@ -875,8 +875,8 @@ document.addEventListener("DOMContentLoaded", function () {
       showPharmacyStatus("Submitting dispensation...");
 
       const dispenseResponse = await createDispensation(payload);
-
-      closeModal();
+            
+      closeModal(true);
       renderPrescriptionDocument(data, pharmacyData, dispenseResponse || {});
     } catch (error) {
       console.error(error);
