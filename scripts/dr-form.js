@@ -392,41 +392,134 @@ function buildConsultationHistoryHtml() {
     });
   }
 
-  function renderHistoryPatientCard(patient) {
-    if (historyPatientNameEl) {
-      historyPatientNameEl.textContent = patient
-        ? `${patient.first_name || ""} ${patient.last_name || ""}`.trim() ||
-          "Unknown Patient"
-        : "No patient selected";
-    }
-
-    if (historyPatientMrnEl) {
-      historyPatientMrnEl.textContent = patient?.patient_id || "--";
-    }
-
-    if (historyPatientDobEl) {
-      historyPatientDobEl.textContent = patient?.date_of_birth || "--";
-    }
-
-    if (historyPatientAvatarEl) {
-      historyPatientAvatarEl.textContent = patient
-        ? initials(patient.first_name, patient.last_name)
-        : "--";
-    }
-
-    if (historyPatientExtraEl) {
-      historyPatientExtraEl.innerHTML = patient
-        ? `
-            Email: ${escapeHtml(patient.email || "-")} •
-            Phone: ${escapeHtml(patient.phone || "-")} •
-            Gender: ${escapeHtml(patient.gender || "-")} •
-            NHS/National ID: ${escapeHtml(patient.national_id || "-")}
-          `
-        : `
-            Select a patient above to load previous prescriptions, filters, and prescription details.
-          `;
-    }
+function renderHistoryPatientCard(patient) {
+  if (historyPatientNameEl) {
+    historyPatientNameEl.textContent = patient
+      ? `${patient.first_name || ""} ${patient.last_name || ""}`.trim() ||
+        "Unknown Patient"
+      : "No patient selected";
   }
+
+  if (historyPatientMrnEl) {
+    historyPatientMrnEl.textContent = patient?.patient_id || "--";
+  }
+
+  if (historyPatientDobEl) {
+    historyPatientDobEl.textContent = patient?.date_of_birth || "--";
+  }
+
+  if (historyPatientAvatarEl) {
+    historyPatientAvatarEl.textContent = patient
+      ? initials(patient.first_name, patient.last_name)
+      : "--";
+  }
+
+  if (!historyPatientExtraEl) return;
+
+  if (!patient) {
+    historyPatientExtraEl.innerHTML = `
+      <div class="cnp-history-empty-copy">
+        Select a patient above to load a PMR snapshot, prescribing summary, and previous prescriptions.
+      </div>
+    `;
+    return;
+  }
+
+  const total = historyPrescriptions.length;
+
+  const activeCount = historyPrescriptions.filter(function (rx) {
+    const s = String(rx.status || "").toLowerCase();
+    return ["active", "issued", "partially_dispensed"].includes(s);
+  }).length;
+
+  const dispensedCount = historyPrescriptions.filter(function (rx) {
+    const s = String(rx.status || "").toLowerCase();
+    return ["dispensed", "fully_dispensed"].includes(s);
+  }).length;
+
+  const latestRx = [...historyPrescriptions].sort(function (a, b) {
+    const da = new Date(getReferenceDate(a) || 0).getTime();
+    const db = new Date(getReferenceDate(b) || 0).getTime();
+    return db - da;
+  })[0] || null;
+
+  const latestDispensed = [...historyPrescriptions]
+    .filter(function (rx) {
+      return !!rx.last_dispensed_at;
+    })
+    .sort(function (a, b) {
+      const da = new Date(a.last_dispensed_at || 0).getTime();
+      const db = new Date(b.last_dispensed_at || 0).getTime();
+      return db - da;
+    })[0] || null;
+
+  const age = calcAge(patient.date_of_birth);
+  const address = patientAddress(patient) || "-";
+
+  historyPatientExtraEl.innerHTML = `
+    <div class="cnp-history-chip-row">
+      <span class="cnp-history-mini-chip">${escapeHtml(age ? `${age} years` : "Age -")}</span>
+      <span class="cnp-history-mini-chip">${escapeHtml(patient.gender || "-")}</span>
+      <span class="cnp-history-mini-chip">${savedPatientIds.has(Number(patient.patient_id)) ? "Saved to my list" : "Not saved yet"}</span>
+    </div>
+
+    <div class="cnp-history-profile-grid">
+      <div class="cnp-history-profile-item">
+        <span>Phone</span>
+        <strong>${escapeHtml(patient.phone || "-")}</strong>
+      </div>
+      <div class="cnp-history-profile-item">
+        <span>Email</span>
+        <strong>${escapeHtml(patient.email || "-")}</strong>
+      </div>
+      <div class="cnp-history-profile-item cnp-history-profile-item-wide">
+        <span>Address</span>
+        <strong>${escapeHtml(address)}</strong>
+      </div>
+      <div class="cnp-history-profile-item cnp-history-profile-item-wide">
+        <span>NHS / National ID</span>
+        <strong>${escapeHtml(patient.national_id || "-")}</strong>
+      </div>
+    </div>
+
+    <div class="cnp-history-overview-grid">
+      <div class="cnp-history-overview-item">
+        <span>Total prescriptions</span>
+        <strong>${escapeHtml(total)}</strong>
+      </div>
+      <div class="cnp-history-overview-item">
+        <span>Active / issued</span>
+        <strong>${escapeHtml(activeCount)}</strong>
+      </div>
+      <div class="cnp-history-overview-item">
+        <span>Dispensed Prescriptions</span>
+        <strong>${escapeHtml(dispensedCount)}</strong>
+      </div>
+      <div class="cnp-history-overview-item">
+        <span>Last issued</span>
+        <strong>${escapeHtml(latestRx ? fmtDate(getReferenceDate(latestRx)) : "-")}</strong>
+      </div>
+    </div>
+
+    <div class="cnp-history-pmr-box">
+      <div class="cnp-history-pmr-title">PMR snapshot</div>
+      <div class="cnp-history-pmr-copy">
+        ${
+          latestRx
+            ? `Latest prescription <strong>${escapeHtml(latestRx.prescription_number || latestRx.code || latestRx.prescription_id || "-")}</strong> is <strong>${escapeHtml(latestRx.status || "-")}</strong> and was issued on <strong>${escapeHtml(fmtDate(getReferenceDate(latestRx)))}</strong>.`
+            : `No prescriptions recorded yet for this patient under the current prescriber.`
+        }
+      </div>
+      <div class="cnp-history-pmr-subcopy">
+        ${
+          latestDispensed
+            ? `Last dispensed at ${escapeHtml(latestDispensed.pharmacy_name || "-")} on ${escapeHtml(fmtDateTime(latestDispensed.last_dispensed_at))}.`
+            : `No dispensation has been recorded yet.`
+        }
+      </div>
+    </div>
+  `;
+}
 
   function applyHistoryFilters(list) {
     const from = fromDateEl?.value || "";
