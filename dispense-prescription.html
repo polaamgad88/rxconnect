@@ -130,11 +130,9 @@
           <div>
             <p class="page-eyebrow">Pharmacy Workspace</p>
             <h1>Dispense Prescription</h1>
-            <p class="page-subtitle">
-              Enter the prescription code and patient date of birth. If a valid
-              one-time prescription is found, the pharmacy details popup will open
-              before the prescription is displayed and marked as dispensed.
-            </p>
+          <p class="page-subtitle">
+  Enter the prescription code and patient date of birth to preview the prescription first. Dispensing is confirmed only after the pharmacy completes the dispense step.
+</p>
           </div>
 
           <button
@@ -152,11 +150,9 @@
             <div>
               <span class="dispense-kicker">Lookup</span>
               <h2>Prescription search</h2>
-              <p class="dispense-support">
-                This page supports pharmacy dispensing without pharmacy login. The
-                code is checked together with the patient DOB, then the pharmacy
-                confirms dispensing details in a popup.
-              </p>
+             <p class="dispense-support">
+  This page supports pharmacy dispensing without pharmacy login. The code is checked together with the patient DOB, the prescription is previewed, and dispensing is confirmed only at the final step.
+</p>
             </div>
 
             <div class="dispense-card-badge">
@@ -204,11 +200,9 @@
               <div class="dispense-note-icon">
                 <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
               </div>
-              <p>
-                If the prescription code is valid and has not been used, a popup
-                will ask for pharmacy name, phone number, optional email, address,
-                and a confirmation that the code is one-time use only.
-              </p>
+           <p>
+  If the prescription code is valid and has not been used, the prescription will be shown first. Dispensing pharmacy details are required only when the final dispense action is confirmed.
+</p>
             </div>
 
             <div id="rxResult" class="dispense-result" aria-live="polite"></div>
@@ -235,10 +229,9 @@
           <div>
             <span class="dispense-kicker">Pharmacy details</span>
             <h3 id="pharmacyModalTitle">Confirm dispensing pharmacy</h3>
-            <p class="dispense-modal-copy">
-              The prescription will be displayed only after the pharmacy submits
-              these details and confirms the one-time use warning.
-            </p>
+        <p class="dispense-modal-copy">
+  Confirm the dispensing pharmacy details, then complete the one-time dispense action for this prescription.
+</p>
           </div>
 
           <button
@@ -324,12 +317,86 @@
               class="dispense-search-btn button full-width w-button dispense-modal-submit"
             >
               <i class="fa-solid fa-check" aria-hidden="true"></i>
-              <span>Confirm & Show Prescription</span>
-            </button>
+<span>Confirm & Dispense Prescription</span>            </button>
           </div>
         </form>
       </div>
     </div>
+
+
+
+    <div
+  id="dispenseSuccessModal"
+  class="dispense-modal"
+  aria-hidden="true"
+  hidden
+>
+  <div class="dispense-modal-backdrop" data-close-success-modal="true"></div>
+
+  <div
+    class="dispense-modal-dialog dispense-success-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="dispenseSuccessTitle"
+  >
+    <div class="dispense-modal-head">
+      <div>
+        <span class="dispense-kicker">Dispense complete</span>
+        <h3 id="dispenseSuccessTitle">Prescription dispensed successfully</h3>
+        <p class="dispense-modal-copy" id="dispenseSuccessCopy">
+          The prescription has been dispensed and the one-time code is now consumed.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="dispense-modal-close"
+        id="closeDispenseSuccessModal"
+        aria-label="Close dispense success popup"
+      >
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="dispense-success-body">
+      <div class="dispense-success-actions">
+        <button
+          type="button"
+          class="dispense-search-btn button full-width w-button"
+          id="successDownloadPdf"
+        >
+          <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+          <span>Download Prescription PDF</span>
+        </button>
+
+        <button
+          type="button"
+          class="dispense-modal-cancel dispense-success-secondary"
+          id="successSendEmail"
+        >
+          <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+          <span>Send by Email</span>
+        </button>
+
+        <button
+          type="button"
+          class="dispense-modal-cancel dispense-success-secondary"
+          id="successCloseBtn"
+        >
+          <i class="fa-solid fa-check" aria-hidden="true"></i>
+          <span>Done</span>
+        </button>
+      </div>
+
+      <div
+        id="dispenseSuccessStatus"
+        class="dispense-status"
+        style="display:none;"
+      ></div>
+    </div>
+  </div>
+</div>
+
 
     <footer class="rx-site-footer">
       <div class="rx-footer-shell">
