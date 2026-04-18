@@ -9,11 +9,20 @@ document.addEventListener("DOMContentLoaded", async function () {
   const isClinician =
     String(user?.login_type || "").toLowerCase() === "clinician";
 
-  const patientSearchInput = document.querySelector(
-    ".cnp-card-patient .cnp-input-icon input",
+  const patientSearchInput =
+    document.getElementById("patientSearchTerm") ||
+    document.querySelector(".cnp-card-patient .cnp-input-icon input");
+  const patientSearchModeButtons = document.querySelectorAll(
+    ".cnp-search-mode-btn",
   );
+  const patientSearchPanels = document.querySelectorAll(".cnp-search-panel");
+  const patientDobFromInput = document.getElementById("patientDobFrom");
+  const patientDobToInput = document.getElementById("patientDobTo");
+  const patientDobSearchBtn = document.getElementById("patientDobSearchBtn");
+  const patientSearchResults = document.getElementById("patientSearchResults");
   const patientSummary = document.querySelector(".cnp-patient-summary");
   const addPatientLink = document.querySelector(".js-add-patient-link");
+
 
   const modal = document.getElementById("cnp-add-patient-modal");
   const modalClose = document.getElementById("cnp-add-patient-close");
@@ -57,6 +66,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   let allPatients = [];
   let savedPatientIds = new Set();
   let selectedPatient = null;
+  let activePatientSearchMode = "term";
 
   let medIndexLoaded = false;
   const medNameToId = new Map();
@@ -665,6 +675,53 @@ document.addEventListener("DOMContentLoaded", async function () {
     return Array.from(byId.values());
   }
 
+    function normalizeDateOnly(value) {
+    if (!value) return null;
+    const d = new Date(`${value}T00:00:00`);
+    return Number.isNaN(d.getTime()) ? null : d;
+  }
+
+  async function fetchPatientsByDobRange(fromValue = "", toValue = "") {
+    const params = new URLSearchParams();
+    params.set("limit", "200");
+
+    if (fromValue) params.set("dob_from", fromValue);
+    if (toValue) params.set("dob_to", toValue);
+
+    const resp = await RX.api.get(`/patients?${params.toString()}`);
+    const patients = Array.isArray(resp.patients) ? resp.patients : [];
+
+    allPatients = uniquePatients([].concat(allPatients, patients));
+
+    return patients.sort(function (a, b) {
+      const aSaved = savedPatientIds.has(Number(a.patient_id)) ? 1 : 0;
+      const bSaved = savedPatientIds.has(Number(b.patient_id)) ? 1 : 0;
+      if (aSaved !== bSaved) return bSaved - aSaved;
+      return String(b.date_of_birth || "").localeCompare(
+        String(a.date_of_birth || ""),
+      );
+    });
+  }
+
+  function switchPatientSearchMode(mode) {
+    activePatientSearchMode = mode === "dob" ? "dob" : "term";
+
+    patientSearchModeButtons.forEach(function (button) {
+      const isActive = button.dataset.searchMode === activePatientSearchMode;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", String(isActive));
+    });
+
+    patientSearchPanels.forEach(function (panel) {
+      panel.classList.toggle(
+        "is-active",
+        panel.dataset.searchPanel === activePatientSearchMode,
+      );
+    });
+
+    hideDropdown();
+  }
+
   async function reloadPatientSources() {
     await loadSavedPatients();
     await loadAllPatients();
@@ -688,35 +745,30 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   function ensureDropdown() {
-    if (!patientSearchInput) return null;
+    if (!patientSearchResults) return null;
 
     let dropdown =
-      patientSearchInput.parentElement.querySelector(".rx-patient-dd");
+      patientSearchResults.querySelector(".rx-patient-dd");
     if (dropdown) return dropdown;
 
     dropdown = document.createElement("div");
     dropdown.className = "rx-patient-dd";
-    dropdown.style.position = "absolute";
-    dropdown.style.left = "0";
-    dropdown.style.right = "0";
-    dropdown.style.top = "44px";
     dropdown.style.background = "#fff";
     dropdown.style.border = "1px solid #e5e7eb";
-    dropdown.style.borderRadius = "8px";
+    dropdown.style.borderRadius = "18px";
     dropdown.style.boxShadow = "0 10px 20px rgba(0,0,0,.08)";
     dropdown.style.zIndex = "9999";
-    dropdown.style.maxHeight = "280px";
+    dropdown.style.maxHeight = "320px";
     dropdown.style.overflow = "auto";
     dropdown.style.display = "none";
 
-    patientSearchInput.parentElement.style.position = "relative";
-    patientSearchInput.parentElement.appendChild(dropdown);
+    patientSearchResults.appendChild(dropdown);
     return dropdown;
   }
 
   function hideDropdown() {
     const dropdown =
-      patientSearchInput?.parentElement?.querySelector(".rx-patient-dd");
+      patientSearchResults?.querySelector(".rx-patient-dd");
     if (dropdown) dropdown.style.display = "none";
   }
 
@@ -1197,6 +1249,7 @@ function closeModal() {
   }
 
   resetHistoryUi("Select a patient to load history on this page.");
+  switchPatientSearchMode(activePatientSearchMode);
 
   if (filtersForm) {
     filtersForm.addEventListener("submit", function (event) {
@@ -1232,15 +1285,75 @@ function closeModal() {
     }
   });
 
+  if (patientSearchModeButtons.length) {
+    patientSearchModeButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        switchPatientSearchMode(button.dataset.searchMode);
+      });
+    });
+  }
+
   if (patientSearchInput) {
     patientSearchInput.addEventListener("input", function () {
+      if (activePatientSearchMode !== "term") return;
       showDropdown(filterPatients(patientSearchInput.value));
     });
 
     patientSearchInput.addEventListener("focus", function () {
+      if (activePatientSearchMode !== "term") return;
       showDropdown(filterPatients(patientSearchInput.value));
     });
 
+    if (patientDobSearchBtn) {
+      patientDobSearchBtn.addEventListener("click", async function () {
+        const fromValue = patientDobFromInput?.value || "";
+        const toValue = patientDobToInput?.value || "";
+
+        if (!fromValue && !toValue) {
+          RxToast.info("Choose DOB from, DOB to, or both.");
+          hideDropdown();
+          return;
+        }
+
+        if (fromValue && toValue && fromValue > toValue) {
+          RxToast.warn("DOB from cannot be later than DOB to.");
+          hideDropdown();
+          return;
+        }
+
+        const dropdown = ensureDropdown();
+        if (dropdown) {
+          dropdown.innerHTML = `
+            <div class="rx-patient-dd-item">
+              <div class="rx-patient-dd-name">Loading...</div>
+              <div class="rx-patient-dd-meta">Searching patients by DOB range.</div>
+            </div>
+          `;
+          dropdown.style.display = "block";
+        }
+        try {
+          const patients = await fetchPatientsByDobRange(fromValue, toValue);
+          showDropdown(patients);
+        } catch (error) {
+          console.error("DOB patient search failed", error);
+          hideDropdown();
+          RxToast.error(
+            "Failed to search patients by DOB.",
+            error.message || "Something went wrong."
+          );
+        }
+      });
+
+      [patientDobFromInput, patientDobToInput].forEach(function (input) {
+        if (!input) return;
+        input.addEventListener("keydown", function (event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            patientDobSearchBtn.click();
+          }
+        });
+      });
+    }
     document.addEventListener("click", function (event) {
       if (!event.target.closest(".cnp-card-patient")) hideDropdown();
     });

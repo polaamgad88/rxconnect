@@ -126,7 +126,7 @@
               <span class="cnp-card-kicker">Patient</span>
               <h2>Patient lookup</h2>
               <p class="cnp-card-support">
-                Search by patient name, phone, or email.
+                Search by term as usual, or switch to DOB range search.
               </p>
             </div>
             <a href="#" class="cnp-link-small js-add-patient-link">
@@ -136,10 +136,47 @@
           </header>
 
           <div class="cnp-card-body">
-            <div class="cnp-input-icon">
-              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-              <input type="text" class="cnp-input" placeholder="Search by patient name, NHS number, phone or email" />
+            <div class="cnp-patient-search-switch" role="tablist" aria-label="Patient search mode">
+              <button type="button" class="cnp-search-mode-btn is-active" data-search-mode="term" aria-pressed="true">
+                Search by term
+              </button>
+              <button type="button" class="cnp-search-mode-btn" data-search-mode="dob" aria-pressed="false">
+                Search by DOB range
+              </button>
             </div>
+
+            <div class="cnp-search-panel is-active" data-search-panel="term">
+              <div class="cnp-input-icon">
+                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                <input
+                  type="text"
+                  class="cnp-input"
+                  id="patientSearchTerm"
+                  placeholder="Search by patient name, NHS number, phone or email"
+                />
+              </div>
+            </div>
+
+            <div class="cnp-search-panel cnp-search-panel-dob" data-search-panel="dob">
+              <div class="cnp-search-grid">
+                <label class="cnp-search-field">
+                  <span>DOB from</span>
+                  <input type="date" class="cnp-input" id="patientDobFrom" />
+                </label>
+                <label class="cnp-search-field">
+                  <span>DOB to</span>
+                  <input type="date" class="cnp-input" id="patientDobTo" />
+                </label>
+              </div>
+              <div class="cnp-search-actions">
+                <button type="button" class="cnp-btn-secondary cnp-search-apply" id="patientDobSearchBtn">
+                  <i class="fa-solid fa-filter" aria-hidden="true"></i>
+                  <span>Search by DOB</span>
+                </button>
+              </div>
+            </div>
+
+            <div id="patientSearchResults" class="cnp-patient-results"></div>
 
             <div class="cnp-patient-summary">
               <div class="cnp-empty-state-icon" aria-hidden="true">

@@ -523,6 +523,93 @@ button {
   outline: none;
 }
 
+
+.cnp-patient-search-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.cnp-search-mode-btn {
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(51, 51, 51, 0.1);
+  background: linear-gradient(180deg, #ffffff, #faf8f4);
+  color: var(--text-soft);
+  font-size: 0.92rem;
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.cnp-search-mode-btn:hover,
+.cnp-search-mode-btn:focus-visible {
+  outline: none;
+  transform: translateY(-1px);
+  color: var(--primary-3);
+  box-shadow: 0 12px 22px rgba(51, 51, 51, 0.08);
+}
+
+.cnp-search-mode-btn.is-active {
+  color: #ffffff;
+  border-color: transparent;
+  background: linear-gradient(135deg, #333333, #333333);
+  box-shadow: 0 14px 24px rgba(51, 51, 51, 0.16);
+}
+
+.cnp-search-panel {
+  display: none;
+}
+
+.cnp-search-panel.is-active {
+  display: block;
+}
+
+.cnp-search-panel-dob {
+  margin-bottom: 20px;
+}
+
+.cnp-search-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.cnp-search-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cnp-search-field span {
+  color: #333333;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.cnp-search-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+@media (max-width: 760px) {
+  .cnp-search-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cnp-search-actions {
+    justify-content: stretch;
+  }
+
+  .cnp-search-apply {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 .cnp-input-icon {
   position: relative;
   margin-bottom: 20px;
@@ -569,6 +656,20 @@ button {
   min-height: 124px;
   padding: 16px 18px;
   resize: vertical;
+}
+
+
+.cnp-patient-results {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.cnp-patient-results .rx-patient-dd {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: 100%;
 }
 
 .cnp-patient-summary {
