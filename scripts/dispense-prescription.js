@@ -13,6 +13,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const modalCloseBtn = document.getElementById("closePharmacyModal");
   const modalCancelBtn = document.getElementById("cancelPharmacyModal");
 
+
+  const successModalEl = document.getElementById("dispenseSuccessModal");
+const successModalCloseBtn = document.getElementById("closeDispenseSuccessModal");
+const successDownloadPdfBtn = document.getElementById("successDownloadPdf");
+const successSendEmailBtn = document.getElementById("successSendEmail");
+const successCloseBtn = document.getElementById("successCloseBtn");
+const successStatusEl = document.getElementById("dispenseSuccessStatus");
+const successCopyEl = document.getElementById("dispenseSuccessCopy");
+
+
   const pharmacyNameEl = document.getElementById("pharmacyName");
   const pharmacyPhoneEl = document.getElementById("pharmacyPhone");
   const pharmacyEmailEl = document.getElementById("pharmacyEmail");
@@ -27,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let isSubmittingDispense = false;
   let respRegister = null;
   let lastPharmacyDetails = null;
-
+  let lastDispenseResponse = null;
   function normalizeValue(value) {
     return String(value || "").trim();
   }
@@ -241,6 +251,37 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.classList.remove("dispense-modal-open");
     showPharmacyStatus("");
   }
+  function showSuccessStatus(message, isError = false) {
+  if (!successStatusEl) return;
+  successStatusEl.style.display = message ? "block" : "none";
+  successStatusEl.style.borderColor = isError
+    ? "rgba(180, 35, 24, 0.15)"
+    : "rgba(6, 118, 71, 0.14)";
+  successStatusEl.style.background = isError ? "#fff8f7" : "#f6fffb";
+  successStatusEl.style.color = isError ? "#b42318" : "#067647";
+  successStatusEl.textContent = message || "";
+}
+
+function openSuccessModal(message) {
+  if (successCopyEl) {
+    successCopyEl.textContent =
+      message ||
+      "The prescription has been dispensed and the one-time code is now consumed.";
+  }
+  showSuccessStatus("");
+  if (!successModalEl) return;
+  successModalEl.hidden = false;
+  successModalEl.setAttribute("aria-hidden", "false");
+  document.body.classList.add("dispense-modal-open");
+}
+
+function closeSuccessModal() {
+  if (!successModalEl) return;
+  successModalEl.hidden = true;
+  successModalEl.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("dispense-modal-open");
+  showSuccessStatus("");
+}
 
   function getLookupData() {
     return lastLookup?.data || null;
@@ -716,6 +757,135 @@ document.addEventListener("DOMContentLoaded", function () {
     `);
   }
 
+
+  function renderPrescriptionPreview(data) {
+  const items = getLookupItems(data);
+  const code = getPrescriptionCode(data);
+  const patientName = getPatientName(data);
+  const patientDob = getPatientDob(data);
+  const prescriberName = getPrescriberName(data);
+  const issueDate = getIssueDate(data);
+  const expiryDate = getExpiryDate(data);
+
+  const rows = items
+    .map((item, index) => {
+      const prescribed = asNumber(item.quantity_prescribed, 0);
+      const dispensedTotal = asNumber(item.quantity_dispensed_total, 0);
+      const remaining = Math.max(prescribed - dispensedTotal, 0);
+
+      return `
+        <tr>
+          <td>${index + 1}</td>
+          <td>${escapeHtml(
+            pickValue(item, ["medication_name", "name"], item.medication_id || "-")
+          )}</td>
+          <td>${escapeHtml(
+            pickValue(item, ["strength", "dose", "schedule"], "-")
+          )}</td>
+          <td>${escapeHtml(
+            pickValue(item, ["dosage_instructions", "instructions"], "-")
+          )}</td>
+          <td>${escapeHtml(String(remaining || prescribed || "-"))}</td>
+        </tr>
+      `;
+    })
+    .join("");
+
+  setResultContent(`
+    <div class="eprescription-shell">
+      <div id="prescriptionDocument" class="eprescription-card is-preview">
+        <div class="eprescription-top">
+          <div>
+            <span class="dispense-kicker">Prescription preview</span>
+            <h3>Electronic Prescription</h3>
+            <p class="eprescription-title-copy">
+              Review this prescription first. It will only be marked as dispensed after the final dispense action is confirmed.
+            </p>
+          </div>
+          <div class="eprescription-status-pill is-pending">
+            <i class="fa-solid fa-hourglass-half" aria-hidden="true"></i>
+            <span>Ready to dispense</span>
+          </div>
+        </div>
+
+        <div class="eprescription-meta-grid">
+          <div class="eprescription-stat">
+            <p class="eprescription-stat-label">RxC Code</p>
+            <p class="eprescription-stat-value">${escapeHtml(code)}</p>
+          </div>
+          <div class="eprescription-stat">
+            <p class="eprescription-stat-label">Current status</p>
+            <p class="eprescription-stat-value">${escapeHtml(
+              pickValue(data, ["status", "prescription_status"], "-")
+            )}</p>
+          </div>
+          <div class="eprescription-stat">
+            <p class="eprescription-stat-label">Issue date</p>
+            <p class="eprescription-stat-value">${escapeHtml(formatDate(issueDate))}</p>
+          </div>
+          <div class="eprescription-stat">
+            <p class="eprescription-stat-label">Expires at</p>
+            <p class="eprescription-stat-value">${escapeHtml(formatDate(expiryDate))}</p>
+          </div>
+        </div>
+
+        <div class="eprescription-party-grid">
+          <section class="eprescription-party">
+            <h4>Patient details</h4>
+            <p><strong>Name:</strong> ${escapeHtml(patientName)}</p>
+            <p><strong>DOB:</strong> ${escapeHtml(formatDate(patientDob))}</p>
+          </section>
+
+          <section class="eprescription-party">
+            <h4>Prescriber / Issuer</h4>
+            <p><strong>Doctor:</strong> ${escapeHtml(prescriberName)}</p>
+            <p><strong>Issuer ref:</strong> ${escapeHtml(
+              pickValue(data, ["prescriber_unique_string"], "-")
+            )}</p>
+          </section>
+        </div>
+
+        <section class="eprescription-section">
+          <h4>Medicines</h4>
+          <div class="eprescription-table-wrap">
+            <table class="eprescription-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Medicine</th>
+                  <th>Strength</th>
+                  <th>Directions</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${
+                  rows ||
+                  '<tr><td colspan="5"><div class="eprescription-empty">No medicine items available.</div></td></tr>'
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="eprescription-footnote">
+          This is a preview only. The one-time code will be consumed only after the final dispense action is completed.
+        </div>
+      </div>
+
+      <div class="eprescription-actions">
+        <button type="button" class="eprescription-btn is-primary" id="openDispenseFlow">
+          <i class="fa-solid fa-prescription-bottle-medical" aria-hidden="true"></i>
+          <span>Dispense Prescription</span>
+        </button>
+        <button type="button" class="eprescription-btn is-secondary" id="startNewLookup">
+          <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+          <span>Search Another Prescription</span>
+        </button>
+      </div>
+    </div>
+  `);
+}
   async function downloadPrescriptionAsImage() {
     const docEl = document.getElementById("prescriptionDocument");
     if (!docEl) return;
@@ -809,35 +979,86 @@ document.addEventListener("DOMContentLoaded", function () {
     pdf.save(`${getPrescriptionCode(getLookupData()) || "prescription"}.pdf`);
   }
 
-  form.addEventListener("submit", async function (event) {
-    event.preventDefault();
-    if (isSearching) return;
 
-    isSearching = true;
-    showMessage("Searching prescription", "Checking the prescription code and patient DOB.");
 
-    try {
-      const data = await lookupPrescription();
-      const blockerMessage = getBlockerMessage(data);
+  async function sendPrescriptionByEmail() {
+  const data = getLookupData();
+  const pharmacyData = lastPharmacyDetails || {};
+  const emailTo = normalizeValue(pharmacyData.email);
 
-      if (blockerMessage) {
-        showMessage("Prescription unavailable", blockerMessage, "error");
-        return;
-      }
+  if (!emailTo) {
+    throw new Error("No pharmacy email was entered for this dispensation.");
+  }
 
-      showMessage(
-        "Prescription found",
-        "Complete the pharmacy popup to confirm dispensing and display the formal e-prescription.",
-        "success"
-      );
-      openModal();
-    } catch (error) {
-      console.error(error);
-      showMessage("Lookup failed", describeLookupError(error), "error");
-    } finally {
-      isSearching = false;
-    }
+  const code = getPrescriptionCode(data);
+  const patientName = getPatientName(data);
+  const patientDob = formatDate(getPatientDob(data));
+  const prescriberName = getPrescriberName(data);
+  const dispensedAt = formatDateTime(
+    pickValue(lastDispenseResponse, [
+      "dispensed_at",
+      "created_at",
+      "data.dispensed_at",
+      "data.created_at",
+    ]) || new Date().toISOString()
+  );
+
+  const content = [
+    `Prescription dispensed successfully.`,
+    ``,
+    `Code: ${code}`,
+    `Patient: ${patientName}`,
+    `DOB: ${patientDob}`,
+    `Prescriber: ${prescriberName}`,
+    `Dispensed at: ${dispensedAt}`,
+    `Pharmacy: ${pharmacyData.pharmacy_name || "-"}`,
+    `Phone: ${pharmacyData.phone || "-"}`,
+    `Email: ${pharmacyData.email || "-"}`,
+    `Address: ${pharmacyData.address || "-"}`,
+  ].join("\n");
+
+  const fd = new FormData();
+  fd.append("email", emailTo);
+  fd.append("content", content);
+  fd.append("sender", "RxConnect");
+  fd.append("number", pharmacyData.phone || "");
+
+  const res = await fetch(`${RX.API_BASE}/send-mail`, {
+    method: "POST",
+    body: fd,
   });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(text || "Failed to send the prescription email.");
+  }
+
+  return true;
+}
+form.addEventListener("submit", async function (event) {
+  event.preventDefault();
+  if (isSearching) return;
+
+  isSearching = true;
+  showMessage("Searching prescription", "Checking the prescription code and patient DOB.");
+
+  try {
+    const data = await lookupPrescription();
+    const blockerMessage = getBlockerMessage(data);
+
+    if (blockerMessage) {
+      showMessage("Prescription unavailable", blockerMessage, "error");
+      return;
+    }
+
+    renderPrescriptionPreview(data);
+  } catch (error) {
+    console.error(error);
+    showMessage("Lookup failed", describeLookupError(error), "error");
+  } finally {
+    isSearching = false;
+  }
+});
 
   modalForm.addEventListener("submit", async function (event) {
     event.preventDefault();
@@ -874,10 +1095,14 @@ document.addEventListener("DOMContentLoaded", function () {
       const payload = buildDispensationPayload(data, pharmacyData, dispenserId);
       showPharmacyStatus("Submitting dispensation...");
 
-      const dispenseResponse = await createDispensation(payload);
-            
-      closeModal(true);
-      renderPrescriptionDocument(data, pharmacyData, dispenseResponse || {});
+     const dispenseResponse = await createDispensation(payload);
+lastDispenseResponse = dispenseResponse || {};
+
+closeModal(true);
+renderPrescriptionDocument(data, pharmacyData, lastDispenseResponse);
+openSuccessModal(
+  `The prescription has been dispensed successfully by ${pharmacyData.pharmacy_name}. You can now download the PDF or send the prescription by email.`
+);
     } catch (error) {
       console.error(error);
       showPharmacyStatus(error?.message || "Dispense failed.", true);
@@ -887,9 +1112,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   resultBox.addEventListener("click", async function (event) {
-    const pdfBtn = event.target.closest("#downloadPrescriptionPdf");
-    const imageBtn = event.target.closest("#downloadPrescriptionImage");
-    const resetBtn = event.target.closest("#startNewLookup");
+const pdfBtn = event.target.closest("#downloadPrescriptionPdf");
+const imageBtn = event.target.closest("#downloadPrescriptionImage");
+const resetBtn = event.target.closest("#startNewLookup");
+const openDispenseBtn = event.target.closest("#openDispenseFlow");
 
     if (pdfBtn) {
       try {
@@ -915,28 +1141,68 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    if (resetBtn) {
-      form.reset();
-      modalForm.reset();
-      lastLookup = null;
-      respRegister = null;
-      resultBox.innerHTML = "";
-      showPharmacyStatus("");
-      codeEl.focus();
-    }
+if (openDispenseBtn) {
+  openModal();
+  return;
+}
+
+if (resetBtn) {
+  form.reset();
+  modalForm.reset();
+  lastLookup = null;
+  lastDispenseResponse = null;
+  respRegister = null;
+  resultBox.innerHTML = "";
+  showPharmacyStatus("");
+  showSuccessStatus("");
+  closeSuccessModal();
+  codeEl.focus();
+}
   });
 
   modalCloseBtn?.addEventListener("click", closeModal);
   modalCancelBtn?.addEventListener("click", closeModal);
+successModalCloseBtn?.addEventListener("click", closeSuccessModal);
+successCloseBtn?.addEventListener("click", closeSuccessModal);
 
-  modalEl.addEventListener("click", function (event) {
-    const closeTarget = event.target.closest("[data-close-modal='true']");
-    if (closeTarget) closeModal();
-  });
+successDownloadPdfBtn?.addEventListener("click", async function () {
+  try {
+    await downloadPrescriptionAsPdf();
+    showSuccessStatus("PDF downloaded successfully.");
+  } catch (error) {
+    console.error(error);
+    showSuccessStatus(error?.message || "Could not generate the PDF.", true);
+  }
+});
 
-  document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape" && !modalEl.hidden) {
-      closeModal();
-    }
-  });
+successSendEmailBtn?.addEventListener("click", async function () {
+  try {
+    showSuccessStatus("Sending email...");
+    await sendPrescriptionByEmail();
+    showSuccessStatus("Prescription email sent successfully.");
+  } catch (error) {
+    console.error(error);
+    showSuccessStatus(error?.message || "Failed to send the prescription email.", true);
+  }
+});
+modalEl.addEventListener("click", function (event) {
+  const closeTarget = event.target.closest("[data-close-modal='true']");
+  if (closeTarget) closeModal();
+});
+
+successModalEl?.addEventListener("click", function (event) {
+  const closeTarget = event.target.closest("[data-close-success-modal='true']");
+  if (closeTarget) closeSuccessModal();
+});
+
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape" && successModalEl && !successModalEl.hidden) {
+    closeSuccessModal();
+    return;
+  }
+
+  if (event.key === "Escape" && !modalEl.hidden) {
+    closeModal();
+  }
+});
 });

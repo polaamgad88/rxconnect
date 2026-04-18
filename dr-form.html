@@ -70,7 +70,7 @@
               <!-- User dropdown -->
               <div class="user-dropdown-container" id="userDropdownWrap">
                 <button class="user-trigger" type="button" aria-expanded="false" aria-controls="userDropdownMenu">
-                  <span class="hello-label">Hello,</span>
+                  <span class="hello-label"></span>
                   <span id="username"></span>
                   <script>
                     const name = window.name;
@@ -376,7 +376,7 @@
             </div>
 
             <div class="cnp-notes-block">
-              <label for="prescription-notes">Prescription notes</label>
+              <label for="prescription-notes">Consultation notes</label>
               <p class="cnp-field-help">Optional clinical notes for this prescription.</p>
               <textarea id="prescription-notes" class="cnp-textarea" rows="5"
                 placeholder="Add any extra instructions or notes"></textarea>
@@ -404,32 +404,33 @@
         <header class="cnp-history-header">
           <div>
             <p class="page-eyebrow">Patient PMR &amp; History</p>
-            <h2>Selected Patient History</h2>
+            <h2>Patient PMR Snapshot</h2>
             <p class="page-subtitle cnp-history-subtitle">
-              Review the patient profile, filter previous prescriptions, and open
-              full prescription details without leaving the prescription form.
-            </p>
+              Review the patient profile, prescribing summary, and previous prescriptions without leaving the prescription form.
+            </p>  
           </div>
         </header>
 
         <div class="cnp-history-shell">
           <div class="cnp-history-top-grid">
-            <section class="cnp-history-card cnp-history-patient-card">
-              <div class="cnp-history-avatar" id="historyPatientAvatar">--</div>
+    <section class="cnp-history-card cnp-history-patient-card">
+  <!-- <div class="cnp-history-avatar" id="historyPatientAvatar">--</div> -->
 
-              <div class="cnp-history-patient-meta">
-                <span class="cnp-history-card-kicker">Patient profile</span>
-                <h3 id="historyPatientName">No patient selected</h3>
-                <div class="cnp-history-meta-line">
-                  ID: <span id="historyPatientMrn">--</span>
-                  <span class="cnp-history-meta-separator">•</span>
-                  DOB: <span id="historyPatientDob">--</span>
-                </div>
-                <div class="cnp-history-patient-extra" id="historyPatientExtra">
-                  Select a patient above to load previous prescriptions, filters, and prescription details.
-                </div>
-              </div>
-            </section>
+  <div class="cnp-history-patient-meta">
+    <span class="cnp-history-card-kicker">Patient PMR</span>
+    <h3 id="historyPatientName">No patient selected</h3>
+
+    <div class="cnp-history-meta-line">
+      ID: <span id="historyPatientMrn">--</span>
+      <span class="cnp-history-meta-separator">•</span>
+      DOB: <span id="historyPatientDob">--</span>
+    </div>
+
+    <div class="cnp-history-patient-extra" id="historyPatientExtra">
+      Select a patient above to load a PMR snapshot, prescribing summary, and previous prescriptions.
+    </div>
+  </div>
+</section>
 
             <section class="cnp-history-card cnp-history-filter-card">
               <div class="cnp-history-card-head">
@@ -481,27 +482,7 @@
 
           <div id="historyState"></div>
 
-          <section class="cnp-history-card cnp-history-timeline-card">
-            <div class="cnp-history-card-head">
-              <div>
-                <span class="cnp-history-card-kicker">Timeline</span>
-                <h4>Prescription timeline</h4>
-                <p class="cnp-history-card-support">
-                  Click any point in the chart to open the full prescription details.
-                </p>
-              </div>
-            </div>
 
-            <div class="cnp-history-timeline-wrap">
-              <canvas id="timelineChart" height="110" aria-label="Prescription timeline chart" role="img"></canvas>
-            </div>
-
-            <div class="cnp-history-legend">
-              <span><span class="cnp-history-dot cnp-history-dot-issued"></span>Active / Issued</span>
-              <span><span class="cnp-history-dot cnp-history-dot-dispensed"></span>Dispensed</span>
-              <span><span class="cnp-history-dot cnp-history-dot-expired"></span>Expired / Cancelled</span>
-            </div>
-          </section>
 
           <section class="cnp-history-card cnp-history-table-card">
             <div class="cnp-history-card-head">
@@ -538,7 +519,27 @@
           </section>
         </div>
       </section>
+          <section class="cnp-history-card cnp-history-timeline-card">
+            <div class="cnp-history-card-head">
+              <div>
+                <span class="cnp-history-card-kicker">Timeline</span>
+                <h4>Prescription timeline</h4>
+                <p class="cnp-history-card-support">
+                  Click any point in the chart to open the full prescription details.
+                </p>
+              </div>
+            </div>
 
+            <div class="cnp-history-timeline-wrap">
+              <canvas id="timelineChart" height="110" aria-label="Prescription timeline chart" role="img"></canvas>
+            </div>
+
+            <div class="cnp-history-legend">
+              <span><span class="cnp-history-dot cnp-history-dot-issued"></span>Active / Issued</span>
+              <span><span class="cnp-history-dot cnp-history-dot-dispensed"></span>Dispensed </span>
+              <span><span class="cnp-history-dot cnp-history-dot-expired"></span>Expired / Cancelled</span>
+            </div>
+          </section>
 
       <div class="cnp-row cnp-details-row">
         <section class="cnp-card cnp-card-details">

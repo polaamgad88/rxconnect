@@ -75,7 +75,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   let historyChart = null;
   let activeHistoryPatientId = null;
   let historyLoadSeq = 0;
-
+  let patientConsultationHistory = [];
+  
   injectUiEnhancements();
 
   (function () {
@@ -228,6 +229,49 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (Number.isNaN(d.getTime())) return String(value);
     return d.toLocaleString();
   }
+  function getConsultationReferenceDate(entry) {
+  return entry?.date || entry?.issue_date || entry?.created_at || null;
+}
+
+function getRenderableConsultationHistory() {
+  return (Array.isArray(patientConsultationHistory)
+    ? patientConsultationHistory
+    : []
+  ).sort(function (a, b) {
+    const da = new Date(getConsultationReferenceDate(a) || 0).getTime();
+    const db = new Date(getConsultationReferenceDate(b) || 0).getTime();
+    return db - da;
+  });
+}
+
+function buildConsultationHistoryHtml() {
+  const records = getRenderableConsultationHistory();
+
+  if (!records.length) {
+    return `
+      <div class="rx-patient-consultation-block">
+        <div class="rx-patient-consultation-title">Consultation notes</div>
+        <div class="rx-patient-consultation-empty">No consultation notes yet.</div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="rx-patient-consultation-block">
+      <div class="rx-patient-consultation-title">Consultation notes</div>
+      <div class="rx-patient-consultation-list">
+        ${records.map(function (record) {
+          return `
+            <div class="rx-patient-consultation-item">
+              <div class="rx-patient-consultation-date">${escapeHtml(fmtDateTime(getConsultationReferenceDate(record)))}</div>
+              <div class="rx-patient-consultation-text">${escapeHtml(record.text || "-")}</div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    </div>
+  `;
+}
 
   function initials(first, last) {
     const a = (first || "").trim().charAt(0);
@@ -358,41 +402,134 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-  function renderHistoryPatientCard(patient) {
-    if (historyPatientNameEl) {
-      historyPatientNameEl.textContent = patient
-        ? `${patient.first_name || ""} ${patient.last_name || ""}`.trim() ||
-          "Unknown Patient"
-        : "No patient selected";
-    }
-
-    if (historyPatientMrnEl) {
-      historyPatientMrnEl.textContent = patient?.patient_id || "--";
-    }
-
-    if (historyPatientDobEl) {
-      historyPatientDobEl.textContent = patient?.date_of_birth || "--";
-    }
-
-    if (historyPatientAvatarEl) {
-      historyPatientAvatarEl.textContent = patient
-        ? initials(patient.first_name, patient.last_name)
-        : "--";
-    }
-
-    if (historyPatientExtraEl) {
-      historyPatientExtraEl.innerHTML = patient
-        ? `
-            Email: ${escapeHtml(patient.email || "-")} •
-            Phone: ${escapeHtml(patient.phone || "-")} •
-            Gender: ${escapeHtml(patient.gender || "-")} •
-            NHS/National ID: ${escapeHtml(patient.national_id || "-")}
-          `
-        : `
-            Select a patient above to load previous prescriptions, filters, and prescription details.
-          `;
-    }
+function renderHistoryPatientCard(patient) {
+  if (historyPatientNameEl) {
+    historyPatientNameEl.textContent = patient
+      ? `${patient.first_name || ""} ${patient.last_name || ""}`.trim() ||
+        "Unknown Patient"
+      : "No patient selected";
   }
+
+  if (historyPatientMrnEl) {
+    historyPatientMrnEl.textContent = patient?.patient_id || "--";
+  }
+
+  if (historyPatientDobEl) {
+    historyPatientDobEl.textContent = patient?.date_of_birth || "--";
+  }
+
+  if (historyPatientAvatarEl) {
+    historyPatientAvatarEl.textContent = patient
+      ? initials(patient.first_name, patient.last_name)
+      : "--";
+  }
+
+  if (!historyPatientExtraEl) return;
+
+  if (!patient) {
+    historyPatientExtraEl.innerHTML = `
+      <div class="cnp-history-empty-copy">
+        Select a patient above to load a PMR snapshot, prescribing summary, and previous prescriptions.
+      </div>
+    `;
+    return;
+  }
+
+  const total = historyPrescriptions.length;
+
+  const activeCount = historyPrescriptions.filter(function (rx) {
+    const s = String(rx.status || "").toLowerCase();
+    return ["active", "issued", "partially_dispensed"].includes(s);
+  }).length;
+
+  const dispensedCount = historyPrescriptions.filter(function (rx) {
+    const s = String(rx.status || "").toLowerCase();
+    return ["dispensed", "fully_dispensed"].includes(s);
+  }).length;
+
+  const latestRx = [...historyPrescriptions].sort(function (a, b) {
+    const da = new Date(getReferenceDate(a) || 0).getTime();
+    const db = new Date(getReferenceDate(b) || 0).getTime();
+    return db - da;
+  })[0] || null;
+
+  const latestDispensed = [...historyPrescriptions]
+    .filter(function (rx) {
+      return !!rx.last_dispensed_at;
+    })
+    .sort(function (a, b) {
+      const da = new Date(a.last_dispensed_at || 0).getTime();
+      const db = new Date(b.last_dispensed_at || 0).getTime();
+      return db - da;
+    })[0] || null;
+
+  const age = calcAge(patient.date_of_birth);
+  const address = patientAddress(patient) || "-";
+
+  historyPatientExtraEl.innerHTML = `
+    <div class="cnp-history-chip-row">
+      <span class="cnp-history-mini-chip">${escapeHtml(age ? `${age} years` : "Age -")}</span>
+      <span class="cnp-history-mini-chip">${escapeHtml(patient.gender || "-")}</span>
+      <span class="cnp-history-mini-chip">${savedPatientIds.has(Number(patient.patient_id)) ? "Saved to my list" : "Not saved yet"}</span>
+    </div>
+
+    <div class="cnp-history-profile-grid">
+      <div class="cnp-history-profile-item">
+        <span>Phone</span>
+        <strong>${escapeHtml(patient.phone || "-")}</strong>
+      </div>
+      <div class="cnp-history-profile-item">
+        <span>Email</span>
+        <strong>${escapeHtml(patient.email || "-")}</strong>
+      </div>
+      <div class="cnp-history-profile-item cnp-history-profile-item-wide">
+        <span>Address</span>
+        <strong>${escapeHtml(address)}</strong>
+      </div>
+      <div class="cnp-history-profile-item cnp-history-profile-item-wide">
+        <span>NHS / National ID</span>
+        <strong>${escapeHtml(patient.national_id || "-")}</strong>
+      </div>
+    </div>
+
+    <div class="cnp-history-overview-grid">
+      <div class="cnp-history-overview-item">
+        <span>Total prescriptions</span>
+        <strong>${escapeHtml(total)}</strong>
+      </div>
+      <div class="cnp-history-overview-item">
+        <span>Active / issued</span>
+        <strong>${escapeHtml(activeCount)}</strong>
+      </div>
+      <div class="cnp-history-overview-item">
+        <span>Dispensed Prescriptions</span>
+        <strong>${escapeHtml(dispensedCount)}</strong>
+      </div>
+      <div class="cnp-history-overview-item">
+        <span>Last issued</span>
+        <strong>${escapeHtml(latestRx ? fmtDate(getReferenceDate(latestRx)) : "-")}</strong>
+      </div>
+    </div>
+
+    <div class="cnp-history-pmr-box">
+      <div class="cnp-history-pmr-title">PMR snapshot</div>
+      <div class="cnp-history-pmr-copy">
+        ${
+          latestRx
+            ? `Latest prescription <strong>${escapeHtml(latestRx.prescription_number || latestRx.code || latestRx.prescription_id || "-")}</strong> is <strong>${escapeHtml(latestRx.status || "-")}</strong> and was issued on <strong>${escapeHtml(fmtDate(getReferenceDate(latestRx)))}</strong>.`
+            : `No prescriptions recorded yet for this patient under the current prescriber.`
+        }
+      </div>
+      <div class="cnp-history-pmr-subcopy">
+        ${
+          latestDispensed
+            ? `Last dispensed at ${escapeHtml(latestDispensed.pharmacy_name || "-")} on ${escapeHtml(fmtDateTime(latestDispensed.last_dispensed_at))}.`
+            : `No dispensation has been recorded yet.`
+        }
+      </div>
+    </div>
+  `;
+}
 
   function applyHistoryFilters(list) {
     const from = fromDateEl?.value || "";
@@ -554,6 +691,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       return;
     }
 
+
     activeHistoryPatientId = id;
     const requestId = ++historyLoadSeq;
 
@@ -586,35 +724,94 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  function renderPatientSummary(patient) {
-    if (!patientSummary) return;
 
-    if (!patient) {
-      patientSummary.innerHTML = `
-        <p class="cnp-patient-name">No patient selected</p>
-        <p class="rx-muted">Search, save, or create a patient before issuing a prescription.</p>
-      `;
-      renderHistoryPatientCard(null);
-      syncPatientStateUi();
-      return;
-    }
 
-    const name =
-      `${patient.first_name || ""} ${patient.last_name || ""}`.trim();
-    const age = calcAge(patient.date_of_birth);
-    const addr = patientAddress(patient);
+  async function loadPatientConsultationHistory(patientId) {
+  const id = Number(patientId);
 
-    patientSummary.innerHTML = `
-      <p class="cnp-patient-name">${escapeHtml(name)}</p>
-      <p>${escapeHtml(age ? `${age} years – ` : "")}${escapeHtml(patient.date_of_birth || "")}</p>
-      <p>Gender: ${escapeHtml(patient.gender || "-")}</p>
-      <p><strong>Address:</strong> ${escapeHtml(addr || "-")}</p>
-      <p><strong>Contact:</strong> ${escapeHtml(patient.phone || "-")}</p>
-      <p><strong>Email:</strong> ${escapeHtml(patient.email || "-")}</p>
-    `;
-    renderHistoryPatientCard(patient);
-    syncPatientStateUi();
+  if (!Number.isFinite(id) || id <= 0 || !isClinician) {
+    patientConsultationHistory = [];
+    if (selectedPatient) renderPatientSummary(selectedPatient);
+    return;
   }
+
+  try {
+    const historyResp = await RX.api.get(`/clinicians/me/patients/${id}/prescriptions`);
+    const prescriptions = Array.isArray(historyResp.prescriptions)
+      ? historyResp.prescriptions
+      : [];
+
+    const detailed = await Promise.all(
+      prescriptions.map(async function (rx) {
+        try {
+          const detailResp = await RX.api.get(`/prescriptions/${rx.prescription_id}`);
+          const detailRx = detailResp.prescription || {};
+          const text = String(detailRx.notes || "").trim();
+
+          if (!text) return null;
+
+          return {
+            prescription_id: rx.prescription_id,
+            text: text,
+            date:
+              detailRx.issue_date ||
+              detailRx.created_at ||
+              rx.issue_date ||
+              rx.created_at ||
+              null,
+          };
+        } catch (error) {
+          console.error("Failed to load prescription detail for consultation notes:", rx.prescription_id, error);
+          return null;
+        }
+      })
+    );
+
+    patientConsultationHistory = detailed.filter(Boolean);
+
+    if (selectedPatient && Number(selectedPatient.patient_id) === id) {
+      renderPatientSummary(selectedPatient);
+    }
+  } catch (error) {
+    patientConsultationHistory = [];
+    if (selectedPatient && Number(selectedPatient.patient_id) === id) {
+      renderPatientSummary(selectedPatient);
+    }
+    console.error("Failed to load consultation history:", error);
+  }
+}
+
+function renderPatientSummary(patient) {
+  if (!patientSummary) return;
+
+  if (!patient) {
+    patientConsultationHistory = [];
+    patientSummary.innerHTML = `
+      <p class="cnp-patient-name">No patient selected</p>
+      <p class="rx-muted">Search, save, or create a patient before issuing a prescription.</p>
+    `;
+    renderHistoryPatientCard(null);
+    syncPatientStateUi();
+    return;
+  }
+
+  const name =
+    `${patient.first_name || ""} ${patient.last_name || ""}`.trim();
+  const age = calcAge(patient.date_of_birth);
+  const addr = patientAddress(patient);
+
+  patientSummary.innerHTML = `
+    <p class="cnp-patient-name">${escapeHtml(name)}</p>
+    <p>${escapeHtml(age ? `${age} years – ` : "")}${escapeHtml(patient.date_of_birth || "")}</p>
+    <p>Gender: ${escapeHtml(patient.gender || "-")}</p>
+    <p><strong>Address:</strong> ${escapeHtml(addr || "-")}</p>
+    <p><strong>Contact:</strong> ${escapeHtml(patient.phone || "-")}</p>
+    <p><strong>Email:</strong> ${escapeHtml(patient.email || "-")}</p>
+    ${buildConsultationHistoryHtml()}
+  `;
+  renderHistoryPatientCard(patient);
+  syncPatientStateUi();
+}
 
   function syncPatientStateUi() {
     const wrap = document.getElementById("rxPatientStateWrap");
@@ -772,28 +969,33 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (dropdown) dropdown.style.display = "none";
   }
 
-  function selectPatient(patient) {
-    selectedPatient = patient;
-    sessionStorage.setItem(
-      "rx_selected_patient_id",
-      String(patient.patient_id),
-    );
+function selectPatient(patient) {
+  selectedPatient = patient;
+  patientConsultationHistory = [];
 
-    if (patientSearchInput) {
-      patientSearchInput.value =
-        `${patient.first_name || ""} ${patient.last_name || ""}`.trim();
-    }
+  sessionStorage.setItem(
+    "rx_selected_patient_id",
+    String(patient.patient_id),
+  );
 
-    renderPatientSummary(patient);
-    rememberPatientForHistory();
-    hideDropdown();
-
-    loadSelectedPatientHistory(patient.patient_id).catch(function (error) {
-      console.error(error);
-      setHistoryState("error", error.message || "Failed to load patient history.");
-    });
+  if (patientSearchInput) {
+    patientSearchInput.value =
+      `${patient.first_name || ""} ${patient.last_name || ""}`.trim();
   }
 
+  renderPatientSummary(patient);
+  rememberPatientForHistory();
+  hideDropdown();
+
+  loadSelectedPatientHistory(patient.patient_id).catch(function (error) {
+    console.error(error);
+    setHistoryState("error", error.message || "Failed to load patient history.");
+  });
+
+  loadPatientConsultationHistory(patient.patient_id).catch(function (error) {
+    console.error(error);
+  });
+}
   function buildPatientMeta(patient) {
     const saved = savedPatientIds.has(Number(patient.patient_id));
     const bits = [
