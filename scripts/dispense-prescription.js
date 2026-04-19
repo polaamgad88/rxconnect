@@ -362,7 +362,47 @@ function closeSuccessModal() {
         "clinician_name",
         "doctor.full_name",
         "prescriber.full_name",
-        "prescriber_unique_string",
+      ],
+      "-"
+    );
+  }
+
+  function getPrescriberLicense(data) {
+    return pickValue(
+      data,
+      [
+        "prescriber_license_number",
+        "clinician_license_number",
+        "prescriber_professional_license_no",
+        "professional_license_no",
+        "doctor.license_number",
+        "prescriber.license_number",
+      ],
+      "-"
+    );
+  }
+
+  function getPrescriberSpecialty(data) {
+    return pickValue(
+      data,
+      [
+        "prescriber_specialty",
+        "specialty",
+        "doctor.specialty",
+        "prescriber.specialty",
+      ],
+      "-"
+    );
+  }
+
+  function getPrescriberClinic(data) {
+    return pickValue(
+      data,
+      [
+        "prescriber_clinic_name",
+        "clinic_name",
+        "doctor.clinic_name",
+        "prescriber.clinic_name",
       ],
       "-"
     );
@@ -603,6 +643,14 @@ function closeSuccessModal() {
     const patientName = getPatientName(data);
     const patientDob = getPatientDob(data);
     const prescriberName = getPrescriberName(data);
+    const prescriberLicense = getPrescriberLicense(data);
+    const prescriberSpecialty = getPrescriberSpecialty(data);
+    const rawClinic = getPrescriberClinic(data);
+
+    const prescriberClinic =
+      !rawClinic || rawClinic.trim() === "-" || rawClinic.includes("- -")
+        ? "Independent Doctor"
+        : rawClinic;
     const issueDate = getIssueDate(data);
     const expiryDate = getExpiryDate(data);
     const dispensedAt =
@@ -687,6 +735,9 @@ function closeSuccessModal() {
             <section class="eprescription-party">
               <h4>Prescriber / Issuer</h4>
               <p><strong>Doctor:</strong> ${escapeHtml(prescriberName)}</p>
+              <p><strong>License no:</strong> ${escapeHtml(prescriberLicense)}</p>
+              <p><strong>Specialty:</strong> ${escapeHtml(prescriberSpecialty)}</p>
+              <p><strong>Clinic:</strong> ${escapeHtml(prescriberClinic)}</p>
               <p><strong>Issuer ref:</strong> ${escapeHtml(
                 pickValue(data, ["prescriber_unique_string"], "-")
               )}</p>
@@ -764,6 +815,14 @@ function closeSuccessModal() {
   const patientName = getPatientName(data);
   const patientDob = getPatientDob(data);
   const prescriberName = getPrescriberName(data);
+  const prescriberLicense = getPrescriberLicense(data);
+  const prescriberSpecialty = getPrescriberSpecialty(data);
+  const rawClinic = getPrescriberClinic(data);
+
+  const prescriberClinic =
+    !rawClinic || rawClinic.trim() === "-" || rawClinic.includes("- -")
+      ? "Independent Doctor"
+      : rawClinic;
   const issueDate = getIssueDate(data);
   const expiryDate = getExpiryDate(data);
 
@@ -839,6 +898,9 @@ function closeSuccessModal() {
           <section class="eprescription-party">
             <h4>Prescriber / Issuer</h4>
             <p><strong>Doctor:</strong> ${escapeHtml(prescriberName)}</p>
+            <p><strong>License no:</strong> ${escapeHtml(prescriberLicense)}</p>
+            <p><strong>Specialty:</strong> ${escapeHtml(prescriberSpecialty)}</p>
+            <p><strong>Clinic:</strong> ${escapeHtml(prescriberClinic)}</p>
             <p><strong>Issuer ref:</strong> ${escapeHtml(
               pickValue(data, ["prescriber_unique_string"], "-")
             )}</p>
@@ -994,6 +1056,13 @@ function closeSuccessModal() {
   const patientName = getPatientName(data);
   const patientDob = formatDate(getPatientDob(data));
   const prescriberName = getPrescriberName(data);
+  const prescriberLicense = getPrescriberLicense(data);
+  const prescriberSpecialty = getPrescriberSpecialty(data);
+  const rawClinic = getPrescriberClinic(data);
+  const prescriberClinic =
+    !rawClinic || rawClinic.trim() === "-" || rawClinic.includes("- -")
+      ? "Independent Doctor"
+      : rawClinic;
   const dispensedAt = formatDateTime(
     pickValue(lastDispenseResponse, [
       "dispensed_at",
@@ -1010,6 +1079,9 @@ function closeSuccessModal() {
     `Patient: ${patientName}`,
     `DOB: ${patientDob}`,
     `Prescriber: ${prescriberName}`,
+    `Prescriber license: ${prescriberLicense}`,
+    `Prescriber specialty: ${prescriberSpecialty}`,
+    `Prescriber clinic: ${prescriberClinic}`,
     `Dispensed at: ${dispensedAt}`,
     `Pharmacy: ${pharmacyData.pharmacy_name || "-"}`,
     `Phone: ${pharmacyData.phone || "-"}`,
