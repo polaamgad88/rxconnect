@@ -97,6 +97,16 @@ document.addEventListener("DOMContentLoaded", async function () {
     window.location.href = "./login.html";
     return;
   }
+  const isBuiltinAdmin =
+    String(storedUser.username || "").toLowerCase() === "admin.builtin";
+
+  if (!isBuiltinAdmin) {
+    notify("warn", "Access denied", "This page is available only for admin.builtin.");
+    setTimeout(function () {
+      window.location.href = "./dashboard.html";
+    }, 700);
+    return;
+  }
 
   const isManagementAdmin =
     storedUser.login_type === "managment" && Number(storedUser.is_admin || 0) === 1;

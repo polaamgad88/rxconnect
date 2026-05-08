@@ -1,4 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const user = RX.requireAuth(["managment"]);
+  if (!user) return;
+
+  if (!RX.isManagementAdmin(user)) {
+    window.location.href = "./dashboard.html";
+    return;
+  }
+  
   const MOBILE_BREAKPOINT = 980;
   const PRESCRIBER_RATES = {
     chobham: 1.0,

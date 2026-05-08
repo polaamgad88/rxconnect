@@ -1,4 +1,4 @@
-window.RXCONNECT_API_BASE = "http://localhost:5000";
+window.RXCONNECT_API_BASE = "https://rxconnect.co.uk/api";
 (function initTouchClass(win, doc) {
   const root = doc.documentElement;
   root.className += " js";
@@ -26,8 +26,9 @@ window.RXCONNECT_API_BASE = "http://localhost:5000";
 })();
 
 document.addEventListener("DOMContentLoaded", async function () {
-    // const user = RX.requireAuth(["clinician"]);
-  // if (!user) return;
+  const user = RX.requireAuth(["clinician"]);
+  if (!user) return;
+  
   const reportsBtn = document.getElementById("reportsBtn");
   const reportsDropdown = document.getElementById("reportsDropdown");
   const userTrigger = document.getElementById("userTrigger");

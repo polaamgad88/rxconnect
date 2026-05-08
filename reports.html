@@ -332,41 +332,6 @@
       </div>
     </footer>
 
-    <script>
-      (function () {
-        const menuBtn = document.getElementById("menu-btn");
-        const navMenu = document.getElementById("nav-menu");
-        const reportsBtn = document.getElementById("reportsBtn");
-        const reportsDropdown = document.getElementById("reportsDropdown");
-        const userBtn = document.querySelector(".user-trigger");
-        const userMenu = document.getElementById("userDropdownMenu");
-
-        menuBtn?.addEventListener("click", function () {
-          const open = navMenu.classList.toggle("open");
-          menuBtn.setAttribute("aria-expanded", String(open));
-        });
-
-        reportsBtn?.addEventListener("click", function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-          reportsDropdown.classList.toggle("show");
-        });
-
-        userBtn?.addEventListener("click", function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-          userMenu.classList.toggle("show");
-        });
-
-        document.addEventListener("click", function (e) {
-          if (!document.getElementById("reportsDropdownWrap")?.contains(e.target)) {
-            reportsDropdown?.classList.remove("show");
-          }
-          if (!document.getElementById("userDropdownWrap")?.contains(e.target)) {
-            userMenu?.classList.remove("show");
-          }
-        });
-      })();
-    </script>
+    <script src="./scripts/rxconnect.js"></script>
   </body>
 </html>

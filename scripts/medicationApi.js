@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const user = RX.requireAuth(["clinic", "clinician", "dispenser", "chobham", "managment"]);
+  if (!user) return;
+  
   const resultsDiv = document.getElementById("medication-results");
   const resultsSummary = document.getElementById("resultsSummary");
   const searchInput = document.getElementById("medSearch");

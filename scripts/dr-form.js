@@ -4,10 +4,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   // const user = RX.requireAuth(["clinician"]);
   // if (!user) return;
 
-  const user =
-    (window.RX && typeof RX.getUser === "function" && RX.getUser()) || {};
-  const isClinician =
-    String(user?.login_type || "").toLowerCase() === "clinician";
+  const user = RX.requireAuth(["clinician"]);
+  if (!user) return;
+
+  const isClinician = String(user.login_type || "").toLowerCase() === "clinician";
 
   const patientSearchInput =
     document.getElementById("patientSearchTerm") ||
