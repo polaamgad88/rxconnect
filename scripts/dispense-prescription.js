@@ -466,7 +466,14 @@ function closeSuccessModal() {
 
   async function lookupPrescription() {
     const enteredCode = normalizeUpper(codeEl.value);
-    const dob = dobEl.value;
+    const fp = dobEl._flatpickr;
+    const selectedDate = fp?.selectedDates?.[0];
+    const year = selectedDate.getFullYear();
+    const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
+    const day = String(selectedDate.getDate()).padStart(2, "0");
+
+    const dob = `${year}-${month}-${day}`;
+    console.log("Looking up prescription with code:", enteredCode, "and DOB:", dob);
 
     if (!enteredCode || !dob) {
       throw new Error("Prescription code and patient DOB are required.");

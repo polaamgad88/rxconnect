@@ -24,8 +24,13 @@
     <link rel="stylesheet" href="./styles/dr-form.css" />
     <link rel="stylesheet" href="./styles/dispense-prescription.css" />
     <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
   </head>
 
+  
   <body>
     <header class="site-header">
       <div class="navbar-wrapper">
@@ -178,9 +183,10 @@
               <div class="dispense-field">
                 <label for="dob">Patient DOB</label>
                 <input
-                  type="date"
+                  type="text"
                   id="dob"
                   class="dispense-input text-field w-input"
+                  placeholder="DD/MM/YYYY"
                   required
                 />
               </div>
@@ -514,6 +520,15 @@
       </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script>
+    flatpickr("#dob", {
+      dateFormat: "d/m/Y",
+      allowInput: true,
+      maxDate: "today"
+    });
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="./scripts/rxconnect.js"></script>
