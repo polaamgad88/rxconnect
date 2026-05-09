@@ -1590,8 +1590,8 @@ function closeModal() {
       //const city = (inputs[10]?.value || "").trim();
       // const country = selects[1]?.value || "";
 
-      if (!first_name || !last_name || !date_of_birth) {
-        RxToast.error("First name, last name, and date of birth are required.");
+      if (!first_name || !last_name || !date_of_birth || !gender || !email || !phone || !addr1) {
+        RxToast.error("First name, last name, date of birth, gender, email, phone, and address are required.");
         return;
       }
 
@@ -2152,7 +2152,7 @@ function createMedicineRow() {
         <input
           type="text"
           class="med-input med-input-qty"
-          placeholder="Qty"
+          placeholder="Strength"
         />
       </div>
     </td>
