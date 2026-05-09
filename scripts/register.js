@@ -11,12 +11,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const statusBox = document.getElementById("registerStatus");
 
   const sections = {
-    chobham: document.getElementById("chobhamFields"),
     prescriber: document.getElementById("prescriberFields"),
   };
 
   const requiredFieldsByRole = {
-    chobham: [],
     prescriber: ["licenseNumber"],
   };
 
@@ -106,10 +104,6 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    if (role === "chobham") {
-      setStatus("Chobham registration creates a direct Chobham login user.", "info");
-      return;
-    }
 
     setStatus("", "");
   }
@@ -298,24 +292,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setSubmitting(true);
 
     try {
-      if (userType === "chobham") {
-        const payload = {
-          email,
-          username: email,
-          full_name,
-          phone: phone || null,
-          password,
-        };
-
-        const resp = await apiPostJSON("/chobham/register", payload, { auth: false });
-
-        notify("success", "Registration completed", `Chobham account created. User #${resp.user_id}. Redirecting to login...`);
-        setTimeout(() => {
-          window.location.href = "./login.html";
-        }, 1200);
-        return;
-      }
-
+      
       if (userType === "prescriber") {
         const license_number = valueOf("licenseNumber");
         const specialty = valueOf("specialization");
