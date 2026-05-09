@@ -204,10 +204,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   const approveBtn = document.getElementById("approveBtn");
   const rejectBtn = document.getElementById("rejectBtn");
 
-  let currentType = roleMode === "clinic_admin" ? "clinician" : "clinic";
+  let currentType = roleMode === "clinic_admin" ? "clinician" : "all";
   let currentView = "pending"; // pending | approved
   let rows = [];
   let activeRow = null;
+  let allPendingCount = 0;
 
   function setRoleLayout() {
     if (roleMode === "clinic_admin") {
@@ -234,6 +235,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         heroSubtitle.textContent =
           "Review, approve, and manage clinic and clinician onboarding requests in one premium workspace.";
       }
+      tabs.forEach(function (tab) {
+        tab.classList.remove("active");
+      });
+
+      if (tabAllPending) {
+        tabAllPending.classList.add("active");
+      }
     }
   }
 
@@ -247,6 +255,27 @@ document.addEventListener("DOMContentLoaded", async function () {
   function setCount(n) {
     if (!countPill) return;
     countPill.textContent = `${n} ${currentView}`;
+  }
+
+  function setAllPendingTabCount(n) {
+    allPendingCount = Number(n || 0);
+
+    if (tabAllPending) {
+      tabAllPending.textContent = `All Pending : ${allPendingCount}`;
+    }
+  }
+
+  async function refreshAllPendingTabCount() {
+    if (roleMode === "clinic_admin") {
+      setAllPendingTabCount(0);
+      return [];
+    }
+
+    const resp = await RX.api.get("/approvals/pending");
+    const pendingRows = Array.isArray(resp.pending) ? resp.pending : [];
+
+    setAllPendingTabCount(pendingRows.length);
+    return pendingRows;
   }
 
   function setEmptyText() {
@@ -384,13 +413,23 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   async function loadPending() {
-    let path = "/approvals/pending";
-    if (currentType && currentType !== "all") {
-      path += `?type=${encodeURIComponent(currentType)}`;
+    let pendingRows = [];
+
+    if (currentType === "all") {
+      pendingRows = await refreshAllPendingTabCount();
+    } else {
+      let path = "/approvals/pending";
+      if (currentType) {
+        path += `?type=${encodeURIComponent(currentType)}`;
+      }
+
+      const resp = await RX.api.get(path);
+      pendingRows = Array.isArray(resp.pending) ? resp.pending : [];
+
+      await refreshAllPendingTabCount();
     }
 
-    const resp = await RX.api.get(path);
-    rows = Array.isArray(resp.pending) ? resp.pending : [];
+    rows = pendingRows;
     currentView = "pending";
     render(applySearch(rows));
   }
@@ -703,8 +742,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       currentView = "pending";
       await loadPending();
     } else {
-      currentType = "clinic";
+      currentType = "all";
       currentView = "pending";
+      activateTabElement(tabAllPending);
       await loadPending();
     }
   } catch (e) {
