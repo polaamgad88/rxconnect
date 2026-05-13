@@ -54,16 +54,15 @@
       <form id="registerForm" novalidate>
         <select id="userType" class="register-select" required>
           <option value="">Select User Type</option>
+          <option value="clinic">Clinic</option>
           <option value="prescriber">Prescriber</option>
         </select>
 
-        <input type="text" id="fullName" class="register-input" placeholder="Full Name" required />
-        <input type="email" id="email" class="register-input" placeholder="Email Address" required />
-        <input type="text" id="phone" class="register-input" placeholder="Phone Number (optional)" />
-        <input type="password" id="password" class="register-input" placeholder="Password" required />
-
-
         <div id="prescriberFields" class="hidden">
+          <input type="text" id="fullName" class="register-input" placeholder="Full Name" required />
+          <input type="email" id="email" class="register-input" placeholder="Email Address" required />
+          <input type="text" id="phone" class="register-input" placeholder="Phone Number (optional)" />
+          <input type="password" id="password" class="register-input" placeholder="Password" required />
           <input type="text" id="licenseNumber" class="register-input" placeholder="Medical License Number" />
           <input type="text" id="specialization" class="register-input" placeholder="Specialization (optional)" />
 

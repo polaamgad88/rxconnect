@@ -103,6 +103,9 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       return;
     }
+    else if (role === "clinic") {
+      window.location.href = "./clinic-register.html";
+    }
 
 
     setStatus("", "");
@@ -279,21 +282,14 @@ document.addEventListener("DOMContentLoaded", function () {
     setStatus("", "");
 
     const userType = valueOf("userType");
-    const full_name = valueOf("fullName");
-    const email = valueOf("email");
-    const phone = valueOf("phone");
-    const password = byId("password")?.value || "";
-
-    if (!userType || !full_name || !email || !password) {
-      notify("error", "Missing fields", "Please fill role, full name, email, and password.");
-      return;
-    }
-
     setSubmitting(true);
-
     try {
       
       if (userType === "prescriber") {
+        const full_name = valueOf("fullName");
+        const email = valueOf("email");
+        const phone = valueOf("phone");
+        const password = byId("password")?.value || "";
         const license_number = valueOf("licenseNumber");
         const specialty = valueOf("specialization");
         const association_type = associationTypeSelect?.value || "independent";
@@ -302,6 +298,10 @@ document.addEventListener("DOMContentLoaded", function () {
           fileFieldsByRole.prescriber?.files,
           "clinician_verification"
         );
+        if (!userType || !full_name || !email || !password) {
+          notify("error", "Missing fields", "Please fill role, full name, email, and password.");
+          return;
+        }
 
         if (!license_number) {
           throw new Error("Medical license number is required.");
