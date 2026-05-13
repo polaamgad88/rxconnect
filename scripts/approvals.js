@@ -18,7 +18,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     return String(s ?? "")
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   }
 
   function fmtDate(value) {
@@ -30,6 +32,114 @@ document.addEventListener("DOMContentLoaded", async function () {
   function badge(type) {
     const cls = type === "clinician" ? "clinician" : "clinic";
     return `<span class="badge ${cls}">${type.toUpperCase()}</span>`;
+  }
+
+  function normalizeApprovalFileUrl(rawUrl) {
+    const clean = String(rawUrl || "").trim();
+    if (!clean) return "";
+
+    try {
+      if (/^https?:\/\//i.test(clean)) return clean;
+
+      const apiBase = String(window.RXCONNECT_API_BASE || "").replace(/\/+$/, "");
+      if (clean.startsWith("/")) {
+        return apiBase ? `${apiBase}${clean}` : clean;
+      }
+
+      return apiBase ? `${apiBase}/${clean.replace(/^\/+/, "")}` : clean;
+    } catch {
+      return clean;
+    }
+  }
+
+  function extractApprovalFilesFromNotes(notes) {
+    const text = String(notes || "");
+    const files = [];
+    const seen = new Set();
+
+    text.split(/\r?\n/).forEach(function (line) {
+      const match = line.match(/^\s*-\s*(.+?)\s*:\s*(.+?)\s*$/);
+      if (!match) return;
+
+      const label = match[1].trim();
+      const url = normalizeApprovalFileUrl(match[2].trim());
+
+      if (!url) return;
+
+      const looksLikeFile =
+        /\.(png|jpe?g|jpeg|webp|gif|pdf)(\?|#|$)/i.test(url) ||
+        url.includes("/images/");
+
+      if (!looksLikeFile || seen.has(url)) return;
+
+      seen.add(url);
+      files.push({
+        label,
+        url,
+        isImage: /\.(png|jpe?g|jpeg|webp|gif)(\?|#|$)/i.test(url),
+      });
+    });
+
+    return files;
+  }
+
+  function cleanApprovalNotesText(notes) {
+    return String(notes || "")
+      .split(/\r?\n/)
+      .filter(function (line) {
+        const isFileLine = /^\s*-\s*(.+?)\s*:\s*(.+?)\s*$/.test(line);
+        const isUploadHeading = /uploaded verification|verification file|verification document/i.test(line);
+        return !isFileLine && !isUploadHeading;
+      })
+      .join("\n")
+      .trim();
+  }
+
+  function renderApprovalRequestNotes(notes) {
+    const cleanNotes = cleanApprovalNotesText(notes);
+    const files = extractApprovalFilesFromNotes(notes);
+
+    const notesHtml = cleanNotes
+      ? `<div class="approval-notes-text">${esc(cleanNotes).replace(/\n/g, "<br>")}</div>`
+      : `<div class="approval-notes-empty">No written notes.</div>`;
+
+    if (!files.length) {
+      return `
+        ${notesHtml}
+        <div class="approval-docs-section">
+          <div class="approval-docs-title">Verification picture / files</div>
+          <div class="approval-docs-empty">No uploaded verification files found for this request.</div>
+        </div>
+      `;
+    }
+
+    const filesHtml = files
+      .map(function (file) {
+        if (file.isImage) {
+          return `
+            <a class="approval-doc-card approval-doc-image" href="${esc(file.url)}" target="_blank" rel="noreferrer">
+              <img src="${esc(file.url)}" alt="${esc(file.label)}" />
+              <span>${esc(file.label)}</span>
+            </a>
+          `;
+        }
+
+        return `
+          <a class="approval-doc-card approval-doc-file" href="${esc(file.url)}" target="_blank" rel="noreferrer">
+            <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+            <span>${esc(file.label)}</span>
+          </a>
+        `;
+      })
+      .join("");
+
+    return `
+      ${notesHtml}
+      <div class="approval-docs-section">
+        <div class="approval-docs-title">Verification picture / files</div>
+        <div class="approval-docs-grid">${filesHtml}</div>
+      </div>
+    `;
   }
 
   function isMobileView() {
@@ -484,8 +594,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         ? `Clinic id: ${row.requested_clinic_id ?? row.clinic_id}`
         : "-";
 
-    dReqNotes.textContent =
-      currentView === "approved" ? row.review_notes || row.request_notes || "-" : row.request_notes || "-";
+    dReqNotes.innerHTML = renderApprovalRequestNotes(
+      currentView === "approved"
+        ? row.review_notes || row.request_notes || ""
+        : row.request_notes || ""
+    );
 
     reviewNotes.value = "";
     overrideClinicId.value = "";
