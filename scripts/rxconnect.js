@@ -69,11 +69,11 @@
   }
 
   function readStorage(key) {
-    return sessionStorage.getItem(key);
+    return localStorage.getItem(key);
   }
 
   function writeStorage(key, value) {
-    sessionStorage.setItem(key, value);
+    localStorage.setItem(key, value);
   }
 
   function removeStorage(key) {
@@ -81,22 +81,45 @@
     localStorage.removeItem(key);
   }
 
-  function migrateLegacyLocalStorage() {
+  function normalizeStoredUser(user) {
+    if (!user || typeof user !== "object") return null;
+
+    return {
+      user_id: user.user_id ?? user.id ?? null,
+      username: user.username || user.email || "",
+      email: user.email || "",
+      full_name: user.full_name || user.name || user.username || user.email || "",
+      name: user.name || user.full_name || user.username || user.email || "",
+      phone: user.phone || "",
+      login_type: user.login_type || "",
+      is_admin: Number(user.is_admin || 0),
+
+      clinic_id: user.clinic_id ?? null,
+      clinician_id: user.clinician_id ?? null,
+      dispenser_id: user.dispenser_id ?? null,
+
+      pharmacy_name: user.pharmacy_name || "",
+    };
+  }
+
+  function migrateLegacySessionStorage() {
+    const localToken = localStorage.getItem(TOKEN_KEY);
+    const localUser = localStorage.getItem(USER_KEY);
+
     const sessionToken = sessionStorage.getItem(TOKEN_KEY);
     const sessionUser = sessionStorage.getItem(USER_KEY);
 
-    if (!sessionToken) {
-      const legacyToken = localStorage.getItem(TOKEN_KEY);
-      if (legacyToken) sessionStorage.setItem(TOKEN_KEY, legacyToken);
+
+    if (!localToken && sessionToken) {
+      localStorage.setItem(TOKEN_KEY, sessionToken);
     }
 
-    if (!sessionUser) {
-      const legacyUser = localStorage.getItem(USER_KEY);
-      if (legacyUser) sessionStorage.setItem(USER_KEY, legacyUser);
+    if (!localUser && sessionUser) {
+      localStorage.setItem(USER_KEY, sessionUser);
     }
 
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(USER_KEY);
   }
 
   function normalizePageName(pathname) {
@@ -170,6 +193,61 @@
     } catch {
       return normalizePageName(href.split("?")[0].split("#")[0]);
     }
+  }
+
+  function syncLoggedInNavigation(loggedIn) {
+    document
+    .querySelectorAll('a[href="./prescriptions.html"], a[href="prescriptions.html"], a[href="/prescriptions.html"]')
+    .forEach(function (link) {
+      if (loggedIn) {
+        link.style.removeProperty("display");
+      } else {
+        link.style.setProperty("display", "none", "important");
+      }
+    });
+    document
+      .querySelectorAll('a[href="./register.html"], a[href="register.html"], a[href="/register.html"]')
+      .forEach(function (link) {
+        const text = String(link.textContent || "").trim().toLowerCase();
+        const isJoinLink =
+          link.classList.contains("join-btn") ||
+          link.classList.contains("join-card-cta") ||
+          link.classList.contains("primary-cta") ||
+          text === "join us" ||
+          text.includes("join us");
+
+        if (!isJoinLink) return;
+
+        if (loggedIn) {
+          link.style.setProperty("display", "none", "important");
+        } else {
+          link.style.removeProperty("display");
+        }
+      });
+
+    document.querySelectorAll(".nav-center, .nav-menu").forEach(function (nav) {
+      let existing = nav.querySelector(".rx-dashboard-nav-link");
+
+      if (!loggedIn) {
+        if (existing) existing.remove();
+        return;
+      }
+
+      const alreadyHasDashboard = nav.querySelector('a[href="./dashboard.html"], a[href="dashboard.html"], a[href="/dashboard.html"]');
+      if (alreadyHasDashboard) return;
+
+      const dashboardLink = document.createElement("a");
+      dashboardLink.href = "./dashboard.html";
+      dashboardLink.textContent = "Dashboard";
+
+      if (nav.classList.contains("w-nav-menu")) {
+        dashboardLink.className = "nav-link w-nav-link rx-dashboard-nav-link";
+      } else {
+        dashboardLink.className = "nav-link rx-dashboard-nav-link";
+      }
+
+      nav.insertBefore(dashboardLink, nav.firstElementChild);
+    });
   }
 
   function linkNeedsAuth(anchor) {
@@ -281,6 +359,7 @@
       }
     });
 
+    syncLoggedInNavigation(loggedIn);
     applyRoleUi();
   }
 
@@ -631,13 +710,19 @@
 
     setSession(token, user) {
       if (token) writeStorage(TOKEN_KEY, token);
-      if (user) writeStorage(USER_KEY, JSON.stringify(user));
 
-      localStorage.removeItem(TOKEN_KEY);
-      localStorage.removeItem(USER_KEY);
+      const safeUser = normalizeStoredUser(user);
+      if (safeUser) {
+        writeStorage(USER_KEY, JSON.stringify(safeUser));
+      }
+
+      // Clean old per-tab auth values after moving to localStorage.
+      sessionStorage.removeItem(TOKEN_KEY);
+      sessionStorage.removeItem(USER_KEY);
 
       try {
-        applySessionUi();
+        if (typeof applySessionUi === "function") applySessionUi();
+        else applyRoleUi();
       } catch (_) {}
     },
 
@@ -771,7 +856,7 @@
     },
   };
 
-  migrateLegacyLocalStorage();
+  migrateLegacySessionStorage();
 
   document.addEventListener("DOMContentLoaded", function () {
     injectGuardCss();
@@ -786,5 +871,38 @@
     }, 0);
   });
 
+  window.addEventListener("storage", function (event) {
+    if (![TOKEN_KEY, USER_KEY].includes(event.key)) return;
+
+    try {
+      if (typeof applySessionUi === "function") {
+        applySessionUi();
+      } else {
+        applyRoleUi();
+      }
+
+      if (!RX.getToken() && !RX.getUser()) {
+        const page = String(window.location.pathname || "").split("/").pop();
+
+        const publicPages = new Set([
+          "",
+          "index.html",
+          "login.html",
+          "register.html",
+          "clinic-register.html",
+          "about-us.html",
+          "contact-us.html",
+          "services.html",
+          "doctors.html",
+          "FAQs.html",
+          "dispense-prescription.html",
+        ]);
+
+        if (!publicPages.has(page)) {
+          window.location.href = "./login.html";
+        }
+      }
+    } catch (_) {}
+  });
   window.RX = RX;
 })();
