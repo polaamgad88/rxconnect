@@ -349,10 +349,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       <td>${statusPill(rx.status)}</td>
       <td>${escapeHtml(getDispensedWhere(rx))}</td>
       <td>
-        <button class="btn-chip" type="button" data-share="${escapeHtml(
-          rx.prescription_id
-        )}">
-          Send
+        <button
+          class="btn-chip rx-open-details"
+          type="button"
+          data-rxid="${escapeHtml(rx.prescription_id)}"
+        >
+          Show
         </button>
       </td>
     `;
