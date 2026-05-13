@@ -29,6 +29,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   const modalSubmit = document.querySelector(".cnp-ap-submit");
 
   const notesEl = document.getElementById("prescription-notes");
+  const saveNotesBtn = document.getElementById("saveConsultationNoteBtn");
+  const saveNotesStatus = document.getElementById("saveConsultationNoteStatus");
   const issueBtn = document.querySelector(
     ".cnp-card-actions .cnp-actions-right .cnp-btn-primary",
   );
@@ -212,8 +214,68 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
+  function parsePatientAddress(patient) {
+    const notes = String(patient?.notes || "").trim();
+
+    const address = {
+      addr1: "",
+      addr2: "",
+      addr3: "",
+      postal_code: "",
+      country: "",
+    };
+
+    if (!notes) return address;
+
+    notes.split(/\r?\n/).forEach(function (line) {
+      const clean = line.trim();
+
+      if (/^Address:\s*/i.test(clean)) {
+        address.addr1 = clean.replace(/^Address:\s*/i, "").trim();
+      } else if (/^Address Line 1:\s*/i.test(clean)) {
+        address.addr1 = clean.replace(/^Address Line 1:\s*/i, "").trim();
+      } else if (/^Address Line 2:\s*/i.test(clean)) {
+        address.addr2 = clean.replace(/^Address Line 2:\s*/i, "").trim();
+      } else if (/^Address Line 3:\s*/i.test(clean)) {
+        address.addr3 = clean.replace(/^Address Line 3:\s*/i, "").trim();
+      } else if (/^Postal Code:\s*/i.test(clean)) {
+        address.postal_code = clean.replace(/^Postal Code:\s*/i, "").trim();
+      } else if (/^Country:\s*/i.test(clean)) {
+        address.country = clean.replace(/^Country:\s*/i, "").trim();
+      }
+    });
+
+    if (!address.addr1 && notes && !notes.includes("\n")) {
+      address.addr1 = notes.replace(/^Address:\s*/i, "").trim();
+    }
+
+    return address;
+  }
+
+  function buildPatientAddressNotes(addr) {
+    const parts = [];
+
+    if (addr.addr1) parts.push(`Address Line 1: ${addr.addr1}`);
+    if (addr.addr2) parts.push(`Address Line 2: ${addr.addr2}`);
+    if (addr.addr3) parts.push(`Address Line 3: ${addr.addr3}`);
+    if (addr.postal_code) parts.push(`Postal Code: ${addr.postal_code}`);
+    if (addr.country) parts.push(`Country: ${addr.country}`);
+
+    return parts.length ? parts.join("\n") : null;
+  }
+
   function patientAddress(patient) {
-    return String(patient?.notes || "").replace(/^Address:\s*/i, "");
+    const addr = parsePatientAddress(patient);
+
+    return [
+      addr.addr1,
+      addr.addr2,
+      addr.addr3,
+      addr.postal_code,
+      addr.country,
+    ]
+      .filter(Boolean)
+      .join(", ");
   }
 
   function fmtDate(value) {
@@ -807,10 +869,409 @@ function renderPatientSummary(patient) {
     <p><strong>Address:</strong> ${escapeHtml(addr || "-")}</p>
     <p><strong>Contact:</strong> ${escapeHtml(patient.phone || "-")}</p>
     <p><strong>Email:</strong> ${escapeHtml(patient.email || "-")}</p>
+
+    <button type="button" class="rx-edit-patient-btn" id="rxEditPatientBtn">
+      <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+      <span>Edit Patient Details</span>
+    </button>
+
     ${buildConsultationHistoryHtml()}
   `;
+
+  document.getElementById("rxEditPatientBtn")?.addEventListener("click", openEditPatientModal);
+
   renderHistoryPatientCard(patient);
   syncPatientStateUi();
+}
+
+function setSaveNotesStatus(message, type = "") {
+  if (!saveNotesStatus) return;
+  saveNotesStatus.textContent = message || "";
+  saveNotesStatus.className = `cnp-note-save-status ${type}`.trim();
+}
+
+function addSavedConsultationNoteToPatientCard(noteText, savedResp) {
+  const text = String(noteText || "").trim();
+  if (!text || !selectedPatient?.patient_id) return;
+
+  const now = new Date().toISOString();
+
+  const newRecord = {
+    note_id:
+      savedResp?.note_id ||
+      savedResp?.patient_note_id ||
+      savedResp?.id ||
+      `local-${Date.now()}`,
+    patient_id: selectedPatient.patient_id,
+    text,
+    date:
+      savedResp?.created_at ||
+      savedResp?.date ||
+      savedResp?.issue_date ||
+      now,
+    created_at:
+      savedResp?.created_at ||
+      savedResp?.date ||
+      now,
+  };
+
+  patientConsultationHistory = [
+    newRecord,
+    ...(Array.isArray(patientConsultationHistory) ? patientConsultationHistory : []),
+  ];
+
+  renderPatientSummary(selectedPatient);
+}
+
+async function saveCurrentConsultationNote() {
+  if (!selectedPatient?.patient_id) {
+    RxToast.info("Select a patient first.");
+    return;
+  }
+
+  const noteText = String(notesEl?.value || "").trim();
+  if (!noteText) {
+    RxToast.info("Write notes before saving.");
+    return;
+  }
+
+  if (saveNotesBtn) {
+    saveNotesBtn.disabled = true;
+    saveNotesBtn.textContent = "Saving...";
+  }
+
+  setSaveNotesStatus("Saving notes...");
+
+  try {
+    const resp = await RX.api.post(`/clinicians/me/patients/${selectedPatient.patient_id}/notes`, {
+      note_text: noteText,
+    });
+
+    addSavedConsultationNoteToPatientCard(noteText, resp);
+
+    if (notesEl) {
+      notesEl.value = "";
+    }
+
+    setSaveNotesStatus("Notes saved and added to the patient consultation notes.", "success");
+    RxToast.success("Notes saved.", "Added under this patient's consultation notes.");
+  } catch (error) {
+    setSaveNotesStatus(error.message || "Failed to save notes.", "error");
+    RxToast.error("Failed to save notes.", error.message || "Failed to save notes.");
+  } finally {
+    if (saveNotesBtn) {
+      saveNotesBtn.disabled = false;
+      saveNotesBtn.textContent = "Save Notes";
+    }
+  }
+}
+
+function ensureEditPatientModal() {
+  let editModal = document.getElementById("rxEditPatientModal");
+  if (editModal) return editModal;
+
+  editModal = document.createElement("div");
+  editModal.id = "rxEditPatientModal";
+  editModal.className = "rx-edit-patient-modal";
+  editModal.setAttribute("aria-hidden", "true");
+
+  editModal.innerHTML = `
+    <div class="rx-edit-patient-dialog" role="dialog" aria-modal="true" aria-labelledby="rxEditPatientTitle">
+      <div class="rx-edit-patient-head">
+        <div>
+          <h3 id="rxEditPatientTitle">Edit Patient Details</h3>
+          <p>Update the selected patient details using the same fields as Add Patient.</p>
+        </div>
+        <button type="button" class="rx-edit-patient-close" id="rxEditPatientClose" aria-label="Close patient edit form">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <form id="rxEditPatientForm">
+        <div class="rx-edit-patient-grid">
+          <div class="rx-edit-patient-field">
+            <label for="rxEditFirstName">First Name</label>
+            <input id="rxEditFirstName" type="text" required />
+          </div>
+
+          <div class="rx-edit-patient-field">
+            <label for="rxEditLastName">Last Name</label>
+            <input id="rxEditLastName" type="text" required />
+          </div>
+
+          <div class="rx-edit-patient-field">
+            <label for="rxEditGender">Gender</label>
+            <select id="rxEditGender" required>
+              <option value="">Select</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="rx-edit-patient-field">
+            <label for="rxEditPhone">Phone</label>
+            <input id="rxEditPhone" type="text" required />
+          </div>
+
+          <div class="rx-edit-patient-field rx-wide">
+            <label>Date of Birth</label>
+            <div class="cnp-ap-dob-row">
+              <input id="rxEditDobDay" type="text" class="cnp-input cnp-ap-dob-input" placeholder="DD" maxlength="2" required />
+              <span>/</span>
+              <input id="rxEditDobMonth" type="text" class="cnp-input cnp-ap-dob-input" placeholder="MM" maxlength="2" required />
+              <span>/</span>
+              <input id="rxEditDobYear" type="text" class="cnp-input cnp-ap-dob-input-year" placeholder="YYYY" maxlength="4" required />
+            </div>
+          </div>
+
+          <div class="rx-edit-patient-field">
+            <label for="rxEditEmail">Email</label>
+            <input id="rxEditEmail" type="email" required />
+          </div>
+
+          <div class="rx-edit-patient-field">
+            <label for="rxEditAddressLine1">Address Line 1</label>
+            <input id="rxEditAddressLine1" type="text" required />
+          </div>
+
+          <div class="rx-edit-patient-field">
+            <label for="rxEditAddressLine2">Address Line 2</label>
+            <input id="rxEditAddressLine2" type="text" required />
+          </div>
+
+          <div class="rx-edit-patient-field">
+            <label for="rxEditAddressLine3">Address Line 3</label>
+            <input id="rxEditAddressLine3" type="text" required />
+          </div>
+
+          <div class="rx-edit-patient-field">
+            <label for="rxEditPostalCode">Postal Code</label>
+            <input id="rxEditPostalCode" type="text" required />
+          </div>
+
+          <div class="rx-edit-patient-field">
+            <label for="rxEditCountry">Country</label>
+            <input id="rxEditCountry" type="text" required />
+          </div>
+        </div>
+
+        <div class="rx-edit-patient-actions">
+          <button type="button" class="cnp-btn-secondary" id="rxEditPatientCancel">Cancel</button>
+          <button type="submit" class="cnp-btn-primary" id="rxEditPatientSave">Save Patient Details</button>
+        </div>
+      </form>
+    </div>
+  `;
+
+  document.body.appendChild(editModal);
+
+  editModal.addEventListener("click", function (event) {
+    if (event.target === editModal) closeEditPatientModal();
+  });
+
+  editModal.querySelector("#rxEditPatientClose")?.addEventListener("click", closeEditPatientModal);
+  editModal.querySelector("#rxEditPatientCancel")?.addEventListener("click", closeEditPatientModal);
+
+  editModal.querySelector("#rxEditPatientForm")?.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    await submitEditPatientDetails();
+  });
+
+  return editModal;
+}
+
+function openEditPatientModal() {
+  if (!selectedPatient?.patient_id) {
+    RxToast.info("Select a patient first.");
+    return;
+  }
+
+  const editModal = ensureEditPatientModal();
+  const dob = splitDob(selectedPatient.date_of_birth);
+  const addr = parsePatientAddress(selectedPatient);
+
+  editModal.querySelector("#rxEditFirstName").value = selectedPatient.first_name || "";
+  editModal.querySelector("#rxEditLastName").value = selectedPatient.last_name || "";
+  editModal.querySelector("#rxEditGender").value = String(selectedPatient.gender || "").toLowerCase();
+  editModal.querySelector("#rxEditPhone").value = selectedPatient.phone || "";
+
+  editModal.querySelector("#rxEditDobDay").value = dob.dd || "";
+  editModal.querySelector("#rxEditDobMonth").value = dob.mm || "";
+  editModal.querySelector("#rxEditDobYear").value = dob.yy || "";
+
+  editModal.querySelector("#rxEditEmail").value = selectedPatient.email || "";
+  editModal.querySelector("#rxEditAddressLine1").value = addr.addr1 || "";
+  editModal.querySelector("#rxEditAddressLine2").value = addr.addr2 || "";
+  editModal.querySelector("#rxEditAddressLine3").value = addr.addr3 || "";
+  editModal.querySelector("#rxEditPostalCode").value = addr.postal_code || "";
+  editModal.querySelector("#rxEditCountry").value = addr.country || "";
+
+  editModal.classList.add("is-open");
+  editModal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closeEditPatientModal() {
+  const editModal = document.getElementById("rxEditPatientModal");
+  if (!editModal) return;
+
+  editModal.classList.remove("is-open");
+  editModal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+async function updatePatientDetails(patientId, payload) {
+  if (window.RX?.api?.put) {
+    return RX.api.put(`/patients/update/${patientId}`, payload);
+  }
+
+  const apiBase = String(window.RXCONNECT_API_BASE || window.RX?.API_BASE || "").replace(/\/+$/, "");
+  const token =
+    localStorage.getItem("rxconnect_token") ||
+    sessionStorage.getItem("rxconnect_token") ||
+    localStorage.getItem("token") ||
+    sessionStorage.getItem("token") ||
+    "";
+
+  const response = await fetch(`${apiBase}/patients/update/${patientId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    credentials: "include",
+    body: JSON.stringify(payload),
+  });
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data?.message || `Failed to update patient (${response.status})`);
+  }
+
+  return data;
+}
+
+async function submitEditPatientDetails() {
+  if (!selectedPatient?.patient_id) return;
+
+  const editModal = ensureEditPatientModal();
+  const saveBtn = editModal.querySelector("#rxEditPatientSave");
+
+  const firstName = editModal.querySelector("#rxEditFirstName").value.trim();
+  const lastName = editModal.querySelector("#rxEditLastName").value.trim();
+  const gender = editModal.querySelector("#rxEditGender").value.trim();
+  const phone = editModal.querySelector("#rxEditPhone").value.trim();
+
+  const dd = editModal.querySelector("#rxEditDobDay").value.trim();
+  const mm = editModal.querySelector("#rxEditDobMonth").value.trim();
+  const yy = editModal.querySelector("#rxEditDobYear").value.trim();
+  const dob = buildDob(dd, mm, yy);
+
+  const email = editModal.querySelector("#rxEditEmail").value.trim();
+
+  const addr1 = editModal.querySelector("#rxEditAddressLine1").value.trim();
+  const addr2 = editModal.querySelector("#rxEditAddressLine2").value.trim();
+  const addr3 = editModal.querySelector("#rxEditAddressLine3").value.trim();
+  const postalCode = editModal.querySelector("#rxEditPostalCode").value.trim();
+  const country = editModal.querySelector("#rxEditCountry").value.trim();
+
+  if (!firstName) {
+    RxToast.error("First name is required.");
+    return;
+  }
+
+  if (!lastName) {
+    RxToast.error("Last name is required.");
+    return;
+  }
+
+  if (!gender) {
+    RxToast.error("Gender is required.");
+    return;
+  }
+
+  if (!phone) {
+    RxToast.error("Phone number is required.");
+    return;
+  }
+
+  if (!dob) {
+    RxToast.error("Date of birth is required.");
+    return;
+  }
+
+  if (!email) {
+    RxToast.error("Email is required.");
+    return;
+  }
+
+  if (!addr1) {
+    RxToast.error("Address Line 1 is required.");
+    return;
+  }
+
+  if (!addr2) {
+    RxToast.error("Address Line 2 is required.");
+    return;
+  }
+
+  if (!addr3) {
+    RxToast.error("Address Line 3 is required.");
+    return;
+  }
+
+  if (!postalCode) {
+    RxToast.error("Postal code is required.");
+    return;
+  }
+
+  if (!country) {
+    RxToast.error("Country is required.");
+    return;
+  }
+
+  const notes = buildPatientAddressNotes({
+    addr1,
+    addr2,
+    addr3,
+    postal_code: postalCode,
+    country,
+  });
+
+  const payload = {
+    first_name: firstName,
+    last_name: lastName,
+    date_of_birth: dob,
+    gender: gender.toLowerCase(),
+    phone,
+    email,
+    notes,
+  };
+
+  if (saveBtn) {
+    saveBtn.disabled = true;
+    saveBtn.textContent = "Saving...";
+  }
+
+  try {
+    await updatePatientDetails(selectedPatient.patient_id, payload);
+
+    await reloadPatientSources();
+
+    const fresh = await findPatientById(selectedPatient.patient_id);
+    selectPatient(fresh || { ...selectedPatient, ...payload });
+
+    closeEditPatientModal();
+    RxToast.success("Patient details updated.");
+  } catch (error) {
+    RxToast.error("Failed to update patient.", error.message || "Failed to update patient.");
+  } finally {
+    if (saveBtn) {
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Save Patient Details";
+    }
+  }
 }
 
   function syncPatientStateUi() {
@@ -1113,6 +1574,33 @@ function closeModal() {
     const m = String(mm).padStart(2, "0");
     return `${yy}-${m}-${d}`;
   }
+  function splitDob(dateOfBirth) {
+  const raw = String(dateOfBirth || "").trim();
+
+  if (!raw) {
+    return { dd: "", mm: "", yy: "" };
+  }
+
+  const isoMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (isoMatch) {
+    return {
+      yy: isoMatch[1],
+      mm: isoMatch[2],
+      dd: isoMatch[3],
+    };
+  }
+
+  const slashMatch = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (slashMatch) {
+    return {
+      dd: slashMatch[1].padStart(2, "0"),
+      mm: slashMatch[2].padStart(2, "0"),
+      yy: slashMatch[3],
+    };
+  }
+
+  return { dd: "", mm: "", yy: "" };
+}
 
   async function loadMedicationIndexOnce(forceReload = false) {
     if (medIndexLoaded && !forceReload) return;
@@ -1156,43 +1644,39 @@ function closeModal() {
     return createdId;
   }
 
+  function getStrengthFormulationValue(row) {
+    const field =
+      row.querySelector(".med-input-strength-formulation") ||
+      row.querySelector(".med-input-strength-formulation-select");
+
+    return String(field?.value || "").trim();
+  }
+
   function collectItemsFromTable() {
     const tbody = document.getElementById("meds-body");
     if (!tbody) return [];
 
-    const rows = Array.from(tbody.querySelectorAll("tr"));
+    const rows = Array.from(tbody.querySelectorAll("tr.med-row"));
     const items = [];
 
     for (const tr of rows) {
-      const inputs = Array.from(tr.querySelectorAll("input"));
-      if (!inputs.length) continue;
-
       const nameInput =
-        tr.querySelector("input.med-input-medicine-search") ||
-        inputs.find(function (el) {
-          const ph = String(el.getAttribute("placeholder") || "").toLowerCase();
-          return ph.includes("item name") || ph.includes("search or select");
-        });
+        tr.querySelector(".med-input-medicine-search") ||
+        tr.querySelector(".med-input-medicine-manual");
 
-      const qtyInput =
-        tr.querySelector("input.med-input-qty") ||
-        inputs.find(function (el) {
-          const ph = String(el.getAttribute("placeholder") || "").toLowerCase();
-          return ph === "qty" || ph.includes("qty") || ph.includes("quantity");
-        });
+      const strengthFormulation = getStrengthFormulationValue(tr);
 
       const dosageInput =
-        tr.querySelector("input.med-input-dosage") ||
-        tr.querySelector("select.med-input-dosage-select") ||
-        inputs.find(function (el) {
-          if (el === nameInput || el === qtyInput) return false;
-          const ph = String(el.getAttribute("placeholder") || "").toLowerCase();
-          return ph.includes("dosage");
-        });
+        tr.querySelector(".med-input-dosage-instructions") ||
+        tr.querySelector("input[placeholder='Dosage instructions']");
 
-      const name = (nameInput?.value || "").trim();
-      const qty = Number((qtyInput?.value || "").trim() || 0);
-      const dosage = (dosageInput?.value || "").trim();
+      const qtyInput =
+        tr.querySelector(".med-input-qty") ||
+        tr.querySelector("input[placeholder='Quantity']");
+
+      const name = String(nameInput?.value || "").trim();
+      const dosage = String(dosageInput?.value || "").trim();
+      const qty = Number(String(qtyInput?.value || "").trim() || 0);
 
       if (!name || !qty || qty <= 0) continue;
 
@@ -1203,7 +1687,9 @@ function closeModal() {
         unit: "unit",
         duration_days: null,
         refills_allowed: 0,
-        notes: null,
+        notes: strengthFormulation
+          ? `Strength and formulation: ${strengthFormulation}`
+          : null,
       });
     }
 
@@ -1409,21 +1895,16 @@ function closeModal() {
     menu.style.top = "42px";
     menu.style.background = "#fff";
     menu.style.border = "1px solid #e5e7eb";
-    menu.style.borderRadius = "8px";
-    menu.style.boxShadow = "0 10px 20px rgba(0,0,0,.08)";
-    menu.style.padding = "6px";
+    menu.style.borderRadius = "18px";
+    menu.style.boxShadow = "0 18px 38px rgba(0,0,0,.12)";
+    menu.style.padding = "10px";
     menu.style.display = "none";
     menu.style.zIndex = "9999";
+    menu.style.minWidth = "250px";
 
     menu.innerHTML = `
-      <button type="button" data-mode="patient" style="display:block;width:100%;text-align:left;padding:10px;border:0;background:transparent;cursor:pointer;">
-        Save + Email patient
-      </button>
-      <button type="button" data-mode="chobham" style="display:block;width:100%;text-align:left;padding:10px;border:0;background:transparent;cursor:pointer;">
+      <button type="button" data-mode="chobham" style="display:block;width:100%;text-align:left;padding:14px 16px;border:0;background:transparent;cursor:pointer;font-weight:800;">
         Save + Send to Chobham
-      </button>
-      <button type="button" data-mode="none" style="display:block;width:100%;text-align:left;padding:10px;border:0;background:transparent;cursor:pointer;">
-        Save only
       </button>
     `;
 
@@ -1578,7 +2059,6 @@ function closeModal() {
       const last_name = (inputs[1]?.value || "").trim();
       const gender = selects[0]?.value || null;
       const phone = (inputs[2]?.value || "").trim();
-      //const national_id = (inputs[4]?.value || "").trim();
       
       const dd = (inputs[3]?.value || "").trim();
       const mm = (inputs[4]?.value || "").trim();
@@ -1587,22 +2067,70 @@ function closeModal() {
       const email = (inputs[6]?.value || "").trim();
 
       const addr1 = (inputs[7]?.value || "").trim();
-      //const city = (inputs[10]?.value || "").trim();
-      // const country = selects[1]?.value || "";
+      const addr2 = (inputs[8]?.value || "").trim();
+      const addr3 = (inputs[9]?.value || "").trim();
+      const postal_code = (inputs[10]?.value || "").trim();
+      const country = (inputs[11]?.value || "").trim();
 
-      if (!first_name || !last_name || !date_of_birth || !gender || !email || !phone || !addr1) {
-        RxToast.error("First name, last name, date of birth, gender, email, phone, and address are required.");
+      if (!first_name) {
+        RxToast.error("First name is required.");
         return;
       }
 
-      const notesParts = [];
-      if (addr1) notesParts.push(addr1);
-      // if (addr2) notesParts.push(addr2);
-      // if (city) notesParts.push(city);
-      // if (country) notesParts.push(country);
-      const notes = notesParts.length
-        ? `Address: ${notesParts.join(", ")}`
-        : null;
+      if (!last_name) {
+        RxToast.error("Last name is required.");
+        return;
+      }
+      
+      if (!gender) {
+        RxToast.error("Gender is required.");
+        return;
+      }
+      if (!phone) {
+        RxToast.error("Phone number is required.");
+        return;
+      }
+      if (!date_of_birth) {
+        RxToast.error("Date of birth is required.");
+        return;
+      }
+
+      if (!email) {
+        RxToast.error("Email is required.");
+        return;
+      }
+
+
+      if (!addr1) {
+        RxToast.error("Address Line 1 is required.");
+        return;
+      }
+
+      if (!addr2) {
+        RxToast.error("Address Line 2 is required.");
+        return;
+      }
+      if (!addr3) {
+        RxToast.error("Address Line 3 is required.");
+        return;
+      }
+      if (!postal_code) {
+        RxToast.error("Postal code is required.");
+        return;
+      }
+      if (!country) {
+        RxToast.error("Country is required.");
+        return;
+      }
+
+
+      const notes = buildPatientAddressNotes({
+        addr1,
+        addr2,
+        addr3,
+        postal_code,
+        country,
+      });
       try {
         const resp = await RX.api.post("/patients/create", {
           first_name,
@@ -1667,6 +2195,12 @@ function closeModal() {
       event.preventDefault();
       if (!menu) return;
       menu.style.display = menu.style.display === "none" ? "block" : "none";
+    });
+  }
+  if (saveNotesBtn) {
+    saveNotesBtn.addEventListener("click", async function (event) {
+      event.preventDefault();
+      await saveCurrentConsultationNote();
     });
   }
 
@@ -1836,34 +2370,36 @@ function getMedicationRow(input) {
   return input.closest("tr");
 }
 
-function getDosageFieldWrap(row) {
+function getStrengthFormulationFieldWrap(row) {
   return (
-    row?.querySelector(".med-dosage-field") ||
+    row?.querySelector(".med-strength-formulation-field") ||
     row?.children?.[2]?.querySelector(".med-field") ||
     null
   );
 }
 
-function createDosageInput(value, readOnly) {
+function createStrengthFormulationInput(value, readOnly) {
   const input = document.createElement("input");
   input.type = "text";
-  input.className = `med-input med-input-dosage${readOnly ? " is-readonly" : ""}`;
-  input.placeholder = "Dosage";
+  input.className = `med-input med-input-strength-formulation${readOnly ? " is-readonly" : ""}`;
+  input.placeholder = "Strength and formulation";
   input.value = value || "";
   input.readOnly = !!readOnly;
+
   if (readOnly) {
     input.setAttribute("aria-readonly", "true");
   }
+
   return input;
 }
 
-function createDosageSelect(options) {
+function createStrengthFormulationSelect(options) {
   const select = document.createElement("select");
-  select.className = "med-input med-input-dosage med-input-dosage-select";
+  select.className = "med-input med-input-strength-formulation med-input-strength-formulation-select";
 
   const placeholder = document.createElement("option");
   placeholder.value = "";
-  placeholder.textContent = "Select dosage";
+  placeholder.textContent = "Select strength/formulation";
   select.appendChild(placeholder);
 
   options.forEach(function (option) {
@@ -1876,32 +2412,34 @@ function createDosageSelect(options) {
   return select;
 }
 
-function renderDosageField(row, medication) {
-  const wrap = getDosageFieldWrap(row);
+function renderStrengthFormulationField(row, medication) {
+  const wrap = getStrengthFormulationFieldWrap(row);
   if (!wrap) return;
 
-  wrap.classList.add("med-dosage-field");
+  wrap.classList.add("med-strength-formulation-field");
   wrap.innerHTML = "";
 
-  const dosageOptions = Array.isArray(medication?.dosage_options)
+  const strengthOptions = Array.isArray(medication?.dosage_options)
     ? medication.dosage_options.filter(function (option) {
         return option && option.value;
       })
     : [];
+
   wrap.dataset.mode = "empty";
 
-  if (!dosageOptions.length) {
-    wrap.appendChild(createDosageInput("", false));
+  if (!strengthOptions.length) {
+    wrap.appendChild(createStrengthFormulationInput("", false));
     return;
   }
 
-  if (dosageOptions.length === 1) {
+  if (strengthOptions.length === 1) {
     wrap.dataset.mode = "readonly";
-    wrap.appendChild(createDosageInput(dosageOptions[0].value, true));
+    wrap.appendChild(createStrengthFormulationInput(strengthOptions[0].value, true));
     return;
   }
+
   wrap.dataset.mode = "select";
-  wrap.appendChild(createDosageSelect(dosageOptions));
+  wrap.appendChild(createStrengthFormulationSelect(strengthOptions));
 }
 
 function getMedicationMetaText(medication) {
@@ -1937,7 +2475,7 @@ function clearMedicationSelection(row) {
     delete medicineInput.dataset.selectedMedication;
   }
 
-  renderDosageField(row, { dosage_options: [] });
+  renderStrengthFormulationField(row, { dosage_options: [] });
 }
 
 function applyMedicationSelection(input, medication) {
@@ -1946,7 +2484,7 @@ function applyMedicationSelection(input, medication) {
 
   input.value = medication.medication_name || "";
   input.dataset.selectedMedication = medication.medication_name || "";
-  renderDosageField(row, medication);
+  renderStrengthFormulationField(row, medication);
 }
 
 async function syncTypedMedicineToDosage(input) {
@@ -2125,7 +2663,7 @@ function createMedicineRow() {
 
   tr.innerHTML = `
     <td class="med-icon-cell">
-      <button type="button" class="med-remove-btn">
+      <button type="button" class="med-remove-btn" aria-label="Remove medicine row">
         <span class="circle-minus"></span>
       </button>
     </td>
@@ -2134,16 +2672,25 @@ function createMedicineRow() {
         <input
           type="text"
           class="med-input med-input-medicine-search"
-          placeholder="Item name (search or select from list)"
+          placeholder="Medicine name"
         />
       </div>
     </td>
-    <td class="med-dosage-cell">
-      <div class="med-field med-dosage-field">
+    <td class="med-strength-formulation-cell">
+      <div class="med-field med-strength-formulation-field">
         <input
           type="text"
-          class="med-input med-input-dosage"
-          placeholder="Dosage"
+          class="med-input med-input-strength-formulation"
+          placeholder="Strength and formulation"
+        />
+      </div>
+    </td>
+    <td>
+      <div class="med-field">
+        <input
+          type="text"
+          class="med-input med-input-dosage-instructions"
+          placeholder="Dosage instructions"
         />
       </div>
     </td>
@@ -2152,7 +2699,7 @@ function createMedicineRow() {
         <input
           type="text"
           class="med-input med-input-qty"
-          placeholder="Strength"
+          placeholder="Quantity"
         />
       </div>
     </td>
@@ -2169,6 +2716,58 @@ function createMedicineRow() {
   return tr;
 }
 
+function createCustomMedicineRow() {
+  const tr = document.createElement("tr");
+  tr.className = "med-row is-custom-row";
+
+  tr.innerHTML = `
+    <td class="med-icon-cell">
+      <button type="button" class="med-remove-btn" aria-label="Remove medicine row">
+        <span class="circle-minus"></span>
+      </button>
+    </td>
+    <td>
+      <div class="med-field">
+        <input
+          type="text"
+          class="med-input med-input-medicine-manual"
+          placeholder="Enter medicine manually"
+        />
+      </div>
+    </td>
+    <td>
+      <div class="med-field">
+        <input
+          type="text"
+          class="med-input med-input-strength-formulation"
+          placeholder="Strength and formulation"
+        />
+      </div>
+    </td>
+    <td>
+      <div class="med-field">
+        <input
+          type="text"
+          class="med-input med-input-dosage-instructions"
+          placeholder="Dosage instructions"
+        />
+      </div>
+    </td>
+    <td>
+      <div class="med-field">
+        <input
+          type="text"
+          class="med-input med-input-qty"
+          placeholder="Quantity"
+        />
+      </div>
+    </td>
+  `;
+
+  attachRemoveHandler(tr);
+  return tr;
+}
+
 function initMedicineRowActions() {
   document.querySelectorAll("#meds-body .med-row").forEach(function (row) {
     if (!row.dataset.removeAttached) {
@@ -2178,6 +2777,7 @@ function initMedicineRowActions() {
   });
 
   const addBtn = document.getElementById("add-med-btn");
+  const addCustomBtn = document.getElementById("add-custom-med-btn");
   const addRow = document.getElementById("add-med-row");
   const medsBody = document.getElementById("meds-body");
 
@@ -2188,6 +2788,17 @@ function initMedicineRowActions() {
       event.preventDefault();
 
       const newRow = createMedicineRow();
+      medsBody.insertBefore(newRow, addRow);
+    });
+  }
+
+  if (addCustomBtn && addRow && medsBody && !addCustomBtn.dataset.bound) {
+    addCustomBtn.dataset.bound = "1";
+
+    addCustomBtn.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      const newRow = createCustomMedicineRow();
       medsBody.insertBefore(newRow, addRow);
     });
   }

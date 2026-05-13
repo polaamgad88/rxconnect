@@ -242,7 +242,23 @@
                 </div>
 
                 <div class="cnp-ap-field">
-                  <label>Address Line </label>
+                  <label>Address Line 1</label>
+                  <input type="text" class="cnp-input" />
+                </div>
+                <div class="cnp-ap-field">
+                  <label>Address Line 2</label>
+                  <input type="text" class="cnp-input" />
+                </div>
+                <div class="cnp-ap-field">
+                  <label>Address Line 3</label>
+                  <input type="text" class="cnp-input" />
+                </div>
+                <div class="cnp-ap-field">
+                  <label>Postal Code</label>
+                  <input type="text" class="cnp-input" />
+                </div>
+                <div class="cnp-ap-field">
+                  <label>Country</label>
                   <input type="text" class="cnp-input" />
                 </div>
 
@@ -267,21 +283,43 @@
         <section class="cnp-card cnp-card-meds">
           <header class="cnp-card-header">
             <div>
-              <span class="cnp-card-kicker">Medicines</span>
+              <span class="cnp-card-kicker">Issue RX</span>
               <h2>Prescription items</h2>
               <p class="cnp-card-support">
                 Keep medicine name, dosage instruction, and quantity easy to review.
               </p>
             </div>
           </header>
-
+          
           <div class="cnp-card-body cnp-card-body-meds">
+            <div class="cnp-notes-block cnp-notes-block-top">
+              <div class="cnp-notes-head">
+                <div>
+                  <label for="prescription-notes">Consultation notes</label>
+                  <p class="cnp-field-help">Optional clinical notes for this patient or prescription.</p>
+                </div>
+
+                <button type="button" id="saveConsultationNoteBtn" class="cnp-btn-secondary cnp-notes-save-btn">
+                  Save Notes
+                </button>
+              </div>
+
+              <textarea
+                id="prescription-notes"
+                class="cnp-textarea"
+                rows="5"
+                placeholder="Add any extra instructions or notes"
+              ></textarea>
+
+              <p id="saveConsultationNoteStatus" class="cnp-note-save-status" aria-live="polite"></p>
+            </div>
             <div class="med-table-wrapper">
               <table class="cnp-meds-table">
                 <caption class="sr-only">Prescription items table</caption>
                 <colgroup>
                   <col class="med-col-icon" />
                   <col class="med-col-description" />
+                  <col class="med-col-strength-formulation" />
                   <col class="med-col-dosage" />
                   <col class="med-col-qty" />
                 </colgroup>
@@ -289,8 +327,9 @@
                   <tr>
                     <th class="med-icon-header"></th>
                     <th>Medicine</th>
-                    <th>Dosage instruction</th>
-                    <th>Strength</th>
+                    <th>Strength / Formulation</th>
+                    <th>Dosage</th>
+                    <th>Quantity</th>
                   </tr>
                 </thead>
                 <tbody id="meds-body">
@@ -305,37 +344,19 @@
                         <input type="text" class="med-input med-input-medicine-search" placeholder="Medicine name" />
                       </div>
                     </td>
-                    <td>
-                      <div class="med-field">
-                        <input type="text" class="med-input" placeholder="Dosage Instruction" />
+                    <td class="med-strength-formulation-cell">
+                      <div class="med-field med-strength-formulation-field">
+                        <input type="text" class="med-input med-input-strength-formulation" placeholder="Strength and formulation" />
                       </div>
                     </td>
                     <td>
                       <div class="med-field">
-                        <input type="text" class="med-input med-input-qty" placeholder="Strength" />
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr class="med-row">
-                    <td class="med-icon-cell">
-                      <button type="button" class="med-remove-btn" aria-label="Remove medicine row">
-                        <span class="circle-minus"></span>
-                      </button>
-                    </td>
-                    <td>
-                      <div class="med-field">
-                        <input type="text" class="med-input med-input-medicine-search" placeholder="Medicine name" />
+                        <input type="text" class="med-input med-input-dosage-instructions" placeholder="Dosage instructions" />
                       </div>
                     </td>
                     <td>
                       <div class="med-field">
-                        <input type="text" class="med-input" placeholder="Dosage Instruction" />
-                      </div>
-                    </td>
-                    <td>
-                      <div class="med-field">
-                        <input type="text" class="med-input med-input-qty" placeholder="Strength" />
+                        <input type="text" class="med-input med-input-qty" placeholder="Quantity" />
                       </div>
                     </td>
                   </tr>
@@ -351,14 +372,47 @@
                         <input type="text" class="med-input med-input-medicine-search" placeholder="Medicine name" />
                       </div>
                     </td>
-                    <td>
-                      <div class="med-field">
-                        <input type="text" class="med-input" placeholder="Dosage Instruction" />
+                    <td class="med-strength-formulation-cell">
+                      <div class="med-field med-strength-formulation-field">
+                        <input type="text" class="med-input med-input-strength-formulation" placeholder="Strength and formulation" />
                       </div>
                     </td>
                     <td>
                       <div class="med-field">
-                        <input type="text" class="med-input med-input-qty" placeholder="Strength" />
+                        <input type="text" class="med-input med-input-dosage-instructions" placeholder="Dosage instructions" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="med-field">
+                        <input type="text" class="med-input med-input-qty" placeholder="Quantity" />
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr class="med-row">
+                    <td class="med-icon-cell">
+                      <button type="button" class="med-remove-btn" aria-label="Remove medicine row">
+                        <span class="circle-minus"></span>
+                      </button>
+                    </td>
+                    <td>
+                      <div class="med-field">
+                        <input type="text" class="med-input med-input-medicine-search" placeholder="Medicine name" />
+                      </div>
+                    </td>
+                    <td class="med-strength-formulation-cell">
+                      <div class="med-field med-strength-formulation-field">
+                        <input type="text" class="med-input med-input-strength-formulation" placeholder="Strength and formulation" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="med-field">
+                        <input type="text" class="med-input med-input-dosage-instructions" placeholder="Dosage instructions" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="med-field">
+                        <input type="text" class="med-input med-input-qty" placeholder="Quantity" />
                       </div>
                     </td>
                   </tr>
@@ -367,19 +421,15 @@
                     <td class="med-icon-cell">
                       <i class="fa-regular fa-square-plus med-add-icon" aria-hidden="true"></i>
                     </td>
-                    <td colspan="3">
-                      <a href="#" id="add-med-btn" class="cnp-link-small">Add new</a>
+                    <td colspan="4">
+                      <div class="med-add-actions">
+                        <a href="#" id="add-med-btn" class="cnp-link-small">Add new</a>
+                        <a href="#" id="add-custom-med-btn" class="cnp-link-small">Add your own row</a>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
               </table>
-            </div>
-
-            <div class="cnp-notes-block">
-              <label for="prescription-notes">Consultation notes</label>
-              <p class="cnp-field-help">Optional clinical notes for this prescription.</p>
-              <textarea id="prescription-notes" class="cnp-textarea" rows="5"
-                placeholder="Add any extra instructions or notes"></textarea>
             </div>
           </div>
         </section>
@@ -387,7 +437,7 @@
       <div class="cnp-card cnp-card-actions">
         <div class="cnp-actions-inner">
           <div class="cnp-strip-copy">
-            Review the prescription, then choose whether to save only, email the patient, or send directly to Chobham.
+            Review the prescription, then save and issue it. Use the dropdown only when you need to send it directly to Chobham.
           </div>
 
           <div class="cnp-actions-right">
