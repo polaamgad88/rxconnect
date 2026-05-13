@@ -1,41 +1,18 @@
-Remove one of two BMR notes sections. done
+add clincs sction instead of doctors in index.html
+remove reports tab from navbar and add approvals tab for admin
+add email integration on register 
+add email send on approval
+issue prescripion patient gonna recieve text and email 
+ur presiciption can be dispensed from any pharmacy 
+or chobham and get it delievered to their house with link
+email on dispense
+work on the logo and that kind of info in pdf
+work on roles privileges 
+add pmr records for patient in
 
-Issuing prescription and Notes and history became in same page.
-
-Clinic can contain multiple doctors.
-
-Clinic is registered through inquiry not normal register form. done 
-
-If doctor assigned to clinic, so his login became through the clinic login form.
-
-Clinic's admin can administrate the doctors assigned to this clinic and see the prescriptions issued through those doctors and state.
-
-
-
-Remove Quantity field when dispensing the prescription. done
-
-Prescription' code is one-time use, Once Dispensed, will be not available for dispensing again. done
-
-Dispensing prescription is done after form full-filled containing pharmacy name and license.  done
-
-Prescription code must start with "RXC-".  done
-
-Message/mail will be sent, will contain the Prescription code only. done
-
-Platform's colors palette will be changed to the palette of http://forhims.co.uk/ 
-
-
-
-############ PAGES DONE ######################3
-reports
-register 
-login
-dr-form
-dashboard
-clinic register
-dispense prescription
-patient history
-contact us
-
-FAQs
-Medication export
+(Postponed) done
+medicine
+Strength 500mg first and fomulation
+then dosage
+then quantity
+add your own row option
