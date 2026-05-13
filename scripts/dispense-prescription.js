@@ -5,7 +5,9 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector("form");
 
   const codeEl = document.getElementById("prescription-id");
-  const dobEl = document.getElementById("dob");
+  const dobDayEl = document.getElementById("dobDay");
+  const dobMonthEl = document.getElementById("dobMonth");
+  const dobYearEl = document.getElementById("dobYear");
   const resultBox = document.getElementById("rxResult");
 
   const modalEl = document.getElementById("pharmacyModal");
@@ -30,7 +32,18 @@ const successCopyEl = document.getElementById("dispenseSuccessCopy");
   const pharmacyAcknowledgeEl = document.getElementById("pharmacyAcknowledge");
   const pharmacyStatusEl = document.getElementById("pharmacyRegistrationStatus");
 
-  if (!form || !codeEl || !dobEl || !resultBox || !modalEl || !modalForm) return;
+  if (
+    !form ||
+    !codeEl ||
+    !dobDayEl ||
+    !dobMonthEl ||
+    !dobYearEl ||
+    !resultBox ||
+    !modalEl ||
+    !modalForm
+  ) {
+    return;
+  }
 
   let lastLookup = null;
   let isSearching = false;
@@ -44,6 +57,84 @@ const successCopyEl = document.getElementById("dispenseSuccessCopy");
 
   function normalizeUpper(value) {
     return normalizeValue(value).toUpperCase();
+  }
+
+  function onlyDigits(value) {
+    return String(value || "").replace(/\D/g, "");
+  }
+
+  function buildDobFromParts(dd, mm, yyyy) {
+    const day = onlyDigits(dd).padStart(2, "0");
+    const month = onlyDigits(mm).padStart(2, "0");
+    const year = onlyDigits(yyyy);
+
+    if (!day || !month || !year) return "";
+    if (day.length !== 2 || month.length !== 2 || year.length !== 4) return "";
+
+    const dayNum = Number(day);
+    const monthNum = Number(month);
+    const yearNum = Number(year);
+
+    if (!Number.isFinite(dayNum) || dayNum < 1 || dayNum > 31) return "";
+    if (!Number.isFinite(monthNum) || monthNum < 1 || monthNum > 12) return "";
+    if (!Number.isFinite(yearNum) || yearNum < 1900) return "";
+
+    const dob = `${year}-${month}-${day}`;
+    const d = new Date(`${dob}T00:00:00`);
+
+    if (
+      Number.isNaN(d.getTime()) ||
+      d.getFullYear() !== yearNum ||
+      d.getMonth() + 1 !== monthNum ||
+      d.getDate() !== dayNum
+    ) {
+      return "";
+    }
+
+    const today = new Date();
+    today.setHours(23, 59, 59, 999);
+
+    if (d > today) return "";
+
+    return dob;
+  }
+
+  function getDobValue() {
+    return buildDobFromParts(
+      dobDayEl?.value,
+      dobMonthEl?.value,
+      dobYearEl?.value
+    );
+  }
+
+  function getDobDisplayValue() {
+    const day = onlyDigits(dobDayEl?.value).padStart(2, "0");
+    const month = onlyDigits(dobMonthEl?.value).padStart(2, "0");
+    const year = onlyDigits(dobYearEl?.value);
+
+    if (!day || !month || !year) return "";
+    return `${day}/${month}/${year}`;
+  }
+
+  function setupDobPartInputs() {
+    const parts = [dobDayEl, dobMonthEl, dobYearEl].filter(Boolean);
+
+    parts.forEach(function (input, index) {
+      input.addEventListener("input", function () {
+        input.value = onlyDigits(input.value);
+
+        const max = Number(input.getAttribute("maxlength") || 0);
+        if (max && input.value.length >= max && parts[index + 1]) {
+          parts[index + 1].focus();
+        }
+      });
+
+      input.addEventListener("keydown", function (event) {
+        if (event.key === "Backspace" && !input.value && parts[index - 1]) {
+          parts[index - 1].focus();
+        }
+      });
+    });
   }
 
   function asNumber(value, fallback = 0) {
@@ -166,7 +257,26 @@ const successCopyEl = document.getElementById("dispenseSuccessCopy");
 
     try {
       if (token) localStorage.setItem("rxconnect_token", token);
-      if (user) localStorage.setItem("rxconnect_user", JSON.stringify(user));
+
+      if (user) {
+        localStorage.setItem(
+          "rxconnect_user",
+          JSON.stringify({
+            user_id: user.user_id ?? user.id ?? null,
+            username: user.username || user.email || "",
+            email: user.email || "",
+            full_name: user.full_name || user.name || user.username || user.email || "",
+            name: user.name || user.full_name || user.username || user.email || "",
+            phone: user.phone || "",
+            login_type: user.login_type || "",
+            is_admin: Number(user.is_admin || 0),
+            clinic_id: user.clinic_id ?? null,
+            clinician_id: user.clinician_id ?? null,
+            dispenser_id: user.dispenser_id ?? null,
+            pharmacy_name: user.pharmacy_name || "",
+          })
+        );
+      }
     } catch {
       // ignore storage errors
     }
@@ -234,7 +344,7 @@ const successCopyEl = document.getElementById("dispenseSuccessCopy");
   }
 
   function openModal() {
-    prefillPharmacyForm();
+    modalForm.reset();
     showPharmacyStatus("");
     modalEl.hidden = false;
     modalEl.setAttribute("aria-hidden", "false");
@@ -346,9 +456,76 @@ function closeSuccessModal() {
         "patient.date_of_birth",
       ]) ||
       lastLookup?.dob ||
-      dobEl.value ||
+      getDobValue() ||
+      getDobDisplayValue() ||
       "-"
     );
+  }
+
+  function parsePatientNotesAddress(notes) {
+    const text = String(notes || "").trim();
+    if (!text) return "-";
+
+    const lines = text.split(/\r?\n/);
+    const parts = [];
+
+    lines.forEach(function (line) {
+      const clean = line.trim();
+      if (!clean) return;
+
+      if (/^Address:\s*/i.test(clean)) {
+        parts.push(clean.replace(/^Address:\s*/i, "").trim());
+      } else if (/^Address Line 1:\s*/i.test(clean)) {
+        parts.push(clean.replace(/^Address Line 1:\s*/i, "").trim());
+      } else if (/^Address Line 2:\s*/i.test(clean)) {
+        parts.push(clean.replace(/^Address Line 2:\s*/i, "").trim());
+      } else if (/^Address Line 3:\s*/i.test(clean)) {
+        parts.push(clean.replace(/^Address Line 3:\s*/i, "").trim());
+      } else if (/^Postal Code:\s*/i.test(clean)) {
+        parts.push(clean.replace(/^Postal Code:\s*/i, "").trim());
+      } else if (/^Country:\s*/i.test(clean)) {
+        parts.push(clean.replace(/^Country:\s*/i, "").trim());
+      }
+    });
+
+    if (parts.length) return parts.filter(Boolean).join(", ");
+
+    return text.replace(/^Address:\s*/i, "").trim() || "-";
+  }
+
+  function getPatientGender(data) {
+    return pickValue(data, ["patient_gender", "gender", "patient.gender"], "-");
+  }
+
+  function getPatientPhone(data) {
+    return pickValue(data, ["patient_phone", "phone", "patient.phone"], "-");
+  }
+
+  function getPatientEmail(data) {
+    return pickValue(data, ["patient_email", "email", "patient.email"], "-");
+  }
+
+  function getPatientAddress(data) {
+    const notes = pickValue(data, ["patient_notes", "notes", "patient.notes"], "");
+    return parsePatientNotesAddress(notes);
+  }
+
+  function getPrescriberEmail(data) {
+    return pickValue(data, ["prescriber_email", "doctor.email", "prescriber.email"], "-");
+  }
+
+  function getPrescriberPhone(data) {
+    return pickValue(data, ["prescriber_phone", "doctor.phone", "prescriber.phone"], "-");
+  }
+
+  function getItemStrengthFormulation(item) {
+    const notes = String(item?.notes || "").trim();
+
+    if (/^Strength and formulation:\s*/i.test(notes)) {
+      return notes.replace(/^Strength and formulation:\s*/i, "").trim();
+    }
+
+    return pickValue(item, ["strength", "dosage_form", "schedule"], "-");
   }
 
   function getPrescriberName(data) {
@@ -450,8 +627,13 @@ function closeSuccessModal() {
       return "No prescription found for this code and date of birth.";
     }
 
-    if (msg.includes("dispensed") || msg.includes("one time")) {
-      return "This prescription has already been dispensed or the one-time code was already used.";
+    if (
+      msg.includes("already been used") ||
+      msg.includes("already used") ||
+      msg.includes("dispensed") ||
+      msg.includes("one time")
+    ) {
+      return raw;
     }
 
     return raw;
@@ -466,17 +648,16 @@ function closeSuccessModal() {
 
   async function lookupPrescription() {
     const enteredCode = normalizeUpper(codeEl.value);
-    const fp = dobEl._flatpickr;
-    const selectedDate = fp?.selectedDates?.[0];
-    const year = selectedDate.getFullYear();
-    const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
-    const day = String(selectedDate.getDate()).padStart(2, "0");
+    const dob = getDobValue();
 
-    const dob = `${year}-${month}-${day}`;
     console.log("Looking up prescription with code:", enteredCode, "and DOB:", dob);
 
-    if (!enteredCode || !dob) {
-      throw new Error("Prescription code and patient DOB are required.");
+    if (!enteredCode) {
+      throw new Error("Prescription code is required.");
+    }
+
+    if (!dob) {
+      throw new Error("Enter a valid patient DOB as DD / MM / YYYY.");
     }
 
     const user = getCurrentUser();
@@ -501,7 +682,6 @@ function closeSuccessModal() {
 
     return data;
   }
-
   function buildGuestUsername(pharmacyData) {
     const base =
       (pharmacyData.pharmacy_name || "pharmacy")
@@ -650,6 +830,12 @@ function closeSuccessModal() {
     const patientName = getPatientName(data);
     const patientDob = getPatientDob(data);
     const prescriberName = getPrescriberName(data);
+    const patientGender = getPatientGender(data);
+    const patientPhone = getPatientPhone(data);
+    const patientEmail = getPatientEmail(data);
+    const patientAddress = getPatientAddress(data);
+    const prescriberEmail = getPrescriberEmail(data);
+    const prescriberPhone = getPrescriberPhone(data);
     const prescriberLicense = getPrescriberLicense(data);
     const prescriberSpecialty = getPrescriberSpecialty(data);
     const rawClinic = getPrescriberClinic(data);
@@ -683,7 +869,7 @@ function closeSuccessModal() {
               pickValue(item, ["medication_name", "name"], item.medication_id || "-")
             )}</td>
             <td>${escapeHtml(
-              pickValue(item, ["strength", "dose", "schedule"], "-")
+              getItemStrengthFormulation(item)
             )}</td>
             <td>${escapeHtml(
               pickValue(item, ["dosage_instructions", "instructions"], "-")
@@ -737,6 +923,10 @@ function closeSuccessModal() {
               <h4>Patient details</h4>
               <p><strong>Name:</strong> ${escapeHtml(patientName)}</p>
               <p><strong>DOB:</strong> ${escapeHtml(formatDate(patientDob))}</p>
+              <p><strong>Gender:</strong> ${escapeHtml(patientGender)}</p>
+              <p><strong>Phone:</strong> ${escapeHtml(patientPhone)}</p>
+              <p><strong>Email:</strong> ${escapeHtml(patientEmail)}</p>
+              <p><strong>Address:</strong> ${escapeHtml(patientAddress)}</p>
             </section>
 
             <section class="eprescription-party">
@@ -745,6 +935,8 @@ function closeSuccessModal() {
               <p><strong>License no:</strong> ${escapeHtml(prescriberLicense)}</p>
               <p><strong>Specialty:</strong> ${escapeHtml(prescriberSpecialty)}</p>
               <p><strong>Clinic:</strong> ${escapeHtml(prescriberClinic)}</p>
+              <p><strong>Email:</strong> ${escapeHtml(prescriberEmail)}</p>
+              <p><strong>Phone:</strong> ${escapeHtml(prescriberPhone)}</p>
               <p><strong>Issuer ref:</strong> ${escapeHtml(
                 pickValue(data, ["prescriber_unique_string"], "-")
               )}</p>
@@ -821,6 +1013,12 @@ function closeSuccessModal() {
   const code = getPrescriptionCode(data);
   const patientName = getPatientName(data);
   const patientDob = getPatientDob(data);
+  const patientGender = getPatientGender(data);
+  const patientPhone = getPatientPhone(data);
+  const patientEmail = getPatientEmail(data);
+  const patientAddress = getPatientAddress(data);
+  const prescriberEmail = getPrescriberEmail(data);
+  const prescriberPhone = getPrescriberPhone(data);
   const prescriberName = getPrescriberName(data);
   const prescriberLicense = getPrescriberLicense(data);
   const prescriberSpecialty = getPrescriberSpecialty(data);
@@ -846,7 +1044,7 @@ function closeSuccessModal() {
             pickValue(item, ["medication_name", "name"], item.medication_id || "-")
           )}</td>
           <td>${escapeHtml(
-            pickValue(item, ["strength", "dose", "schedule"], "-")
+            getItemStrengthFormulation(item)
           )}</td>
           <td>${escapeHtml(
             pickValue(item, ["dosage_instructions", "instructions"], "-")
@@ -900,6 +1098,10 @@ function closeSuccessModal() {
             <h4>Patient details</h4>
             <p><strong>Name:</strong> ${escapeHtml(patientName)}</p>
             <p><strong>DOB:</strong> ${escapeHtml(formatDate(patientDob))}</p>
+            <p><strong>Gender:</strong> ${escapeHtml(patientGender)}</p>
+            <p><strong>Phone:</strong> ${escapeHtml(patientPhone)}</p>
+            <p><strong>Email:</strong> ${escapeHtml(patientEmail)}</p>
+            <p><strong>Address:</strong> ${escapeHtml(patientAddress)}</p>
           </section>
 
           <section class="eprescription-party">
@@ -908,6 +1110,8 @@ function closeSuccessModal() {
             <p><strong>License no:</strong> ${escapeHtml(prescriberLicense)}</p>
             <p><strong>Specialty:</strong> ${escapeHtml(prescriberSpecialty)}</p>
             <p><strong>Clinic:</strong> ${escapeHtml(prescriberClinic)}</p>
+            <p><strong>Email:</strong> ${escapeHtml(prescriberEmail)}</p>
+            <p><strong>Phone:</strong> ${escapeHtml(prescriberPhone)}</p>
             <p><strong>Issuer ref:</strong> ${escapeHtml(
               pickValue(data, ["prescriber_unique_string"], "-")
             )}</p>
@@ -1114,6 +1318,7 @@ function closeSuccessModal() {
 
   return true;
 }
+setupDobPartInputs();
 form.addEventListener("submit", async function (event) {
   event.preventDefault();
   if (isSearching) return;
