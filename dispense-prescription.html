@@ -24,10 +24,6 @@
     <link rel="stylesheet" href="./styles/dr-form.css" />
     <link rel="stylesheet" href="./styles/dispense-prescription.css" />
     <link href="./assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-    />
   </head>
 
   
@@ -180,15 +176,43 @@
                 />
               </div>
 
-              <div class="dispense-field">
-                <label for="dob">Patient DOB</label>
-                <input
-                  type="text"
-                  id="dob"
-                  class="dispense-input text-field w-input"
-                  placeholder="DD/MM/YYYY"
-                  required
-                />
+              <div class="dispense-field dispense-dob-field">
+                <label>Patient DOB</label>
+
+                <div class="dispense-dob-row" aria-label="Patient date of birth">
+                  <input
+                    type="text"
+                    id="dobDay"
+                    class="dispense-input dispense-dob-input"
+                    placeholder="DD"
+                    maxlength="2"
+                    inputmode="numeric"
+                    autocomplete="bday-day"
+                    required
+                  />
+                  <span>/</span>
+                  <input
+                    type="text"
+                    id="dobMonth"
+                    class="dispense-input dispense-dob-input"
+                    placeholder="MM"
+                    maxlength="2"
+                    inputmode="numeric"
+                    autocomplete="bday-month"
+                    required
+                  />
+                  <span>/</span>
+                  <input
+                    type="text"
+                    id="dobYear"
+                    class="dispense-input dispense-dob-input-year"
+                    placeholder="YYYY"
+                    maxlength="4"
+                    inputmode="numeric"
+                    autocomplete="bday-year"
+                    required
+                  />
+                </div>
               </div>
 
               <div class="dispense-action">
@@ -520,15 +544,6 @@
       </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-    <script>
-    flatpickr("#dob", {
-      dateFormat: "d/m/Y",
-      allowInput: true,
-      maxDate: "today"
-    });
-    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="./scripts/rxconnect.js"></script>
