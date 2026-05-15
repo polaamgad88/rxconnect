@@ -2289,6 +2289,23 @@ main,
   filter: brightness(1.03);
 }
 
+/* ===== Clinic cards on home page ===== */
+
+.clinic-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-image: none !important;
+  background:
+    linear-gradient(145deg, rgba(247, 241, 232, 0.98), rgba(251, 250, 247, 0.96)) !important;
+  color: var(--primary-3);
+  font-size: 1.7rem;
+}
+
+.clinic-avatar i {
+  color: var(--primary-3);
+}
+
 @media (max-width: 640px) {
   .rx-hero-primary-btn {
     width: 100%;

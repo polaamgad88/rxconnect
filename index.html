@@ -53,7 +53,7 @@
                       aria-expanded="false"
                       aria-controls="reportsDropdown"
                     >
-                      <span>Reports</span>
+                      <span>Options</span>
                       <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
                     </button>
 
@@ -354,13 +354,14 @@
           </div>
         </section>
 
-        <section class="advisors-section" aria-label="Clinical advisors">
+        <section class="advisors-section" aria-label="Partner clinics">
           <div class="section-header">
             <div class="section-heading-group">
-              <span>Our Clinical Advisors</span>
-              <h2>Practitioners guiding the platform.</h2>
+              <span>Our Partner Clinics</span>
+              <h2>Clinics supporting modern care workflows.</h2>
               <p>
-                The doctors section was restyled into premium cards and still keeps a lightweight profile modal.
+                A selection of UK clinic partners presented in the same premium card style,
+                helping patients and practitioners connect through RxConnect.
               </p>
             </div>
           </div>
@@ -368,76 +369,100 @@
           <div class="advisors-grid">
             <article
               class="advisor-card"
-              data-slug="jack-doe"
-              data-name="Dr. Jack Doe"
-              data-category="Neurologist"
-              data-code="DOC-NEU-001"
-              data-email="jack.doe@rxconnect.com"
+              data-slug="the-london-clinic"
+              data-name="The London Clinic"
+              data-category="Private Hospital"
+              data-code="CLN-LON-001"
+              data-email="info@thelondonclinic.rxconnect.com"
               data-phone="+44 20 7123 4567"
-              data-location="Salford, Manchester"
-              data-avatar="https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944c4e0b064a800fc31f95_slice6.jpg"
-              data-bio="Board-certified neurologist focused on migraine, epilepsy, and movement disorders.">
+              data-location="Marylebone, London"
+              data-avatar="./assets/rxconnect.png"
+              data-bio="A leading private healthcare clinic profile used here as a premium UK clinic listing example.">
               <div class="advisor-top">
-                <div class="advisor-avatar" style="background-image:url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944c4e0b064a800fc31f95_slice6.jpg');"></div>
+                <div class="advisor-avatar clinic-avatar">
+                  <i class="fa-solid fa-hospital" aria-hidden="true"></i>
+                </div>
                 <div class="advisor-copy">
-                  <span class="role">Neurologist</span>
-                  <h3>Dr. Jack Doe</h3>
-                  <p>Clinical advisor for neurological prescribing workflows.</p>
+                  <span class="role">Private Hospital</span>
+                  <h3>The London Clinic</h3>
+                  <p>Supports private outpatient and specialist healthcare workflows.</p>
                 </div>
               </div>
               <div class="advisor-meta">
-                <div class="advisor-meta-item"><i class="fa-solid fa-envelope"></i><span>jack.doe@rxconnect.com</span></div>
-                <div class="advisor-meta-item"><i class="fa-solid fa-location-dot"></i><span>Salford, Manchester</span></div>
+                <div class="advisor-meta-item">
+                  <i class="fa-solid fa-envelope"></i>
+                  <span>info@thelondonclinic.rxconnect.com</span>
+                </div>
+                <div class="advisor-meta-item">
+                  <i class="fa-solid fa-location-dot"></i>
+                  <span>Marylebone, London</span>
+                </div>
               </div>
             </article>
 
             <article
               class="advisor-card"
-              data-slug="william-doe"
-              data-name="Dr. William Doe"
-              data-category="Cardiologist"
-              data-code="DOC-CARD-014"
-              data-email="william.doe@rxconnect.com"
+              data-slug="harley-street-clinic"
+              data-name="Harley Street Clinic"
+              data-category="Specialist Clinic"
+              data-code="CLN-HAR-014"
+              data-email="contact@harleystreet.rxconnect.com"
               data-phone="+44 7712 345678"
-              data-location="Salford, Manchester"
-              data-avatar="https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944a3e8031687f489ab20f_slice1.jpg"
-              data-bio="Interventional cardiologist specializing in coronary artery disease and heart failure.">
+              data-location="Harley Street, London"
+              data-avatar="./assets/rxconnect.png"
+              data-bio="Specialist clinic profile for private consultations, diagnostics, and coordinated prescribing workflows.">
               <div class="advisor-top">
-                <div class="advisor-avatar" style="background-image:url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/58944a3e8031687f489ab20f_slice1.jpg');"></div>
+                <div class="advisor-avatar clinic-avatar">
+                  <i class="fa-solid fa-stethoscope" aria-hidden="true"></i>
+                </div>
                 <div class="advisor-copy">
-                  <span class="role">Cardiologist</span>
-                  <h3>Dr. William Doe</h3>
-                  <p>Supports cardiovascular safety and workflow quality.</p>
+                  <span class="role">Specialist Clinic</span>
+                  <h3>Harley Street Clinic</h3>
+                  <p>Connects specialist care journeys with secure prescription tracking.</p>
                 </div>
               </div>
               <div class="advisor-meta">
-                <div class="advisor-meta-item"><i class="fa-solid fa-envelope"></i><span>william.doe@rxconnect.com</span></div>
-                <div class="advisor-meta-item"><i class="fa-solid fa-location-dot"></i><span>Salford, Manchester</span></div>
+                <div class="advisor-meta-item">
+                  <i class="fa-solid fa-envelope"></i>
+                  <span>contact@harleystreet.rxconnect.com</span>
+                </div>
+                <div class="advisor-meta-item">
+                  <i class="fa-solid fa-location-dot"></i>
+                  <span>Harley Street, London</span>
+                </div>
               </div>
             </article>
 
             <article
               class="advisor-card"
-              data-slug="jessica-doe"
-              data-name="Dr. Jessica Doe"
-              data-category="Dentist"
-              data-code="DOC-DENT-031"
-              data-email="jessica.doe@rxconnect.com"
+              data-slug="cleveland-clinic-london"
+              data-name="Cleveland Clinic London"
+              data-category="Multispecialty Clinic"
+              data-code="CLN-CCL-031"
+              data-email="hello@clevelandlondon.rxconnect.com"
               data-phone="+44 20 7123 4567"
-              data-location="Salford, Manchester"
-              data-avatar="https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/589449e0e9bfbc310322a87d_slice7.jpg"
-              data-bio="General dentist with interest in cosmetic and pediatric dentistry.">
+              data-location="Belgravia, London"
+              data-avatar="./assets/rxconnect.png"
+              data-bio="Multispecialty clinic profile for coordinated patient care, prescription review, and dispensing visibility.">
               <div class="advisor-top">
-                <div class="advisor-avatar" style="background-image:url('https://cdn.prod.website-files.com/57c92a057d70832a62312ae9/589449e0e9bfbc310322a87d_slice7.jpg');"></div>
+                <div class="advisor-avatar clinic-avatar">
+                  <i class="fa-solid fa-house-medical" aria-hidden="true"></i>
+                </div>
                 <div class="advisor-copy">
-                  <span class="role">Dentist</span>
-                  <h3>Dr. Jessica Doe</h3>
-                  <p>Helps shape patient-friendly dental and outpatient experiences.</p>
+                  <span class="role">Multispecialty Clinic</span>
+                  <h3>Cleveland Clinic London</h3>
+                  <p>Helps align multispecialty patient care with digital prescription flows.</p>
                 </div>
               </div>
               <div class="advisor-meta">
-                <div class="advisor-meta-item"><i class="fa-solid fa-envelope"></i><span>jessica.doe@rxconnect.com</span></div>
-                <div class="advisor-meta-item"><i class="fa-solid fa-location-dot"></i><span>Salford, Manchester</span></div>
+                <div class="advisor-meta-item">
+                  <i class="fa-solid fa-envelope"></i>
+                  <span>hello@clevelandlondon.rxconnect.com</span>
+                </div>
+                <div class="advisor-meta-item">
+                  <i class="fa-solid fa-location-dot"></i>
+                  <span>Belgravia, London</span>
+                </div>
               </div>
             </article>
           </div>
@@ -632,15 +657,15 @@
         <div class="rx-h">
           <div class="rx-av" id="rxDocAvatar"></div>
           <div>
-            <h3 class="rx-t" id="rxDocTitle">Doctor</h3>
+            <h3 class="rx-t" id="rxDocTitle">Clinic</h3>
             <div class="rx-s" id="rxDocSub"></div>
           </div>
         </div>
         <div class="rx-b">
           <p id="rxDocBio"></p>
           <dl class="rx-meta">
-            <dt>Doctor Code</dt><dd id="rxDocCode"></dd>
-            <dt>Category</dt><dd id="rxDocCategory"></dd>
+            <dt>Clinic Code</dt><dd id="rxDocCode"></dd>
+            <dt>Clinic Type</dt><dd id="rxDocCategory"></dd>
             <dt>Email</dt><dd id="rxDocEmail"></dd>
             <dt>Phone</dt><dd id="rxDocPhone"></dd>
             <dt>Location</dt><dd id="rxDocLocation"></dd>
@@ -648,7 +673,7 @@
         </div>
         <div class="rx-f">
           <button type="button" class="rx-btn" data-rx-close>Close</button>
-          <a id="rxDocProfile" class="rx-btn p" href="./doctors.html">View full profile</a>
+          <a id="rxDocProfile" class="rx-btn p" href="./contact-us.html">Contact Clinic</a>
         </div>
       </div>
     </div>

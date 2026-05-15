@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
       modalEls.avatar.style.backgroundImage = 'url("' + (card.dataset.avatar || "") + '")';
     }
 
-    setText(modalEls.title, card.dataset.name, "Doctor");
+    setText(modalEls.title, card.dataset.name, "Clinic");
     setText(modalEls.subtitle, card.dataset.category, "");
     setText(modalEls.bio, card.dataset.bio, "");
     setText(modalEls.code, card.dataset.code, "—");
@@ -192,8 +192,8 @@ document.addEventListener("DOMContentLoaded", function () {
     setText(modalEls.location, card.dataset.location, "—");
     setHref(
       modalEls.link,
-      card.dataset.slug ? "./doctors.html#" + encodeURIComponent(card.dataset.slug) : "./doctors.html",
-      "./doctors.html"
+      card.dataset.slug ? "./contact-us.html#clinic" + encodeURIComponent(card.dataset.slug) : "./contact-us.html",
+      "./contact-us.html"
     );
 
     overlay.classList.add("is-open");
