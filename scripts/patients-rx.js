@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", async function () {
   const searchBtn = document.querySelector(".patients-search-btn");
   const clearBtn = document.getElementById("patientsClearBtn");
   const addBtn = document.querySelector(".patients-actions .patients-btn");
+  const totalCountEl = document.getElementById("patientsTotalCount");
+  const savedCountEl = document.getElementById("patientsSavedCount");
+  const modeLabelEl = document.getElementById("patientsModeLabel");
 
   if (!tbody || !theadRow) return;
 
@@ -29,73 +32,9 @@ document.addEventListener("DOMContentLoaded", async function () {
   injectUi();
 
   function injectUi() {
-    if (!document.getElementById("rxPatientsEnhancements")) {
-      const style = document.createElement("style");
-      style.id = "rxPatientsEnhancements";
-      style.textContent = `
-        .rx-patients-banner {
-          margin: 14px 0 18px;
-          padding: 14px 16px;
-          border-radius: 10px;
-          background: #f8fbff;
-          border: 1px solid #d8efff;
-          color: #0b5cab;
-          font-size: 14px;
-        }
-        .rx-patients-banner strong {
-          color: #0a3b75;
-        }
-        .rx-patients-empty {
-          padding: 22px;
-          text-align: center;
-          color: #666;
-        }
-        .rx-tag {
-          display: inline-flex;
-          align-items: center;
-          padding: 4px 10px;
-          border-radius: 999px;
-          font-size: 12px;
-          font-weight: 600;
-          background: #eef7ff;
-          color: #0b5cab;
-          border: 1px solid #d8efff;
-        }
-        .rx-tag.unsaved {
-          background: #fff7e6;
-          border-color: #ffe1a8;
-          color: #ad6800;
-        }
-        .rx-actions {
-          display: flex;
-          gap: 8px;
-          flex-wrap: wrap;
-        }
-        .rx-btn-chip {
-          border: 1px solid #d9d9d9;
-          border-radius: 999px;
-          background: #fff;
-          padding: 6px 12px;
-          font-size: 12px;
-          font-weight: 600;
-          cursor: pointer;
-        }
-        .rx-btn-chip.primary {
-          border-color: #20baf8;
-          color: #fff;
-          background: #20baf8;
-        }
-        .rx-btn-chip.warn {
-          border-color: #faad14;
-          color: #ad6800;
-          background: #fff7e6;
-        }
-      `;
-      document.head.appendChild(style);
-    }
-
     const wrapper = document.querySelector(".patients-wrapper");
     const searchRow = document.querySelector(".patients-search-row");
+
     if (
       wrapper &&
       searchRow &&
@@ -110,12 +49,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (!document.querySelector(".patients-table thead .rx-scope-header")) {
       const scopeTh = document.createElement("th");
       scopeTh.className = "rx-scope-header";
-      scopeTh.textContent = isClinician ? "MY LIST" : "TYPE";
+      scopeTh.textContent = isClinician ? "My List" : "Type";
       theadRow.appendChild(scopeTh);
 
       const actionTh = document.createElement("th");
       actionTh.className = "rx-scope-header";
-      actionTh.textContent = "ACTIONS";
+      actionTh.textContent = "Actions";
       theadRow.appendChild(actionTh);
     }
   }
@@ -146,7 +85,35 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   function patientAddress(patient) {
-    return String(patient.notes || "").replace(/^Address:\s*/i, "");
+    const notes = String(patient?.notes || "").trim();
+    if (!notes) return "";
+
+    const parts = [];
+
+    notes.split(/\r?\n/).forEach(function (line) {
+      const clean = line.trim();
+      if (!clean) return;
+
+      if (/^Address:\s*/i.test(clean)) {
+        parts.push(clean.replace(/^Address:\s*/i, "").trim());
+      } else if (/^Address Line 1:\s*/i.test(clean)) {
+        parts.push(clean.replace(/^Address Line 1:\s*/i, "").trim());
+      } else if (/^Address Line 2:\s*/i.test(clean)) {
+        parts.push(clean.replace(/^Address Line 2:\s*/i, "").trim());
+      } else if (/^Address Line 3:\s*/i.test(clean)) {
+        parts.push(clean.replace(/^Address Line 3:\s*/i, "").trim());
+      } else if (/^Postal Code:\s*/i.test(clean)) {
+        parts.push(clean.replace(/^Postal Code:\s*/i, "").trim());
+      } else if (/^Country:\s*/i.test(clean)) {
+        parts.push(clean.replace(/^Country:\s*/i, "").trim());
+      }
+    });
+
+    if (parts.length) {
+      return parts.filter(Boolean).join(", ");
+    }
+
+    return notes.replace(/^Address:\s*/i, "");
   }
 
   function rememberPatient(patientId) {
@@ -162,6 +129,20 @@ document.addEventListener("DOMContentLoaded", async function () {
   function openPrescription(patientId) {
     rememberPatient(patientId);
     window.location.href = `./dr-form.html?patient_id=${encodeURIComponent(patientId)}`;
+  }
+
+  function updateStats(visibleCount, modeLabel) {
+    if (totalCountEl) {
+      totalCountEl.textContent = String(Number(visibleCount || 0));
+    }
+
+    if (savedCountEl) {
+      savedCountEl.textContent = String(savedPatients.length || 0);
+    }
+
+    if (modeLabelEl) {
+      modeLabelEl.textContent = modeLabel || "List";
+    }
   }
 
   function render(list) {
@@ -255,6 +236,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     currentMode = isClinician ? "saved" : "all";
     const rows = isClinician ? savedPatients : allPatients;
     render(rows);
+    updateStats(rows.length, isClinician ? "My List" : "Clinic");
 
     if (isClinician) {
       setBanner(
@@ -278,6 +260,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const results = await loadAllPatients(q);
     currentMode = "search";
     render(results);
+    updateStats(results.length, "Search");
 
     if (isClinician) {
       setBanner(
