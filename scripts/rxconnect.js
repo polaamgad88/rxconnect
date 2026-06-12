@@ -58,6 +58,7 @@
     "approvals.html",
     "pending-prescription.html",
     "import-patient.html",
+    "doctors.html",
   ]);
 
   function safeJsonParse(s) {
